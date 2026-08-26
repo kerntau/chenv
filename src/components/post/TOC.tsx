@@ -45,7 +45,7 @@ export const TOC: React.FC<TOCProps> = ({ toc }) => {
                 onClick={(e) => handleClick(e, item.id)}
                 className={`block py-1 px-1.5 rounded transition-all duration-150 truncate ${
                   isActive
-                    ? 'text-stone-950 dark:text-stone-50 font-medium bg-stone-200/60 dark:bg-stone-800 border-l-2 border-amber-700 dark:border-amber-400'
+                    ? 'text-stone-950 dark:text-stone-50 font-medium bg-stone-200/60 dark:bg-stone-800 border-l-2 border-sky-600 dark:border-sky-400'
                     : 'text-stone-500 dark:text-stone-400 hover:text-stone-800 dark:hover:text-stone-200 hover:bg-stone-200/30 dark:hover:bg-stone-800/30'
                 }`}
                 title={item.text}

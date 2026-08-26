@@ -28,7 +28,7 @@ export const PostCard: React.FC<PostCardProps> = ({ post }) => {
         </div>
 
         {/* 标题 */}
-        <h2 className="font-serif text-lg sm:text-xl font-semibold text-stone-900 dark:text-stone-100 group-hover:text-amber-800 dark:group-hover:text-amber-400 transition-colors tracking-tight leading-snug">
+        <h2 className="font-serif text-lg sm:text-xl font-semibold text-stone-900 dark:text-stone-100 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors tracking-tight leading-snug">
           {post.title}
         </h2>
 
@@ -51,7 +51,7 @@ export const PostCard: React.FC<PostCardProps> = ({ post }) => {
             ))}
           </div>
 
-          <span className="inline-flex items-center space-x-1 text-xs font-sans font-medium text-stone-700 dark:text-stone-300 group-hover:text-amber-800 dark:group-hover:text-amber-400 group-hover:translate-x-1 transition-all">
+          <span className="inline-flex items-center space-x-1 text-xs font-sans font-medium text-stone-700 dark:text-stone-300 group-hover:text-sky-600 dark:group-hover:text-sky-400 group-hover:translate-x-1 transition-all">
             <span>精读文稿</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </span>
