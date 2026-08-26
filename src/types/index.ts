@@ -6,6 +6,8 @@ export interface PostFrontmatter {
   category: string;
   draft?: boolean;
   coverImage?: string;
+  cover?: string;
+  images?: string[];
   author?: string;
 }
 
@@ -29,6 +31,44 @@ export interface Post {
   toc: TOCItem[];
   draft?: boolean;
   coverImage?: string;
+  cover?: string;
+  images?: string[];
+  recommend?: number;
+}
+
+export interface FriendItem {
+  id: number | string;
+  name: string;
+  desc?: string;
+  avatar?: string;
+  link: string;
+  order?: number;
+  tags?: string[];
+}
+
+export interface SiteConfig {
+  title: string;
+  subtitle: string;
+  description: string;
+  url: string;
+  logo: string;
+  favicon: string;
+  author: {
+    name: string;
+    avatar: string;
+    description: string;
+    email: string;
+    github: string;
+    socials: { name: string; icon: string; url: string }[];
+  };
+  footer: {
+    copyright: string;
+    sinceYear: number;
+    customText: string;
+  };
+  seo?: {
+    keywords: string[];
+  };
 }
 
 export interface Note {
@@ -43,6 +83,22 @@ export interface Note {
   readingTime: string;
 }
 
+export interface Diary {
+  id: string;
+  slug: string;
+  title: string;
+  date: string;
+  time?: string;
+  weather?: string;
+  mood?: string;
+  location?: string;
+  tags: string[];
+  summary: string;
+  content: string;
+  readingTime: string;
+  wordCount: number;
+}
+
 export interface SearchItem {
   id: string;
   title: string;
@@ -50,8 +106,9 @@ export interface SearchItem {
   category: string;
   tags: string[];
   slug: string;
-  type: 'post' | 'note';
+  type: 'post' | 'note' | 'diary';
   date: string;
 }
 
 export type ThemeMode = 'light' | 'dark' | 'system';
+

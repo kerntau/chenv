@@ -1,27 +1,34 @@
-import { parseMarkdownFile, parseNoteFile } from '../lib/markdown';
-import type { Post, Note, SearchItem } from '../types';
+import { parseMarkdownFile, parseDiaryFile } from '../lib/markdown';
+import type { Post, Note, Diary, SearchItem, FriendItem, SiteConfig } from '../types';
+import siteConfigJson from './config/site.config.json';
+import friendsJson from './pages/friends.json';
+import recordsJson from './records/records.json';
 
-// 导入文章原始 Markdown 字符串
-import heapPostRaw from './posts/heap-exploitation-pwn-guide.md?raw';
-import eccPostRaw from './posts/modern-cryptography-elliptic-curves.md?raw';
-import musicPostRaw from './posts/algorithmic-composition-music-sheet.md?raw';
-import reactPostRaw from './posts/react-19-actions-and-compiler.md?raw';
+// @ts-ignore
+const postsContext = (require as any).context('./posts', false, /\.md$/);
 
-// 导入笔记原始 Markdown 字符串
-import protoNoteRaw from './notes/ctf-web-prototype-pollution.md?raw';
-import armNoteRaw from './notes/reverse-engineering-arm64-cheatsheet.md?raw';
+const postsMap: Record<string, string> = {};
+postsContext.keys().forEach((key: string) => {
+  const slug = key.replace(/^\.\//, '').replace(/\.md$/, '');
+  const mod = postsContext(key);
+  postsMap[slug] = typeof mod === 'string' ? mod : mod.default || mod;
+});
 
-const postsMap: Record<string, string> = {
-  'heap-exploitation-pwn-guide': heapPostRaw,
-  'modern-cryptography-elliptic-curves': eccPostRaw,
-  'algorithmic-composition-music-sheet': musicPostRaw,
-  'react-19-actions-and-compiler': reactPostRaw,
-};
+// @ts-ignore
+const diariesContext = (require as any).context('./diaries', false, /\.md$/);
 
-const notesMap: Record<string, string> = {
-  'ctf-web-prototype-pollution': protoNoteRaw,
-  'reverse-engineering-arm64-cheatsheet': armNoteRaw,
-};
+const diariesMap: Record<string, string> = {};
+diariesContext.keys().forEach((key: string) => {
+  const slug = key.replace(/^\.\//, '').replace(/\.md$/, '');
+  const mod = diariesContext(key);
+  diariesMap[slug] = typeof mod === 'string' ? mod : mod.default || mod;
+});
+
+export const siteConfig: SiteConfig = siteConfigJson as SiteConfig;
+
+export function getSiteConfig(): SiteConfig {
+  return siteConfig;
+}
 
 export function getAllPosts(): Post[] {
   const posts = Object.entries(postsMap).map(([slug, raw]) =>
@@ -32,33 +39,74 @@ export function getAllPosts(): Post[] {
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 }
 
+export function getFeaturedPosts(limit = 4): Post[] {
+  const all = getAllPosts();
+  // 优先按 recommend 权重排序，其次按日期
+  return all
+    .slice()
+    .sort((a, b) => {
+      const recA = a.recommend || 0;
+      const recB = b.recommend || 0;
+      if (recB !== recA) return recB - recA;
+      return new Date(b.date).getTime() - new Date(a.date).getTime();
+    })
+    .slice(0, limit);
+}
+
 export function getPostBySlug(slug: string): Post | null {
   const raw = postsMap[slug];
-  if (!raw) return null;
+  if (!raw) {
+    // 尝试在所有文章中按 frontmatter.url 或 id 匹配
+    const all = getAllPosts();
+    const found = all.find((p) => p.slug === slug || p.id === slug);
+    return found || null;
+  }
   return parseMarkdownFile(slug, raw);
 }
 
-export function getAllNotes(): Note[] {
-  const notes = Object.entries(notesMap).map(([slug, raw]) =>
-    parseNoteFile(slug, raw)
+export function getAllDiaries(): Diary[] {
+  const diaries = Object.entries(diariesMap).map(([slug, raw]) =>
+    parseDiaryFile(slug, raw)
   );
-  return notes.sort(
+  return diaries.sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
   );
 }
 
-export function getNoteBySlug(slug: string): Note | null {
-  const raw = notesMap[slug];
+export function getDiaryBySlug(slug: string): Diary | null {
+  const raw = diariesMap[slug];
   if (!raw) return null;
-  return parseNoteFile(slug, raw);
+  return parseDiaryFile(slug, raw);
+}
+
+export function getAllNotes(): Note[] {
+  return [];
+}
+
+export function getNoteBySlug(_slug: string): Note | null {
+  return null;
+}
+
+export function getAllFriends(): FriendItem[] {
+  return (friendsJson as any[]).map((item) => ({
+    id: item.id,
+    name: item.name,
+    desc: item.desc || '',
+    avatar: item.avatar || '',
+    link: item.link,
+    order: item.order || 999,
+  }));
+}
+
+export function getAllRecords(): any[] {
+  return recordsJson as any[];
 }
 
 export function getAllTags(): { name: string; count: number }[] {
   const tagCounts: Record<string, number> = {};
   const posts = getAllPosts();
-  const notes = getAllNotes();
 
-  [...posts, ...notes].forEach((item) => {
+  posts.forEach((item) => {
     item.tags.forEach((tag) => {
       tagCounts[tag] = (tagCounts[tag] || 0) + 1;
     });
@@ -94,16 +142,16 @@ export function getSearchIndex(): SearchItem[] {
     date: p.date,
   }));
 
-  const notes = getAllNotes().map((n) => ({
-    id: `note-${n.slug}`,
-    title: n.title,
-    summary: n.summary,
-    category: n.category,
-    tags: n.tags,
-    slug: `/notes/${n.slug}`,
-    type: 'note' as const,
-    date: n.date,
+  const diaries = getAllDiaries().map((d) => ({
+    id: `diary-${d.slug}`,
+    title: d.title,
+    summary: d.summary,
+    category: '手记随笔',
+    tags: d.tags,
+    slug: `/diaries#${d.slug}`,
+    type: 'diary' as const,
+    date: d.date,
   }));
 
-  return [...posts, ...notes];
+  return [...posts, ...diaries];
 }
