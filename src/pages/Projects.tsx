@@ -74,10 +74,10 @@ export const Projects: React.FC = () => {
         {/* 顶部标题 */}
         <div className="mb-10 pb-6 border-b border-stone-200/70 dark:border-stone-800/70">
           <div className="flex items-center space-x-2 text-xs font-mono text-stone-500 mb-2">
-            <FolderGit2 className="w-4 h-4 text-amber-700 dark:text-amber-500" />
+            <FolderGit2 className="w-4 h-4 text-sky-600 dark:text-sky-400" />
             <span>SHOWCASE &bull; 项目工坊</span>
           </div>
-          <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-stone-900 dark:text-stone-100 tracking-tight">
+          <h1 className="font-sans text-3xl sm:text-4xl font-semibold text-stone-900 dark:text-stone-100 tracking-tight">
             开源项目与安全工具
           </h1>
           <p className="text-sm text-stone-500 dark:text-stone-400 mt-2 font-sans">
@@ -122,13 +122,13 @@ export const Projects: React.FC = () => {
                       <div className="p-2 rounded-xl bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300">
                         <Icon className="w-4 h-4" />
                       </div>
-                      <h2 className="font-serif text-lg font-semibold text-stone-900 dark:text-stone-100 group-hover:text-amber-800 dark:group-hover:text-amber-400 transition-colors">
+                      <h2 className="font-sans text-lg font-semibold text-stone-900 dark:text-stone-100 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors">
                         {project.name}
                       </h2>
                     </div>
 
                     <div className="flex items-center space-x-1 text-xs font-mono text-stone-500">
-                      <Star className="w-3.5 h-3.5 text-amber-500 fill-amber-400/30" />
+                      <Star className="w-3.5 h-3.5 text-sky-500 fill-sky-400/30" />
                       <span>{project.stars}</span>
                     </div>
                   </div>
@@ -163,7 +163,7 @@ export const Projects: React.FC = () => {
                   {project.demoUrl && (
                     <a
                       href={project.demoUrl}
-                      className="inline-flex items-center space-x-1 text-xs font-sans text-amber-800 dark:text-amber-400 hover:underline"
+                      className="inline-flex items-center space-x-1 text-xs font-sans text-sky-600 dark:text-sky-400 hover:underline"
                     >
                       <span>在线体验</span>
                       <ArrowUpRight className="w-3 h-3" />

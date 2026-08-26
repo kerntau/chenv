@@ -5,7 +5,7 @@ import { PageShell } from '../components/layout/PageShell';
 import { MarkdownRenderer } from '../components/markdown/MarkdownRenderer';
 import { TOC } from '../components/post/TOC';
 import { ReadingProgressBar } from '../components/post/ReadingProgressBar';
-import { getPostBySlug, getAllPosts } from '../content';
+import { getPostBySlug, getAllPosts, siteConfig } from '../content';
 import { formatDate } from '../lib/date';
 import {
   Clock,
@@ -130,14 +130,14 @@ export const PostDetail: React.FC = () => {
                   <span>约 {post.wordCount} 字</span>
                 </div>
 
-                {/* 衬线大标题 */}
-                <h1 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-semibold text-stone-950 dark:text-stone-50 tracking-tight leading-snug">
+                {/* 大标题 */}
+                <h1 className="font-sans text-2xl sm:text-3xl lg:text-4xl font-semibold text-stone-950 dark:text-stone-50 tracking-tight leading-snug">
                   {post.title}
                 </h1>
 
                 {/* 摘要导言 */}
                 <div className="mt-4 p-4 rounded-2xl bg-stone-100/60 dark:bg-stone-900/40 border-l-2 border-stone-400 dark:border-stone-600">
-                  <p className="font-serif italic text-sm text-stone-600 dark:text-stone-300 leading-relaxed">
+                  <p className="font-sans text-sm text-stone-600 dark:text-stone-300 leading-relaxed font-normal">
                     {post.summary}
                   </p>
                 </div>
@@ -164,12 +164,12 @@ export const PostDetail: React.FC = () => {
               {/* 底部声明与署名 */}
               <footer className="mt-14 pt-8 border-t border-stone-200/70 dark:border-stone-800/70 space-y-6">
                 <div className="p-4 rounded-2xl bg-stone-100/50 dark:bg-stone-900/30 border border-stone-200/60 dark:border-stone-800/60 flex items-start space-x-3 text-xs text-stone-600 dark:text-stone-400">
-                  <ShieldAlert className="w-4 h-4 text-amber-700 dark:text-amber-500 shrink-0 mt-0.5" />
+                  <ShieldAlert className="w-4 h-4 text-sky-600 dark:text-sky-400 shrink-0 mt-0.5" />
                   <div className="leading-relaxed font-sans">
-                    <strong>版权与研究声明：</strong>
-                    本篇文章由 <strong>Perimsx</strong> 原创撰写，遵循{' '}
+                    <strong>版权与原创声明：</strong>
+                    本篇文章由 <strong>{siteConfig.author.name}</strong> 原创撰写，遵循{' '}
                     <span className="font-mono">CC BY-NC-SA 4.0</span>{' '}
-                    协议。文中所涉漏洞复现与 PoC 仅供信息安全学术研究与防御探讨，严禁用于未授权网络测试。
+                    知识共享协议。商业转载请联系作者获得授权。
                   </div>
                 </div>
 
@@ -184,7 +184,7 @@ export const PostDetail: React.FC = () => {
                         <ArrowLeft className="w-3 h-3 group-hover:-translate-x-1 transition-transform" />
                         <span>上一篇</span>
                       </span>
-                      <div className="font-serif text-sm font-medium text-stone-800 dark:text-stone-200 group-hover:text-amber-800 dark:group-hover:text-amber-400 transition-colors line-clamp-1">
+                      <div className="font-serif text-sm font-medium text-stone-800 dark:text-stone-200 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors line-clamp-1">
                         {prevPost.title}
                       </div>
                     </Link>
@@ -201,7 +201,7 @@ export const PostDetail: React.FC = () => {
                         <span>下一篇</span>
                         <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
                       </span>
-                      <div className="font-serif text-sm font-medium text-stone-800 dark:text-stone-200 group-hover:text-amber-800 dark:group-hover:text-amber-400 transition-colors line-clamp-1">
+                      <div className="font-serif text-sm font-medium text-stone-800 dark:text-stone-200 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors line-clamp-1">
                         {nextPost.title}
                       </div>
                     </Link>

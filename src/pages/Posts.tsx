@@ -3,7 +3,7 @@ import { Container } from '../components/layout/Container';
 import { PageShell } from '../components/layout/PageShell';
 import { PostCard } from '../components/post/PostCard';
 import { getAllPosts, getAllCategories, getAllTags } from '../content';
-import { BookOpen, Filter, Tag as TagIcon } from 'lucide-react';
+import { BookOpen, Filter } from 'lucide-react';
 
 export const Posts: React.FC = () => {
   const allPosts = useMemo(() => getAllPosts(), []);
@@ -47,7 +47,7 @@ export const Posts: React.FC = () => {
             <BookOpen className="w-4 h-4 text-stone-600 dark:text-stone-400" />
             <span>ARCHIVE &bull; 深度文稿</span>
           </div>
-          <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-stone-900 dark:text-stone-100 tracking-tight">
+          <h1 className="font-sans text-3xl sm:text-4xl font-semibold text-stone-900 dark:text-stone-100 tracking-tight">
             文稿归档
           </h1>
           <p className="text-sm text-stone-500 dark:text-stone-400 mt-2 font-sans">
@@ -101,7 +101,7 @@ export const Posts: React.FC = () => {
                   onClick={() => setSelectedTag(active ? null : tag.name)}
                   className={`inline-flex items-center space-x-1 px-2 py-0.5 rounded-md font-mono text-[11px] transition-colors ${
                     active
-                      ? 'bg-amber-100 dark:bg-amber-950/60 text-amber-900 dark:text-amber-300 border border-amber-300 dark:border-amber-700'
+                      ? 'bg-sky-100 dark:bg-sky-950/60 text-sky-900 dark:text-sky-300 border border-sky-300 dark:border-sky-700'
                       : 'bg-stone-100 dark:bg-stone-800/60 text-stone-500 dark:text-stone-400 hover:text-stone-800 dark:hover:text-stone-200'
                   }`}
                 >
@@ -123,7 +123,7 @@ export const Posts: React.FC = () => {
             {years.map((year) => (
               <section key={year} className="relative">
                 <div className="sticky top-20 z-10 py-1.5 backdrop-blur-md bg-[#FAF8F5]/80 dark:bg-[#141416]/80 flex items-center space-x-3 mb-6">
-                  <span className="font-serif text-2xl font-bold text-stone-400 dark:text-stone-600">
+                  <span className="font-sans text-2xl font-bold text-stone-400 dark:text-stone-600">
                     {year}
                   </span>
                   <div className="flex-1 h-px bg-stone-200/70 dark:border-stone-800/70" />

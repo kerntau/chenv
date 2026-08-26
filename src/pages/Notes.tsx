@@ -20,7 +20,7 @@ export const Notes: React.FC = () => {
             <FileCode2 className="w-4 h-4 text-stone-600 dark:text-stone-400" />
             <span>WRITEUPS &amp; CHEATSHEETS</span>
           </div>
-          <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-stone-900 dark:text-stone-100 tracking-tight">
+          <h1 className="font-sans text-3xl sm:text-4xl font-semibold text-stone-900 dark:text-stone-100 tracking-tight">
             安全与攻防速记
           </h1>
           <p className="text-sm text-stone-500 dark:text-stone-400 mt-2 font-sans">
@@ -55,7 +55,7 @@ export const Notes: React.FC = () => {
                     <span>{formatDate(note.date)}</span>
                   </div>
 
-                  <h3 className="font-serif text-sm font-semibold text-stone-900 dark:text-stone-100 line-clamp-1">
+                  <h3 className="font-sans text-sm font-semibold text-stone-900 dark:text-stone-100 line-clamp-1">
                     {note.title}
                   </h3>
 
@@ -70,7 +70,7 @@ export const Notes: React.FC = () => {
                     </div>
                     <ChevronRight
                       className={`w-3.5 h-3.5 transition-transform ${
-                        isSelected ? 'translate-x-1 text-amber-700 dark:text-amber-400' : ''
+                        isSelected ? 'translate-x-1 text-sky-600 dark:text-sky-400' : ''
                       }`}
                     />
                   </div>
@@ -98,7 +98,7 @@ export const Notes: React.FC = () => {
                     </span>
                   </div>
 
-                  <h2 className="font-serif text-xl sm:text-2xl font-semibold text-stone-950 dark:text-stone-50 tracking-tight">
+                  <h2 className="font-sans text-xl sm:text-2xl font-semibold text-stone-950 dark:text-stone-50 tracking-tight">
                     {selectedNote.title}
                   </h2>
 

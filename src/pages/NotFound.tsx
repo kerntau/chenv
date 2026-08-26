@@ -17,7 +17,7 @@ export const NotFound: React.FC = () => {
             404 NOT FOUND
           </span>
 
-          <h1 className="font-serif text-3xl font-semibold text-stone-900 dark:text-stone-100 mt-2 mb-3">
+          <h1 className="font-sans text-3xl font-semibold text-stone-900 dark:text-stone-100 mt-2 mb-3">
             纸页未至此处
           </h1>
 
