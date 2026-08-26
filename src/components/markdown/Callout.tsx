@@ -15,9 +15,9 @@ export const Callout: React.FC<CalloutProps> = ({
   const getIcon = () => {
     switch (type) {
       case 'tip':
-        return <Lightbulb className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />;
+        return <Lightbulb className="w-4 h-4 text-sky-600 dark:text-sky-400 shrink-0 mt-0.5" />;
       case 'warning':
-        return <AlertTriangle className="w-4 h-4 text-amber-700 dark:text-amber-500 shrink-0 mt-0.5" />;
+        return <AlertTriangle className="w-4 h-4 text-rose-600 dark:text-rose-400 shrink-0 mt-0.5" />;
       case 'quote':
         return <Quote className="w-4 h-4 text-stone-500 dark:text-stone-400 shrink-0 mt-0.5" />;
       case 'note':
@@ -29,9 +29,9 @@ export const Callout: React.FC<CalloutProps> = ({
   const getBorderColor = () => {
     switch (type) {
       case 'tip':
-        return 'border-l-amber-500/70 bg-amber-50/40 dark:bg-amber-950/10';
+        return 'border-l-sky-500/70 bg-sky-50/40 dark:bg-sky-950/20';
       case 'warning':
-        return 'border-l-amber-600/80 bg-amber-50/50 dark:bg-amber-950/15';
+        return 'border-l-rose-500/80 bg-rose-50/50 dark:bg-rose-950/20';
       case 'quote':
         return 'border-l-stone-400/80 bg-stone-100/40 dark:bg-stone-900/40';
       case 'note':
@@ -48,11 +48,11 @@ export const Callout: React.FC<CalloutProps> = ({
         {getIcon()}
         <div className="flex-1 min-w-0">
           {title && (
-            <div className="font-serif text-sm font-semibold text-stone-800 dark:text-stone-200 mb-1 not-italic">
+            <div className="font-sans text-sm font-semibold text-stone-800 dark:text-stone-200 mb-1">
               {title}
             </div>
           )}
-          <div className="text-sm font-serif italic leading-relaxed text-stone-600 dark:text-stone-300">
+          <div className="text-sm font-sans leading-relaxed text-stone-600 dark:text-stone-300 font-normal">
             {children}
           </div>
         </div>

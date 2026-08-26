@@ -38,3 +38,35 @@ export function getYear(dateString: string): string {
     return '';
   }
 }
+
+export function formatRelativeTime(dateString: string): string {
+  try {
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) {
+      return dateString;
+    }
+    const now = new Date();
+    const diffMs = now.getTime() - date.getTime();
+    const diffSec = Math.floor(diffMs / 1000);
+    const diffMin = Math.floor(diffSec / 60);
+    const diffHour = Math.floor(diffMin / 60);
+    const diffDay = Math.floor(diffHour / 24);
+
+    if (diffDay < 1) {
+      if (diffHour < 1) {
+        return diffMin <= 1 ? '刚刚' : `${diffMin} 分钟前`;
+      }
+      return `${diffHour} 小时前`;
+    }
+    if (diffDay < 30) {
+      return `${diffDay} 天前`;
+    }
+    if (diffDay < 365) {
+      const months = Math.floor(diffDay / 30);
+      return `${months} 个月前`;
+    }
+    return formatDate(dateString);
+  } catch {
+    return dateString;
+  }
+}

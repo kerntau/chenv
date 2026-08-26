@@ -28,7 +28,7 @@ export const MermaidBlock: React.FC<MermaidBlockProps> = ({ chart }) => {
           startOnLoad: false,
           theme: isDark ? 'dark' : 'neutral',
           securityLevel: 'loose',
-          fontFamily: 'Noto Serif SC, Source Han Serif SC, Georgia, serif',
+          fontFamily: 'MiSans, "MiSans Normal", "MiSans-Normal", "MiSans VF", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
           themeVariables: isDark
             ? {
                 primaryColor: '#27272A',
@@ -119,13 +119,13 @@ export const MermaidBlock: React.FC<MermaidBlockProps> = ({ chart }) => {
       <div className="p-6 flex items-center justify-center overflow-x-auto min-h-[140px]">
         {loading && (
           <div className="flex flex-col items-center justify-center space-y-2 text-stone-400 py-6">
-            <div className="w-5 h-5 border-2 border-stone-300 dark:border-stone-600 border-t-amber-600 rounded-full animate-spin" />
+            <div className="w-5 h-5 border-2 border-stone-300 dark:border-stone-600 border-t-sky-600 rounded-full animate-spin" />
             <span className="text-xs font-mono">正在渲染拓扑图...</span>
           </div>
         )}
 
         {error && (
-          <div className="p-4 text-xs font-mono text-amber-700 dark:text-amber-400 bg-amber-50/50 dark:bg-amber-950/20 rounded-lg">
+          <div className="p-4 text-xs font-mono text-rose-700 dark:text-rose-400 bg-rose-50/50 dark:bg-rose-950/20 rounded-lg">
             {error}
           </div>
         )}

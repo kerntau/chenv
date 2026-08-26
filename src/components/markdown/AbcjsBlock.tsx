@@ -91,13 +91,13 @@ export const AbcjsBlock: React.FC<AbcjsBlockProps> = ({ abcNotation }) => {
       <div className="p-6 flex flex-col items-center justify-center overflow-x-auto min-h-[160px]">
         {loading && (
           <div className="flex flex-col items-center justify-center space-y-2 text-stone-400 py-6">
-            <div className="w-5 h-5 border-2 border-stone-300 dark:border-stone-600 border-t-amber-600 rounded-full animate-spin" />
-            <span className="text-xs font-mono">正在生成五线谱...</span>
+            <div className="w-5 h-5 border-2 border-stone-300 dark:border-stone-600 border-t-sky-600 rounded-full animate-spin" />
+            <span className="text-xs font-mono">正在渲染五线谱...</span>
           </div>
         )}
 
         {error && (
-          <div className="p-4 text-xs font-mono text-amber-700 dark:text-amber-400 bg-amber-50/50 dark:bg-amber-950/20 rounded-lg">
+          <div className="p-4 text-xs font-mono text-rose-700 dark:text-rose-400 bg-rose-50/50 dark:bg-rose-950/20 rounded-lg">
             {error}
           </div>
         )}
