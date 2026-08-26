@@ -4,14 +4,23 @@ import { pluginReact } from '@rsbuild/plugin-react';
 export default defineConfig({
   plugins: [pluginReact()],
   html: {
-    title: 'Perimsx / 序栈 — 纸质极简个人书写与安全技术博客',
+    title: 'kerntau — 心中有景,花香满径',
     meta: {
-      description: '信息安全专业学生的个人数字书写空间与安全研究笔记。',
+      description: '个人技术博客与知识库，记录全栈开发、云原生、系统架构与工程实践心得。',
       viewport: 'width=device-width, initial-scale=1.0',
     },
     favicon: './public/favicon.svg',
+    tags: [
+      {
+        tag: 'link',
+        attrs: {
+          rel: 'stylesheet',
+          href: 'https://cdn.jsdelivr.net/npm/misans-webfont/misans-style.css',
+        },
+      },
+    ],
   },
-  source: {
+  resolve: {
     alias: {
       '@': './src',
     },
