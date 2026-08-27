@@ -7,30 +7,58 @@ export function useTOC(toc: TOCItem[]) {
   useEffect(() => {
     if (!toc || toc.length === 0) return;
 
-    const handleScroll = () => {
-      const headingElements = toc
+    let ticking = false;
+
+    const updateActiveHeading = () => {
+      const headings = toc
         .map((item) => document.getElementById(item.id))
         .filter((el): el is HTMLElement => el !== null);
 
-      if (headingElements.length === 0) return;
+      if (headings.length === 0) return;
 
-      const scrollPosition = window.scrollY + 120;
+      // 触底时自动高亮最后一项
+      const isBottom =
+        window.innerHeight + window.scrollY >=
+        document.documentElement.scrollHeight - 60;
+      if (isBottom) {
+        setActiveId(headings[headings.length - 1].id);
+        return;
+      }
 
-      for (let i = headingElements.length - 1; i >= 0; i--) {
-        const element = headingElements[i];
-        if (element.offsetTop <= scrollPosition) {
-          setActiveId(element.id);
-          return;
+      // 视口距离顶部 130px 作为判定基准线
+      const threshold = 130;
+      let currentId = headings[0].id;
+
+      for (let i = 0; i < headings.length; i++) {
+        const rect = headings[i].getBoundingClientRect();
+        if (rect.top <= threshold) {
+          currentId = headings[i].id;
+        } else {
+          break;
         }
       }
 
-      setActiveId(toc[0].id);
+      setActiveId(currentId);
+      ticking = false;
+    };
+
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(updateActiveHeading);
+        ticking = true;
+      }
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
+    window.addEventListener('resize', handleScroll, { passive: true });
 
-    return () => window.removeEventListener('scroll', handleScroll);
+    // 初始化执行
+    updateActiveHeading();
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
+    };
   }, [toc]);
 
   return activeId;

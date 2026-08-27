@@ -1,14 +1,16 @@
-import React from 'react';
-import { AlignLeft } from 'lucide-react';
+import React, { useRef } from 'react';
+import { AlignLeft, ArrowUp } from 'lucide-react';
 import type { TOCItem } from '../../types';
 import { useTOC } from '../../hooks/useTOC';
 
 interface TOCProps {
   toc: TOCItem[];
+  onItemClick?: () => void;
 }
 
-export const TOC: React.FC<TOCProps> = ({ toc }) => {
+export const TOC: React.FC<TOCProps> = ({ toc, onItemClick }) => {
   const activeId = useTOC(toc);
+  const activeItemRef = useRef<HTMLAnchorElement | null>(null);
 
   if (!toc || toc.length === 0) return null;
 
@@ -16,46 +18,75 @@ export const TOC: React.FC<TOCProps> = ({ toc }) => {
     e.preventDefault();
     const element = document.getElementById(id);
     if (element) {
-      const top = element.getBoundingClientRect().top + window.scrollY - 88;
+      const top = element.getBoundingClientRect().top + window.scrollY - 90;
       window.scrollTo({ top, behavior: 'smooth' });
+    }
+    if (onItemClick) {
+      onItemClick();
+    }
+  };
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (onItemClick) {
+      onItemClick();
     }
   };
 
   return (
-    <nav className="p-4 rounded-2xl border border-slate-200/70 dark:border-slate-800/70 bg-slate-50/50 dark:bg-[#18181A]/50 text-xs font-sans">
-      <div className="flex items-center space-x-1.5 font-serif font-semibold text-slate-900 dark:text-slate-100 mb-3 pb-2 border-b border-slate-200/60 dark:border-slate-800/60">
-        <AlignLeft className="w-3.5 h-3.5 text-slate-500" />
-        <span>目录导航</span>
+    <nav className="w-full text-xs font-sans select-none">
+      {/* 顶部极简标题与快捷返回顶部 */}
+      <div className="flex items-center justify-between font-sans font-medium text-slate-700 dark:text-slate-300 mb-3 pb-2 border-b border-slate-200/50 dark:border-slate-800/50">
+        <div className="flex items-center space-x-1.5 text-xs font-semibold text-slate-800 dark:text-slate-200">
+          <AlignLeft className="w-3.5 h-3.5 text-sky-500" />
+          <span>目录大纲</span>
+        </div>
+        <button
+          type="button"
+          onClick={scrollToTop}
+          className="text-[11px] font-mono text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 flex items-center space-x-0.5 transition-colors cursor-pointer"
+          title="回到文章顶部"
+        >
+          <ArrowUp className="w-3 h-3" />
+          <span>顶部</span>
+        </button>
       </div>
 
-      <ul className="space-y-1.5 max-h-[calc(100vh-16rem)] overflow-y-auto pr-1">
-        {toc.map((item) => {
-          const isActive = activeId === item.id;
-          const indentClass =
-            item.level === 1
-              ? 'pl-0 font-medium'
-              : item.level === 2
-              ? 'pl-3'
-              : 'pl-6 text-[11px] opacity-90';
+      {/* 纯净垂直流线导轨列表（无背景、透明呼吸感、自动跟随高亮） */}
+      <div className="relative border-l border-slate-200/70 dark:border-slate-800/70 max-h-[calc(100vh-14rem)] overflow-y-auto pr-1">
+        <ul className="space-y-0.5">
+          {toc.map((item) => {
+            const isActive = activeId === item.id;
+            
+            // 层级微缩进
+            const indentClass =
+              item.level === 1
+                ? 'pl-3 font-medium'
+                : item.level === 2
+                ? 'pl-5 text-[11.5px]'
+                : 'pl-7 text-[11px] opacity-85';
 
-          return (
-            <li key={item.id} className={indentClass}>
-              <a
-                href={`#${item.id}`}
-                onClick={(e) => handleClick(e, item.id)}
-                className={`block py-1 px-1.5 rounded transition-all duration-150 truncate ${
-                  isActive
-                    ? 'text-slate-950 dark:text-slate-50 font-medium bg-slate-200/60 dark:bg-slate-800 border-l-2 border-sky-600 dark:border-sky-400'
-                    : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-200/30 dark:hover:bg-slate-800/30'
-                }`}
-                title={item.text}
-              >
-                {item.text}
-              </a>
-            </li>
-          );
-        })}
-      </ul>
+            return (
+              <li key={item.id} className="relative">
+                <a
+                  ref={isActive ? activeItemRef : null}
+                  href={`#${item.id}`}
+                  onClick={(e) => handleClick(e, item.id)}
+                  className={`block py-1.5 pr-2 transition-colors duration-200 truncate ${indentClass} ${
+                    isActive
+                      ? '-ml-[1.5px] border-l-2 border-sky-500 text-sky-600 dark:text-sky-400 font-semibold'
+                      : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:border-l hover:border-slate-400 dark:hover:border-slate-500 -ml-[1px]'
+                  }`}
+                  title={item.text}
+                >
+                  {item.text}
+                </a>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
     </nav>
   );
 };
+
