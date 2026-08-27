@@ -42,9 +42,21 @@
     --selection-text: #F0F9FF;
   }
 
-  * {
+  *, *::before, *::after {
     border-color: var(--border-paper);
+    -webkit-tap-highlight-color: transparent;
     font-family: 'MiSans', 'MiSans Normal', 'MiSans-Normal', 'MiSans VF', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+
+  /* 彻底消除任何元素在激活或聚焦时的浏览器原生黑边/黑框 */
+  *, *:focus, *:focus-visible, *:active {
+    outline: none !important;
+    -webkit-tap-highlight-color: transparent !important;
+  }
+
+  input, textarea, select, button, a {
+    outline: none !important;
+    -webkit-tap-highlight-color: transparent;
   }
 
   html {
@@ -61,7 +73,7 @@
     color: var(--text-main);
     font-family: 'MiSans', 'MiSans Normal', 'MiSans-Normal', 'MiSans VF', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     font-style: normal;
-    overflow-x: hidden;
+    overflow-x: clip;
     min-height: 100vh;
     transition: background-color 0.3s ease, color 0.3s ease;
   }
@@ -108,18 +120,29 @@
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     border: 1px solid var(--border-paper);
-    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+                background-color 0.22s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .paper-card:hover {
     background-color: var(--card-paper-hover);
-    border-color: rgba(186, 215, 245, 0.85);
-    box-shadow: 0 10px 28px -6px rgba(186, 215, 245, 0.35);
+    border-color: rgba(14, 165, 233, 0.45);
+    transform: translateY(-2px);
+    box-shadow: 
+      0 12px 28px -6px rgba(14, 165, 233, 0.12),
+      0 4px 12px -2px rgba(15, 23, 42, 0.05),
+      0 1px 2px 0 rgba(15, 23, 42, 0.03);
   }
 
   .dark .paper-card:hover {
-    border-color: rgba(96, 134, 182, 0.75);
-    box-shadow: 0 10px 28px -6px rgba(0, 0, 0, 0.45);
+    border-color: rgba(56, 189, 248, 0.5);
+    transform: translateY(-2px);
+    box-shadow: 
+      0 14px 32px -6px rgba(0, 0, 0, 0.65),
+      0 0 24px -4px rgba(56, 189, 248, 0.16),
+      0 2px 8px -2px rgba(0, 0, 0, 0.4);
   }
 
   .frosted-glass {
@@ -148,6 +171,39 @@
     -webkit-backdrop-filter: blur(20px);
     border: 1px solid rgba(56, 78, 108, 0.7);
     box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.35), 0 2px 6px -1px rgba(0, 0, 0, 0.2);
+  }
+
+  /* 高端出版级自然温润纸质大板 (Natural Muted Editorial Paper Sheet) */
+  .paper-sheet-realistic {
+    background-color: #F8FAFC;
+    background-image: 
+      linear-gradient(to right, rgba(148, 163, 184, 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(148, 163, 184, 0.05) 1px, transparent 1px),
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.045'/%3E%3C/svg%3E");
+    background-size: 28px 28px, 28px 28px, auto;
+    border: 1px solid rgba(203, 219, 235, 0.85);
+    border-radius: 0.125rem; /* rounded-sm (2px), 极简超微倒角 */
+    box-shadow: 
+      0 1px 0 0 rgba(255, 255, 255, 0.8) inset,
+      0 2px 6px rgba(15, 23, 42, 0.03),
+      0 8px 24px -4px rgba(186, 215, 245, 0.35),
+      0 16px 36px -8px rgba(15, 23, 42, 0.05);
+    position: relative;
+  }
+
+  .dark .paper-sheet-realistic {
+    background-color: #0E1726;
+    background-image: 
+      linear-gradient(to right, rgba(56, 189, 248, 0.03) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(56, 189, 248, 0.03) 1px, transparent 1px),
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.055'/%3E%3C/svg%3E");
+    background-size: 28px 28px, 28px 28px, auto;
+    border: 1px solid rgba(56, 78, 108, 0.7);
+    border-radius: 0.125rem;
+    box-shadow: 
+      0 1px 0 0 rgba(255, 255, 255, 0.04) inset,
+      0 4px 16px -2px rgba(0, 0, 0, 0.4),
+      0 12px 32px -8px rgba(0, 0, 0, 0.55);
   }
 }
 
@@ -270,7 +326,7 @@
 pre.shiki {
   margin: 0;
   padding: 1.25rem;
-  border-radius: 0.75rem;
+  border-radius: 0.5rem;
   overflow-x: auto;
   font-family: 'MiSans', 'MiSans Normal', 'MiSans-Normal', 'MiSans VF', monospace, sans-serif;
   font-size: 0.875rem;
