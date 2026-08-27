@@ -38,7 +38,7 @@ export const Says: React.FC = () => {
       <Container size="narrow">
         {/* 顶部标题 */}
         <div className="mb-10 pb-6 border-b border-slate-200/70 dark:border-slate-800/70 text-center">
-          <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-xs font-mono text-slate-600 dark:text-slate-400 mb-3">
+          <div className="inline-flex items-center space-x-1.5 px-2.5 py-1 rounded-sm bg-slate-100 dark:bg-slate-800 text-xs font-mono text-slate-600 dark:text-slate-400 mb-3">
             <MessageSquareQuote className="w-3.5 h-3.5" />
             <span>THOUGHTS &bull; 说说动态</span>
           </div>
@@ -51,11 +51,11 @@ export const Says: React.FC = () => {
         </div>
 
         {/* 动态时间轴卡片流 */}
-        <div className="space-y-6">
+        <div className="space-y-4">
           {records.map((record) => (
             <div
               key={record.id}
-              className="p-6 rounded-3xl paper-card space-y-3 transition-all duration-200"
+              className="p-3.5 sm:p-4 rounded-sm paper-card space-y-2.5 transition-all duration-200"
             >
               {/* 时间、作者与心情 */}
               <div className="flex items-center justify-between text-xs font-mono text-slate-400 dark:text-slate-500">
@@ -64,7 +64,7 @@ export const Says: React.FC = () => {
                     {record.author || 'kerntau'}
                   </span>
                   {record.mood && (
-                    <span className="px-1.5 py-0.5 rounded bg-sky-50 dark:bg-sky-950/40 text-sky-600 dark:text-sky-400 text-[10px] font-sans">
+                    <span className="px-1.5 py-0.5 rounded-sm bg-sky-50 dark:bg-sky-950/40 text-sky-600 dark:text-sky-400 text-[10px] font-sans">
                       {record.mood}
                     </span>
                   )}

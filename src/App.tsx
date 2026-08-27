@@ -6,8 +6,10 @@ import { AmbientBackground } from './components/layout/AmbientBackground';
 import { Home } from './pages/Home';
 import { Posts } from './pages/Posts';
 import { PostDetail } from './pages/PostDetail';
+import { Archives } from './pages/Archives';
 import { Notes } from './pages/Notes';
 import { Diaries } from './pages/Diaries';
+import { DiaryDetail } from './pages/DiaryDetail';
 import { Projects } from './pages/Projects';
 import { Says } from './pages/Says';
 import { Friends } from './pages/Friends';
@@ -33,9 +35,15 @@ export const App: React.FC = () => {
           <Route path="/posts/:slug" component={PostDetail} />
           <Route path="/article" component={Posts} />
           <Route path="/article/:slug" component={PostDetail} />
+          <Route path="/archives" component={Archives} />
+          <Route path="/timeline" component={Archives} />
+          <Route path="/archive" component={Archives} />
           <Route path="/diaries" component={Diaries} />
+          <Route path="/diaries/:slug" component={DiaryDetail} />
           <Route path="/journal" component={Diaries} />
+          <Route path="/journal/:slug" component={DiaryDetail} />
           <Route path="/shouji" component={Diaries} />
+          <Route path="/shouji/:slug" component={DiaryDetail} />
           <Route path="/notes" component={Notes} />
           <Route path="/notes/:slug" component={Notes} />
           <Route path="/projects" component={Projects} />

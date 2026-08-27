@@ -68,7 +68,7 @@ export const InneiHero: React.FC = () => {
         <span className="inline-block mx-1 text-sky-600 dark:text-sky-400 text-[0.8em] align-middle animate-[aiTwinkle_2.4s_ease-in-out_infinite]">
           ✦
         </span>
-        <code className="inline-flex items-center font-sans text-[0.65em] font-semibold px-2.5 py-1 rounded-full text-sky-800 dark:text-sky-300 border border-sky-300/50 dark:border-sky-500/30 bg-sky-50/60 dark:bg-sky-950/30 shadow-sm align-middle">
+        <code className="inline-flex items-center font-sans text-[0.65em] font-semibold px-2.5 py-1 rounded-sm text-sky-800 dark:text-sky-300 border border-sky-300/50 dark:border-sky-500/30 bg-sky-50/60 dark:bg-sky-950/30 shadow-sm align-middle">
           Go &bull; Rust &bull; React 19 &bull; K8s
         </code>
         <span className="inline-block w-[2px] h-[0.85em] bg-sky-600 dark:bg-sky-400 ml-1.5 align-middle rounded-full animate-[blink_1.2s_linear_infinite]" />

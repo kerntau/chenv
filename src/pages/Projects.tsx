@@ -95,7 +95,7 @@ export const Projects: React.FC = () => {
               <button
                 key={tab.key}
                 onClick={() => setFilter(tab.key as typeof filter)}
-                className={`px-3.5 py-1.5 rounded-full text-xs font-sans transition-all ${
+                className={`px-3 py-1.5 rounded-sm text-xs font-sans transition-all ${
                   filter === tab.key
                     ? 'bg-slate-900 dark:bg-slate-100 text-slate-100 dark:text-slate-900 font-medium shadow-sm'
                     : 'bg-slate-100 dark:bg-slate-800/80 text-slate-600 dark:text-slate-400 hover:bg-slate-200/60 dark:hover:bg-slate-700/60'
@@ -108,21 +108,21 @@ export const Projects: React.FC = () => {
         </div>
 
         {/* 项目卡片 Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {filteredProjects.map((project) => {
             const Icon = project.icon;
             return (
               <div
                 key={project.id}
-                className="p-6 rounded-3xl paper-card flex flex-col justify-between h-full group"
+                className="p-3.5 sm:p-4 rounded-sm paper-card flex flex-col justify-between h-full group"
               >
                 <div>
-                  <div className="flex items-start justify-between mb-3">
-                    <div className="flex items-center space-x-2.5">
-                      <div className="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
+                  <div className="flex items-start justify-between mb-2.5">
+                    <div className="flex items-center space-x-2">
+                      <div className="p-1.5 rounded-sm bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
                         <Icon className="w-4 h-4" />
                       </div>
-                      <h2 className="font-sans text-lg font-semibold text-slate-900 dark:text-slate-100 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors">
+                      <h2 className="font-sans text-base sm:text-lg font-semibold text-slate-900 dark:text-slate-100 group-hover:text-slate-950 dark:group-hover:text-white transition-colors">
                         {project.name}
                       </h2>
                     </div>
@@ -133,15 +133,15 @@ export const Projects: React.FC = () => {
                     </div>
                   </div>
 
-                  <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed font-sans mt-2">
+                  <p className="text-xs sm:text-[13px] text-slate-600 dark:text-slate-300 leading-relaxed font-sans mt-1.5">
                     {project.description}
                   </p>
 
-                  <div className="mt-4 flex flex-wrap gap-1.5">
+                  <div className="mt-3 flex flex-wrap gap-1.5">
                     {project.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="px-2 py-0.5 rounded-md text-[11px] font-mono bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400"
+                        className="px-1.5 py-0.5 rounded-sm text-[10.5px] font-mono bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400"
                       >
                         {tag}
                       </span>
@@ -149,7 +149,7 @@ export const Projects: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="mt-6 pt-4 border-t border-slate-200/50 dark:border-slate-800/50 flex items-center justify-between">
+                <div className="mt-4 pt-3 border-t border-slate-200/50 dark:border-slate-800/50 flex items-center justify-between">
                   <a
                     href={project.githubUrl}
                     target="_blank"

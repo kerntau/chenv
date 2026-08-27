@@ -42,7 +42,7 @@ export const About: React.FC = () => {
             </div>
           </div>
 
-          <div className="mt-6 p-5 rounded-2xl bg-slate-100/60 dark:bg-slate-900/40 border-l-2 border-sky-500/70 dark:border-sky-400/70 max-w-[65ch]">
+          <div className="mt-5 p-3.5 sm:p-4 rounded-sm bg-slate-100/60 dark:bg-slate-900/40 border-l-2 border-sky-500/70 dark:border-sky-400/70 max-w-[65ch]">
             <p className="font-sans text-sm text-slate-600 dark:text-slate-300 leading-relaxed font-normal">
               &ldquo;{siteConfig.subtitle}。记录全栈开发、云原生、系统架构与工程实践心得。&rdquo;
             </p>
@@ -50,17 +50,17 @@ export const About: React.FC = () => {
         </div>
 
         {/* Bento 内容矩阵 */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10">
           {/* 研究与核心领域 */}
-          <div className="p-6 rounded-3xl paper-card space-y-4">
-            <div className="flex items-center space-x-2 text-slate-900 dark:text-slate-100 font-serif font-semibold text-lg">
+          <div className="p-3.5 sm:p-4 rounded-sm paper-card space-y-3.5">
+            <div className="flex items-center space-x-2 text-slate-900 dark:text-slate-100 font-serif font-semibold text-base sm:text-lg">
               <Cpu className="w-4 h-4 text-slate-600 dark:text-slate-400" />
               <h2>系统与技术方向</h2>
             </div>
-            <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed font-sans">
+            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed font-sans">
               技术探索与实践主要聚焦于以下核心体系：
             </p>
-            <ul className="space-y-2.5 text-xs font-sans text-slate-600 dark:text-slate-400">
+            <ul className="space-y-2 text-xs font-sans text-slate-600 dark:text-slate-400">
               <li className="flex items-start space-x-2">
                 <Cloud className="w-3.5 h-3.5 text-sky-600 dark:text-sky-400 shrink-0 mt-0.5" />
                 <span>
@@ -83,44 +83,44 @@ export const About: React.FC = () => {
           </div>
 
           {/* 全栈工程技能矩阵 */}
-          <div className="p-6 rounded-3xl paper-card space-y-4">
-            <div className="flex items-center space-x-2 text-slate-900 dark:text-slate-100 font-serif font-semibold text-lg">
+          <div className="p-3.5 sm:p-4 rounded-sm paper-card space-y-3.5">
+            <div className="flex items-center space-x-2 text-slate-900 dark:text-slate-100 font-serif font-semibold text-base sm:text-lg">
               <Layers className="w-4 h-4 text-slate-600 dark:text-slate-400" />
               <h2>工程与全栈技术栈</h2>
             </div>
-            <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed font-sans">
+            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed font-sans">
               在工程实践与系统构建中常用的工具与技术链条：
             </p>
-            <div className="grid grid-cols-2 gap-3 pt-1">
-              <div className="p-3 rounded-xl bg-slate-100/60 dark:bg-slate-800/50">
+            <div className="grid grid-cols-2 gap-2.5 pt-0.5">
+              <div className="p-2.5 rounded-sm bg-slate-100/60 dark:bg-slate-800/50">
                 <div className="font-mono text-xs font-semibold text-slate-800 dark:text-slate-200">
                   后端与系统
                 </div>
-                <div className="text-[11px] text-slate-500 mt-1 font-mono">
+                <div className="text-[10.5px] text-slate-500 mt-0.5 font-mono">
                   Go, Rust, Python, Node.js, Spring Boot
                 </div>
               </div>
-              <div className="p-3 rounded-xl bg-slate-100/60 dark:bg-slate-800/50">
+              <div className="p-2.5 rounded-sm bg-slate-100/60 dark:bg-slate-800/50">
                 <div className="font-mono text-xs font-semibold text-slate-800 dark:text-slate-200">
                   前端与渲染
                 </div>
-                <div className="text-[11px] text-slate-500 mt-1 font-mono">
+                <div className="text-[10.5px] text-slate-500 mt-0.5 font-mono">
                   React 19, TypeScript, Rsbuild, Tailwind CSS
                 </div>
               </div>
-              <div className="p-3 rounded-xl bg-slate-100/60 dark:bg-slate-800/50">
+              <div className="p-2.5 rounded-sm bg-slate-100/60 dark:bg-slate-800/50">
                 <div className="font-mono text-xs font-semibold text-slate-800 dark:text-slate-200">
                   数据与中间件
                 </div>
-                <div className="text-[11px] text-slate-500 mt-1 font-mono">
+                <div className="text-[10.5px] text-slate-500 mt-0.5 font-mono">
                   PostgreSQL, ClickHouse, Redis, Kafka, MySQL
                 </div>
               </div>
-              <div className="p-3 rounded-xl bg-slate-100/60 dark:bg-slate-800/50">
+              <div className="p-2.5 rounded-sm bg-slate-100/60 dark:bg-slate-800/50">
                 <div className="font-mono text-xs font-semibold text-slate-800 dark:text-slate-200">
                   云原生与运维
                 </div>
-                <div className="text-[11px] text-slate-500 mt-1 font-mono">
+                <div className="text-[10.5px] text-slate-500 mt-0.5 font-mono">
                   Docker, Kubernetes, Linux, Nginx, CI/CD
                 </div>
               </div>
@@ -129,19 +129,19 @@ export const About: React.FC = () => {
         </div>
 
         {/* 博客设计与致谢区块 */}
-        <div className="p-6 sm:p-8 rounded-3xl paper-card space-y-6">
-          <div className="flex items-center space-x-2 text-slate-900 dark:text-slate-100 font-serif font-semibold text-lg">
+        <div className="p-4 sm:p-5 rounded-sm paper-card space-y-4">
+          <div className="flex items-center space-x-2 text-slate-900 dark:text-slate-100 font-serif font-semibold text-base sm:text-lg">
             <Sparkles className="w-4 h-4 text-sky-600 dark:text-sky-400" />
             <h2>关于本站与设计理念</h2>
           </div>
 
-          <div className="space-y-4 text-sm text-slate-600 dark:text-slate-300 leading-relaxed font-sans max-w-[65ch]">
+          <div className="space-y-3 text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed font-sans max-w-[65ch]">
             <p>
               本博客旨在打造具有纸质温度与现代极速性能的个人数字空间，摒弃过度装饰，让每一行技术文字如同落于宣纸之上自然呼吸。
             </p>
           </div>
 
-          <div className="pt-4 border-t border-slate-200/50 dark:border-slate-800/50 flex flex-wrap items-center justify-between text-xs text-slate-500 font-mono gap-3">
+          <div className="pt-3.5 border-t border-slate-200/50 dark:border-slate-800/50 flex flex-wrap items-center justify-between text-xs text-slate-500 font-mono gap-3">
             <div className="flex items-center space-x-2">
               <Compass className="w-3.5 h-3.5" />
               <span>纯静态构建 (SSG Ready) &bull; Rsbuild + React 19</span>

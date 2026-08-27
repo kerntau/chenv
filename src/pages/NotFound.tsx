@@ -9,7 +9,7 @@ export const NotFound: React.FC = () => {
     <PageShell>
       <Container>
         <div className="py-24 text-center max-w-md mx-auto">
-          <div className="w-12 h-12 rounded-2xl bg-slate-200/60 dark:bg-slate-800 text-slate-700 dark:text-slate-300 flex items-center justify-center mx-auto mb-4">
+          <div className="w-12 h-12 rounded-sm bg-slate-200/60 dark:bg-slate-800 text-slate-700 dark:text-slate-300 flex items-center justify-center mx-auto mb-4">
             <Compass className="w-6 h-6" />
           </div>
 
@@ -27,7 +27,7 @@ export const NotFound: React.FC = () => {
 
           <Link
             href="/"
-            className="inline-flex items-center space-x-2 px-4 py-2 rounded-xl bg-slate-900 dark:bg-slate-100 text-slate-100 dark:text-slate-900 text-xs font-medium hover:bg-slate-800 dark:hover:bg-slate-200 transition-colors shadow-sm"
+            className="inline-flex items-center space-x-2 px-4 py-2 rounded-sm bg-slate-900 dark:bg-slate-100 text-slate-100 dark:text-slate-900 text-xs font-medium hover:bg-slate-800 dark:hover:bg-slate-200 transition-colors shadow-sm"
           >
             <Home className="w-3.5 h-3.5" />
             <span>返回首页</span>

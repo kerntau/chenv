@@ -2,19 +2,16 @@ import React from 'react';
 import { Link } from 'wouter';
 import { getAllPosts, getAllDiaries, getAllRecords } from '../../content';
 import { formatDateShort } from '../../lib/date';
+import { PostCard } from '../post/PostCard';
 import {
-  BookOpen,
-  PenTool,
-  Sparkles,
-  Calendar,
-  Folder,
-  Tag,
-  ImageIcon,
+  FileText,
+  Feather,
+  MessageSquareQuote,
 } from 'lucide-react';
 
 export const HomeSplitSection: React.FC = () => {
-  const posts = getAllPosts().slice(0, 6); // 展示 6 篇精选文章 (3行x2列)
-  const diaries = getAllDiaries().slice(0, 3); // 3 则手记
+  const posts = getAllPosts().slice(0, 6); // 展示 6 篇精选文章 (3列x2行)
+  const diaries = getAllDiaries().slice(0, 4); // 4 则手记
   const records = getAllRecords().slice(0, 3); // 3 条动态
 
   const formatRecordDate = (timestamp: number | string) => {
@@ -41,8 +38,8 @@ export const HomeSplitSection: React.FC = () => {
             {/* 左侧专区标题栏 */}
             <div className="h-9 flex items-center justify-between pb-2 border-b border-slate-200/70 dark:border-slate-800/70">
               <div className="flex items-center space-x-2">
-                <div className="p-1 rounded-lg bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400">
-                  <BookOpen className="w-4 h-4" />
+                <div className="p-1 rounded-sm bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400">
+                  <FileText className="w-4 h-4" />
                 </div>
                 <h2 className="text-base font-semibold text-slate-900 dark:text-slate-100 tracking-tight leading-none">
                   最新文章
@@ -58,86 +55,9 @@ export const HomeSplitSection: React.FC = () => {
 
             {/* 文章相框卡片列表 (6 篇 3 列标准 16:9 网格) */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 mt-4">
-              {posts.map((post) => {
-                const coverImg = post.coverImage || post.cover || (post.images && post.images[0]);
-
-                return (
-                  <article
-                    key={post.slug}
-                    className="group rounded-xl overflow-hidden bg-white/85 dark:bg-slate-900/85 backdrop-blur-md border border-slate-200/75 dark:border-slate-800/75 shadow-[0_1px_4px_rgba(0,0,0,0.02)] hover:shadow-[0_6px_20px_-4px_rgba(0,0,0,0.06)] hover:border-blue-200 dark:hover:border-blue-900/50 transition-all duration-200 flex flex-col h-full"
-                  >
-                    <Link href={`/posts/${post.slug}`} className="flex flex-col h-full">
-                      {/* 顶部标准 16:9 无缝相框封面 */}
-                      <div className="relative w-full aspect-[16/9] overflow-hidden bg-slate-100 dark:bg-slate-800 flex-shrink-0">
-                        {coverImg ? (
-                          <img
-                            src={coverImg}
-                            alt={post.title}
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
-                            loading="lazy"
-                          />
-                        ) : (
-                          <div className="w-full h-full flex flex-col items-center justify-center p-3 text-center select-none relative overflow-hidden bg-gradient-to-br from-sky-50 via-blue-50 to-indigo-50/50 dark:from-slate-800 dark:via-slate-850 dark:to-slate-900">
-                            <div className="w-8 h-8 rounded-lg bg-white/80 dark:bg-slate-800/80 border border-slate-200/60 dark:border-slate-700 shadow-2xs flex items-center justify-center text-blue-500 dark:text-blue-400 mb-1 group-hover:scale-110 transition-transform duration-300">
-                              <ImageIcon className="w-4 h-4 opacity-80" />
-                            </div>
-                            <span className="text-[9px] font-mono text-slate-400 dark:text-slate-500 uppercase tracking-wider">
-                              {post.category || 'ARTICLE'}
-                            </span>
-                          </div>
-                        )}
-                      </div>
-
-                      {/* 下半部分白底内容区 */}
-                      <div className="p-3.5 flex-1 flex flex-col justify-between space-y-2">
-                        <div className="space-y-1">
-                          {/* 标题 */}
-                          <h3 className="text-[13px] sm:text-sm font-bold text-slate-900 dark:text-slate-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-1 leading-snug">
-                            {post.title}
-                          </h3>
-
-                          {/* 摘要 */}
-                          {post.summary && (
-                            <p className="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 line-clamp-2 leading-relaxed font-sans">
-                              {post.summary}
-                            </p>
-                          )}
-                        </div>
-
-                        <div className="space-y-1.5 pt-0.5">
-                          {/* 标签列表 */}
-                          {post.tags && post.tags.length > 0 && (
-                            <div className="flex flex-wrap items-center gap-1 text-[10px] text-slate-400 dark:text-slate-500">
-                              <Tag className="w-2.5 h-2.5 opacity-70 flex-shrink-0" />
-                              <div className="flex flex-wrap items-center gap-1">
-                                {post.tags.slice(0, 2).map((tag) => (
-                                  <span key={tag} className="hover:text-slate-600 dark:hover:text-slate-300 transition-colors">
-                                    #{tag}
-                                  </span>
-                                ))}
-                              </div>
-                            </div>
-                          )}
-
-                          {/* 底部元信息行 */}
-                          <div className="flex items-center justify-between text-[10px] font-mono text-slate-400 dark:text-slate-500 pt-1.5 border-t border-slate-100 dark:border-slate-800/80">
-                            <div className="flex items-center space-x-1">
-                              <Calendar className="w-3 h-3 opacity-70" />
-                              <span>{formatDateShort(post.date)}</span>
-                            </div>
-                            {post.category && (
-                              <div className="flex items-center space-x-1">
-                                <Folder className="w-3 h-3 opacity-70" />
-                                <span className="truncate max-w-[80px]">{post.category}</span>
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                    </Link>
-                  </article>
-                );
-              })}
+              {posts.map((post) => (
+                <PostCard key={post.slug} post={post} />
+              ))}
             </div>
           </div>
         </div>
@@ -149,8 +69,8 @@ export const HomeSplitSection: React.FC = () => {
           <div className="flex flex-col">
             <div className="h-9 flex items-center justify-between pb-2 border-b border-slate-200/70 dark:border-slate-800/70">
               <div className="flex items-center space-x-2">
-                <div className="p-1 rounded-lg bg-sky-50 dark:bg-sky-950/40 text-sky-600 dark:text-sky-400">
-                  <PenTool className="w-4 h-4" />
+                <div className="p-1 rounded-sm bg-sky-50 dark:bg-sky-950/40 text-sky-600 dark:text-sky-400">
+                  <Feather className="w-4 h-4" />
                 </div>
                 <h2 className="text-base font-semibold text-slate-900 dark:text-slate-100 tracking-tight leading-none">
                   近期手记
@@ -171,17 +91,17 @@ export const HomeSplitSection: React.FC = () => {
                   <Link
                     key={diary.slug}
                     href={`/diaries/${diary.slug}`}
-                    className="block p-2.5 rounded-xl bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border border-slate-200/60 dark:border-slate-800/60 shadow-[0_1px_4px_rgba(0,0,0,0.02)] hover:border-sky-300/80 dark:hover:border-sky-800/60 hover:shadow-xs transition-all group"
+                    className="block p-2.5 rounded-sm paper-card transition-all group"
                   >
                     <div className="flex items-center justify-between text-[10.5px] font-mono text-slate-400 dark:text-slate-500 mb-0.5">
                       <span>{formatDateShort(diary.date)}</span>
                       {diary.weather && (
-                        <span className="px-1.5 py-0.2 rounded-md bg-sky-50/80 dark:bg-sky-950/30 text-sky-700/80 dark:text-sky-400/80 text-[9.5px] font-sans">
+                        <span className="px-1.5 py-0.2 rounded-sm bg-sky-50/80 dark:bg-sky-950/30 text-sky-700/80 dark:text-sky-400/80 text-[9.5px] font-sans">
                           {diary.weather}
                         </span>
                       )}
                     </div>
-                    <h4 className="text-[12.5px] font-semibold text-slate-800 dark:text-slate-200 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors line-clamp-1 leading-snug">
+                    <h4 className="text-[12.5px] font-semibold text-slate-800 dark:text-slate-200 group-hover:text-slate-950 dark:group-hover:text-white transition-colors line-clamp-1 leading-snug">
                       {diary.title}
                     </h4>
                     {diary.summary && (
@@ -192,7 +112,7 @@ export const HomeSplitSection: React.FC = () => {
                   </Link>
                 ))
               ) : (
-                <div className="p-4 rounded-xl bg-slate-50/50 dark:bg-slate-900/50 text-center text-xs text-slate-400">
+                <div className="p-4 rounded-sm bg-slate-50/50 dark:bg-slate-900/50 text-center text-xs text-slate-400">
                   暂无手记内容
                 </div>
               )}
@@ -203,8 +123,8 @@ export const HomeSplitSection: React.FC = () => {
           <div className="flex flex-col">
             <div className="h-9 flex items-center justify-between pb-2 border-b border-slate-200/70 dark:border-slate-800/70">
               <div className="flex items-center space-x-2">
-                <div className="p-1 rounded-lg bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400">
-                  <Sparkles className="w-4 h-4" />
+                <div className="p-1 rounded-sm bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400">
+                  <MessageSquareQuote className="w-4 h-4" />
                 </div>
                 <h2 className="text-base font-semibold text-slate-900 dark:text-slate-100 tracking-tight leading-none">
                   即时动态
@@ -224,12 +144,12 @@ export const HomeSplitSection: React.FC = () => {
                 records.map((rec) => (
                   <div
                     key={rec.id}
-                    className="p-2.5 rounded-xl bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border border-slate-200/60 dark:border-slate-800/60 shadow-[0_1px_4px_rgba(0,0,0,0.02)] space-y-1 hover:border-emerald-300/80 dark:hover:border-emerald-800/60 transition-all"
+                    className="p-2.5 rounded-sm paper-card space-y-1 transition-all"
                   >
                     <div className="flex items-center justify-between text-[10.5px] font-mono text-slate-400 dark:text-slate-500">
                       <span>{formatRecordDate(rec.date || rec.createdAt)}</span>
                       {rec.mood && (
-                        <span className="px-1.5 py-0.2 rounded-md bg-emerald-50/80 dark:bg-emerald-950/30 text-emerald-700/80 dark:text-emerald-400/80 text-[9.5px] font-sans">
+                        <span className="px-1.5 py-0.2 rounded-sm bg-emerald-50/80 dark:bg-emerald-950/30 text-emerald-700/80 dark:text-emerald-400/80 text-[9.5px] font-sans">
                           {rec.mood}
                         </span>
                       )}
@@ -240,7 +160,7 @@ export const HomeSplitSection: React.FC = () => {
                   </div>
                 ))
               ) : (
-                <div className="p-4 rounded-xl bg-slate-50/50 dark:bg-slate-900/50 text-center text-xs text-slate-400">
+                <div className="p-4 rounded-sm bg-slate-50/50 dark:bg-slate-900/50 text-center text-xs text-slate-400">
                   暂无即时动态
                 </div>
               )}

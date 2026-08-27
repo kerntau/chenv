@@ -75,7 +75,11 @@ export function getAllDiaries(): Diary[] {
 
 export function getDiaryBySlug(slug: string): Diary | null {
   const raw = diariesMap[slug];
-  if (!raw) return null;
+  if (!raw) {
+    const all = getAllDiaries();
+    const found = all.find((d) => d.slug === slug || d.id === slug);
+    return found || null;
+  }
   return parseDiaryFile(slug, raw);
 }
 
@@ -148,7 +152,7 @@ export function getSearchIndex(): SearchItem[] {
     summary: d.summary,
     category: '手记随笔',
     tags: d.tags,
-    slug: `/diaries#${d.slug}`,
+    slug: `/diaries/${d.slug}`,
     type: 'diary' as const,
     date: d.date,
   }));
