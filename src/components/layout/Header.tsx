@@ -27,8 +27,13 @@ export const Header: React.FC = () => {
 
   // 导航项 Hover 悬浮联动状态
   const [hoveredNav, setHoveredNav] = useState<string | null>(null);
-  const [hoverItemCenter, setHoverItemCenter] = useState<number | null>(null);
-  const [navWidth, setNavWidth] = useState<number>(0);
+  const [navPosition, setNavPosition] = useState<{
+    centerX: number;
+    viewportCenterX: number;
+    itemWidth: number;
+    navWidth: number;
+    navLeft: number;
+  } | null>(null);
   const navRef = useRef<HTMLElement | null>(null);
   const leaveTimerRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -54,9 +59,16 @@ export const Header: React.FC = () => {
     if (navRef.current) {
       const containerRect = navRef.current.getBoundingClientRect();
       const targetRect = e.currentTarget.getBoundingClientRect();
-      const center = targetRect.left + targetRect.width / 2 - containerRect.left;
-      setHoverItemCenter(center);
-      setNavWidth(containerRect.width);
+      const relativeCenter = targetRect.left + targetRect.width / 2 - containerRect.left;
+      const viewportCenter = targetRect.left + targetRect.width / 2;
+
+      setNavPosition({
+        centerX: relativeCenter,
+        viewportCenterX: viewportCenter,
+        itemWidth: targetRect.width,
+        navWidth: containerRect.width,
+        navLeft: containerRect.left,
+      });
     }
     setHoveredNav(href);
   };
@@ -64,7 +76,7 @@ export const Header: React.FC = () => {
   const handleNavMouseLeave = () => {
     leaveTimerRef.current = setTimeout(() => {
       setHoveredNav(null);
-    }, 160);
+    }, 180);
   };
 
   const handlePopoverMouseEnter = () => {
@@ -77,7 +89,7 @@ export const Header: React.FC = () => {
   const handlePopoverMouseLeave = () => {
     leaveTimerRef.current = setTimeout(() => {
       setHoveredNav(null);
-    }, 160);
+    }, 180);
   };
 
   const handleItemClick = () => {
@@ -94,7 +106,7 @@ export const Header: React.FC = () => {
           <div className="md:absolute md:left-0 md:top-1/2 md:-translate-y-1/2 pointer-events-auto flex items-center">
             <Link
               href="/"
-              className="w-8 h-8 rounded-lg overflow-hidden border border-stone-200/75 dark:border-stone-800 bg-white/80 dark:bg-stone-900/80 shadow-2xs flex-shrink-0 group focus:outline-none transition-transform active:scale-95 flex items-center justify-center"
+              className="w-8 h-8 rounded-lg overflow-hidden border border-slate-200/75 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 shadow-2xs flex-shrink-0 group focus:outline-none transition-transform active:scale-95 flex items-center justify-center"
               title={siteConfig.title}
             >
               <img
@@ -113,7 +125,7 @@ export const Header: React.FC = () => {
             <LayoutGroup id="nav-rectangular-group">
               <nav
                 ref={navRef}
-                className="flex items-center p-1 rounded-lg bg-white/70 dark:bg-stone-900/70 backdrop-blur-md border border-stone-200/65 dark:border-stone-800/65 shadow-[0_2px_10px_-3px_rgba(0,0,0,0.03)] gap-0.5 text-xs"
+                className="flex items-center p-1 rounded-lg bg-white/70 dark:bg-slate-900/70 backdrop-blur-md border border-slate-200/65 dark:border-slate-800/65 shadow-[0_2px_10px_-3px_rgba(0,0,0,0.03)] gap-0.5 text-xs"
               >
                 {navLinks.map((link) => {
                   const active = isActive(link.href);
@@ -127,22 +139,22 @@ export const Header: React.FC = () => {
                       onClick={handleItemClick}
                       className={`relative px-2.5 py-1 rounded-md transition-colors duration-150 select-none flex items-center justify-center gap-1.5 ${
                         active
-                          ? 'text-stone-950 dark:text-stone-50 font-medium'
-                          : 'text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 hover:bg-stone-100/50 dark:hover:bg-stone-800/40'
+                          ? 'text-slate-950 dark:text-slate-50 font-medium'
+                          : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100/50 dark:hover:bg-slate-800/40'
                       }`}
                     >
                       {/* 选中项的独立小矩形卡片 (小圆角 rounded-md) */}
                       {active && (
                         <motion.span
                           layoutId="active-nav-block"
-                          className="absolute inset-0 rounded-md bg-white/95 dark:bg-stone-800 border border-stone-200/90 dark:border-stone-700/80 shadow-[0_1px_3px_rgba(0,0,0,0.06),0_1px_1px_rgba(0,0,0,0.03)] dark:shadow-[0_1px_3px_rgba(0,0,0,0.4)] pointer-events-none -z-10"
+                          className="absolute inset-0 rounded-md bg-white/95 dark:bg-slate-800 border border-slate-200/90 dark:border-slate-700/80 shadow-[0_1px_3px_rgba(0,0,0,0.06),0_1px_1px_rgba(0,0,0,0.03)] dark:shadow-[0_1px_3px_rgba(0,0,0,0.4)] pointer-events-none -z-10"
                           transition={{ type: 'spring', stiffness: 500, damping: 38 }}
                         />
                       )}
 
                       {/* 选中项专属图标 */}
                       {active && (
-                        <IconComponent className="w-3.5 h-3.5 opacity-90 text-stone-800 dark:text-stone-200 flex-shrink-0" />
+                        <IconComponent className="w-3.5 h-3.5 opacity-90 text-slate-800 dark:text-slate-200 flex-shrink-0" />
                       )}
                       <span className="leading-none translate-y-[0.5px]">{link.label}</span>
                     </Link>
@@ -151,11 +163,10 @@ export const Header: React.FC = () => {
               </nav>
             </LayoutGroup>
 
-            {/* Innei 风格导航悬浮 MegaMenu Popover */}
+            {/* Innei 风格导航悬浮 MegaMenu Popover (动态精准位置感知) */}
             <NavHoverPopover
               activeKey={hoveredNav}
-              itemCenter={hoverItemCenter}
-              navWidth={navWidth}
+              position={navPosition}
               onMouseEnter={handlePopoverMouseEnter}
               onMouseLeave={handlePopoverMouseLeave}
               onItemClick={handleItemClick}
@@ -163,11 +174,11 @@ export const Header: React.FC = () => {
           </div>
 
           {/* 右侧: 操作按钮组 (小圆角矩形 rounded-lg) */}
-          <div className="md:absolute md:right-0 md:top-1/2 md:-translate-y-1/2 pointer-events-auto flex items-center p-1 rounded-lg bg-white/70 dark:bg-stone-900/70 backdrop-blur-md border border-stone-200/65 dark:border-stone-800/65 shadow-[0_2px_10px_-3px_rgba(0,0,0,0.03)] gap-0.5">
+          <div className="md:absolute md:right-0 md:top-1/2 md:-translate-y-1/2 pointer-events-auto flex items-center p-1 rounded-lg bg-white/70 dark:bg-slate-900/70 backdrop-blur-md border border-slate-200/65 dark:border-slate-800/65 shadow-[0_2px_10px_-3px_rgba(0,0,0,0.03)] gap-0.5">
             {/* 搜索按钮 */}
             <button
               onClick={() => setSearchOpen(true)}
-              className="p-1.5 rounded-md text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 hover:bg-stone-100/60 dark:hover:bg-stone-800/60 transition-colors flex items-center justify-center"
+              className="p-1.5 rounded-md text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100/60 dark:hover:bg-slate-800/60 transition-colors flex items-center justify-center"
               title="全局搜索 (⌘K)"
             >
               <Search className="w-3.5 h-3.5" />
@@ -176,20 +187,20 @@ export const Header: React.FC = () => {
             {/* 深浅主题切换 */}
             <button
               onClick={toggleTheme}
-              className="p-1.5 rounded-md text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 hover:bg-stone-100/60 dark:hover:bg-stone-800/60 transition-colors flex items-center justify-center"
+              className="p-1.5 rounded-md text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100/60 dark:hover:bg-slate-800/60 transition-colors flex items-center justify-center"
               title={isDark ? '切换至浅色模式' : '切换至深色模式'}
             >
               {isDark ? (
                 <Sun className="w-3.5 h-3.5 text-sky-400" />
               ) : (
-                <Moon className="w-3.5 h-3.5 text-stone-700" />
+                <Moon className="w-3.5 h-3.5 text-slate-700" />
               )}
             </button>
 
             {/* 移动端汉堡菜单 */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-1.5 rounded-md text-stone-600 dark:text-stone-400 hover:bg-stone-100/60 dark:hover:bg-stone-800/60 transition-colors flex items-center justify-center"
+              className="md:hidden p-1.5 rounded-md text-slate-600 dark:text-slate-400 hover:bg-slate-100/60 dark:hover:bg-slate-800/60 transition-colors flex items-center justify-center"
             >
               {mobileMenuOpen ? (
                 <X className="w-3.5 h-3.5" />
@@ -202,7 +213,7 @@ export const Header: React.FC = () => {
 
         {/* 移动端展开浮层 */}
         {mobileMenuOpen && (
-          <div className="md:hidden mt-2 max-w-4xl mx-auto rounded-lg bg-white/95 dark:bg-stone-900/95 backdrop-blur-md border border-stone-200/80 dark:border-stone-800 p-2 space-y-1 shadow-lg pointer-events-auto animate-in fade-in zoom-in-95 duration-150 font-sans">
+          <div className="md:hidden mt-2 max-w-4xl mx-auto rounded-lg bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border border-slate-200/80 dark:border-slate-800 p-2 space-y-1 shadow-lg pointer-events-auto animate-in fade-in zoom-in-95 duration-150 font-sans">
             {navLinks.map((link) => {
               const active = isActive(link.href);
               const IconComponent = link.icon;
@@ -213,11 +224,11 @@ export const Header: React.FC = () => {
                   onClick={() => setMobileMenuOpen(false)}
                   className={`flex items-center gap-2 px-3 py-2 rounded-md text-xs transition-colors ${
                     active
-                      ? 'bg-white dark:bg-stone-800 border border-stone-200/80 dark:border-stone-700 text-stone-900 dark:text-stone-100 font-medium shadow-xs'
-                      : 'text-stone-600 dark:text-stone-400 hover:bg-stone-100/50 dark:hover:bg-stone-800/50'
+                      ? 'bg-white dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700 text-slate-900 dark:text-slate-100 font-medium shadow-xs'
+                      : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100/50 dark:hover:bg-slate-800/50'
                   }`}
                 >
-                  <IconComponent className="w-3.5 h-3.5 text-stone-500 dark:text-stone-400" />
+                  <IconComponent className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400" />
                   <span>{link.label}</span>
                 </Link>
               );
