@@ -5,6 +5,8 @@ import { Users, ArrowUpRight, Sparkles, Search, X } from 'lucide-react';
 import { getAllFriends, siteConfig } from '../content';
 import type { FriendItem } from '../types';
 
+import { TechBadge } from '../components/friends/TechBadge';
+
 export const Friends: React.FC = () => {
   const [query, setQuery] = useState('');
   const allFriends = useMemo(() => getAllFriends(), []);
@@ -15,13 +17,15 @@ export const Friends: React.FC = () => {
     return allFriends.filter(
       (f) =>
         f.name.toLowerCase().includes(q) ||
-        (f.desc && f.desc.toLowerCase().includes(q))
+        (f.desc && f.desc.toLowerCase().includes(q)) ||
+        (f.framework && f.framework.toLowerCase().includes(q)) ||
+        (f.deploy && f.deploy.toLowerCase().includes(q))
     );
   }, [allFriends, query]);
 
   return (
     <PageShell>
-      <Container>
+      <Container size="wide">
         {/* 顶部标题 */}
         <div className="mb-8 pb-6 border-b border-slate-200/70 dark:border-slate-800/70">
           <div className="flex items-center space-x-2 text-xs font-mono text-slate-500 mb-2">
@@ -41,7 +45,7 @@ export const Friends: React.FC = () => {
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="搜索友链名称或简介..."
+                placeholder="搜索友链名称、技术栈或简介..."
                 className="w-full pl-9 pr-8 py-1.5 rounded-sm text-xs bg-slate-100/80 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/80 text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:border-sky-400/80 dark:focus:border-sky-400/80 focus:bg-white dark:focus:bg-slate-900 focus:shadow-[0_0_0_1px_rgba(56,189,248,0.3)] transition-all outline-none"
               />
               {query && (
@@ -61,8 +65,8 @@ export const Friends: React.FC = () => {
           </p>
         </div>
 
-        {/* 朋友卡片 Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3.5 mb-10">
+        {/* 朋友卡片 Grid (一行 4 个) */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 mb-10">
           {filteredFriends.map((friend) => (
             <FriendCard key={friend.id} friend={friend} />
           ))}
@@ -103,9 +107,10 @@ const FriendCard: React.FC<{ friend: FriendItem }> = ({ friend }) => {
       href={friend.link}
       target="_blank"
       rel="noreferrer"
-      className="p-3.5 rounded-sm paper-card flex items-start space-x-2.5 group hover:border-slate-300/90 dark:hover:border-slate-700/90 hover:shadow-sm transition-all block h-full"
+      className="p-3.5 rounded-sm paper-card flex items-start space-x-3 group block h-full"
     >
-      <div className="w-9 h-9 rounded-sm bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100 flex items-center justify-center font-sans text-sm font-bold shrink-0 overflow-hidden group-hover:scale-105 transition-transform border border-slate-200/50 dark:border-slate-700/50">
+      {/* 左侧头像 */}
+      <div className="w-9 h-9 rounded-sm bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100 flex items-center justify-center font-sans text-xs font-bold shrink-0 overflow-hidden group-hover:scale-105 transition-transform border border-slate-200/50 dark:border-slate-700/50">
         {friend.avatar && !imgError ? (
           <img
             src={friend.avatar}
@@ -119,16 +124,26 @@ const FriendCard: React.FC<{ friend: FriendItem }> = ({ friend }) => {
         )}
       </div>
 
+      {/* 右侧主体：上方标题+技术栈/部署图标，下方简介 */}
       <div className="flex-1 min-w-0">
-        <div className="flex items-center justify-between">
-          <h3 className="font-sans text-xs sm:text-[13px] font-semibold text-slate-900 dark:text-slate-100 group-hover:text-slate-950 dark:group-hover:text-white transition-colors truncate">
+        <div className="flex items-center justify-between gap-1.5">
+          <h3 className="font-sans text-xs sm:text-[13px] font-semibold text-slate-900 dark:text-slate-100 truncate">
             {friend.name}
           </h3>
-          <ArrowUpRight className="w-3 h-3 text-slate-400 group-hover:text-slate-700 dark:group-hover:text-slate-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all shrink-0 ml-1" />
+
+          {/* 右侧技术栈与部署方式图标 */}
+          <div
+            className="flex items-center space-x-1 shrink-0"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <TechBadge type="framework" name={friend.framework} />
+            <TechBadge type="deploy" name={friend.deploy} />
+          </div>
         </div>
 
+        {/* 简介文本 */}
         {friend.desc && (
-          <p className="text-[10.5px] text-slate-500 dark:text-slate-400 mt-0.5 line-clamp-2 leading-relaxed">
+          <p className="text-[10.5px] text-slate-500 dark:text-slate-400 mt-1 line-clamp-2 leading-relaxed font-sans">
             {friend.desc}
           </p>
         )}

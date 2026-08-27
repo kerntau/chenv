@@ -99,6 +99,8 @@ export function getAllFriends(): FriendItem[] {
     avatar: item.avatar || '',
     link: item.link,
     order: item.order || 999,
+    framework: item.framework || '',
+    deploy: item.deploy || '',
   }));
 }
 

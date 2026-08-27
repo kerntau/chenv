@@ -44,6 +44,8 @@ export interface FriendItem {
   link: string;
   order?: number;
   tags?: string[];
+  framework?: string;
+  deploy?: string;
 }
 
 export interface SiteConfig {

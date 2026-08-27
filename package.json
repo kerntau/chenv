@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "rsbuild dev --open",
     "build": "rsbuild build",
-    "preview": "rsbuild preview"
+    "preview": "rsbuild preview",
+    "detect:friends": "node scripts/detect-friends.mjs"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.6",
