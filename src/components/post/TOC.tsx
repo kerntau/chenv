@@ -22,9 +22,9 @@ export const TOC: React.FC<TOCProps> = ({ toc }) => {
   };
 
   return (
-    <nav className="p-4 rounded-2xl border border-stone-200/70 dark:border-stone-800/70 bg-stone-50/50 dark:bg-[#18181A]/50 text-xs font-sans">
-      <div className="flex items-center space-x-1.5 font-serif font-semibold text-stone-900 dark:text-stone-100 mb-3 pb-2 border-b border-stone-200/60 dark:border-stone-800/60">
-        <AlignLeft className="w-3.5 h-3.5 text-stone-500" />
+    <nav className="p-4 rounded-2xl border border-slate-200/70 dark:border-slate-800/70 bg-slate-50/50 dark:bg-[#18181A]/50 text-xs font-sans">
+      <div className="flex items-center space-x-1.5 font-serif font-semibold text-slate-900 dark:text-slate-100 mb-3 pb-2 border-b border-slate-200/60 dark:border-slate-800/60">
+        <AlignLeft className="w-3.5 h-3.5 text-slate-500" />
         <span>目录导航</span>
       </div>
 
@@ -45,8 +45,8 @@ export const TOC: React.FC<TOCProps> = ({ toc }) => {
                 onClick={(e) => handleClick(e, item.id)}
                 className={`block py-1 px-1.5 rounded transition-all duration-150 truncate ${
                   isActive
-                    ? 'text-stone-950 dark:text-stone-50 font-medium bg-stone-200/60 dark:bg-stone-800 border-l-2 border-sky-600 dark:border-sky-400'
-                    : 'text-stone-500 dark:text-stone-400 hover:text-stone-800 dark:hover:text-stone-200 hover:bg-stone-200/30 dark:hover:bg-stone-800/30'
+                    ? 'text-slate-950 dark:text-slate-50 font-medium bg-slate-200/60 dark:bg-slate-800 border-l-2 border-sky-600 dark:border-sky-400'
+                    : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-200/30 dark:hover:bg-slate-800/30'
                 }`}
                 title={item.text}
               >

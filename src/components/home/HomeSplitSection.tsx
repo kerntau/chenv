@@ -6,7 +6,6 @@ import {
   BookOpen,
   PenTool,
   Sparkles,
-  ArrowRight,
   Calendar,
   Folder,
   Tag,
@@ -33,167 +32,167 @@ export const HomeSplitSection: React.FC = () => {
 
   return (
     <section className="mt-20 sm:mt-28 mb-24 w-full font-sans">
-      {/* 8:4 黄金分割左右双栏栅格 */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
+      {/* 8:4 黄金分割左右双栏栅格 (items-stretch 确保两栏高度基准一致) */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch">
         
         {/* ================= 左侧专区: 封面相框文章流 (6 篇 16:9 标准卡片) ================= */}
-        <div className="lg:col-span-8 space-y-6">
-          {/* 左侧专区标题栏 */}
-          <div className="h-9 flex items-center justify-between pb-2 border-b border-stone-200/70 dark:border-stone-800/70">
-            <div className="flex items-center space-x-2">
-              <div className="p-1 rounded-lg bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400">
-                <BookOpen className="w-4 h-4" />
+        <div className="lg:col-span-8 flex flex-col justify-between">
+          <div>
+            {/* 左侧专区标题栏 */}
+            <div className="h-9 flex items-center justify-between pb-2 border-b border-slate-200/70 dark:border-slate-800/70">
+              <div className="flex items-center space-x-2">
+                <div className="p-1 rounded-lg bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400">
+                  <BookOpen className="w-4 h-4" />
+                </div>
+                <h2 className="text-base font-semibold text-slate-900 dark:text-slate-100 tracking-tight leading-none">
+                  最新文章
+                </h2>
               </div>
-              <h2 className="text-base font-semibold text-stone-900 dark:text-stone-100 tracking-tight leading-none">
-                最新文章
-              </h2>
+              <Link
+                href="/posts"
+                className="text-xs text-slate-400 hover:text-blue-600 dark:text-slate-500 dark:hover:text-blue-400 transition-colors leading-none"
+              >
+                查看全部
+              </Link>
             </div>
-            <Link
-              href="/posts"
-              className="inline-flex items-center space-x-1 text-xs text-stone-500 hover:text-stone-900 dark:hover:text-stone-100 transition-colors group leading-none"
-            >
-              <span>全部文章</span>
-              <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
-            </Link>
-          </div>
 
-          {/* 文章相框卡片列表 (6 篇 3 列标准 16:9 网格，小巧精致) */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
-            {posts.map((post) => {
-              const coverImg = post.coverImage || post.cover || (post.images && post.images[0]);
+            {/* 文章相框卡片列表 (6 篇 3 列标准 16:9 网格) */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 mt-4">
+              {posts.map((post) => {
+                const coverImg = post.coverImage || post.cover || (post.images && post.images[0]);
 
-              return (
-                <article
-                  key={post.slug}
-                  className="group rounded-xl overflow-hidden bg-white/85 dark:bg-stone-900/85 backdrop-blur-md border border-stone-200/75 dark:border-stone-800/75 shadow-[0_1px_4px_rgba(0,0,0,0.02)] hover:shadow-[0_6px_20px_-4px_rgba(0,0,0,0.06)] hover:border-blue-200 dark:hover:border-blue-900/50 transition-all duration-200 flex flex-col h-full"
-                >
-                  <Link href={`/posts/${post.slug}`} className="flex flex-col h-full">
-                    {/* 顶部标准 16:9 无缝相框封面 */}
-                    <div className="relative w-full aspect-[16/9] overflow-hidden bg-stone-100 dark:bg-stone-800 flex-shrink-0">
-                      {coverImg ? (
-                        <img
-                          src={coverImg}
-                          alt={post.title}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
-                          loading="lazy"
-                        />
-                      ) : (
-                        <div className="w-full h-full flex flex-col items-center justify-center p-3 text-center select-none relative overflow-hidden bg-gradient-to-br from-sky-50 via-blue-50 to-indigo-50/50 dark:from-stone-800 dark:via-stone-850 dark:to-stone-900">
-                          <div className="w-8 h-8 rounded-lg bg-white/80 dark:bg-stone-800/80 border border-stone-200/60 dark:border-stone-700 shadow-2xs flex items-center justify-center text-blue-500 dark:text-blue-400 mb-1 group-hover:scale-110 transition-transform duration-300">
-                            <ImageIcon className="w-4 h-4 opacity-80" />
+                return (
+                  <article
+                    key={post.slug}
+                    className="group rounded-xl overflow-hidden bg-white/85 dark:bg-slate-900/85 backdrop-blur-md border border-slate-200/75 dark:border-slate-800/75 shadow-[0_1px_4px_rgba(0,0,0,0.02)] hover:shadow-[0_6px_20px_-4px_rgba(0,0,0,0.06)] hover:border-blue-200 dark:hover:border-blue-900/50 transition-all duration-200 flex flex-col h-full"
+                  >
+                    <Link href={`/posts/${post.slug}`} className="flex flex-col h-full">
+                      {/* 顶部标准 16:9 无缝相框封面 */}
+                      <div className="relative w-full aspect-[16/9] overflow-hidden bg-slate-100 dark:bg-slate-800 flex-shrink-0">
+                        {coverImg ? (
+                          <img
+                            src={coverImg}
+                            alt={post.title}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+                            loading="lazy"
+                          />
+                        ) : (
+                          <div className="w-full h-full flex flex-col items-center justify-center p-3 text-center select-none relative overflow-hidden bg-gradient-to-br from-sky-50 via-blue-50 to-indigo-50/50 dark:from-slate-800 dark:via-slate-850 dark:to-slate-900">
+                            <div className="w-8 h-8 rounded-lg bg-white/80 dark:bg-slate-800/80 border border-slate-200/60 dark:border-slate-700 shadow-2xs flex items-center justify-center text-blue-500 dark:text-blue-400 mb-1 group-hover:scale-110 transition-transform duration-300">
+                              <ImageIcon className="w-4 h-4 opacity-80" />
+                            </div>
+                            <span className="text-[9px] font-mono text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+                              {post.category || 'ARTICLE'}
+                            </span>
                           </div>
-                          <span className="text-[9px] font-mono text-stone-400 dark:text-stone-500 uppercase tracking-wider">
-                            {post.category || 'ARTICLE'}
-                          </span>
-                        </div>
-                      )}
-                    </div>
-
-                    {/* 下半部分白底内容区 */}
-                    <div className="p-3.5 flex-1 flex flex-col justify-between space-y-2">
-                      <div className="space-y-1">
-                        {/* 标题 */}
-                        <h3 className="text-[13px] sm:text-sm font-bold text-stone-900 dark:text-stone-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-1 leading-snug">
-                          {post.title}
-                        </h3>
-
-                        {/* 摘要 */}
-                        {post.summary && (
-                          <p className="text-[11px] sm:text-xs text-stone-500 dark:text-stone-400 line-clamp-2 leading-relaxed font-sans">
-                            {post.summary}
-                          </p>
                         )}
                       </div>
 
-                      <div className="space-y-1.5 pt-0.5">
-                        {/* 标签列表 */}
-                        {post.tags && post.tags.length > 0 && (
-                          <div className="flex flex-wrap items-center gap-1 text-[10px] text-stone-400 dark:text-stone-500">
-                            <Tag className="w-2.5 h-2.5 opacity-70 flex-shrink-0" />
-                            <div className="flex flex-wrap items-center gap-1">
-                              {post.tags.slice(0, 2).map((tag) => (
-                                <span key={tag} className="hover:text-stone-600 dark:hover:text-stone-300 transition-colors">
-                                  #{tag}
-                                </span>
-                              ))}
-                            </div>
-                          </div>
-                        )}
+                      {/* 下半部分白底内容区 */}
+                      <div className="p-3.5 flex-1 flex flex-col justify-between space-y-2">
+                        <div className="space-y-1">
+                          {/* 标题 */}
+                          <h3 className="text-[13px] sm:text-sm font-bold text-slate-900 dark:text-slate-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-1 leading-snug">
+                            {post.title}
+                          </h3>
 
-                        {/* 底部元信息行 */}
-                        <div className="flex items-center justify-between text-[10px] font-mono text-stone-400 dark:text-stone-500 pt-1.5 border-t border-stone-100 dark:border-stone-800/80">
-                          <div className="flex items-center space-x-1">
-                            <Calendar className="w-3 h-3 opacity-70" />
-                            <span>{formatDateShort(post.date)}</span>
-                          </div>
-                          {post.category && (
-                            <div className="flex items-center space-x-1">
-                              <Folder className="w-3 h-3 opacity-70" />
-                              <span className="truncate max-w-[80px]">{post.category}</span>
-                            </div>
+                          {/* 摘要 */}
+                          {post.summary && (
+                            <p className="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 line-clamp-2 leading-relaxed font-sans">
+                              {post.summary}
+                            </p>
                           )}
                         </div>
+
+                        <div className="space-y-1.5 pt-0.5">
+                          {/* 标签列表 */}
+                          {post.tags && post.tags.length > 0 && (
+                            <div className="flex flex-wrap items-center gap-1 text-[10px] text-slate-400 dark:text-slate-500">
+                              <Tag className="w-2.5 h-2.5 opacity-70 flex-shrink-0" />
+                              <div className="flex flex-wrap items-center gap-1">
+                                {post.tags.slice(0, 2).map((tag) => (
+                                  <span key={tag} className="hover:text-slate-600 dark:hover:text-slate-300 transition-colors">
+                                    #{tag}
+                                  </span>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+
+                          {/* 底部元信息行 */}
+                          <div className="flex items-center justify-between text-[10px] font-mono text-slate-400 dark:text-slate-500 pt-1.5 border-t border-slate-100 dark:border-slate-800/80">
+                            <div className="flex items-center space-x-1">
+                              <Calendar className="w-3 h-3 opacity-70" />
+                              <span>{formatDateShort(post.date)}</span>
+                            </div>
+                            {post.category && (
+                              <div className="flex items-center space-x-1">
+                                <Folder className="w-3 h-3 opacity-70" />
+                                <span className="truncate max-w-[80px]">{post.category}</span>
+                              </div>
+                            )}
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </Link>
-                </article>
-              );
-            })}
+                    </Link>
+                  </article>
+                );
+              })}
+            </div>
           </div>
         </div>
 
         {/* ================= 右侧专区: 手记与动态上下分块 (4/12) ================= */}
-        <div className="lg:col-span-4 space-y-6">
+        <div className="lg:col-span-4 flex flex-col justify-between space-y-4 lg:space-y-0">
           
           {/* 上半部分: 近期手记 (Diaries) */}
-          <div className="space-y-3.5">
-            <div className="h-9 flex items-center justify-between pb-2 border-b border-stone-200/70 dark:border-stone-800/70">
+          <div className="flex flex-col">
+            <div className="h-9 flex items-center justify-between pb-2 border-b border-slate-200/70 dark:border-slate-800/70">
               <div className="flex items-center space-x-2">
                 <div className="p-1 rounded-lg bg-sky-50 dark:bg-sky-950/40 text-sky-600 dark:text-sky-400">
                   <PenTool className="w-4 h-4" />
                 </div>
-                <h2 className="text-base font-semibold text-stone-900 dark:text-stone-100 tracking-tight leading-none">
+                <h2 className="text-base font-semibold text-slate-900 dark:text-slate-100 tracking-tight leading-none">
                   近期手记
                 </h2>
               </div>
               <Link
                 href="/diaries"
-                className="inline-flex items-center space-x-1 text-xs text-stone-500 hover:text-stone-900 dark:hover:text-stone-100 transition-colors group leading-none"
+                className="text-xs text-slate-400 hover:text-sky-600 dark:text-slate-500 dark:hover:text-sky-400 transition-colors leading-none"
               >
-                <span>全部手记</span>
-                <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                查看全部
               </Link>
             </div>
 
-            {/* 手记条目列表 (紧凑精致) */}
-            <div className="space-y-2.5">
+            {/* 手记条目列表 (微调紧凑内边距与行高) */}
+            <div className="mt-3 space-y-2">
               {diaries.length > 0 ? (
                 diaries.map((diary) => (
                   <Link
                     key={diary.slug}
                     href={`/diaries/${diary.slug}`}
-                    className="block p-3 rounded-xl bg-white/80 dark:bg-stone-900/80 backdrop-blur-md border border-stone-200/60 dark:border-stone-800/60 shadow-[0_1px_4px_rgba(0,0,0,0.02)] hover:border-sky-300/80 dark:hover:border-sky-800/60 hover:shadow-xs transition-all group"
+                    className="block p-2.5 rounded-xl bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border border-slate-200/60 dark:border-slate-800/60 shadow-[0_1px_4px_rgba(0,0,0,0.02)] hover:border-sky-300/80 dark:hover:border-sky-800/60 hover:shadow-xs transition-all group"
                   >
-                    <div className="flex items-center justify-between text-[11px] font-mono text-stone-400 dark:text-stone-500 mb-1">
+                    <div className="flex items-center justify-between text-[10.5px] font-mono text-slate-400 dark:text-slate-500 mb-0.5">
                       <span>{formatDateShort(diary.date)}</span>
                       {diary.weather && (
-                        <span className="px-1.5 py-0.5 rounded-md bg-sky-50/80 dark:bg-sky-950/30 text-sky-700/80 dark:text-sky-400/80 text-[10px] font-sans">
+                        <span className="px-1.5 py-0.2 rounded-md bg-sky-50/80 dark:bg-sky-950/30 text-sky-700/80 dark:text-sky-400/80 text-[9.5px] font-sans">
                           {diary.weather}
                         </span>
                       )}
                     </div>
-                    <h4 className="text-[13px] font-semibold text-stone-800 dark:text-stone-200 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors line-clamp-1">
+                    <h4 className="text-[12.5px] font-semibold text-slate-800 dark:text-slate-200 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors line-clamp-1 leading-snug">
                       {diary.title}
                     </h4>
                     {diary.summary && (
-                      <p className="mt-0.5 text-xs text-stone-500 dark:text-stone-400 line-clamp-2 leading-relaxed">
+                      <p className="mt-0.5 text-[11px] text-slate-500 dark:text-slate-400 line-clamp-1 leading-relaxed">
                         {diary.summary}
                       </p>
                     )}
                   </Link>
                 ))
               ) : (
-                <div className="p-4 rounded-xl bg-stone-50/50 dark:bg-stone-900/50 text-center text-xs text-stone-400">
+                <div className="p-4 rounded-xl bg-slate-50/50 dark:bg-slate-900/50 text-center text-xs text-slate-400">
                   暂无手记内容
                 </div>
               )}
@@ -201,48 +200,47 @@ export const HomeSplitSection: React.FC = () => {
           </div>
 
           {/* 下半部分: 最新动态 (Says & Thoughts) */}
-          <div className="space-y-3.5">
-            <div className="h-9 flex items-center justify-between pb-2 border-b border-stone-200/70 dark:border-stone-800/70">
+          <div className="flex flex-col">
+            <div className="h-9 flex items-center justify-between pb-2 border-b border-slate-200/70 dark:border-slate-800/70">
               <div className="flex items-center space-x-2">
                 <div className="p-1 rounded-lg bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400">
                   <Sparkles className="w-4 h-4" />
                 </div>
-                <h2 className="text-base font-semibold text-stone-900 dark:text-stone-100 tracking-tight leading-none">
+                <h2 className="text-base font-semibold text-slate-900 dark:text-slate-100 tracking-tight leading-none">
                   即时动态
                 </h2>
               </div>
               <Link
                 href="/says"
-                className="inline-flex items-center space-x-1 text-xs text-stone-500 hover:text-stone-900 dark:hover:text-stone-100 transition-colors group leading-none"
+                className="text-xs text-slate-400 hover:text-emerald-600 dark:text-slate-500 dark:hover:text-emerald-400 transition-colors leading-none"
               >
-                <span>全部动态</span>
-                <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                查看全部
               </Link>
             </div>
 
-            {/* 动态灵感气泡卡片列表 (紧凑精致) */}
-            <div className="space-y-2.5">
+            {/* 动态灵感气泡卡片列表 */}
+            <div className="mt-3 space-y-2">
               {records.length > 0 ? (
                 records.map((rec) => (
                   <div
                     key={rec.id}
-                    className="p-3 rounded-xl bg-white/80 dark:bg-stone-900/80 backdrop-blur-md border border-stone-200/60 dark:border-stone-800/60 shadow-[0_1px_4px_rgba(0,0,0,0.02)] space-y-1.5 hover:border-emerald-300/80 dark:hover:border-emerald-800/60 transition-all"
+                    className="p-2.5 rounded-xl bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border border-slate-200/60 dark:border-slate-800/60 shadow-[0_1px_4px_rgba(0,0,0,0.02)] space-y-1 hover:border-emerald-300/80 dark:hover:border-emerald-800/60 transition-all"
                   >
-                    <div className="flex items-center justify-between text-[11px] font-mono text-stone-400 dark:text-stone-500">
+                    <div className="flex items-center justify-between text-[10.5px] font-mono text-slate-400 dark:text-slate-500">
                       <span>{formatRecordDate(rec.date || rec.createdAt)}</span>
                       {rec.mood && (
-                        <span className="px-1.5 py-0.5 rounded-md bg-emerald-50/80 dark:bg-emerald-950/30 text-emerald-700/80 dark:text-emerald-400/80 text-[10px] font-sans">
+                        <span className="px-1.5 py-0.2 rounded-md bg-emerald-50/80 dark:bg-emerald-950/30 text-emerald-700/80 dark:text-emerald-400/80 text-[9.5px] font-sans">
                           {rec.mood}
                         </span>
                       )}
                     </div>
-                    <p className="text-xs text-stone-700 dark:text-stone-300 leading-relaxed line-clamp-2">
+                    <p className="text-[11.5px] text-slate-700 dark:text-slate-300 leading-relaxed line-clamp-2">
                       {rec.content}
                     </p>
                   </div>
                 ))
               ) : (
-                <div className="p-4 rounded-xl bg-stone-50/50 dark:bg-stone-900/50 text-center text-xs text-stone-400">
+                <div className="p-4 rounded-xl bg-slate-50/50 dark:bg-slate-900/50 text-center text-xs text-slate-400">
                   暂无即时动态
                 </div>
               )}

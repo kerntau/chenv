@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
-import { Search, X, BookOpen, FileCode2, ArrowRight } from 'lucide-react';
+import { Search, X, BookOpen, FileCode2, ChevronRight } from 'lucide-react';
 import { useSearch } from '../../hooks/useSearch';
 import { useLocation } from 'wouter';
 
@@ -36,28 +36,28 @@ export const SearchModal: React.FC<SearchModalProps> = ({
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
       <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 bg-stone-900/40 dark:bg-black/60 backdrop-blur-sm z-50 transition-opacity animate-in fade-in duration-150" />
-        <Dialog.Content className="fixed top-[18%] left-1/2 -translate-x-1/2 w-full max-w-xl bg-[#FAF8F5] dark:bg-[#1C1C20] rounded-2xl border border-stone-200/90 dark:border-stone-800 shadow-2xl z-50 p-0 overflow-hidden outline-none animate-in fade-in zoom-in-95 duration-150">
+        <Dialog.Overlay className="fixed inset-0 bg-slate-900/40 dark:bg-black/60 backdrop-blur-sm z-50 transition-opacity animate-in fade-in duration-150" />
+        <Dialog.Content className="fixed top-[18%] left-1/2 -translate-x-1/2 w-full max-w-xl bg-[#FAF8F5] dark:bg-[#1C1C20] rounded-2xl border border-slate-200/90 dark:border-slate-800 shadow-2xl z-50 p-0 overflow-hidden outline-none animate-in fade-in zoom-in-95 duration-150">
           <Dialog.Title className="sr-only">搜索博客文稿与笔记</Dialog.Title>
           <Dialog.Description className="sr-only">
             通过标题、标签或摘要快速检索全站文章与安全笔记
           </Dialog.Description>
 
           {/* 搜索输入框 */}
-          <div className="flex items-center px-4 py-3.5 border-b border-stone-200/70 dark:border-stone-800/80 bg-white/70 dark:bg-[#212126]/70">
-            <Search className="w-4 h-4 text-stone-400 dark:text-stone-500 mr-3 shrink-0" />
+          <div className="flex items-center px-4 py-3.5 border-b border-slate-200/70 dark:border-slate-800/80 bg-white/70 dark:bg-[#212126]/70">
+            <Search className="w-4 h-4 text-slate-400 dark:text-slate-500 mr-3 shrink-0" />
             <input
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="搜索文章、安全速记、技术标签 (如 Pwn, ECC, React, CTF)..."
-              className="w-full bg-transparent text-sm text-stone-800 dark:text-stone-100 placeholder:text-stone-400 dark:placeholder:text-stone-500 outline-none font-sans"
+              className="w-full bg-transparent text-sm text-slate-800 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 outline-none font-sans"
               autoFocus
             />
             {query && (
               <button
                 onClick={() => setQuery('')}
-                className="p-1 text-stone-400 hover:text-stone-600 dark:hover:text-stone-300 rounded"
+                className="p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 rounded"
               >
                 <X className="w-3.5 h-3.5" />
               </button>
@@ -65,9 +65,9 @@ export const SearchModal: React.FC<SearchModalProps> = ({
           </div>
 
           {/* 搜索结果列表 */}
-          <div className="max-h-80 overflow-y-auto p-2 divide-y divide-stone-100 dark:divide-stone-800/40">
+          <div className="max-h-80 overflow-y-auto p-2 divide-y divide-slate-100 dark:divide-slate-800/40">
             {results.length === 0 ? (
-              <div className="py-12 text-center text-stone-400 dark:text-stone-500 text-xs font-mono">
+              <div className="py-12 text-center text-slate-400 dark:text-slate-500 text-xs font-mono">
                 未检索到与 &quot;{query}&quot; 相关的文稿内容
               </div>
             ) : (
@@ -75,10 +75,10 @@ export const SearchModal: React.FC<SearchModalProps> = ({
                 <div
                   key={item.id}
                   onClick={() => handleSelect(item.slug)}
-                  className="group flex items-start justify-between p-3 rounded-xl hover:bg-stone-200/50 dark:hover:bg-stone-800/60 cursor-pointer transition-colors"
+                  className="group flex items-start justify-between p-3 rounded-xl hover:bg-slate-200/50 dark:hover:bg-slate-800/60 cursor-pointer transition-colors"
                 >
                   <div className="flex items-start space-x-3 min-w-0 pr-2">
-                    <div className="mt-0.5 p-1.5 rounded-lg bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-400 group-hover:bg-stone-200 dark:group-hover:bg-stone-700 transition-colors shrink-0">
+                    <div className="mt-0.5 p-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 group-hover:bg-slate-200 dark:group-hover:bg-slate-700 transition-colors shrink-0">
                       {item.type === 'post' ? (
                         <BookOpen className="w-4 h-4" />
                       ) : (
@@ -87,21 +87,21 @@ export const SearchModal: React.FC<SearchModalProps> = ({
                     </div>
                     <div className="min-w-0">
                       <div className="flex items-center space-x-2">
-                        <span className="font-serif text-sm font-medium text-stone-900 dark:text-stone-100 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors truncate">
+                        <span className="font-serif text-sm font-medium text-slate-900 dark:text-slate-100 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors truncate">
                           {item.title}
                         </span>
-                        <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-stone-200/60 dark:bg-stone-800 text-stone-600 dark:text-stone-400 shrink-0">
+                        <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-200/60 dark:bg-slate-800 text-slate-600 dark:text-slate-400 shrink-0">
                           {item.category}
                         </span>
                       </div>
-                      <p className="text-xs text-stone-500 dark:text-stone-400 mt-1 line-clamp-1">
+                      <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 line-clamp-1">
                         {item.summary}
                       </p>
                       <div className="flex items-center space-x-1.5 mt-1.5">
                         {item.tags.map((tag) => (
                           <span
                             key={tag}
-                            className="text-[10px] text-stone-400 dark:text-stone-500 font-mono"
+                            className="text-[10px] text-slate-400 dark:text-slate-500 font-mono"
                           >
                             #{tag}
                           </span>
@@ -109,23 +109,23 @@ export const SearchModal: React.FC<SearchModalProps> = ({
                       </div>
                     </div>
                   </div>
-                  <ArrowRight className="w-4 h-4 text-stone-300 dark:text-stone-600 group-hover:text-stone-600 dark:group-hover:text-stone-300 opacity-0 group-hover:opacity-100 transition-all shrink-0 mt-2" />
+                  <ChevronRight className="w-4 h-4 text-slate-300 dark:text-slate-600 group-hover:text-slate-600 dark:group-hover:text-slate-300 opacity-0 group-hover:opacity-100 transition-all shrink-0 mt-2" />
                 </div>
               ))
             )}
           </div>
 
           {/* 底部键盘快捷键提示 */}
-          <div className="px-4 py-2 bg-stone-100/60 dark:bg-[#18181A]/60 border-t border-stone-200/60 dark:border-stone-800/60 flex items-center justify-between text-[11px] text-stone-400 dark:text-stone-500 font-mono">
+          <div className="px-4 py-2 bg-slate-100/60 dark:bg-[#18181A]/60 border-t border-slate-200/60 dark:border-slate-800/60 flex items-center justify-between text-[11px] text-slate-400 dark:text-slate-500 font-mono">
             <div className="flex items-center space-x-3">
               <span>
-                <kbd className="px-1 py-0.5 rounded bg-stone-200 dark:bg-stone-800 text-stone-600 dark:text-stone-300 text-[10px]">
+                <kbd className="px-1 py-0.5 rounded bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-[10px]">
                   ESC
                 </kbd>{' '}
                 关闭
               </span>
               <span>
-                <kbd className="px-1 py-0.5 rounded bg-stone-200 dark:bg-stone-800 text-stone-600 dark:text-stone-300 text-[10px]">
+                <kbd className="px-1 py-0.5 rounded bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-[10px]">
                   ↵
                 </kbd>{' '}
                 跳转

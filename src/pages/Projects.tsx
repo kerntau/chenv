@@ -72,15 +72,15 @@ export const Projects: React.FC = () => {
     <PageShell>
       <Container>
         {/* 顶部标题 */}
-        <div className="mb-10 pb-6 border-b border-stone-200/70 dark:border-stone-800/70">
-          <div className="flex items-center space-x-2 text-xs font-mono text-stone-500 mb-2">
+        <div className="mb-10 pb-6 border-b border-slate-200/70 dark:border-slate-800/70">
+          <div className="flex items-center space-x-2 text-xs font-mono text-slate-500 mb-2">
             <FolderGit2 className="w-4 h-4 text-sky-600 dark:text-sky-400" />
             <span>SHOWCASE &bull; 项目工坊</span>
           </div>
-          <h1 className="font-sans text-3xl sm:text-4xl font-semibold text-stone-900 dark:text-stone-100 tracking-tight">
+          <h1 className="font-sans text-3xl sm:text-4xl font-semibold text-slate-900 dark:text-slate-100 tracking-tight">
             开源项目与安全工具
           </h1>
-          <p className="text-sm text-stone-500 dark:text-stone-400 mt-2 font-sans">
+          <p className="text-sm text-slate-500 dark:text-slate-400 mt-2 font-sans">
             将安全攻防实验、数论算法与现代全栈工程转化为可复用的代码制品。
           </p>
 
@@ -97,8 +97,8 @@ export const Projects: React.FC = () => {
                 onClick={() => setFilter(tab.key as typeof filter)}
                 className={`px-3.5 py-1.5 rounded-full text-xs font-sans transition-all ${
                   filter === tab.key
-                    ? 'bg-stone-900 dark:bg-stone-100 text-stone-100 dark:text-stone-900 font-medium shadow-sm'
-                    : 'bg-stone-100 dark:bg-stone-800/80 text-stone-600 dark:text-stone-400 hover:bg-stone-200/60 dark:hover:bg-stone-700/60'
+                    ? 'bg-slate-900 dark:bg-slate-100 text-slate-100 dark:text-slate-900 font-medium shadow-sm'
+                    : 'bg-slate-100 dark:bg-slate-800/80 text-slate-600 dark:text-slate-400 hover:bg-slate-200/60 dark:hover:bg-slate-700/60'
                 }`}
               >
                 {tab.label}
@@ -119,21 +119,21 @@ export const Projects: React.FC = () => {
                 <div>
                   <div className="flex items-start justify-between mb-3">
                     <div className="flex items-center space-x-2.5">
-                      <div className="p-2 rounded-xl bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300">
+                      <div className="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
                         <Icon className="w-4 h-4" />
                       </div>
-                      <h2 className="font-sans text-lg font-semibold text-stone-900 dark:text-stone-100 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors">
+                      <h2 className="font-sans text-lg font-semibold text-slate-900 dark:text-slate-100 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors">
                         {project.name}
                       </h2>
                     </div>
 
-                    <div className="flex items-center space-x-1 text-xs font-mono text-stone-500">
+                    <div className="flex items-center space-x-1 text-xs font-mono text-slate-500">
                       <Star className="w-3.5 h-3.5 text-sky-500 fill-sky-400/30" />
                       <span>{project.stars}</span>
                     </div>
                   </div>
 
-                  <p className="text-xs sm:text-sm text-stone-600 dark:text-stone-300 leading-relaxed font-sans mt-2">
+                  <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed font-sans mt-2">
                     {project.description}
                   </p>
 
@@ -141,7 +141,7 @@ export const Projects: React.FC = () => {
                     {project.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="px-2 py-0.5 rounded-md text-[11px] font-mono bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-400"
+                        className="px-2 py-0.5 rounded-md text-[11px] font-mono bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400"
                       >
                         {tag}
                       </span>
@@ -149,12 +149,12 @@ export const Projects: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="mt-6 pt-4 border-t border-stone-200/50 dark:border-stone-800/50 flex items-center justify-between">
+                <div className="mt-6 pt-4 border-t border-slate-200/50 dark:border-slate-800/50 flex items-center justify-between">
                   <a
                     href={project.githubUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center space-x-1 text-xs font-mono text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 transition-colors"
+                    className="inline-flex items-center space-x-1 text-xs font-mono text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 transition-colors"
                   >
                     <GithubIcon className="w-3.5 h-3.5" />
                     <span>源码仓库</span>

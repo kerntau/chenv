@@ -19,7 +19,7 @@
     --color-accent: #0284C7;
     --accent-sky: #0284C7;
     --accent-sky-subtle: #E0F2FE;
-    --accent-stone: #334155;
+    --accent-slate: #334155;
     --selection-bg: #DCEAF8;
     --selection-text: #0369A1;
   }
@@ -37,7 +37,7 @@
     --color-accent: #38BDF8;
     --accent-sky: #38BDF8;
     --accent-sky-subtle: rgba(56, 189, 248, 0.14);
-    --accent-stone: #CBD5E1;
+    --accent-slate: #CBD5E1;
     --selection-bg: #1E3A5F;
     --selection-text: #F0F9FF;
   }

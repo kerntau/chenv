@@ -15,15 +15,15 @@ export const Notes: React.FC = () => {
     <PageShell>
       <Container size="wide">
         {/* 顶部标题 */}
-        <div className="mb-8 pb-6 border-b border-stone-200/70 dark:border-stone-800/70">
-          <div className="flex items-center space-x-2 text-xs font-mono text-stone-500 mb-2">
-            <FileCode2 className="w-4 h-4 text-stone-600 dark:text-stone-400" />
+        <div className="mb-8 pb-6 border-b border-slate-200/70 dark:border-slate-800/70">
+          <div className="flex items-center space-x-2 text-xs font-mono text-slate-500 mb-2">
+            <FileCode2 className="w-4 h-4 text-slate-600 dark:text-slate-400" />
             <span>WRITEUPS &amp; CHEATSHEETS</span>
           </div>
-          <h1 className="font-sans text-3xl sm:text-4xl font-semibold text-stone-900 dark:text-stone-100 tracking-tight">
+          <h1 className="font-sans text-3xl sm:text-4xl font-semibold text-slate-900 dark:text-slate-100 tracking-tight">
             安全与攻防速记
           </h1>
-          <p className="text-sm text-stone-500 dark:text-stone-400 mt-2 font-sans">
+          <p className="text-sm text-slate-500 dark:text-slate-400 mt-2 font-sans">
             收录 CTF 比赛解题记录、逆向备忘录、漏洞利用 Gadget 与渗透测试实践笔记。
           </p>
         </div>
@@ -32,7 +32,7 @@ export const Notes: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           {/* 左侧列表栏 */}
           <div className="lg:col-span-4 space-y-3">
-            <div className="text-xs font-mono text-stone-400 uppercase tracking-wider px-1">
+            <div className="text-xs font-mono text-slate-400 uppercase tracking-wider px-1">
               速记条目 ({notes.length})
             </div>
 
@@ -44,26 +44,26 @@ export const Notes: React.FC = () => {
                   onClick={() => setSelectedNote(note)}
                   className={`p-4 rounded-2xl cursor-pointer transition-all duration-200 border text-left ${
                     isSelected
-                      ? 'bg-stone-100 dark:bg-stone-800/90 border-stone-300 dark:border-stone-700 shadow-sm'
-                      : 'bg-stone-50/50 dark:bg-[#18181A]/50 border-stone-200/60 dark:border-stone-800/60 hover:bg-stone-100/60 dark:hover:bg-stone-800/50'
+                      ? 'bg-slate-100 dark:bg-slate-800/90 border-slate-300 dark:border-slate-700 shadow-sm'
+                      : 'bg-slate-50/50 dark:bg-[#18181A]/50 border-slate-200/60 dark:border-slate-800/60 hover:bg-slate-100/60 dark:hover:bg-slate-800/50'
                   }`}
                 >
-                  <div className="flex items-center justify-between text-[11px] font-mono text-stone-500 mb-1.5">
-                    <span className="px-1.5 py-0.5 rounded bg-stone-200/60 dark:bg-stone-700 text-stone-700 dark:text-stone-300">
+                  <div className="flex items-center justify-between text-[11px] font-mono text-slate-500 mb-1.5">
+                    <span className="px-1.5 py-0.5 rounded bg-slate-200/60 dark:bg-slate-700 text-slate-700 dark:text-slate-300">
                       {note.category}
                     </span>
                     <span>{formatDate(note.date)}</span>
                   </div>
 
-                  <h3 className="font-sans text-sm font-semibold text-stone-900 dark:text-stone-100 line-clamp-1">
+                  <h3 className="font-sans text-sm font-semibold text-slate-900 dark:text-slate-100 line-clamp-1">
                     {note.title}
                   </h3>
 
-                  <p className="text-xs text-stone-500 dark:text-stone-400 mt-1.5 line-clamp-2 leading-relaxed">
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-1.5 line-clamp-2 leading-relaxed">
                     {note.summary}
                   </p>
 
-                  <div className="mt-3 flex items-center justify-between pt-2 border-t border-stone-200/40 dark:border-stone-800/40 text-[11px] text-stone-400 font-mono">
+                  <div className="mt-3 flex items-center justify-between pt-2 border-t border-slate-200/40 dark:border-slate-800/40 text-[11px] text-slate-400 font-mono">
                     <div className="flex items-center space-x-1">
                       <Tag className="w-2.5 h-2.5" />
                       <span>{note.tags[0] || 'Security'}</span>
@@ -84,9 +84,9 @@ export const Notes: React.FC = () => {
             {selectedNote ? (
               <div className="p-6 sm:p-8 rounded-3xl paper-card min-h-[500px]">
                 {/* 头部 */}
-                <div className="pb-6 border-b border-stone-200/70 dark:border-stone-800/70 mb-6">
-                  <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-stone-500 mb-2">
-                    <span className="px-2 py-0.5 rounded bg-stone-200/60 dark:bg-stone-800 text-stone-700 dark:text-stone-300">
+                <div className="pb-6 border-b border-slate-200/70 dark:border-slate-800/70 mb-6">
+                  <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-slate-500 mb-2">
+                    <span className="px-2 py-0.5 rounded bg-slate-200/60 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
                       {selectedNote.category}
                     </span>
                     <span>&bull;</span>
@@ -98,7 +98,7 @@ export const Notes: React.FC = () => {
                     </span>
                   </div>
 
-                  <h2 className="font-sans text-xl sm:text-2xl font-semibold text-stone-950 dark:text-stone-50 tracking-tight">
+                  <h2 className="font-sans text-xl sm:text-2xl font-semibold text-slate-950 dark:text-slate-50 tracking-tight">
                     {selectedNote.title}
                   </h2>
 
@@ -106,7 +106,7 @@ export const Notes: React.FC = () => {
                     {selectedNote.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="inline-flex items-center space-x-0.5 text-[11px] font-mono px-2 py-0.5 rounded bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-400"
+                        className="inline-flex items-center space-x-0.5 text-[11px] font-mono px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400"
                       >
                         <Hash className="w-2.5 h-2.5 opacity-50" />
                         <span>{tag}</span>
@@ -121,7 +121,7 @@ export const Notes: React.FC = () => {
                 </div>
               </div>
             ) : (
-              <div className="py-24 text-center text-stone-400 font-mono text-xs">
+              <div className="py-24 text-center text-slate-400 font-mono text-xs">
                 请从左侧选择一条速记进行查看
               </div>
             )}

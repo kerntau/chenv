@@ -156,7 +156,7 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) =
     const flushList = (listKey: string) => {
       if (inList && listItems.length > 0) {
         elements.push(
-          <ul key={listKey} className="my-4 pl-6 space-y-1.5 list-disc text-stone-700 dark:text-stone-300">
+          <ul key={listKey} className="my-4 pl-6 space-y-1.5 list-disc text-slate-700 dark:text-slate-300">
             {listItems.map((item, idx) => (
               <li key={idx} className="leading-relaxed">
                 {renderInlineMarkdown(item)}
@@ -195,7 +195,7 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) =
             <h1
               id={id}
               key={`h1-${keyPrefix}-${idx}`}
-              className="scroll-mt-24 font-serif text-2xl sm:text-3xl font-semibold text-stone-900 dark:text-stone-100 mt-10 mb-4 tracking-tight"
+              className="scroll-mt-24 font-serif text-2xl sm:text-3xl font-semibold text-slate-900 dark:text-slate-100 mt-10 mb-4 tracking-tight"
             >
               {renderInlineMarkdown(text)}
             </h1>
@@ -205,7 +205,7 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) =
             <h2
               id={id}
               key={`h2-${keyPrefix}-${idx}`}
-              className="scroll-mt-24 font-serif text-xl sm:text-2xl font-semibold text-stone-900 dark:text-stone-100 mt-8 mb-3 tracking-tight border-b border-stone-200/60 dark:border-stone-800/60 pb-1.5"
+              className="scroll-mt-24 font-serif text-xl sm:text-2xl font-semibold text-slate-900 dark:text-slate-100 mt-8 mb-3 tracking-tight border-b border-slate-200/60 dark:border-slate-800/60 pb-1.5"
             >
               {renderInlineMarkdown(text)}
             </h2>
@@ -215,7 +215,7 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) =
             <h3
               id={id}
               key={`h3-${keyPrefix}-${idx}`}
-              className="scroll-mt-24 font-serif text-lg sm:text-xl font-medium text-stone-800 dark:text-stone-200 mt-6 mb-2"
+              className="scroll-mt-24 font-serif text-lg sm:text-xl font-medium text-slate-800 dark:text-slate-200 mt-6 mb-2"
             >
               {renderInlineMarkdown(text)}
             </h3>
@@ -225,7 +225,7 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) =
             <h4
               id={id}
               key={`h4-${keyPrefix}-${idx}`}
-              className="scroll-mt-24 font-serif text-base font-medium text-stone-800 dark:text-stone-200 mt-4 mb-2"
+              className="scroll-mt-24 font-serif text-base font-medium text-slate-800 dark:text-slate-200 mt-4 mb-2"
             >
               {renderInlineMarkdown(text)}
             </h4>
@@ -247,8 +247,8 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) =
       if (numListMatch) {
         flushList(`list-${keyPrefix}-${idx}`);
         elements.push(
-          <div key={`num-${keyPrefix}-${idx}`} className="my-2 flex items-start space-x-2 text-stone-700 dark:text-stone-300">
-            <span className="font-mono text-xs font-semibold text-stone-500 mt-1 min-w-[1.25rem]">
+          <div key={`num-${keyPrefix}-${idx}`} className="my-2 flex items-start space-x-2 text-slate-700 dark:text-slate-300">
+            <span className="font-mono text-xs font-semibold text-slate-500 mt-1 min-w-[1.25rem]">
               {line.match(/^\d+\./)?.[0]}
             </span>
             <div className="flex-1 leading-relaxed">
@@ -265,7 +265,7 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) =
       elements.push(
         <p
           key={`p-${keyPrefix}-${idx}`}
-          className="my-3.5 leading-relaxed text-stone-700 dark:text-stone-300 text-[1.02rem] tracking-wide"
+          className="my-3.5 leading-relaxed text-slate-700 dark:text-slate-300 text-[1.02rem] tracking-wide"
         >
           {renderInlineMarkdown(line)}
         </p>
@@ -302,7 +302,7 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) =
         return (
           <code
             key={index}
-            className="px-1.5 py-0.5 rounded text-xs font-mono bg-stone-200/60 dark:bg-stone-800/80 text-stone-800 dark:text-stone-200"
+            className="px-1.5 py-0.5 rounded text-xs font-mono bg-slate-200/60 dark:bg-slate-800/80 text-slate-800 dark:text-slate-200"
           >
             {part.slice(1, -1)}
           </code>
@@ -312,7 +312,7 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) =
       // 加粗 **...**
       if (part.startsWith('**') && part.endsWith('**') && part.length > 4) {
         return (
-          <strong key={index} className="font-semibold text-stone-900 dark:text-stone-100">
+          <strong key={index} className="font-semibold text-slate-900 dark:text-slate-100">
             {part.slice(2, -2)}
           </strong>
         );
@@ -327,7 +327,7 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) =
             href={linkMatch[2]}
             target={linkMatch[2].startsWith('http') ? '_blank' : '_self'}
             rel="noreferrer"
-            className="text-stone-900 dark:text-stone-100 underline underline-offset-4 decoration-stone-300 dark:decoration-stone-600 hover:decoration-stone-800 dark:hover:decoration-stone-200 transition-colors"
+            className="text-slate-900 dark:text-slate-100 underline underline-offset-4 decoration-slate-300 dark:decoration-slate-600 hover:decoration-slate-800 dark:hover:decoration-slate-200 transition-colors"
           >
             {linkMatch[1]}
           </a>
@@ -339,7 +339,7 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) =
   };
 
   return (
-    <article className="prose prose-paper max-w-none text-stone-800 dark:text-stone-200">
+    <article className="prose prose-paper max-w-none text-slate-800 dark:text-slate-200">
       {blocks.map((block, idx) => {
         switch (block.type) {
           case 'code':
@@ -361,7 +361,7 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) =
             return (
               <div
                 key={`math-${idx}`}
-                className="my-6 p-4 rounded-xl border border-stone-200/50 dark:border-stone-800/50 bg-stone-50/40 dark:bg-stone-900/30 overflow-x-auto text-center"
+                className="my-6 p-4 rounded-xl border border-slate-200/50 dark:border-slate-800/50 bg-slate-50/40 dark:bg-slate-900/30 overflow-x-auto text-center"
                 dangerouslySetInnerHTML={{ __html: html }}
               />
             );

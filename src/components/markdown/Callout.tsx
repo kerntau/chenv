@@ -19,10 +19,10 @@ export const Callout: React.FC<CalloutProps> = ({
       case 'warning':
         return <AlertTriangle className="w-4 h-4 text-rose-600 dark:text-rose-400 shrink-0 mt-0.5" />;
       case 'quote':
-        return <Quote className="w-4 h-4 text-stone-500 dark:text-stone-400 shrink-0 mt-0.5" />;
+        return <Quote className="w-4 h-4 text-slate-500 dark:text-slate-400 shrink-0 mt-0.5" />;
       case 'note':
       default:
-        return <Info className="w-4 h-4 text-stone-600 dark:text-stone-400 shrink-0 mt-0.5" />;
+        return <Info className="w-4 h-4 text-slate-600 dark:text-slate-400 shrink-0 mt-0.5" />;
     }
   };
 
@@ -33,26 +33,26 @@ export const Callout: React.FC<CalloutProps> = ({
       case 'warning':
         return 'border-l-rose-500/80 bg-rose-50/50 dark:bg-rose-950/20';
       case 'quote':
-        return 'border-l-stone-400/80 bg-stone-100/40 dark:bg-stone-900/40';
+        return 'border-l-slate-400/80 bg-slate-100/40 dark:bg-slate-900/40';
       case 'note':
       default:
-        return 'border-l-stone-400/70 bg-stone-50/60 dark:bg-[#18181B]/60';
+        return 'border-l-slate-400/70 bg-slate-50/60 dark:bg-[#18181B]/60';
     }
   };
 
   return (
     <div
-      className={`my-6 pl-4 pr-4 py-3.5 border-l-2 rounded-r-xl border-y border-r border-y-stone-200/50 border-r-stone-200/50 dark:border-y-stone-800/40 dark:border-r-stone-800/40 text-stone-700 dark:text-stone-300 ${getBorderColor()}`}
+      className={`my-6 pl-4 pr-4 py-3.5 border-l-2 rounded-r-xl border-y border-r border-y-slate-200/50 border-r-slate-200/50 dark:border-y-slate-800/40 dark:border-r-slate-800/40 text-slate-700 dark:text-slate-300 ${getBorderColor()}`}
     >
       <div className="flex items-start space-x-2.5">
         {getIcon()}
         <div className="flex-1 min-w-0">
           {title && (
-            <div className="font-sans text-sm font-semibold text-stone-800 dark:text-stone-200 mb-1">
+            <div className="font-sans text-sm font-semibold text-slate-800 dark:text-slate-200 mb-1">
               {title}
             </div>
           )}
-          <div className="text-sm font-sans leading-relaxed text-stone-600 dark:text-stone-300 font-normal">
+          <div className="text-sm font-sans leading-relaxed text-slate-600 dark:text-slate-300 font-normal">
             {children}
           </div>
         </div>

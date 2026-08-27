@@ -44,7 +44,7 @@ export const InneiHero: React.FC = () => {
             className="w-full h-full rounded-full object-cover shadow-[inset_0_0_0_1px_rgba(0,0,0,0.06)] dark:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08)]"
           />
           {/* 在线状态绿点 */}
-          <span className="absolute bottom-1 right-1 w-3.5 h-3.5 rounded-full bg-emerald-500 border-2 border-white dark:border-stone-900 shadow-sm" />
+          <span className="absolute bottom-1 right-1 w-3.5 h-3.5 rounded-full bg-emerald-500 border-2 border-white dark:border-slate-900 shadow-sm" />
         </div>
       </motion.div>
 
@@ -53,7 +53,7 @@ export const InneiHero: React.FC = () => {
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-        className="font-sans text-2xl sm:text-4xl lg:text-[2.6rem] font-normal leading-relaxed text-stone-900 dark:text-stone-100 tracking-tight"
+        className="font-sans text-2xl sm:text-4xl lg:text-[2.6rem] font-normal leading-relaxed text-slate-900 dark:text-slate-100 tracking-tight"
       >
         <span className="font-light opacity-80">Hi, I&apos;m </span>
         <span className="font-bold text-sky-700 dark:text-sky-400 tracking-tight transition-colors">
@@ -79,7 +79,7 @@ export const InneiHero: React.FC = () => {
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-        className="mt-4 max-w-2xl text-xs sm:text-sm tracking-wide text-stone-500 dark:text-stone-400 font-sans"
+        className="mt-4 max-w-2xl text-xs sm:text-sm tracking-wide text-slate-500 dark:text-slate-400 font-sans"
       >
         {siteConfig.description}
       </motion.p>
@@ -91,10 +91,10 @@ export const InneiHero: React.FC = () => {
         transition={{ duration: 0.5, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
         className="mt-8 text-center"
       >
-        <div className="max-w-[65ch] mx-auto font-sans text-xs sm:text-sm text-stone-500 dark:text-stone-400 font-normal">
+        <div className="max-w-[65ch] mx-auto font-sans text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-normal">
           「{siteConfig.subtitle}」
         </div>
-        <div className="mt-3 flex items-center justify-center gap-3 text-[11px] font-mono text-stone-400 dark:text-stone-500">
+        <div className="mt-3 flex items-center justify-center gap-3 text-[11px] font-mono text-slate-400 dark:text-slate-500">
           <span>{totalPosts} 篇文稿</span>
           <span>&bull;</span>
           <span>{totalWordsText}</span>
@@ -119,7 +119,7 @@ export const InneiHero: React.FC = () => {
               target={social.href.startsWith('http') ? '_blank' : '_self'}
               rel="noreferrer"
               aria-label={social.name}
-              className="flex items-center justify-center w-9 h-9 rounded-full text-stone-500 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 hover:bg-stone-200/60 dark:hover:bg-stone-800 transition-all duration-200 focus-visible:outline-none"
+              className="flex items-center justify-center w-9 h-9 rounded-full text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/60 dark:hover:bg-slate-800 transition-all duration-200 focus-visible:outline-none"
               title={social.name}
             >
               <Icon className="w-4 h-4" />

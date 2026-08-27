@@ -30,7 +30,7 @@ export const AbcjsBlock: React.FC<AbcjsBlockProps> = ({ abcNotation }) => {
           abcjs.renderAbc(targetElementId, abcNotation.trim(), {
             responsive: 'resize',
             add_classes: true,
-            foregroundColor: isDark ? '#E4E4E7' : '#292524',
+            foregroundColor: isDark ? '#E2E8F0' : '#0F172A',
           });
           setLoading(false);
         }
@@ -59,18 +59,18 @@ export const AbcjsBlock: React.FC<AbcjsBlockProps> = ({ abcNotation }) => {
   };
 
   return (
-    <div className="my-8 rounded-2xl border border-stone-200/80 dark:border-stone-800/80 bg-stone-50/70 dark:bg-[#18181B]/80 backdrop-blur-sm overflow-hidden">
+    <div className="my-8 rounded-2xl border border-slate-200/80 dark:border-slate-800/80 bg-slate-50/70 dark:bg-[#18181B]/80 backdrop-blur-sm overflow-hidden">
       {/* 顶部工具栏 */}
-      <div className="flex items-center justify-between px-4 py-2 bg-stone-100/70 dark:bg-[#202024]/70 border-b border-stone-200/60 dark:border-stone-800/80 text-xs text-stone-500 font-mono">
+      <div className="flex items-center justify-between px-4 py-2 bg-slate-100/70 dark:bg-[#202024]/70 border-b border-slate-200/60 dark:border-slate-800/80 text-xs text-slate-500 font-mono">
         <div className="flex items-center space-x-2">
-          <Music className="w-3.5 h-3.5 text-stone-600 dark:text-stone-400" />
-          <span className="font-medium text-stone-700 dark:text-stone-300">
+          <Music className="w-3.5 h-3.5 text-slate-600 dark:text-slate-400" />
+          <span className="font-medium text-slate-700 dark:text-slate-300">
             ABC NOTATION 乐谱渲染
           </span>
         </div>
         <button
           onClick={handleCopy}
-          className="flex items-center space-x-1 px-2 py-0.5 rounded hover:bg-stone-200/60 dark:hover:bg-stone-800 transition-colors"
+          className="flex items-center space-x-1 px-2 py-0.5 rounded hover:bg-slate-200/60 dark:hover:bg-slate-800 transition-colors"
           title="复制乐谱文本"
         >
           {copied ? (
@@ -90,8 +90,8 @@ export const AbcjsBlock: React.FC<AbcjsBlockProps> = ({ abcNotation }) => {
       {/* 乐谱画布 */}
       <div className="p-6 flex flex-col items-center justify-center overflow-x-auto min-h-[160px]">
         {loading && (
-          <div className="flex flex-col items-center justify-center space-y-2 text-stone-400 py-6">
-            <div className="w-5 h-5 border-2 border-stone-300 dark:border-stone-600 border-t-sky-600 rounded-full animate-spin" />
+          <div className="flex flex-col items-center justify-center space-y-2 text-slate-400 py-6">
+            <div className="w-5 h-5 border-2 border-slate-300 dark:border-slate-600 border-t-sky-600 rounded-full animate-spin" />
             <span className="text-xs font-mono">正在渲染五线谱...</span>
           </div>
         )}
