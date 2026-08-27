@@ -2,8 +2,6 @@ import React, { useState, useMemo } from 'react';
 import { Link } from 'wouter';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  FolderGit2,
-  Terminal,
   ChevronRight,
   Clock,
   Users,
@@ -19,7 +17,6 @@ import {
   siteConfig,
 } from '../../content';
 import { formatRelativeTime, formatDateShort } from '../../lib/date';
-import { GithubIcon } from '../ui/Icons';
 
 export interface NavPositionData {
   centerX: number;
@@ -43,7 +40,6 @@ const PANEL_WIDTHS: Record<string, number> = {
   '/diaries': 490,
   '/says': 390,
   '/friends': 450,
-  '/about': 460,
 };
 
 export const NavHoverPopover: React.FC<NavHoverPopoverProps> = ({
@@ -491,72 +487,6 @@ export const NavHoverPopover: React.FC<NavHoverPopoverProps> = ({
                   <span className="text-slate-400 dark:text-slate-500 text-[11px] font-mono">
                     欢迎交换友链
                   </span>
-                </div>
-              </div>
-            )}
-
-            {/* 5. 关于 (About) 悬浮面板 */}
-            {activeKey === '/about' && (
-              <div>
-                <div className="p-4 grid grid-cols-2 gap-2.5">
-                  <Link
-                    href="/about"
-                    onClick={onItemClick}
-                    className="p-3 rounded-sm paper-card group block"
-                  >
-                    <div className="flex items-center space-x-2 text-slate-800 dark:text-slate-200 group-hover:text-slate-950 dark:group-hover:text-white transition-colors font-semibold text-xs mb-1">
-                      <Terminal className="w-3.5 h-3.5" />
-                      <span>关于作者</span>
-                    </div>
-                    <p className="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-2 leading-relaxed">
-                      关于全栈开发、系统架构、工程经历与本站理念。
-                    </p>
-                  </Link>
-
-                  <Link
-                    href="/projects"
-                    onClick={onItemClick}
-                    className="p-3 rounded-sm paper-card group block"
-                  >
-                    <div className="flex items-center space-x-2 text-slate-800 dark:text-slate-200 group-hover:text-slate-950 dark:group-hover:text-white transition-colors font-semibold text-xs mb-1">
-                      <FolderGit2 className="w-3.5 h-3.5" />
-                      <span>项目工坊</span>
-                    </div>
-                    <p className="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-2 leading-relaxed">
-                      开源项目制品、安全工具与全栈架构实验。
-                    </p>
-                  </Link>
-
-                  <Link
-                    href="/friends"
-                    onClick={onItemClick}
-                    className="p-3 rounded-sm paper-card group block"
-                  >
-                    <div className="flex items-center space-x-2 text-slate-800 dark:text-slate-200 group-hover:text-slate-950 dark:group-hover:text-white transition-colors font-semibold text-xs mb-1">
-                      <Users className="w-3.5 h-3.5" />
-                      <span>志同道合</span>
-                    </div>
-                    <p className="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-2 leading-relaxed">
-                      共收录 {allFriends.length} 位博主朋友与技术同仁。
-                    </p>
-                  </Link>
-
-                  {siteConfig.author.github && (
-                    <a
-                      href={siteConfig.author.github}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="p-3 rounded-sm paper-card group block"
-                    >
-                      <div className="flex items-center space-x-2 text-slate-800 dark:text-slate-200 group-hover:text-slate-950 dark:group-hover:text-white transition-colors font-semibold text-xs mb-1">
-                        <GithubIcon className="w-3.5 h-3.5" />
-                        <span>GitHub</span>
-                      </div>
-                      <p className="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-2 leading-relaxed">
-                        查看个人开源代码仓库与 Commit 动态。
-                      </p>
-                    </a>
-                  )}
                 </div>
               </div>
             )}

@@ -57,6 +57,10 @@ export const Header: React.FC = () => {
   };
 
   const handleNavMouseEnter = (href: string, e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (href === '/' || href === '/about') {
+      setHoveredNav(null);
+      return;
+    }
     if (leaveTimerRef.current) {
       clearTimeout(leaveTimerRef.current);
       leaveTimerRef.current = null;
