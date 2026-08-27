@@ -42,7 +42,7 @@ export const Callout: React.FC<CalloutProps> = ({
 
   return (
     <div
-      className={`my-6 pl-4 pr-4 py-3.5 border-l-2 rounded-r-xl border-y border-r border-y-slate-200/50 border-r-slate-200/50 dark:border-y-slate-800/40 dark:border-r-slate-800/40 text-slate-700 dark:text-slate-300 ${getBorderColor()}`}
+      className={`my-6 pl-4 pr-4 py-3.5 border-l-2 rounded-r-sm border-y border-r border-y-slate-200/50 border-r-slate-200/50 dark:border-y-slate-800/40 dark:border-r-slate-800/40 text-slate-700 dark:text-slate-300 ${getBorderColor()}`}
     >
       <div className="flex items-start space-x-2.5">
         {getIcon()}

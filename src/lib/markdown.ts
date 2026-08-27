@@ -79,6 +79,12 @@ export function parseMarkdownFile(slug: string, rawContent: string): Post {
     toc,
     draft: Boolean(frontmatter.draft),
     coverImage: finalCoverImage,
+    cover: finalCoverImage,
+    images: Array.isArray(frontmatter.images)
+      ? frontmatter.images
+      : finalCoverImage
+      ? [finalCoverImage]
+      : [],
     recommend: typeof frontmatter.recommend === 'number' ? frontmatter.recommend : 0,
   };
 }

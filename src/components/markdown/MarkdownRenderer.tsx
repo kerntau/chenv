@@ -302,7 +302,7 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) =
         return (
           <code
             key={index}
-            className="px-1.5 py-0.5 rounded text-xs font-mono bg-slate-200/60 dark:bg-slate-800/80 text-slate-800 dark:text-slate-200"
+            className="px-1.5 py-0.5 rounded-sm text-xs font-mono bg-slate-200/60 dark:bg-slate-800/80 text-slate-800 dark:text-slate-200"
           >
             {part.slice(1, -1)}
           </code>
@@ -361,7 +361,7 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) =
             return (
               <div
                 key={`math-${idx}`}
-                className="my-6 p-4 rounded-xl border border-slate-200/50 dark:border-slate-800/50 bg-slate-50/40 dark:bg-slate-900/30 overflow-x-auto text-center"
+                className="my-6 p-3.5 rounded-sm border border-slate-200/50 dark:border-slate-800/50 bg-slate-50/40 dark:bg-slate-900/30 overflow-x-auto text-center"
                 dangerouslySetInnerHTML={{ __html: html }}
               />
             );

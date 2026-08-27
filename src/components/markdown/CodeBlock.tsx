@@ -45,7 +45,7 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
   };
 
   return (
-    <div className="my-6 rounded-xl overflow-hidden border border-slate-200/80 dark:border-slate-800 bg-slate-50/50 dark:bg-[#161618] text-sm transition-all duration-200">
+    <div className="my-6 rounded-sm overflow-hidden border border-slate-200/80 dark:border-slate-800 bg-slate-50/50 dark:bg-[#161618] text-sm transition-all duration-200">
       {/* 顶部工具条 */}
       <div className="flex items-center justify-between px-4 py-2 bg-slate-100/70 dark:bg-[#1a1a1e] border-b border-slate-200/60 dark:border-slate-800/80 text-xs text-slate-600 dark:text-slate-400 font-mono select-none">
         <div className="flex items-center space-x-2">
@@ -69,7 +69,7 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
           {isLong && (
             <button
               onClick={() => setIsExpanded(!isExpanded)}
-              className="flex items-center space-x-1 px-2 py-1 rounded hover:bg-slate-200/60 dark:hover:bg-slate-800 transition-colors"
+              className="flex items-center space-x-1 px-2 py-1 rounded-sm hover:bg-slate-200/60 dark:hover:bg-slate-800 transition-colors"
               title={isExpanded ? '折叠代码' : '展开代码'}
             >
               {isExpanded ? (
@@ -88,7 +88,7 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
 
           <button
             onClick={handleCopy}
-            className="flex items-center space-x-1 px-2.5 py-1 rounded hover:bg-slate-200/60 dark:hover:bg-slate-800 transition-colors text-slate-600 dark:text-slate-300"
+            className="flex items-center space-x-1 px-2.5 py-1 rounded-sm hover:bg-slate-200/60 dark:hover:bg-slate-800 transition-colors text-slate-600 dark:text-slate-300"
             title="复制代码"
           >
             {copied ? (

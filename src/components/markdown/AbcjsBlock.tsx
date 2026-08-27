@@ -59,7 +59,7 @@ export const AbcjsBlock: React.FC<AbcjsBlockProps> = ({ abcNotation }) => {
   };
 
   return (
-    <div className="my-8 rounded-2xl border border-slate-200/80 dark:border-slate-800/80 bg-slate-50/70 dark:bg-[#18181B]/80 backdrop-blur-sm overflow-hidden">
+    <div className="my-8 rounded-sm border border-slate-200/80 dark:border-slate-800/80 bg-slate-50/70 dark:bg-[#18181B]/80 backdrop-blur-sm overflow-hidden">
       {/* 顶部工具栏 */}
       <div className="flex items-center justify-between px-4 py-2 bg-slate-100/70 dark:bg-[#202024]/70 border-b border-slate-200/60 dark:border-slate-800/80 text-xs text-slate-500 font-mono">
         <div className="flex items-center space-x-2">
@@ -70,7 +70,7 @@ export const AbcjsBlock: React.FC<AbcjsBlockProps> = ({ abcNotation }) => {
         </div>
         <button
           onClick={handleCopy}
-          className="flex items-center space-x-1 px-2 py-0.5 rounded hover:bg-slate-200/60 dark:hover:bg-slate-800 transition-colors"
+          className="flex items-center space-x-1 px-2 py-0.5 rounded-sm hover:bg-slate-200/60 dark:hover:bg-slate-800 transition-colors"
           title="复制乐谱文本"
         >
           {copied ? (
@@ -97,7 +97,7 @@ export const AbcjsBlock: React.FC<AbcjsBlockProps> = ({ abcNotation }) => {
         )}
 
         {error && (
-          <div className="p-4 text-xs font-mono text-rose-700 dark:text-rose-400 bg-rose-50/50 dark:bg-rose-950/20 rounded-lg">
+          <div className="p-4 text-xs font-mono text-rose-700 dark:text-rose-400 bg-rose-50/50 dark:bg-rose-950/20 rounded-sm">
             {error}
           </div>
         )}
