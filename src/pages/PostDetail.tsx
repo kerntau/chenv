@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { useRoute, Link, useLocation } from 'wouter';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Container } from '../components/layout/Container';
@@ -8,6 +8,7 @@ import { TOC } from '../components/post/TOC';
 import { ReadingProgressBar } from '../components/post/ReadingProgressBar';
 import { getPostBySlug, getAllPosts, siteConfig } from '../content';
 import { formatDate } from '../lib/date';
+import { stripDuplicateHeading } from '../lib/markdown';
 import {
   Clock,
   Calendar,
@@ -30,6 +31,12 @@ export const PostDetail: React.FC = () => {
 
   const allPosts = useMemo(() => getAllPosts(), []);
   const post = useMemo(() => (slug ? getPostBySlug(slug) : null), [slug]);
+
+  useEffect(() => {
+    if (post?.title) {
+      document.title = `${post.title} · 序栈`;
+    }
+  }, [post?.title]);
 
   // 上一篇与下一篇导航计算
   const { prevPost, nextPost } = useMemo(() => {
@@ -54,19 +61,7 @@ export const PostDetail: React.FC = () => {
 
   // 过滤掉 Markdown 正文开头与文章大标题重复的首行 # 标题
   const cleanContent = useMemo(() => {
-    if (!post?.content) return '';
-    const trimmed = post.content.trim();
-    if (trimmed.startsWith('# ')) {
-      const lines = trimmed.split('\n');
-      const firstHeading = lines[0].replace(/^#\s+/, '').trim();
-      if (
-        firstHeading === post.title.trim() ||
-        firstHeading.toLowerCase() === post.title.trim().toLowerCase()
-      ) {
-        return lines.slice(1).join('\n').trim();
-      }
-    }
-    return post.content;
+    return stripDuplicateHeading(post?.content || '', post?.title);
   }, [post?.content, post?.title]);
 
   // 真实封面背景图智能解析（优先读取文章 frontmatter 的 images/cover/coverImage，若缺失则按技术分类匹配高清水彩/科技大图）

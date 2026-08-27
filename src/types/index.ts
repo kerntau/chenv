@@ -67,22 +67,11 @@ export interface SiteConfig {
     copyright: string;
     sinceYear: number;
     customText: string;
+    icp?: string;
   };
   seo?: {
     keywords: string[];
   };
-}
-
-export interface Note {
-  id: string;
-  slug: string;
-  title: string;
-  date: string;
-  category: string;
-  tags: string[];
-  summary: string;
-  content: string;
-  readingTime: string;
 }
 
 export interface Diary {
@@ -101,6 +90,16 @@ export interface Diary {
   wordCount: number;
 }
 
+export interface RecordItem {
+  id: number | string;
+  content: string;
+  likes?: number;
+  mood?: string;
+  location?: string;
+  createTime: number | string;
+  author?: string;
+}
+
 export interface SearchItem {
   id: string;
   title: string;
@@ -108,7 +107,7 @@ export interface SearchItem {
   category: string;
   tags: string[];
   slug: string;
-  type: 'post' | 'note' | 'diary';
+  type: 'post' | 'diary';
   date: string;
 }
 

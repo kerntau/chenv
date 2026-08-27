@@ -1,5 +1,5 @@
 import { parseMarkdownFile, parseDiaryFile } from '../lib/markdown';
-import type { Post, Note, Diary, SearchItem, FriendItem, SiteConfig } from '../types';
+import type { Post, Diary, SearchItem, FriendItem, SiteConfig, RecordItem } from '../types';
 import siteConfigJson from './config/site.config.json';
 import friendsJson from './pages/friends.json';
 import recordsJson from './records/records.json';
@@ -83,14 +83,6 @@ export function getDiaryBySlug(slug: string): Diary | null {
   return parseDiaryFile(slug, raw);
 }
 
-export function getAllNotes(): Note[] {
-  return [];
-}
-
-export function getNoteBySlug(_slug: string): Note | null {
-  return null;
-}
-
 export function getAllFriends(): FriendItem[] {
   return (friendsJson as any[]).map((item) => ({
     id: item.id,
@@ -104,8 +96,8 @@ export function getAllFriends(): FriendItem[] {
   }));
 }
 
-export function getAllRecords(): any[] {
-  return recordsJson as any[];
+export function getAllRecords(): RecordItem[] {
+  return recordsJson as RecordItem[];
 }
 
 export function getAllTags(): { name: string; count: number }[] {

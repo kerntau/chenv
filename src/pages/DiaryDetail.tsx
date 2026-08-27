@@ -5,6 +5,7 @@ import { MarkdownRenderer } from '../components/markdown/MarkdownRenderer';
 import { ReadingProgressBar } from '../components/post/ReadingProgressBar';
 import { getDiaryBySlug, getAllDiaries, siteConfig } from '../content';
 import { formatDate } from '../lib/date';
+import { stripDuplicateHeading } from '../lib/markdown';
 import {
   Calendar,
   Clock,
@@ -32,6 +33,12 @@ export const DiaryDetail: React.FC = () => {
 
   const allDiaries = useMemo(() => getAllDiaries(), []);
   const diary = useMemo(() => (slug ? getDiaryBySlug(slug) : null), [slug]);
+
+  React.useEffect(() => {
+    if (diary?.title) {
+      document.title = `${diary.title} · 序栈`;
+    }
+  }, [diary?.title]);
 
   // 上一篇与下一篇手记导航
   const { prevDiary, nextDiary } = useMemo(() => {
@@ -63,19 +70,7 @@ export const DiaryDetail: React.FC = () => {
 
   // 过滤掉 Markdown 正文开头与标题重复的首行 # 标题
   const cleanContent = useMemo(() => {
-    if (!diary?.content) return '';
-    const trimmed = diary.content.trim();
-    if (trimmed.startsWith('# ')) {
-      const lines = trimmed.split('\n');
-      const firstHeading = lines[0].replace(/^#\s+/, '').trim();
-      if (
-        firstHeading === diary.title.trim() ||
-        firstHeading.toLowerCase() === diary.title.trim().toLowerCase()
-      ) {
-        return lines.slice(1).join('\n').trim();
-      }
-    }
-    return diary.content;
+    return stripDuplicateHeading(diary?.content || '', diary?.title);
   }, [diary?.content, diary?.title]);
 
   if (!diary) {

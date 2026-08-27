@@ -8,36 +8,20 @@
 @layer base {
   :root {
     --bg-paper: #F3F7FC;
-    --bg-paper-subtle: #E8F1F9;
     --card-paper: rgba(255, 255, 255, 0.88);
     --card-paper-hover: rgba(255, 255, 255, 0.98);
     --text-main: #1E293B;
-    --text-muted: #64748B;
-    --text-faint: #94A3B8;
     --border-paper: rgba(203, 219, 235, 0.75);
-    --border-paper-subtle: rgba(203, 219, 235, 0.45);
-    --color-accent: #0284C7;
-    --accent-sky: #0284C7;
-    --accent-sky-subtle: #E0F2FE;
-    --accent-slate: #334155;
     --selection-bg: #DCEAF8;
     --selection-text: #0369A1;
   }
 
   .dark {
     --bg-paper: #0B111A;
-    --bg-paper-subtle: #101826;
     --card-paper: rgba(18, 27, 44, 0.82);
     --card-paper-hover: rgba(24, 36, 58, 0.92);
     --text-main: #F1F5F9;
-    --text-muted: #94A3B8;
-    --text-faint: #64748B;
     --border-paper: rgba(56, 78, 108, 0.6);
-    --border-paper-subtle: rgba(56, 78, 108, 0.35);
-    --color-accent: #38BDF8;
-    --accent-sky: #38BDF8;
-    --accent-sky-subtle: rgba(56, 189, 248, 0.14);
-    --accent-slate: #CBD5E1;
     --selection-bg: #1E3A5F;
     --selection-text: #F0F9FF;
   }
@@ -111,10 +95,6 @@
     background-size: 24px 24px;
   }
 
-  .paper-border {
-    border-color: var(--border-paper);
-  }
-
   .paper-card {
     background-color: var(--card-paper);
     backdrop-filter: blur(16px);
@@ -143,34 +123,6 @@
       0 14px 32px -6px rgba(0, 0, 0, 0.65),
       0 0 24px -4px rgba(56, 189, 248, 0.16),
       0 2px 8px -2px rgba(0, 0, 0, 0.4);
-  }
-
-  .frosted-glass {
-    background-color: rgba(243, 247, 252, 0.82);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-  }
-
-  .dark .frosted-glass {
-    background-color: rgba(11, 17, 26, 0.82);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-  }
-
-  .floating-pill {
-    background-color: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(203, 219, 235, 0.8);
-    box-shadow: 0 4px 20px -2px rgba(186, 215, 245, 0.2), 0 2px 6px -1px rgba(0, 0, 0, 0.02);
-  }
-
-  .dark .floating-pill {
-    background-color: rgba(18, 27, 44, 0.85);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(56, 78, 108, 0.7);
-    box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.35), 0 2px 6px -1px rgba(0, 0, 0, 0.2);
   }
 
   /* 高端出版级自然温润纸质大板 (Natural Muted Editorial Paper Sheet) */
@@ -229,18 +181,6 @@
 }
 
 /* 随和舒缓的动态背景关键帧动画 */
-@keyframes ambientDriftA {
-  0%, 100% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-  33% {
-    transform: translate3d(40px, -35px, 0) scale(1.08);
-  }
-  66% {
-    transform: translate3d(-30px, 25px, 0) scale(0.94);
-  }
-}
-
 @keyframes ambientDriftB {
   0%, 100% {
     transform: translate3d(0, 0, 0) scale(1);
@@ -250,28 +190,6 @@
   }
   66% {
     transform: translate3d(30px, -40px, 0) scale(0.92);
-  }
-}
-
-@keyframes ambientDriftC {
-  0%, 100% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-  50% {
-    transform: translate3d(30px, 35px, 0) scale(1.1);
-  }
-}
-
-/* Innei 标志性 AI Shimmer 动画 */
-@keyframes aiShimmerLoop {
-  0% {
-    background-position: 0 0, 100% 0;
-  }
-  42% {
-    background-position: 0 0, 0% 0;
-  }
-  100% {
-    background-position: 0 0, 0% 0;
   }
 }
 

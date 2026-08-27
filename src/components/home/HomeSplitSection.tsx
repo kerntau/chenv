@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'wouter';
 import { getAllPosts, getAllDiaries, getAllRecords } from '../../content';
-import { formatDateShort } from '../../lib/date';
+import { formatDateShort, formatDateTime } from '../../lib/date';
 import { PostCard } from '../post/PostCard';
 import {
   FileText,
@@ -13,19 +13,6 @@ export const HomeSplitSection: React.FC = () => {
   const posts = getAllPosts().slice(0, 6); // 展示 6 篇精选文章 (3列x2行)
   const diaries = getAllDiaries().slice(0, 4); // 4 则手记
   const records = getAllRecords().slice(0, 3); // 3 条动态
-
-  const formatRecordDate = (timestamp: number | string) => {
-    if (!timestamp) return '';
-    const d = new Date(
-      typeof timestamp === 'number' ? timestamp : Number(timestamp) || timestamp
-    );
-    if (isNaN(d.getTime())) return String(timestamp);
-    const month = String(d.getMonth() + 1).padStart(2, '0');
-    const day = String(d.getDate()).padStart(2, '0');
-    const hour = String(d.getHours()).padStart(2, '0');
-    const min = String(d.getMinutes()).padStart(2, '0');
-    return `${month}-${day} ${hour}:${min}`;
-  };
 
   return (
     <section className="mt-16 sm:mt-20 mb-2 sm:mb-4 w-full font-sans">
@@ -147,7 +134,7 @@ export const HomeSplitSection: React.FC = () => {
                     className="p-2.5 rounded-sm paper-card space-y-1 transition-all"
                   >
                     <div className="flex items-center justify-between text-[10.5px] font-mono text-slate-400 dark:text-slate-500">
-                      <span>{formatRecordDate(rec.date || rec.createdAt)}</span>
+                      <span>{formatDateTime(rec.createTime)}</span>
                       {rec.mood && (
                         <span className="px-1.5 py-0.2 rounded-sm bg-emerald-50/80 dark:bg-emerald-950/30 text-emerald-700/80 dark:text-emerald-400/80 text-[9.5px] font-sans">
                           {rec.mood}

@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { Container } from '../components/layout/Container';
 import { PageShell } from '../components/layout/PageShell';
-import { Users, ArrowUpRight, Sparkles, Search, X } from 'lucide-react';
+import { Users, Sparkles, Search, X } from 'lucide-react';
 import { getAllFriends, siteConfig } from '../content';
 import type { FriendItem } from '../types';
 

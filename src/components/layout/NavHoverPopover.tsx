@@ -4,9 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   ChevronRight,
   Clock,
-  Users,
   ArrowUpRight,
-  History,
 } from 'lucide-react';
 import {
   getAllPosts,
@@ -14,7 +12,6 @@ import {
   getAllDiaries,
   getAllRecords,
   getAllFriends,
-  siteConfig,
 } from '../../content';
 import { formatRelativeTime, formatDateShort } from '../../lib/date';
 
@@ -405,7 +402,7 @@ export const NavHoverPopover: React.FC<NavHoverPopoverProps> = ({
                           {record.content}
                         </p>
                         <div className="mt-1.5 flex items-center justify-between text-[10px] font-mono text-slate-400">
-                          <span>{formatRelativeTime(record.createTime || record.date)}</span>
+                          <span>{formatRelativeTime(String(record.createTime))}</span>
                           {record.mood && (
                             <span className="px-1.5 py-0.5 rounded-sm bg-sky-50 dark:bg-sky-950/40 text-sky-600 dark:text-sky-400 border border-sky-200/40 dark:border-sky-800/40">
                               {record.mood}

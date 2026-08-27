@@ -5,8 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "rsbuild dev --open",
-    "build": "rsbuild build",
+    "build": "tsc --noEmit && rsbuild build",
     "preview": "rsbuild preview",
+    "typecheck": "tsc --noEmit",
     "detect:friends": "node scripts/detect-friends.mjs"
   },
   "dependencies": {
@@ -29,7 +30,6 @@
   "devDependencies": {
     "@rsbuild/core": "^1.2.14",
     "@rsbuild/plugin-react": "^1.1.1",
-    "@rsbuild/plugin-type-check": "^1.1.1",
     "@tailwindcss/typography": "^0.5.16",
     "@types/katex": "^0.16.7",
     "@types/node": "^22.13.5",

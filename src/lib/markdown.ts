@@ -110,3 +110,20 @@ export function parseDiaryFile(slug: string, rawContent: string): Diary {
     wordCount,
   };
 }
+
+export function stripDuplicateHeading(content: string, title?: string): string {
+  if (!content) return '';
+  const trimmed = content.trim();
+  if (trimmed.startsWith('# ')) {
+    const lines = trimmed.split('\n');
+    const firstHeading = lines[0].replace(/^#\s+/, '').trim();
+    if (
+      !title ||
+      firstHeading === title.trim() ||
+      firstHeading.toLowerCase() === title.trim().toLowerCase()
+    ) {
+      return lines.slice(1).join('\n').trim();
+    }
+  }
+  return content;
+}

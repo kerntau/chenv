@@ -10,26 +10,26 @@ export const Footer: React.FC = () => {
   const { theme, setTheme } = useTheme();
 
   return (
-    <footer className="relative z-10 mt-4 sm:mt-6 border-t border-slate-200/70 dark:border-slate-800/70 pt-6 pb-6 text-xs font-sans text-slate-600 dark:text-slate-400 select-none bg-slate-50/40 dark:bg-slate-900/20">
+    <footer className="relative z-10 mt-6 border-t border-slate-200/60 dark:border-slate-800/60 pt-6 pb-6 text-xs font-sans text-slate-600 dark:text-slate-400 select-none">
       <div className="max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
         
         {/* 上层: 左侧站名标语与版权，右侧多列导航 */}
-        <div className="flex flex-col md:flex-row md:items-start justify-between gap-8 sm:gap-12">
+        <div className="flex flex-col md:flex-row md:items-start justify-between gap-6 sm:gap-8">
           {/* 左侧区域 */}
-          <div className="space-y-2.5 max-w-sm">
-            <h3 className="font-sans font-bold text-xl sm:text-2xl text-slate-900 dark:text-slate-100 tracking-tight">
+          <div className="space-y-1.5 max-w-sm">
+            <h3 className="font-sans font-bold text-base sm:text-lg text-slate-900 dark:text-slate-100 tracking-tight">
               {siteConfig.author?.name || siteConfig.title}
             </h3>
-            <p className="italic text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-serif leading-relaxed">
+            <p className="italic text-xs text-slate-500 dark:text-slate-400 font-serif leading-relaxed">
               Stay hungry. Stay foolish.
             </p>
-            <div className="text-[11.5px] text-slate-500 dark:text-slate-400 font-mono leading-relaxed pt-0.5">
+            <div className="text-[11px] text-slate-400 dark:text-slate-500 font-mono leading-relaxed pt-0.5">
               <span>&copy; {sinceYear}-{currentYear} Powered by </span>
               <a
                 href="https://rsbuild.dev"
                 target="_blank"
                 rel="noreferrer"
-                className="hover:text-slate-900 dark:hover:text-slate-100 underline decoration-slate-300 dark:decoration-slate-700 underline-offset-2 transition-colors"
+                className="hover:text-slate-700 dark:hover:text-slate-300 underline decoration-slate-300 dark:decoration-slate-700 underline-offset-2 transition-colors"
               >
                 Rsbuild
               </a>
@@ -38,7 +38,7 @@ export const Footer: React.FC = () => {
                 href="https://react.dev"
                 target="_blank"
                 rel="noreferrer"
-                className="hover:text-slate-900 dark:hover:text-slate-100 underline decoration-slate-300 dark:decoration-slate-700 underline-offset-2 transition-colors"
+                className="hover:text-slate-700 dark:hover:text-slate-300 underline decoration-slate-300 dark:decoration-slate-700 underline-offset-2 transition-colors"
               >
                 React 19
               </a>
@@ -47,13 +47,13 @@ export const Footer: React.FC = () => {
           </div>
 
           {/* 右侧导航列 (3 列) */}
-          <div className="grid grid-cols-3 gap-8 sm:gap-14 md:gap-16 pt-1">
+          <div className="grid grid-cols-3 gap-6 sm:gap-10 pt-0.5">
             {/* 1. 关于 */}
-            <div className="space-y-2.5">
-              <div className="font-mono text-xs font-semibold text-slate-900 dark:text-slate-200">
+            <div className="space-y-2">
+              <div className="font-mono text-[11px] font-medium text-slate-400 dark:text-slate-500 uppercase tracking-wider">
                 关于
               </div>
-              <ul className="space-y-2 text-[12px]">
+              <ul className="space-y-1.5 text-xs">
                 <li>
                   <Link
                     href="/about"
@@ -78,18 +78,18 @@ export const Footer: React.FC = () => {
                     className="group inline-flex items-center hover:text-slate-900 dark:hover:text-slate-100 transition-colors"
                   >
                     <span>关于此项目</span>
-                    <ArrowUpRight className="w-3 h-3 ml-0.5 text-slate-400 group-hover:text-slate-800 dark:group-hover:text-slate-200 transition-colors" />
+                    <ArrowUpRight className="w-3 h-3 ml-0.5 text-slate-400 group-hover:text-slate-700 dark:group-hover:text-slate-300 transition-colors" />
                   </a>
                 </li>
               </ul>
             </div>
 
             {/* 2. 更多 */}
-            <div className="space-y-2.5">
-              <div className="font-mono text-xs font-semibold text-slate-900 dark:text-slate-200">
+            <div className="space-y-2">
+              <div className="font-mono text-[11px] font-medium text-slate-400 dark:text-slate-500 uppercase tracking-wider">
                 更多
               </div>
-              <ul className="space-y-2 text-[12px]">
+              <ul className="space-y-1.5 text-xs">
                 <li>
                   <Link
                     href="/diaries"
@@ -118,18 +118,18 @@ export const Footer: React.FC = () => {
             </div>
 
             {/* 3. 联系 */}
-            <div className="space-y-2.5">
-              <div className="font-mono text-xs font-semibold text-slate-900 dark:text-slate-200">
+            <div className="space-y-2">
+              <div className="font-mono text-[11px] font-medium text-slate-400 dark:text-slate-500 uppercase tracking-wider">
                 联系
               </div>
-              <ul className="space-y-2 text-[12px]">
+              <ul className="space-y-1.5 text-xs">
                 <li>
                   <a
                     href={`mailto:${siteConfig.author?.email || 'hi@keru.in'}`}
                     className="group inline-flex items-center hover:text-slate-900 dark:hover:text-slate-100 transition-colors"
                   >
                     <span>发邮件</span>
-                    <ArrowUpRight className="w-3 h-3 ml-0.5 text-slate-400 group-hover:text-slate-800 dark:group-hover:text-slate-200 transition-colors" />
+                    <ArrowUpRight className="w-3 h-3 ml-0.5 text-slate-400 group-hover:text-slate-700 dark:group-hover:text-slate-300 transition-colors" />
                   </a>
                 </li>
                 <li>
@@ -140,7 +140,7 @@ export const Footer: React.FC = () => {
                     className="group inline-flex items-center hover:text-slate-900 dark:hover:text-slate-100 transition-colors"
                   >
                     <span>GitHub</span>
-                    <ArrowUpRight className="w-3 h-3 ml-0.5 text-slate-400 group-hover:text-slate-800 dark:group-hover:text-slate-200 transition-colors" />
+                    <ArrowUpRight className="w-3 h-3 ml-0.5 text-slate-400 group-hover:text-slate-700 dark:group-hover:text-slate-300 transition-colors" />
                   </a>
                 </li>
                 <li>
@@ -157,31 +157,31 @@ export const Footer: React.FC = () => {
         </div>
 
         {/* 下层: 底部单行底栏 */}
-        <div className="pt-6 border-t border-slate-200/60 dark:border-slate-800/60 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11.5px] font-mono text-slate-500 dark:text-slate-400">
+        <div className="pt-4 border-t border-slate-200/50 dark:border-slate-800/50 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] font-mono text-slate-400 dark:text-slate-500">
           {/* 左侧: RSS 订阅 · 站点地图 · 主题切换器 · 语言 */}
-          <div className="flex flex-wrap items-center justify-center sm:justify-start gap-x-2.5 gap-y-1.5">
+          <div className="flex flex-wrap items-center justify-center sm:justify-start gap-x-2 gap-y-1">
             <Link
               href="/posts"
-              className="hover:text-slate-900 dark:hover:text-slate-100 transition-colors"
+              className="hover:text-slate-700 dark:hover:text-slate-300 transition-colors"
             >
               RSS 订阅
             </Link>
             <span className="text-slate-300 dark:text-slate-700">&bull;</span>
             <Link
               href="/archives"
-              className="hover:text-slate-900 dark:hover:text-slate-100 transition-colors"
+              className="hover:text-slate-700 dark:hover:text-slate-300 transition-colors"
             >
               站点地图
             </Link>
             <span className="text-slate-300 dark:text-slate-700">&bull;</span>
             <Link
               href="/friends"
-              className="hover:text-slate-900 dark:hover:text-slate-100 transition-colors"
+              className="hover:text-slate-700 dark:hover:text-slate-300 transition-colors"
             >
               订阅
             </Link>
 
-            <span className="text-slate-300 dark:text-slate-700 px-1">|</span>
+            <span className="text-slate-300 dark:text-slate-700 px-0.5">|</span>
 
             {/* 主题切换器 */}
             <div className="inline-flex items-center space-x-1.5">
@@ -189,7 +189,7 @@ export const Footer: React.FC = () => {
                 onClick={() => setTheme('light')}
                 className={`hover:text-slate-900 dark:hover:text-slate-100 transition-colors ${
                   theme === 'light'
-                    ? 'font-bold text-slate-900 dark:text-slate-100 underline underline-offset-4 decoration-sky-500'
+                    ? 'font-semibold text-slate-800 dark:text-slate-200 underline underline-offset-4 decoration-sky-500'
                     : 'text-slate-400 dark:text-slate-500'
                 }`}
               >
@@ -200,7 +200,7 @@ export const Footer: React.FC = () => {
                 onClick={() => setTheme('system')}
                 className={`hover:text-slate-900 dark:hover:text-slate-100 transition-colors ${
                   theme === 'system'
-                    ? 'font-bold text-slate-900 dark:text-slate-100 underline underline-offset-4 decoration-sky-500'
+                    ? 'font-semibold text-slate-800 dark:text-slate-200 underline underline-offset-4 decoration-sky-500'
                     : 'text-slate-400 dark:text-slate-500'
                 }`}
               >
@@ -211,7 +211,7 @@ export const Footer: React.FC = () => {
                 onClick={() => setTheme('dark')}
                 className={`hover:text-slate-900 dark:hover:text-slate-100 transition-colors ${
                   theme === 'dark'
-                    ? 'font-bold text-slate-900 dark:text-slate-100 underline underline-offset-4 decoration-sky-500'
+                    ? 'font-semibold text-slate-800 dark:text-slate-200 underline underline-offset-4 decoration-sky-500'
                     : 'text-slate-400 dark:text-slate-500'
                 }`}
               >
@@ -219,10 +219,10 @@ export const Footer: React.FC = () => {
               </button>
             </div>
 
-            <span className="text-slate-300 dark:text-slate-700 px-1">|</span>
+            <span className="text-slate-300 dark:text-slate-700 px-0.5">|</span>
 
             {/* 语言提示 */}
-            <span className="text-slate-500 dark:text-slate-400">
+            <span className="text-slate-400 dark:text-slate-500">
               简体中文
             </span>
           </div>

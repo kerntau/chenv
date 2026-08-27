@@ -7,10 +7,8 @@ import { Home } from './pages/Home';
 import { Posts } from './pages/Posts';
 import { PostDetail } from './pages/PostDetail';
 import { Archives } from './pages/Archives';
-import { Notes } from './pages/Notes';
 import { Diaries } from './pages/Diaries';
 import { DiaryDetail } from './pages/DiaryDetail';
-import { Projects } from './pages/Projects';
 import { Says } from './pages/Says';
 import { Friends } from './pages/Friends';
 import { About } from './pages/About';
@@ -19,9 +17,27 @@ import { NotFound } from './pages/NotFound';
 export const App: React.FC = () => {
   const [location] = useLocation();
 
-  // 路由跳转时平滑回滚至顶部
+  // 路由跳转时平滑回滚至顶部并动态更新浏览器标签标题
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    if (location === '/' || location === '') {
+      document.title = '序栈';
+    } else if (location.startsWith('/posts') || location.startsWith('/article')) {
+      document.title = '文章 · 序栈';
+    } else if (location.startsWith('/archives') || location.startsWith('/timeline')) {
+      document.title = '归档 · 序栈';
+    } else if (location.startsWith('/diaries') || location.startsWith('/journal') || location.startsWith('/shouji')) {
+      document.title = '手记 · 序栈';
+    } else if (location.startsWith('/says') || location.startsWith('/record')) {
+      document.title = '说说 · 序栈';
+    } else if (location.startsWith('/friends') || location.startsWith('/friend')) {
+      document.title = '友链 · 序栈';
+    } else if (location.startsWith('/about') || location.startsWith('/my')) {
+      document.title = '关于 · 序栈';
+    } else {
+      document.title = '序栈';
+    }
   }, [location]);
 
   return (
@@ -44,9 +60,6 @@ export const App: React.FC = () => {
           <Route path="/journal/:slug" component={DiaryDetail} />
           <Route path="/shouji" component={Diaries} />
           <Route path="/shouji/:slug" component={DiaryDetail} />
-          <Route path="/notes" component={Notes} />
-          <Route path="/notes/:slug" component={Notes} />
-          <Route path="/projects" component={Projects} />
           <Route path="/says" component={Says} />
           <Route path="/record" component={Says} />
           <Route path="/friends" component={Friends} />

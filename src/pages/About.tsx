@@ -5,10 +5,7 @@ import {
   Terminal,
   Layers,
   Sparkles,
-  Mail,
-  Compass,
 } from 'lucide-react';
-import { GithubIcon } from '../components/ui/Icons';
 import {
   GoIcon,
   RustIcon,
@@ -190,43 +187,15 @@ export const About: React.FC = () => {
         </div>
 
         {/* 博客设计与致谢区块（去卡片化） */}
-        <div className="space-y-3 pt-6 border-t border-slate-200/60 dark:border-slate-800/60">
+        <div className="space-y-2 pt-6 border-t border-slate-200/60 dark:border-slate-800/60 pb-2">
           <div className="flex items-center space-x-2 text-slate-900 dark:text-slate-100 font-serif font-semibold text-base sm:text-lg">
             <Sparkles className="w-4 h-4 text-sky-600 dark:text-sky-400" />
             <h2>关于本站与设计理念</h2>
           </div>
 
-          <div className="space-y-2 text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed font-sans max-w-2xl">
-            <p>
-              本博客旨在打造具有纸质温度与现代极速性能的个人数字空间，摒弃过度装饰，让每一行技术文字如同落于宣纸之上自然呼吸。
-            </p>
-          </div>
-
-          <div className="pt-3 flex flex-wrap items-center justify-between text-xs text-slate-500 font-mono gap-3">
-            <div className="flex items-center space-x-2">
-              <Compass className="w-3.5 h-3.5" />
-              <span>纯静态构建 (SSG Ready) &bull; Rsbuild + React 19</span>
-            </div>
-            <div className="flex items-center space-x-3">
-              <a
-                href={siteConfig.author.github || 'https://github.com/kerntau'}
-                target="_blank"
-                rel="noreferrer"
-                className="hover:text-slate-800 dark:hover:text-slate-200 flex items-center space-x-1"
-              >
-                <GithubIcon className="w-3.5 h-3.5" />
-                <span>GitHub</span>
-              </a>
-              <span className="text-slate-300 dark:text-slate-700">|</span>
-              <a
-                href={`mailto:${siteConfig.author.email || 'hi@keru.in'}`}
-                className="hover:text-slate-800 dark:hover:text-slate-200 flex items-center space-x-1"
-              >
-                <Mail className="w-3.5 h-3.5" />
-                <span>Email</span>
-              </a>
-            </div>
-          </div>
+          <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed font-sans max-w-2xl">
+            本博客旨在打造具有纸质温度与现代极速性能的个人数字空间，摒弃过度装饰，让每一行技术文字如同落于宣纸之上自然呼吸。
+          </p>
         </div>
       </Container>
     </PageShell>

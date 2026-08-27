@@ -3,6 +3,7 @@ import { Container } from '../components/layout/Container';
 import { PageShell } from '../components/layout/PageShell';
 import { MessageSquareQuote, Heart, MapPin } from 'lucide-react';
 import { getAllRecords } from '../content';
+import { formatDateTime } from '../lib/date';
 
 export const Says: React.FC = () => {
   const records = getAllRecords();
@@ -19,18 +20,6 @@ export const Says: React.FC = () => {
       ...prev,
       [id]: (prev[id] || 0) + 1,
     }));
-  };
-
-  const formatDate = (timestamp: number | string) => {
-    if (!timestamp) return '';
-    const d = new Date(typeof timestamp === 'number' ? timestamp : Number(timestamp) || timestamp);
-    if (isNaN(d.getTime())) return String(timestamp);
-    const year = d.getFullYear();
-    const month = String(d.getMonth() + 1).padStart(2, '0');
-    const day = String(d.getDate()).padStart(2, '0');
-    const hour = String(d.getHours()).padStart(2, '0');
-    const min = String(d.getMinutes()).padStart(2, '0');
-    return `${year}-${month}-${day} ${hour}:${min}`;
   };
 
   return (
@@ -69,7 +58,7 @@ export const Says: React.FC = () => {
                     </span>
                   )}
                 </div>
-                <span>{formatDate(record.createdAt)}</span>
+                <span>{formatDateTime(record.createTime)}</span>
               </div>
 
               {/* 内容 */}
