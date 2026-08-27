@@ -1,29 +1,33 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link, useLocation } from 'wouter';
 import { motion, LayoutGroup } from 'framer-motion';
 import {
-  Search,
-  Sun,
-  Moon,
-  Menu,
-  X,
   Home as HomeIcon,
-  BookOpen,
-  PenTool,
-  Sparkles,
+  FileText,
+  History,
+  Feather,
+  MessageSquareQuote,
   Users,
-  MoreHorizontal,
+  User,
 } from 'lucide-react';
-import { useTheme } from '../../hooks/useTheme';
 import { SearchModal } from '../search/SearchModal';
 import { NavHoverPopover } from './NavHoverPopover';
-import { siteConfig } from '../../content';
 
 export const Header: React.FC = () => {
   const [location] = useLocation();
-  const { isDark, toggleTheme } = useTheme();
   const [searchOpen, setSearchOpen] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // 全局快捷键 ⌘K / Ctrl+K 唤起搜索
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        setSearchOpen((prev) => !prev);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   // 导航项 Hover 悬浮联动状态
   const [hoveredNav, setHoveredNav] = useState<string | null>(null);
@@ -39,11 +43,12 @@ export const Header: React.FC = () => {
 
   const navLinks = [
     { href: '/', label: '首页', icon: HomeIcon },
-    { href: '/posts', label: '文稿', icon: BookOpen },
-    { href: '/diaries', label: '手记', icon: PenTool },
-    { href: '/says', label: '动态', icon: Sparkles },
+    { href: '/posts', label: '文稿', icon: FileText },
+    { href: '/archives', label: '归档', icon: History },
+    { href: '/diaries', label: '手记', icon: Feather },
+    { href: '/says', label: '动态', icon: MessageSquareQuote },
     { href: '/friends', label: '朋友', icon: Users },
-    { href: '/about', label: '更多', icon: MoreHorizontal },
+    { href: '/about', label: '关于', icon: User },
   ];
 
   const isActive = (href: string) => {
@@ -99,33 +104,16 @@ export const Header: React.FC = () => {
   return (
     <>
       <header className="sticky top-0 z-40 w-full px-4 sm:px-6 pt-3.5 pb-2 pointer-events-none font-sans">
-        {/* 桌面端绝对对称居中容器 */}
-        <div className="max-w-4xl mx-auto relative flex items-center justify-between md:justify-center min-h-[2.4rem]">
-          
-          {/* 左侧: 方圆头像 (小圆角 rounded-lg) */}
-          <div className="md:absolute md:left-0 md:top-1/2 md:-translate-y-1/2 pointer-events-auto flex items-center">
-            <Link
-              href="/"
-              className="w-8 h-8 rounded-lg overflow-hidden border border-slate-200/75 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 shadow-2xs flex-shrink-0 group focus:outline-none transition-transform active:scale-95 flex items-center justify-center"
-              title={siteConfig.title}
-            >
-              <img
-                src={siteConfig.author.avatar || '/avatar.webp'}
-                alt={siteConfig.title}
-                className="w-full h-full object-cover transition-transform group-hover:scale-105 duration-200"
-              />
-            </Link>
-          </div>
-
-          {/* 中间: 100% 正中心居中导航栏 (小圆角矩形底框 rounded-lg) */}
+        {/* 正中心纯粹居中导航栏 */}
+        <div className="max-w-4xl mx-auto flex items-center justify-center min-h-[2.4rem]">
           <div
-            className="pointer-events-auto hidden md:flex items-center justify-center relative"
+            className="pointer-events-auto flex items-center justify-center relative"
             onMouseLeave={handleNavMouseLeave}
           >
             <LayoutGroup id="nav-rectangular-group">
               <nav
                 ref={navRef}
-                className="flex items-center p-1 rounded-lg bg-white/70 dark:bg-slate-900/70 backdrop-blur-md border border-slate-200/65 dark:border-slate-800/65 shadow-[0_2px_10px_-3px_rgba(0,0,0,0.03)] gap-0.5 text-xs"
+                className="flex items-center p-1 rounded-sm bg-white/70 dark:bg-slate-900/70 backdrop-blur-md border border-slate-200/65 dark:border-slate-800/65 shadow-[0_2px_10px_-3px_rgba(0,0,0,0.03)] gap-0.5 text-xs max-w-full overflow-x-auto"
               >
                 {navLinks.map((link) => {
                   const active = isActive(link.href);
@@ -137,17 +125,17 @@ export const Header: React.FC = () => {
                       href={link.href}
                       onMouseEnter={(e) => handleNavMouseEnter(link.href, e)}
                       onClick={handleItemClick}
-                      className={`relative px-2.5 py-1 rounded-md transition-colors duration-150 select-none flex items-center justify-center gap-1.5 ${
+                      className={`relative px-2.5 py-1 rounded-sm transition-colors duration-150 select-none flex items-center justify-center gap-1.5 shrink-0 ${
                         active
                           ? 'text-slate-950 dark:text-slate-50 font-medium'
                           : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100/50 dark:hover:bg-slate-800/40'
                       }`}
                     >
-                      {/* 选中项的独立小矩形卡片 (小圆角 rounded-md) */}
+                      {/* 选中项的独立小矩形卡片 */}
                       {active && (
                         <motion.span
                           layoutId="active-nav-block"
-                          className="absolute inset-0 rounded-md bg-white/95 dark:bg-slate-800 border border-slate-200/90 dark:border-slate-700/80 shadow-[0_1px_3px_rgba(0,0,0,0.06),0_1px_1px_rgba(0,0,0,0.03)] dark:shadow-[0_1px_3px_rgba(0,0,0,0.4)] pointer-events-none -z-10"
+                          className="absolute inset-0 rounded-sm bg-white/95 dark:bg-slate-800 border border-slate-200/90 dark:border-slate-700/80 shadow-[0_1px_3px_rgba(0,0,0,0.06),0_1px_1px_rgba(0,0,0,0.03)] dark:shadow-[0_1px_3px_rgba(0,0,0,0.4)] pointer-events-none -z-10"
                           transition={{ type: 'spring', stiffness: 500, damping: 38 }}
                         />
                       )}
@@ -172,72 +160,10 @@ export const Header: React.FC = () => {
               onItemClick={handleItemClick}
             />
           </div>
-
-          {/* 右侧: 操作按钮组 (小圆角矩形 rounded-lg) */}
-          <div className="md:absolute md:right-0 md:top-1/2 md:-translate-y-1/2 pointer-events-auto flex items-center p-1 rounded-lg bg-white/70 dark:bg-slate-900/70 backdrop-blur-md border border-slate-200/65 dark:border-slate-800/65 shadow-[0_2px_10px_-3px_rgba(0,0,0,0.03)] gap-0.5">
-            {/* 搜索按钮 */}
-            <button
-              onClick={() => setSearchOpen(true)}
-              className="p-1.5 rounded-md text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100/60 dark:hover:bg-slate-800/60 transition-colors flex items-center justify-center"
-              title="全局搜索 (⌘K)"
-            >
-              <Search className="w-3.5 h-3.5" />
-            </button>
-
-            {/* 深浅主题切换 */}
-            <button
-              onClick={toggleTheme}
-              className="p-1.5 rounded-md text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100/60 dark:hover:bg-slate-800/60 transition-colors flex items-center justify-center"
-              title={isDark ? '切换至浅色模式' : '切换至深色模式'}
-            >
-              {isDark ? (
-                <Sun className="w-3.5 h-3.5 text-sky-400" />
-              ) : (
-                <Moon className="w-3.5 h-3.5 text-slate-700" />
-              )}
-            </button>
-
-            {/* 移动端汉堡菜单 */}
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-1.5 rounded-md text-slate-600 dark:text-slate-400 hover:bg-slate-100/60 dark:hover:bg-slate-800/60 transition-colors flex items-center justify-center"
-            >
-              {mobileMenuOpen ? (
-                <X className="w-3.5 h-3.5" />
-              ) : (
-                <Menu className="w-3.5 h-3.5" />
-              )}
-            </button>
-          </div>
         </div>
-
-        {/* 移动端展开浮层 */}
-        {mobileMenuOpen && (
-          <div className="md:hidden mt-2 max-w-4xl mx-auto rounded-lg bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border border-slate-200/80 dark:border-slate-800 p-2 space-y-1 shadow-lg pointer-events-auto animate-in fade-in zoom-in-95 duration-150 font-sans">
-            {navLinks.map((link) => {
-              const active = isActive(link.href);
-              const IconComponent = link.icon;
-              return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className={`flex items-center gap-2 px-3 py-2 rounded-md text-xs transition-colors ${
-                    active
-                      ? 'bg-white dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700 text-slate-900 dark:text-slate-100 font-medium shadow-xs'
-                      : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100/50 dark:hover:bg-slate-800/50'
-                  }`}
-                >
-                  <IconComponent className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400" />
-                  <span>{link.label}</span>
-                </Link>
-              );
-            })}
-          </div>
-        )}
       </header>
 
-      {/* 搜索弹窗 */}
+      {/* 搜索弹窗 (支持全局快捷键 ⌘K / Ctrl+K 调起) */}
       <SearchModal open={searchOpen} onOpenChange={setSearchOpen} />
     </>
   );

@@ -8,6 +8,7 @@ import {
   Clock,
   Users,
   ArrowUpRight,
+  History,
 } from 'lucide-react';
 import {
   getAllPosts,
@@ -38,6 +39,7 @@ interface NavHoverPopoverProps {
 
 const PANEL_WIDTHS: Record<string, number> = {
   '/posts': 560,
+  '/archives': 460,
   '/diaries': 490,
   '/says': 390,
   '/friends': 450,
@@ -74,7 +76,12 @@ export const NavHoverPopover: React.FC<NavHoverPopoverProps> = ({
     return selectedCategory;
   }, [selectedCategory]);
 
-  const isValidTab = Boolean(activeKey && ['/posts', '/diaries', '/says', '/friends', '/about'].includes(activeKey));
+  const isValidTab = Boolean(
+    activeKey &&
+      ['/posts', '/archives', '/diaries', '/says', '/friends', '/about'].includes(
+        activeKey
+      )
+  );
   const panelWidth = (activeKey && PANEL_WIDTHS[activeKey]) || 480;
 
   // 动态计算 Popover 相对于导航栏容器的 X 坐标偏移（带视口边界溢出防护）
@@ -140,7 +147,7 @@ export const NavHoverPopover: React.FC<NavHoverPopoverProps> = ({
           />
 
           {/* 弹窗核心卡片容器 */}
-          <div className="w-full rounded-2xl bg-white/95 dark:bg-[#0E1624]/95 backdrop-blur-2xl border border-slate-200/80 dark:border-slate-800/80 shadow-[0_20px_50px_-8px_rgba(0,0,0,0.12),0_6px_20px_-3px_rgba(0,0,0,0.06)] overflow-hidden text-slate-800 dark:text-slate-200">
+          <div className="w-full rounded-sm bg-white/95 dark:bg-[#0E1624]/95 backdrop-blur-2xl border border-slate-200/80 dark:border-slate-800/80 shadow-[0_20px_50px_-8px_rgba(0,0,0,0.12),0_6px_20px_-3px_rgba(0,0,0,0.06)] overflow-hidden text-slate-800 dark:text-slate-200">
             
             {/* 1. 文稿 (Posts) 悬浮面板：左侧 4 列分类 + 右侧 8 列最新文章 */}
             {activeKey === '/posts' && (
@@ -158,14 +165,14 @@ export const NavHoverPopover: React.FC<NavHoverPopoverProps> = ({
                         type="button"
                         onMouseEnter={() => setSelectedCategory('all')}
                         onClick={() => setSelectedCategory('all')}
-                        className={`w-full flex items-center justify-between px-3 py-1.5 rounded-lg text-xs transition-all text-left ${
+                        className={`w-full flex items-center justify-between px-3 py-1.5 rounded-sm text-xs transition-all text-left ${
                           selectedCategory === 'all'
                             ? 'bg-sky-50 dark:bg-sky-950/60 text-sky-700 dark:text-sky-300 font-semibold border border-sky-200/60 dark:border-sky-800/60 shadow-2xs'
                             : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100/70 dark:hover:bg-slate-800/60 hover:text-slate-900 dark:hover:text-slate-100 border border-transparent'
                         }`}
                       >
                         <span className="truncate">全部</span>
-                        <span className={`text-[10px] font-mono px-1.5 py-0.2 rounded-md ${
+                        <span className={`text-[10px] font-mono px-1.5 py-0.2 rounded-sm ${
                           selectedCategory === 'all'
                             ? 'bg-sky-100 dark:bg-sky-900/60 text-sky-700 dark:text-sky-300'
                             : 'bg-slate-200/50 dark:bg-slate-800/60 text-slate-400'
@@ -183,14 +190,14 @@ export const NavHoverPopover: React.FC<NavHoverPopoverProps> = ({
                             type="button"
                             onMouseEnter={() => setSelectedCategory(cat.name)}
                             onClick={() => setSelectedCategory(cat.name)}
-                            className={`w-full flex items-center justify-between px-3 py-1.5 rounded-lg text-xs transition-all text-left ${
+                            className={`w-full flex items-center justify-between px-3 py-1.5 rounded-sm text-xs transition-all text-left ${
                               isSelected
                                 ? 'bg-sky-50 dark:bg-sky-950/60 text-sky-700 dark:text-sky-300 font-semibold border border-sky-200/60 dark:border-sky-800/60 shadow-2xs'
                                 : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100/70 dark:hover:bg-slate-800/60 hover:text-slate-900 dark:hover:text-slate-100 border border-transparent'
                             }`}
                           >
                             <span className="truncate">{cat.name}</span>
-                            <span className={`text-[10px] font-mono px-1.5 py-0.2 rounded-md ${
+                            <span className={`text-[10px] font-mono px-1.5 py-0.2 rounded-sm ${
                               isSelected
                                 ? 'bg-sky-100 dark:bg-sky-900/60 text-sky-700 dark:text-sky-300'
                                 : 'bg-slate-200/50 dark:bg-slate-800/60 text-slate-400'
@@ -219,10 +226,10 @@ export const NavHoverPopover: React.FC<NavHoverPopoverProps> = ({
                           key={post.slug}
                           href={`/posts/${post.slug}`}
                           onClick={onItemClick}
-                          className="group block p-2.5 rounded-xl bg-slate-50/60 dark:bg-slate-900/50 hover:bg-white dark:hover:bg-slate-800/80 transition-all border border-slate-200/50 dark:border-slate-800/60 hover:border-sky-300/60 dark:hover:border-sky-700/60 hover:shadow-2xs"
+                          className="group block p-2.5 rounded-sm paper-card"
                         >
                           <div className="flex items-start justify-between gap-2">
-                            <h4 className="text-xs font-semibold text-slate-800 dark:text-slate-200 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors line-clamp-1 leading-snug">
+                            <h4 className="text-xs font-semibold text-slate-800 dark:text-slate-200 group-hover:text-slate-950 dark:group-hover:text-white transition-colors line-clamp-1 leading-snug">
                               {post.title}
                             </h4>
                             <span className="text-[10px] font-mono text-slate-400 shrink-0">
@@ -251,16 +258,79 @@ export const NavHoverPopover: React.FC<NavHoverPopoverProps> = ({
 
                 {/* 底部固定跳转栏 */}
                 <div className="px-4 py-2.5 bg-slate-50/80 dark:bg-slate-900/80 border-t border-slate-200/60 dark:border-slate-800/60 flex items-center justify-between text-xs">
+                  <div className="flex items-center space-x-3">
+                    <Link
+                      href="/posts"
+                      onClick={onItemClick}
+                      className="group hover:text-sky-600 dark:hover:text-sky-400 transition-colors inline-flex items-center space-x-1 font-medium text-slate-700 dark:text-slate-200"
+                    >
+                      <span>全部文稿</span>
+                      <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                    </Link>
+                    <span className="text-slate-300 dark:text-slate-700">|</span>
+                    <Link
+                      href="/archives"
+                      onClick={onItemClick}
+                      className="group hover:text-sky-600 dark:hover:text-sky-400 transition-colors inline-flex items-center space-x-1 font-medium text-slate-500 dark:text-slate-400"
+                    >
+                      <span>时光归档</span>
+                      <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                    </Link>
+                  </div>
+                  <span className="text-slate-400 dark:text-slate-500 text-[11px] font-mono">
+                    共 {allPosts.length} 篇文稿
+                  </span>
+                </div>
+              </div>
+            )}
+
+            {/* 1.5 归档 (Archives) 悬浮面板 */}
+            {activeKey === '/archives' && (
+              <div>
+                <div className="p-4 space-y-3">
+                  <div className="flex items-center justify-between text-[11px] font-mono font-medium text-slate-400 dark:text-slate-500 px-1">
+                    <span>年谱时光 &bull; 聚合归档</span>
+                    <span>共 {allPosts.length + allDiaries.length} 篇</span>
+                  </div>
+
+                  {/* 最近 3 篇文稿时光速览 */}
+                  <div className="space-y-1.5">
+                    {allPosts.slice(0, 3).map((post) => (
+                      <Link
+                        key={post.slug}
+                        href={`/posts/${post.slug}`}
+                        onClick={onItemClick}
+                        className="group flex items-center justify-between p-2.5 rounded-sm paper-card"
+                      >
+                        <div className="flex items-center space-x-2.5 min-w-0 pr-2">
+                          <span className="text-[10px] font-mono text-slate-400 shrink-0">
+                            {formatDateShort(post.date)}
+                          </span>
+                          <span className="text-xs font-medium text-slate-800 dark:text-slate-200 group-hover:text-slate-950 dark:group-hover:text-white transition-colors truncate">
+                            {post.title}
+                          </span>
+                        </div>
+                        {post.category && (
+                          <span className="text-[9.5px] font-mono px-1.5 py-0.2 rounded-sm bg-slate-100 dark:bg-slate-800 text-slate-400 shrink-0">
+                            {post.category}
+                          </span>
+                        )}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="px-4 py-2.5 bg-slate-50/80 dark:bg-slate-900/80 border-t border-slate-200/60 dark:border-slate-800/60 flex items-center justify-between text-xs">
                   <Link
-                    href="/posts"
+                    href="/archives"
                     onClick={onItemClick}
-                    className="group hover:text-sky-600 dark:hover:text-sky-400 transition-colors inline-flex items-center space-x-1 font-medium"
+                    className="group hover:text-slate-900 dark:hover:text-slate-100 transition-colors inline-flex items-center space-x-1 font-medium text-slate-700 dark:text-slate-200"
                   >
-                    <span>查看全部文稿</span>
+                    <span>进入完整时间轴年谱</span>
                     <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
                   </Link>
                   <span className="text-slate-400 dark:text-slate-500 text-[11px] font-mono">
-                    共 {allPosts.length} 篇文稿
+                    文稿与手记年谱
                   </span>
                 </div>
               </div>
@@ -278,19 +348,19 @@ export const NavHoverPopover: React.FC<NavHoverPopoverProps> = ({
                     {allDiaries.slice(0, 4).map((diary) => (
                       <Link
                         key={diary.slug}
-                        href={`/diaries#${diary.slug}`}
+                        href={`/diaries/${diary.slug}`}
                         onClick={onItemClick}
-                        className="block p-3 rounded-xl bg-slate-50/60 dark:bg-slate-900/50 hover:bg-white dark:hover:bg-slate-800/80 transition-all border border-slate-200/50 dark:border-slate-800/60 hover:border-sky-300/60 dark:hover:border-sky-700/60 hover:shadow-2xs group"
+                        className="block p-3 rounded-sm paper-card group"
                       >
                         <div className="flex items-center justify-between text-[10px] font-mono text-slate-400 mb-1">
                           <span>{formatDateShort(diary.date)}</span>
                           {diary.weather && (
-                            <span className="px-1.5 py-0.2 rounded bg-sky-50 dark:bg-sky-950/40 text-sky-600 dark:text-sky-400 text-[9px] border border-sky-200/40 dark:border-sky-800/40">
+                            <span className="px-1.5 py-0.2 rounded-sm bg-sky-50 dark:bg-sky-950/40 text-sky-600 dark:text-sky-400 text-[9px] border border-sky-200/40 dark:border-sky-800/40">
                               {diary.weather}
                             </span>
                           )}
                         </div>
-                        <h4 className="text-xs font-semibold text-slate-800 dark:text-slate-200 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors line-clamp-1">
+                        <h4 className="text-xs font-semibold text-slate-800 dark:text-slate-200 group-hover:text-slate-950 dark:group-hover:text-white transition-colors line-clamp-1">
                           {diary.title}
                         </h4>
                         {diary.summary && (
@@ -307,7 +377,7 @@ export const NavHoverPopover: React.FC<NavHoverPopoverProps> = ({
                   <Link
                     href="/diaries"
                     onClick={onItemClick}
-                    className="group hover:text-sky-600 dark:hover:text-sky-400 transition-colors inline-flex items-center space-x-1 font-medium"
+                    className="group hover:text-slate-900 dark:hover:text-slate-100 transition-colors inline-flex items-center space-x-1 font-medium"
                   >
                     <span>查看全部手记</span>
                     <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
@@ -333,7 +403,7 @@ export const NavHoverPopover: React.FC<NavHoverPopoverProps> = ({
                         key={record.id}
                         href="/says"
                         onClick={onItemClick}
-                        className="block p-3 rounded-xl bg-slate-50/60 dark:bg-slate-900/50 hover:bg-white dark:hover:bg-slate-800/80 transition-all border border-slate-200/50 dark:border-slate-800/60 hover:border-sky-300/60 dark:hover:border-sky-700/60 hover:shadow-2xs group"
+                        className="block p-3 rounded-sm paper-card group"
                       >
                         <p className="text-xs text-slate-700 dark:text-slate-300 line-clamp-2 leading-relaxed">
                           {record.content}
@@ -341,7 +411,7 @@ export const NavHoverPopover: React.FC<NavHoverPopoverProps> = ({
                         <div className="mt-1.5 flex items-center justify-between text-[10px] font-mono text-slate-400">
                           <span>{formatRelativeTime(record.createTime || record.date)}</span>
                           {record.mood && (
-                            <span className="px-1.5 py-0.5 rounded bg-sky-50 dark:bg-sky-950/40 text-sky-600 dark:text-sky-400 border border-sky-200/40 dark:border-sky-800/40">
+                            <span className="px-1.5 py-0.5 rounded-sm bg-sky-50 dark:bg-sky-950/40 text-sky-600 dark:text-sky-400 border border-sky-200/40 dark:border-sky-800/40">
                               {record.mood}
                             </span>
                           )}
@@ -355,7 +425,7 @@ export const NavHoverPopover: React.FC<NavHoverPopoverProps> = ({
                   <Link
                     href="/says"
                     onClick={onItemClick}
-                    className="group hover:text-sky-600 dark:hover:text-sky-400 transition-colors inline-flex items-center space-x-1 font-medium"
+                    className="group hover:text-slate-900 dark:hover:text-slate-100 transition-colors inline-flex items-center space-x-1 font-medium"
                   >
                     <span>查看全部动态</span>
                     <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
@@ -372,10 +442,7 @@ export const NavHoverPopover: React.FC<NavHoverPopoverProps> = ({
               <div>
                 <div className="p-4 space-y-2.5">
                   <div className="flex items-center justify-between text-[11px] font-mono font-medium text-slate-400 dark:text-slate-500 px-1">
-                    <span className="flex items-center space-x-1">
-                      <Users className="w-3.5 h-3.5 text-sky-600 dark:text-sky-400" />
-                      <span>志同道合 &bull; 朋友们</span>
-                    </span>
+                    <span>志同道合 &bull; 朋友们</span>
                     <span>{allFriends.length} 位好友</span>
                   </div>
                   <div className="grid grid-cols-2 gap-2.5">
@@ -385,9 +452,9 @@ export const NavHoverPopover: React.FC<NavHoverPopoverProps> = ({
                         href={friend.link}
                         target="_blank"
                         rel="noreferrer"
-                        className="p-2.5 rounded-xl bg-slate-50/60 dark:bg-slate-900/50 hover:bg-white dark:hover:bg-slate-800/80 transition-all border border-slate-200/50 dark:border-slate-800/60 hover:border-sky-300/60 dark:hover:border-sky-700/60 hover:shadow-2xs group flex items-start space-x-2.5"
+                        className="p-2.5 rounded-sm paper-card group flex items-start space-x-2.5"
                       >
-                        <div className="w-7 h-7 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 flex items-center justify-center font-bold text-xs shrink-0 overflow-hidden border border-slate-200/50 dark:border-slate-700/50">
+                        <div className="w-7 h-7 rounded-sm bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 flex items-center justify-center font-bold text-xs shrink-0 overflow-hidden border border-slate-200/50 dark:border-slate-700/50">
                           {friend.avatar ? (
                             <img src={friend.avatar} alt={friend.name} className="w-full h-full object-cover" />
                           ) : (
@@ -396,10 +463,10 @@ export const NavHoverPopover: React.FC<NavHoverPopoverProps> = ({
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center justify-between">
-                            <span className="text-xs font-semibold text-slate-800 dark:text-slate-200 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors truncate">
+                            <span className="text-xs font-semibold text-slate-800 dark:text-slate-200 group-hover:text-slate-950 dark:group-hover:text-white transition-colors truncate">
                               {friend.name}
                             </span>
-                            <ArrowUpRight className="w-2.5 h-2.5 text-slate-400 group-hover:text-sky-600 transition-colors shrink-0" />
+                            <ArrowUpRight className="w-2.5 h-2.5 text-slate-400 group-hover:text-slate-700 dark:group-hover:text-slate-300 transition-colors shrink-0" />
                           </div>
                           {friend.desc && (
                             <p className="text-[10px] text-slate-500 dark:text-slate-400 truncate mt-0.5">
@@ -416,7 +483,7 @@ export const NavHoverPopover: React.FC<NavHoverPopoverProps> = ({
                   <Link
                     href="/friends"
                     onClick={onItemClick}
-                    className="group hover:text-sky-600 dark:hover:text-sky-400 transition-colors inline-flex items-center space-x-1 font-medium"
+                    className="group hover:text-slate-900 dark:hover:text-slate-100 transition-colors inline-flex items-center space-x-1 font-medium"
                   >
                     <span>前往友链大厅</span>
                     <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
@@ -428,16 +495,16 @@ export const NavHoverPopover: React.FC<NavHoverPopoverProps> = ({
               </div>
             )}
 
-            {/* 5. 更多 (About/More) 悬浮面板 */}
+            {/* 5. 关于 (About) 悬浮面板 */}
             {activeKey === '/about' && (
               <div>
                 <div className="p-4 grid grid-cols-2 gap-2.5">
                   <Link
                     href="/about"
                     onClick={onItemClick}
-                    className="p-3 rounded-xl bg-slate-50/60 dark:bg-slate-900/50 hover:bg-white dark:hover:bg-slate-800/80 transition-all border border-slate-200/50 dark:border-slate-800/60 hover:border-sky-300/60 dark:hover:border-sky-700/60 hover:shadow-2xs group block"
+                    className="p-3 rounded-sm paper-card group block"
                   >
-                    <div className="flex items-center space-x-2 text-slate-800 dark:text-slate-200 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors font-semibold text-xs mb-1">
+                    <div className="flex items-center space-x-2 text-slate-800 dark:text-slate-200 group-hover:text-slate-950 dark:group-hover:text-white transition-colors font-semibold text-xs mb-1">
                       <Terminal className="w-3.5 h-3.5" />
                       <span>关于作者</span>
                     </div>
@@ -449,9 +516,9 @@ export const NavHoverPopover: React.FC<NavHoverPopoverProps> = ({
                   <Link
                     href="/projects"
                     onClick={onItemClick}
-                    className="p-3 rounded-xl bg-slate-50/60 dark:bg-slate-900/50 hover:bg-white dark:hover:bg-slate-800/80 transition-all border border-slate-200/50 dark:border-slate-800/60 hover:border-sky-300/60 dark:hover:border-sky-700/60 hover:shadow-2xs group block"
+                    className="p-3 rounded-sm paper-card group block"
                   >
-                    <div className="flex items-center space-x-2 text-slate-800 dark:text-slate-200 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors font-semibold text-xs mb-1">
+                    <div className="flex items-center space-x-2 text-slate-800 dark:text-slate-200 group-hover:text-slate-950 dark:group-hover:text-white transition-colors font-semibold text-xs mb-1">
                       <FolderGit2 className="w-3.5 h-3.5" />
                       <span>项目工坊</span>
                     </div>
@@ -463,9 +530,9 @@ export const NavHoverPopover: React.FC<NavHoverPopoverProps> = ({
                   <Link
                     href="/friends"
                     onClick={onItemClick}
-                    className="p-3 rounded-xl bg-slate-50/60 dark:bg-slate-900/50 hover:bg-white dark:hover:bg-slate-800/80 transition-all border border-slate-200/50 dark:border-slate-800/60 hover:border-sky-300/60 dark:hover:border-sky-700/60 hover:shadow-2xs group block"
+                    className="p-3 rounded-sm paper-card group block"
                   >
-                    <div className="flex items-center space-x-2 text-slate-800 dark:text-slate-200 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors font-semibold text-xs mb-1">
+                    <div className="flex items-center space-x-2 text-slate-800 dark:text-slate-200 group-hover:text-slate-950 dark:group-hover:text-white transition-colors font-semibold text-xs mb-1">
                       <Users className="w-3.5 h-3.5" />
                       <span>志同道合</span>
                     </div>
@@ -479,9 +546,9 @@ export const NavHoverPopover: React.FC<NavHoverPopoverProps> = ({
                       href={siteConfig.author.github}
                       target="_blank"
                       rel="noreferrer"
-                      className="p-3 rounded-xl bg-slate-50/60 dark:bg-slate-900/50 hover:bg-white dark:hover:bg-slate-800/80 transition-all border border-slate-200/50 dark:border-slate-800/60 hover:border-sky-300/60 dark:hover:border-sky-700/60 hover:shadow-2xs group block"
+                      className="p-3 rounded-sm paper-card group block"
                     >
-                      <div className="flex items-center space-x-2 text-slate-800 dark:text-slate-200 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors font-semibold text-xs mb-1">
+                      <div className="flex items-center space-x-2 text-slate-800 dark:text-slate-200 group-hover:text-slate-950 dark:group-hover:text-white transition-colors font-semibold text-xs mb-1">
                         <GithubIcon className="w-3.5 h-3.5" />
                         <span>GitHub</span>
                       </div>
