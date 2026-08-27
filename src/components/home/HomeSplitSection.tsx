@@ -28,7 +28,7 @@ export const HomeSplitSection: React.FC = () => {
   };
 
   return (
-    <section className="mt-20 sm:mt-28 mb-24 w-full font-sans">
+    <section className="mt-16 sm:mt-20 mb-2 sm:mb-4 w-full font-sans">
       {/* 8:4 黄金分割左右双栏栅格 (items-stretch 确保两栏高度基准一致) */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch">
         
