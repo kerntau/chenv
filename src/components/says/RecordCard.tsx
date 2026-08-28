@@ -1,5 +1,5 @@
 import React from 'react';
-import { Ellipsis, Heart, MapPin, Pencil, Trash2 } from 'lucide-react';
+import { Heart, MapPin } from 'lucide-react';
 import type { RecordItem } from '../../types';
 import { formatDateTime } from '../../lib/date';
 import { useRecordInteractions } from '../../hooks/useRecordInteractions';
@@ -9,9 +9,7 @@ import { siteConfig } from '../../content';
 
 export const RecordCard: React.FC<{
   record: RecordItem;
-  onEdit?: (record: RecordItem) => void;
-  onRemove?: (id: string | number) => void;
-}> = ({ record, onEdit, onRemove }) => {
+}> = ({ record }) => {
   const { liked, likes, toggleLike } = useRecordInteractions(record.id, record.likes);
 
   return (
@@ -29,13 +27,6 @@ export const RecordCard: React.FC<{
             </div>
             <div className="flex items-center gap-2">
               <time dateTime={String(record.createTime)}>{formatDateTime(record.createTime)}</time>
-              {(onEdit || onRemove) && <details className="relative">
-                <summary className="flex min-h-8 cursor-pointer list-none items-center rounded-sm px-1.5 hover:bg-slate-100 dark:hover:bg-slate-800" aria-label="动态操作"><Ellipsis className="h-4 w-4" /></summary>
-                <div className="absolute right-0 top-8 z-10 w-28 rounded-sm border border-slate-200 bg-white p-1 text-xs shadow-lg dark:border-slate-700 dark:bg-slate-900">
-                  {onEdit && <button onClick={() => onEdit(record)} className="flex w-full items-center gap-2 rounded-sm px-2 py-2 text-left hover:bg-slate-100 dark:hover:bg-slate-800"><Pencil className="h-3.5 w-3.5" /> 编辑</button>}
-                  {onRemove && <button onClick={() => { if (window.confirm('确定删除这条动态吗？')) onRemove(record.id); }} className="flex w-full items-center gap-2 rounded-sm px-2 py-2 text-left text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/30"><Trash2 className="h-3.5 w-3.5" /> 删除</button>}
-                </div>
-              </details>}
             </div>
           </div>
           <div className="mt-3 text-sm leading-relaxed text-slate-800 dark:text-slate-200 sm:text-base"><MarkdownRenderer content={record.content} /></div>

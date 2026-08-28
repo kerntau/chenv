@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { App } from './App';
 import './styles/index.css';
+import './styles/admin.css';
 
 const rootEl = document.getElementById('root');
 if (rootEl) {

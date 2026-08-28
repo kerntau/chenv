@@ -14,6 +14,7 @@ import { Says } from './pages/Says';
 import { Friends } from './pages/Friends';
 import { About } from './pages/About';
 import { NotFound } from './pages/NotFound';
+import { Admin } from './pages/Admin';
 
 // 栏目路由定义（含旧路径别名），同时驱动 <Switch> 与浏览器标签标题
 interface Section {
@@ -32,6 +33,7 @@ const SECTIONS: Section[] = [
   { label: '关于', paths: ['/about', '/my'], list: About },
 ];
 
+
 function findSection(pathname: string) {
   return SECTIONS.find((s) =>
     s.paths.some((p) => pathname === p || pathname.startsWith(`${p}/`))
@@ -41,16 +43,33 @@ function findSection(pathname: string) {
 export const App: React.FC = () => {
   const [location] = useLocation();
 
+  const isAdminRoute = location === '/admin' || location.startsWith('/admin/');
+
   // 路由跳转时平滑回滚至顶部并动态更新浏览器标签标题
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
-    const section = findSection(location);
-    document.title = section
-      ? `${section.label} · ${siteConfig.title}`
-      : siteConfig.title;
-  }, [location]);
+    if (isAdminRoute) {
+      document.title = `管理控制台 · ${siteConfig.title}`;
+    } else {
+      const section = findSection(location);
+      document.title = section
+        ? `${section.label} · ${siteConfig.title}`
+        : siteConfig.title;
+    }
+  }, [location, isAdminRoute]);
 
+  // 后台独立路由体系：完全脱离前台 Header、Footer 与背景特效
+  if (isAdminRoute) {
+    return (
+      <Switch>
+        <Route path="/admin" component={Admin} />
+        <Route path="/admin/:rest*" component={Admin} />
+      </Switch>
+    );
+  }
+
+  // 前台博客浏览体系
   return (
     <div className="min-h-screen flex flex-col relative selection:bg-sky-200 selection:text-sky-900 dark:selection:bg-sky-900/60 dark:selection:text-sky-100 transition-colors duration-300">
       <AmbientBackground />
