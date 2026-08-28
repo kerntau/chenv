@@ -90,6 +90,27 @@
     background-size: 24px 24px;
   }
 
+  .ambient-stars {
+    pointer-events: none;
+    background-image:
+      radial-gradient(circle at 8% 12%, rgba(255, 255, 255, 0.8) 0 1px, transparent 1.5px),
+      radial-gradient(circle at 22% 25%, rgba(179, 216, 255, 0.65) 0 1px, transparent 1.5px),
+      radial-gradient(circle at 37% 9%, rgba(255, 255, 255, 0.7) 0 1px, transparent 1.5px),
+      radial-gradient(circle at 54% 18%, rgba(162, 211, 255, 0.55) 0 1px, transparent 1.5px),
+      radial-gradient(circle at 71% 7%, rgba(255, 255, 255, 0.75) 0 1px, transparent 1.5px),
+      radial-gradient(circle at 88% 24%, rgba(175, 230, 222, 0.6) 0 1px, transparent 1.5px),
+      radial-gradient(circle at 14% 42%, rgba(255, 255, 255, 0.45) 0 1px, transparent 1.5px),
+      radial-gradient(circle at 80% 44%, rgba(173, 211, 255, 0.4) 0 1px, transparent 1.5px);
+    animation: star-twinkle 8s ease-in-out infinite;
+  }
+
+  .ambient-star-dust {
+    pointer-events: none;
+    background-image: radial-gradient(circle, rgba(174, 211, 255, 0.7) 0 0.7px, transparent 0.9px);
+    background-size: 97px 113px;
+    background-position: 18px 31px;
+  }
+
   .dark .bg-paper-texture {
     background-image: radial-gradient(rgba(125, 211, 252, 0.06) 1px, transparent 1px);
     background-size: 24px 24px;
@@ -211,6 +232,11 @@
   53%, 100% {
     opacity: 0.15;
   }
+}
+
+@keyframes star-twinkle {
+  0%, 100% { opacity: 0.28; }
+  50% { opacity: 0.52; }
 }
 
 /* 自定义纤细滚动条 */

@@ -9,6 +9,19 @@ export interface PostFrontmatter {
   cover?: string;
   images?: string[];
   author?: string;
+  categories?: string[];
+  recommend?: number;
+}
+
+export interface FriendRecord {
+  id: number | string;
+  name: string;
+  desc?: string;
+  avatar?: string;
+  link: string;
+  order?: number;
+  framework?: string;
+  deploy?: string;
 }
 
 export interface TOCItem {
@@ -95,7 +108,26 @@ export interface RecordItem {
   location?: string;
   createTime: number | string;
   author?: string;
+  contentType?: 'plain' | 'markdown';
+  media?: RecordContentBlock[];
+  comments?: RecordComment[];
+  pinned?: boolean;
 }
+
+export interface RecordComment {
+  id: string;
+  content: string;
+  author: string;
+  createdAt: number;
+  local?: boolean;
+}
+
+export type RecordContentBlock =
+  | { type: 'image'; url: string; thumbnail?: string; alt?: string; width?: number; height?: number }
+  | { type: 'video'; url: string; thumbnail?: string }
+  | { type: 'link'; url: string; title?: string; description?: string; image?: string }
+  | { type: 'music'; title: string; artist?: string; cover?: string; url: string }
+  | { type: 'douban-book' | 'douban-movie'; title: string; cover?: string; description?: string; url?: string };
 
 export interface SearchItem {
   id: string;

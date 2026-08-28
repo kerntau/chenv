@@ -114,13 +114,17 @@ export const AmbientBackground: React.FC = () => {
       className="fixed inset-0 pointer-events-none -z-20 overflow-hidden select-none transition-colors duration-500"
     >
       {/* 浅蓝顶层基底微妙渐变 */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#F3F7FD] via-[#F7FAFE] to-[#EEF5FC] dark:from-[#0B111A] dark:via-[#0E1624] dark:to-[#080D15]" />
+      <div className="absolute inset-0 bg-gradient-to-b from-[#EAF4FC] via-[#F2F7FC] to-[#F6F8FB] dark:from-[#0B1830] dark:via-[#070D18] dark:to-[#080D16]" />
+
+      {/* 暗色模式星空层：静态星点避免额外渲染与随机状态 */}
+      <div className="ambient-stars absolute inset-0 opacity-0 dark:opacity-50" />
+      <div className="ambient-star-dust absolute inset-0 opacity-0 dark:opacity-25" />
 
       {/* Innei 标志性核心: 中心 Hero 大椭圆呼吸光晕 */}
       <div
         className="absolute -top-[6%] left-1/2 w-[340px] sm:w-[680px] lg:w-[860px] h-[340px] sm:h-[580px] lg:h-[680px] rounded-[100%] opacity-80 dark:opacity-40 blur-[80px] sm:blur-[120px] transition-all duration-1000"
         style={{
-          background: 'radial-gradient(ellipse at center, rgba(186, 230, 253, 0.75) 0%, rgba(147, 197, 253, 0.35) 45%, rgba(224, 242, 254, 0.1) 70%, transparent 80%)',
+          background: 'radial-gradient(ellipse at center, rgba(139, 205, 255, 0.55) 0%, rgba(147, 197, 253, 0.24) 45%, rgba(224, 242, 254, 0.08) 70%, transparent 80%)',
           animation: 'inneiBreathGlow 14s ease-in-out infinite',
           willChange: 'transform, opacity',
         }}
@@ -130,7 +134,7 @@ export const AmbientBackground: React.FC = () => {
       <div
         className="absolute top-[38%] -left-[12%] w-[420px] sm:w-[600px] h-[420px] sm:h-[600px] rounded-full opacity-50 dark:opacity-25 blur-[90px] sm:blur-[130px] transition-all duration-700"
         style={{
-          background: 'radial-gradient(circle, rgba(165, 243, 252, 0.6) 0%, rgba(191, 219, 254, 0.25) 50%, transparent 75%)',
+          background: 'radial-gradient(circle, rgba(133, 225, 214, 0.42) 0%, rgba(191, 219, 254, 0.18) 50%, transparent 75%)',
           animation: 'ambientDriftB 28s ease-in-out infinite',
           willChange: 'transform',
         }}
@@ -140,7 +144,7 @@ export const AmbientBackground: React.FC = () => {
       <div
         className="absolute bottom-[-10%] right-[-5%] w-[460px] sm:w-[650px] h-[460px] sm:h-[650px] rounded-full opacity-45 dark:opacity-20 blur-[90px] sm:blur-[130px] transition-all duration-700"
         style={{
-          background: 'radial-gradient(circle, rgba(199, 210, 254, 0.5) 0%, rgba(224, 231, 255, 0.2) 50%, transparent 75%)',
+          background: 'radial-gradient(circle, rgba(148, 181, 255, 0.34) 0%, rgba(224, 231, 255, 0.14) 50%, transparent 75%)',
           animation: 'inneiSubtleDrift 22s ease-in-out infinite',
           willChange: 'transform',
         }}

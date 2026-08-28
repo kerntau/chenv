@@ -1,44 +1,58 @@
+import '../lib/buffer-polyfill';
 import { parseMarkdownFile, parseDiaryFile } from '../lib/markdown';
-import type { Post, Diary, SearchItem, FriendItem, SiteConfig, RecordItem } from '../types';
+import type { Diary, FriendItem, FriendRecord, Post, RecordItem, SearchItem, SiteConfig } from '../types';
 import siteConfigJson from './config/site.config.json';
 import friendsJson from './pages/friends.json';
 import recordsJson from './records/records.json';
 
-// @ts-ignore
-const postsContext = (require as any).context('./posts', false, /\.md$/);
+const postsContext = require.context('./posts', false, /\.md$/);
 
 const postsMap: Record<string, string> = {};
 postsContext.keys().forEach((key: string) => {
   const slug = key.replace(/^\.\//, '').replace(/\.md$/, '');
   const mod = postsContext(key);
-  postsMap[slug] = typeof mod === 'string' ? mod : mod.default || mod;
+  postsMap[slug] = typeof mod === 'string'
+    ? mod
+    : typeof mod === 'object' && mod !== null && 'default' in mod && typeof mod.default === 'string'
+      ? mod.default
+      : '';
 });
 
-// @ts-ignore
-const diariesContext = (require as any).context('./diaries', false, /\.md$/);
+const diariesContext = require.context('./diaries', false, /\.md$/);
 
 const diariesMap: Record<string, string> = {};
 diariesContext.keys().forEach((key: string) => {
   const slug = key.replace(/^\.\//, '').replace(/\.md$/, '');
   const mod = diariesContext(key);
-  diariesMap[slug] = typeof mod === 'string' ? mod : mod.default || mod;
+  diariesMap[slug] = typeof mod === 'string'
+    ? mod
+    : typeof mod === 'object' && mod !== null && 'default' in mod && typeof mod.default === 'string'
+      ? mod.default
+      : '';
 });
 
 export const siteConfig: SiteConfig = siteConfigJson as SiteConfig;
 
+const sortByDateDesc = <T extends { date: string }>(items: T[]) =>
+  items.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+const parsedPosts = sortByDateDesc(
+  Object.entries(postsMap).map(([slug, raw]) => parseMarkdownFile(slug, raw))
+);
+
+const allPosts = parsedPosts.filter((post) => !post.draft);
+
+const allDiaries = sortByDateDesc(
+  Object.entries(diariesMap).map(([slug, raw]) => parseDiaryFile(slug, raw))
+);
+
 export function getAllPosts(): Post[] {
-  const posts = Object.entries(postsMap).map(([slug, raw]) =>
-    parseMarkdownFile(slug, raw)
-  );
-  return posts
-    .filter((post) => !post.draft)
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  return allPosts;
 }
 
 export function getFeaturedPosts(limit = 4): Post[] {
-  const all = getAllPosts();
   // 优先按 recommend 权重排序，其次按日期
-  return all
+  return allPosts
     .slice()
     .sort((a, b) => {
       const recA = a.recommend || 0;
@@ -51,25 +65,20 @@ export function getFeaturedPosts(limit = 4): Post[] {
 
 export function getPostBySlug(slug: string): Post | null {
   const raw = postsMap[slug];
-  return raw ? parseMarkdownFile(slug, raw) : null;
+  return raw ? parsedPosts.find((post) => post.slug === slug) ?? null : null;
 }
 
 export function getAllDiaries(): Diary[] {
-  const diaries = Object.entries(diariesMap).map(([slug, raw]) =>
-    parseDiaryFile(slug, raw)
-  );
-  return diaries.sort(
-    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-  );
+  return allDiaries;
 }
 
 export function getDiaryBySlug(slug: string): Diary | null {
   const raw = diariesMap[slug];
-  return raw ? parseDiaryFile(slug, raw) : null;
+  return raw ? allDiaries.find((diary) => diary.slug === slug) ?? null : null;
 }
 
 export function getAllFriends(): FriendItem[] {
-  return (friendsJson as any[]).map((item) => ({
+  return (friendsJson as FriendRecord[]).map((item) => ({
     id: item.id,
     name: item.name,
     desc: item.desc || '',

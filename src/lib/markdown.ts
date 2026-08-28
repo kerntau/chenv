@@ -1,5 +1,5 @@
 import matter from 'gray-matter';
-import type { Post, TOCItem, Diary } from '../types';
+import type { Diary, Post, PostFrontmatter, TOCItem } from '../types';
 
 export function calculateReadingTime(content: string): { readingTime: string; wordCount: number } {
   const cleanContent = content.replace(/[#*`_\[\]()]/g, '').trim();
@@ -48,7 +48,7 @@ export function extractTOC(content: string): TOCItem[] {
 
 export function parseMarkdownFile(slug: string, rawContent: string): Post {
   const { data, content } = matter(rawContent);
-  const frontmatter = data as Record<string, any>;
+  const frontmatter = data as Partial<PostFrontmatter> & Record<string, unknown>;
   const { readingTime, wordCount } = calculateReadingTime(content);
   const toc = extractTOC(content);
 
@@ -65,10 +65,12 @@ export function parseMarkdownFile(slug: string, rawContent: string): Post {
 
   return {
     slug,
-    title: frontmatter.title || slug,
+    title: typeof frontmatter.title === 'string' ? frontmatter.title : slug,
     date: frontmatter.date ? String(frontmatter.date) : new Date().toISOString().split('T')[0],
-    summary: frontmatter.summary || content.slice(0, 150).replace(/[#*`_\n]/g, ' ') + '...',
-    tags: Array.isArray(frontmatter.tags) ? frontmatter.tags : [],
+    summary: typeof frontmatter.summary === 'string'
+      ? frontmatter.summary
+      : content.slice(0, 150).replace(/[#*`_\n]/g, ' ') + '...',
+    tags: Array.isArray(frontmatter.tags) ? frontmatter.tags.filter((tag): tag is string => typeof tag === 'string') : [],
     category: finalCategory,
     readingTime,
     wordCount,
@@ -82,19 +84,21 @@ export function parseMarkdownFile(slug: string, rawContent: string): Post {
 
 export function parseDiaryFile(slug: string, rawContent: string): Diary {
   const { data, content } = matter(rawContent);
-  const frontmatter = data as Record<string, any>;
+  const frontmatter = data as Partial<PostFrontmatter> & Record<string, unknown>;
   const { readingTime, wordCount } = calculateReadingTime(content);
 
   return {
     slug,
-    title: frontmatter.title || slug,
+    title: typeof frontmatter.title === 'string' ? frontmatter.title : slug,
     date: frontmatter.date ? String(frontmatter.date) : new Date().toISOString().split('T')[0],
-    time: frontmatter.time || '',
-    weather: frontmatter.weather || '晴',
-    mood: frontmatter.mood || '平静',
-    location: frontmatter.location || '书房',
-    tags: Array.isArray(frontmatter.tags) ? frontmatter.tags : ['手记'],
-    summary: frontmatter.summary || content.slice(0, 120).replace(/[#*`_\n]/g, ' ') + '...',
+    time: typeof frontmatter.time === 'string' ? frontmatter.time : '',
+    weather: typeof frontmatter.weather === 'string' ? frontmatter.weather : '晴',
+    mood: typeof frontmatter.mood === 'string' ? frontmatter.mood : '平静',
+    location: typeof frontmatter.location === 'string' ? frontmatter.location : '书房',
+    tags: Array.isArray(frontmatter.tags) ? frontmatter.tags.filter((tag): tag is string => typeof tag === 'string') : ['手记'],
+    summary: typeof frontmatter.summary === 'string'
+      ? frontmatter.summary
+      : content.slice(0, 120).replace(/[#*`_\n]/g, ' ') + '...',
     content,
     readingTime,
     wordCount,
