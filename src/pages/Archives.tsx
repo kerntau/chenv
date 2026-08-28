@@ -3,7 +3,7 @@ import { Link } from 'wouter';
 import { Container } from '../components/layout/Container';
 import { PageShell } from '../components/layout/PageShell';
 import { getAllPosts, getAllDiaries } from '../content';
-import { formatDateShort } from '../lib/date';
+import { formatDateShort, getYear } from '../lib/date';
 import {
   Clock,
   History,
@@ -72,7 +72,7 @@ export const Archives: React.FC = () => {
   const itemsByYear = useMemo(() => {
     const grouped: Record<string, TimelineItem[]> = {};
     filteredItems.forEach((item) => {
-      const year = new Date(item.date).getFullYear().toString();
+      const year = getYear(item.date);
       if (!grouped[year]) {
         grouped[year] = [];
       }

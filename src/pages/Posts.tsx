@@ -4,6 +4,7 @@ import { Container } from '../components/layout/Container';
 import { PageShell } from '../components/layout/PageShell';
 import { PostCard } from '../components/post/PostCard';
 import { getAllPosts, getAllCategories } from '../content';
+import { getYear } from '../lib/date';
 import {
   FileText,
   Tag as TagIcon,
@@ -83,7 +84,7 @@ export const Posts: React.FC = () => {
   const postsByYear = useMemo(() => {
     const grouped: Record<string, typeof filteredPosts> = {};
     filteredPosts.forEach((post) => {
-      const year = new Date(post.date).getFullYear().toString();
+      const year = getYear(post.date);
       if (!grouped[year]) {
         grouped[year] = [];
       }
