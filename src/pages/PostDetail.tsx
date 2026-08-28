@@ -77,8 +77,6 @@ export const PostDetail: React.FC = () => {
   const coverUrl = useMemo(() => {
     if (!post) return null;
     if (post.coverImage) return post.coverImage;
-    if (post.cover) return post.cover;
-    if (post.images && post.images.length > 0) return post.images[0];
     return (
       categoryDefaultCovers[post.category] ||
       'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1600&q=85'

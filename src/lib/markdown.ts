@@ -57,18 +57,15 @@ export function parseMarkdownFile(slug: string, rawContent: string): Post {
     (Array.isArray(frontmatter.categories) && frontmatter.categories[0]) ||
     '技术文章';
 
-  const finalCoverImage =
+  const coverImage =
     frontmatter.coverImage ||
     frontmatter.cover ||
     (Array.isArray(frontmatter.images) && frontmatter.images[0]) ||
     undefined;
 
-  const finalSlug = frontmatter.url || slug;
-
   return {
-    id: finalSlug,
-    slug: finalSlug,
-    title: frontmatter.title || finalSlug,
+    slug,
+    title: frontmatter.title || slug,
     date: frontmatter.date ? String(frontmatter.date) : new Date().toISOString().split('T')[0],
     summary: frontmatter.summary || content.slice(0, 150).replace(/[#*`_\n]/g, ' ') + '...',
     tags: Array.isArray(frontmatter.tags) ? frontmatter.tags : [],
@@ -78,13 +75,7 @@ export function parseMarkdownFile(slug: string, rawContent: string): Post {
     content,
     toc,
     draft: Boolean(frontmatter.draft),
-    coverImage: finalCoverImage,
-    cover: finalCoverImage,
-    images: Array.isArray(frontmatter.images)
-      ? frontmatter.images
-      : finalCoverImage
-      ? [finalCoverImage]
-      : [],
+    coverImage,
     recommend: typeof frontmatter.recommend === 'number' ? frontmatter.recommend : 0,
   };
 }
@@ -95,8 +86,7 @@ export function parseDiaryFile(slug: string, rawContent: string): Diary {
   const { readingTime, wordCount } = calculateReadingTime(content);
 
   return {
-    id: slug,
-    slug: frontmatter.slug || slug,
+    slug,
     title: frontmatter.title || slug,
     date: frontmatter.date ? String(frontmatter.date) : new Date().toISOString().split('T')[0],
     time: frontmatter.time || '',

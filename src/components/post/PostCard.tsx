@@ -9,7 +9,7 @@ interface PostCardProps {
 }
 
 export const PostCard: React.FC<PostCardProps> = ({ post }) => {
-  const coverImg = post.coverImage || post.cover || (post.images && post.images[0]);
+  const coverImg = post.coverImage;
 
   return (
     <article className="group rounded-sm overflow-hidden paper-card transition-all duration-200 flex flex-col h-full">

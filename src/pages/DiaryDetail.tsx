@@ -43,7 +43,7 @@ export const DiaryDetail: React.FC = () => {
   // 上一篇与下一篇手记导航
   const { prevDiary, nextDiary } = useMemo(() => {
     if (!slug) return { prevDiary: null, nextDiary: null };
-    const currentIndex = allDiaries.findIndex((d) => d.slug === slug || d.id === slug);
+    const currentIndex = allDiaries.findIndex((d) => d.slug === slug);
     if (currentIndex === -1) return { prevDiary: null, nextDiary: null };
     return {
       prevDiary: currentIndex > 0 ? allDiaries[currentIndex - 1] : null,

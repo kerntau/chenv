@@ -26,10 +26,6 @@ diariesContext.keys().forEach((key: string) => {
 
 export const siteConfig: SiteConfig = siteConfigJson as SiteConfig;
 
-export function getSiteConfig(): SiteConfig {
-  return siteConfig;
-}
-
 export function getAllPosts(): Post[] {
   const posts = Object.entries(postsMap).map(([slug, raw]) =>
     parseMarkdownFile(slug, raw)
@@ -55,13 +51,7 @@ export function getFeaturedPosts(limit = 4): Post[] {
 
 export function getPostBySlug(slug: string): Post | null {
   const raw = postsMap[slug];
-  if (!raw) {
-    // 尝试在所有文章中按 frontmatter.url 或 id 匹配
-    const all = getAllPosts();
-    const found = all.find((p) => p.slug === slug || p.id === slug);
-    return found || null;
-  }
-  return parseMarkdownFile(slug, raw);
+  return raw ? parseMarkdownFile(slug, raw) : null;
 }
 
 export function getAllDiaries(): Diary[] {
@@ -75,12 +65,7 @@ export function getAllDiaries(): Diary[] {
 
 export function getDiaryBySlug(slug: string): Diary | null {
   const raw = diariesMap[slug];
-  if (!raw) {
-    const all = getAllDiaries();
-    const found = all.find((d) => d.slug === slug || d.id === slug);
-    return found || null;
-  }
-  return parseDiaryFile(slug, raw);
+  return raw ? parseDiaryFile(slug, raw) : null;
 }
 
 export function getAllFriends(): FriendItem[] {
