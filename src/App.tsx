@@ -3,6 +3,7 @@ import { Route, Switch, useLocation } from 'wouter';
 import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
 import { AmbientBackground } from './components/layout/AmbientBackground';
+import { siteConfig } from './content';
 import { Home } from './pages/Home';
 import { Posts } from './pages/Posts';
 import { PostDetail } from './pages/PostDetail';
@@ -14,6 +15,29 @@ import { Friends } from './pages/Friends';
 import { About } from './pages/About';
 import { NotFound } from './pages/NotFound';
 
+// 栏目路由定义（含旧路径别名），同时驱动 <Switch> 与浏览器标签标题
+interface Section {
+  label: string;
+  paths: string[];
+  list: React.FC;
+  detail?: React.FC;
+}
+
+const SECTIONS: Section[] = [
+  { label: '文章', paths: ['/posts', '/article'], list: Posts, detail: PostDetail },
+  { label: '归档', paths: ['/archives', '/timeline', '/archive'], list: Archives },
+  { label: '手记', paths: ['/diaries', '/journal', '/shouji'], list: Diaries, detail: DiaryDetail },
+  { label: '说说', paths: ['/says', '/record'], list: Says },
+  { label: '友链', paths: ['/friends', '/friend'], list: Friends },
+  { label: '关于', paths: ['/about', '/my'], list: About },
+];
+
+function findSection(pathname: string) {
+  return SECTIONS.find((s) =>
+    s.paths.some((p) => pathname === p || pathname.startsWith(`${p}/`))
+  );
+}
+
 export const App: React.FC = () => {
   const [location] = useLocation();
 
@@ -21,23 +45,10 @@ export const App: React.FC = () => {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
-    if (location === '/' || location === '') {
-      document.title = '序栈';
-    } else if (location.startsWith('/posts') || location.startsWith('/article')) {
-      document.title = '文章 · 序栈';
-    } else if (location.startsWith('/archives') || location.startsWith('/timeline')) {
-      document.title = '归档 · 序栈';
-    } else if (location.startsWith('/diaries') || location.startsWith('/journal') || location.startsWith('/shouji')) {
-      document.title = '手记 · 序栈';
-    } else if (location.startsWith('/says') || location.startsWith('/record')) {
-      document.title = '说说 · 序栈';
-    } else if (location.startsWith('/friends') || location.startsWith('/friend')) {
-      document.title = '友链 · 序栈';
-    } else if (location.startsWith('/about') || location.startsWith('/my')) {
-      document.title = '关于 · 序栈';
-    } else {
-      document.title = '序栈';
-    }
+    const section = findSection(location);
+    document.title = section
+      ? `${section.label} · ${siteConfig.title}`
+      : siteConfig.title;
   }, [location]);
 
   return (
@@ -47,25 +58,18 @@ export const App: React.FC = () => {
       <div className="flex-1">
         <Switch>
           <Route path="/" component={Home} />
-          <Route path="/posts" component={Posts} />
-          <Route path="/posts/:slug" component={PostDetail} />
-          <Route path="/article" component={Posts} />
-          <Route path="/article/:slug" component={PostDetail} />
-          <Route path="/archives" component={Archives} />
-          <Route path="/timeline" component={Archives} />
-          <Route path="/archive" component={Archives} />
-          <Route path="/diaries" component={Diaries} />
-          <Route path="/diaries/:slug" component={DiaryDetail} />
-          <Route path="/journal" component={Diaries} />
-          <Route path="/journal/:slug" component={DiaryDetail} />
-          <Route path="/shouji" component={Diaries} />
-          <Route path="/shouji/:slug" component={DiaryDetail} />
-          <Route path="/says" component={Says} />
-          <Route path="/record" component={Says} />
-          <Route path="/friends" component={Friends} />
-          <Route path="/friend" component={Friends} />
-          <Route path="/about" component={About} />
-          <Route path="/my" component={About} />
+          {SECTIONS.map((section) => (
+            <React.Fragment key={section.label}>
+              {section.paths.map((path) => (
+                <React.Fragment key={path}>
+                  <Route path={path} component={section.list} />
+                  {section.detail && (
+                    <Route path={`${path}/:slug`} component={section.detail} />
+                  )}
+                </React.Fragment>
+              ))}
+            </React.Fragment>
+          ))}
           <Route component={NotFound} />
         </Switch>
       </div>

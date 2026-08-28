@@ -1,27 +1,21 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import {
-  GithubIcon,
-  XTwitterIcon,
-  RssIcon,
-  MailIcon,
-  BilibiliIcon,
-} from '../ui/Icons';
+import type { SocialLink } from '../../types';
+import { GithubIcon, XTwitterIcon, MailIcon, BilibiliIcon } from '../ui/Icons';
 import { siteConfig, getAllPosts } from '../../content';
+
+const SOCIAL_ICONS: Record<SocialLink['icon'], React.FC<React.SVGProps<SVGSVGElement>>> = {
+  github: GithubIcon,
+  bilibili: BilibiliIcon,
+  x: XTwitterIcon,
+  email: MailIcon,
+};
 
 export const InneiHero: React.FC = () => {
   const posts = getAllPosts();
   const totalPosts = posts.length;
   const totalWords = posts.reduce((acc, cur) => acc + (cur.wordCount || 0), 0);
   const totalWordsText = totalWords > 10000 ? `${(totalWords / 10000).toFixed(1)} 万字` : `${totalWords} 字`;
-
-  const socials = [
-    { name: 'GitHub', icon: GithubIcon, href: siteConfig.author.github || 'https://github.com/kerntau' },
-    { name: 'Bilibili', icon: BilibiliIcon, href: 'https://space.bilibili.com/9655855' },
-    { name: 'X / Twitter', icon: XTwitterIcon, href: 'https://x.com/Kerntao' },
-    { name: 'Email 联系', icon: MailIcon, href: `mailto:${siteConfig.author.email || 'hi@keru.in'}` },
-    { name: 'RSS 订阅', icon: RssIcon, href: '/feed' },
-  ];
 
   return (
     <section className="relative flex flex-col items-center justify-center pt-8 pb-16 sm:py-20 text-center overflow-hidden">
@@ -110,13 +104,13 @@ export const InneiHero: React.FC = () => {
         transition={{ duration: 0.5, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
         className="mt-8 flex flex-wrap justify-center items-center gap-2"
       >
-        {socials.map((social) => {
-          const Icon = social.icon;
+        {siteConfig.author.socials.map((social) => {
+          const Icon = SOCIAL_ICONS[social.icon];
           return (
             <a
               key={social.name}
-              href={social.href}
-              target={social.href.startsWith('http') ? '_blank' : '_self'}
+              href={social.url}
+              target={social.url.startsWith('http') ? '_blank' : '_self'}
               rel="noreferrer"
               aria-label={social.name}
               className="flex items-center justify-center w-9 h-9 rounded-full text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/60 dark:hover:bg-slate-800 transition-all duration-200 focus-visible:outline-none"

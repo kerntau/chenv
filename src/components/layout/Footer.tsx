@@ -6,7 +6,7 @@ import { siteConfig } from '../../content';
 
 export const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
-  const sinceYear = siteConfig.footer?.sinceYear || 2024;
+  const sinceYear = siteConfig.footer.sinceYear;
   const { theme, setTheme } = useTheme();
 
   return (
@@ -18,7 +18,7 @@ export const Footer: React.FC = () => {
           {/* 左侧区域 */}
           <div className="space-y-1.5 max-w-sm">
             <h3 className="font-sans font-bold text-base sm:text-lg text-slate-900 dark:text-slate-100 tracking-tight">
-              {siteConfig.author?.name || siteConfig.title}
+              {siteConfig.author.name || siteConfig.title}
             </h3>
             <p className="italic text-xs text-slate-500 dark:text-slate-400 font-serif leading-relaxed">
               Stay hungry. Stay foolish.
@@ -72,7 +72,7 @@ export const Footer: React.FC = () => {
                 </li>
                 <li>
                   <a
-                    href={siteConfig.author?.github || 'https://github.com/kerntau'}
+                    href={siteConfig.author.github}
                     target="_blank"
                     rel="noreferrer"
                     className="group inline-flex items-center hover:text-slate-900 dark:hover:text-slate-100 transition-colors"
@@ -125,7 +125,7 @@ export const Footer: React.FC = () => {
               <ul className="space-y-1.5 text-xs">
                 <li>
                   <a
-                    href={`mailto:${siteConfig.author?.email || 'hi@keru.in'}`}
+                    href={`mailto:${siteConfig.author.email}`}
                     className="group inline-flex items-center hover:text-slate-900 dark:hover:text-slate-100 transition-colors"
                   >
                     <span>发邮件</span>
@@ -134,7 +134,7 @@ export const Footer: React.FC = () => {
                 </li>
                 <li>
                   <a
-                    href={siteConfig.author?.github || 'https://github.com/kerntau'}
+                    href={siteConfig.author.github}
                     target="_blank"
                     rel="noreferrer"
                     className="group inline-flex items-center hover:text-slate-900 dark:hover:text-slate-100 transition-colors"
@@ -235,7 +235,7 @@ export const Footer: React.FC = () => {
               rel="noreferrer"
               className="hover:underline underline-offset-2"
             >
-              {siteConfig.footer?.icp || '萌ICP备20268811号'}
+              {siteConfig.footer.icp}
             </a>
           </div>
         </div>

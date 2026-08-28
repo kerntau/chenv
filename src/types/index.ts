@@ -18,7 +18,6 @@ export interface TOCItem {
 }
 
 export interface Post {
-  id: string;
   slug: string;
   title: string;
   date: string;
@@ -31,8 +30,6 @@ export interface Post {
   toc: TOCItem[];
   draft?: boolean;
   coverImage?: string;
-  cover?: string;
-  images?: string[];
   recommend?: number;
 }
 
@@ -48,20 +45,24 @@ export interface FriendItem {
   deploy?: string;
 }
 
+export interface SocialLink {
+  name: string;
+  icon: 'github' | 'bilibili' | 'x' | 'email';
+  url: string;
+}
+
 export interface SiteConfig {
   title: string;
   subtitle: string;
   description: string;
   url: string;
-  logo: string;
-  favicon: string;
   author: {
     name: string;
     avatar: string;
     description: string;
     email: string;
     github: string;
-    socials: { name: string; icon: string; url: string }[];
+    socials: SocialLink[];
   };
   footer: {
     copyright: string;
@@ -69,13 +70,9 @@ export interface SiteConfig {
     customText: string;
     icp?: string;
   };
-  seo?: {
-    keywords: string[];
-  };
 }
 
 export interface Diary {
-  id: string;
   slug: string;
   title: string;
   date: string;
