@@ -1,22 +1,26 @@
 ---
-title: "PostgreSQL 索引调优与高并发死锁排查"
-url: "postgresql-index-tuning-deadlock-troubleshooting"
-date: "2025-02-04"
+title: PostgreSQL 索引调优与高并发死锁排查
+url: postgresql-index-tuning-deadlock-troubleshooting
+date: '2025-02-04'
 draft: false
 authors:
   - default
-summary: "系统剖析 PostgreSQL B-Tree、GIN、BRIN 索引物理特性与适用边界，掌握 EXPLAIN BUFFERS 执行计划分析，并深度排查解决千万级并发事务死锁难题。"
+summary: >-
+  系统剖析 PostgreSQL B-Tree、GIN、BRIN 索引物理特性与适用边界，掌握 EXPLAIN BUFFERS
+  执行计划分析，并深度排查解决千万级并发事务死锁难题。
 tags:
-  - "PostgreSQL"
-  - "数据库"
-  - "SQL优化"
-  - "死锁排查"
-categoryId: "cat-postgresql-index-tuning-deadlock-troubleshooting"
-category: "数据库系统"
+  - PostgreSQL
+  - 数据库
+  - SQL优化
+  - 死锁排查
+categoryId: cat-postgresql-index-tuning-deadlock-troubleshooting
+category: 数据库系统
 categories:
-  - "数据库系统"
+  - 数据库系统
 images:
-  - "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&w=1600&q=85"
+  - /covers/postgresql-index-tuning-deadlock-troubleshooting.svg
+cover: /covers/postgresql-index-tuning-deadlock-troubleshooting.svg
+coverImage: /covers/postgresql-index-tuning-deadlock-troubleshooting.svg
 ---
 
 # PostgreSQL 索引调优与高并发死锁排查
@@ -40,9 +44,9 @@ images:
 ```mermaid
 graph TD
     Query[根据业务查询特征选择最适索引] --> TypeCheck{查询字段数据特征?}
-    TypeCheck -- "精确等值 / 范围比较 / 结果排序" --> BTree[创建 B-Tree 索引 (btree)]
-    TypeCheck -- "JSONB 字段多条件检索 / 数组包含" --> GIN[创建 GIN 倒排索引 (gin)]
-    TypeCheck -- "时序流水表 (自增 ID / 日期且数据只增不改)" --> BRIN[创建 BRIN 块范围索引 (brin)]
+    TypeCheck -- "精确等值 / 范围比较 / 结果排序" --> BTree["创建 B-Tree 索引 (btree)"]
+    TypeCheck -- "JSONB 字段多条件检索 / 数组包含" --> GIN["创建 GIN 倒排索引 (gin)"]
+    TypeCheck -- "时序流水表 (自增 ID / 日期且数据只增不改)" --> BRIN["创建 BRIN 块范围索引 (brin)"]
 ```
 
 ---

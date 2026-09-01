@@ -1,23 +1,27 @@
 ---
-title: "HTTP/3、WebTransport 与 WebGPU 全解"
-url: "future-web-development-http3-webtransport-webgpu"
-date: "2026-03-29"
+title: HTTP/3、WebTransport 与 WebGPU 全解
+url: future-web-development-http3-webtransport-webgpu
+date: '2026-03-29'
 draft: false
 recommend: 86
 authors:
   - default
-summary: "全面解析构建次时代高性能 Web 应用的三大支柱：基于 UDP 的 HTTP/3 QUIC 传输协议、取代 WebSocket 的 WebTransport 双向流，以及基于 GPU 并行计算的 WebGPU。"
+summary: >-
+  全面解析构建次时代高性能 Web 应用的三大支柱：基于 UDP 的 HTTP/3 QUIC 传输协议、取代 WebSocket 的 WebTransport
+  双向流，以及基于 GPU 并行计算的 WebGPU。
 tags:
-  - "HTTP3"
-  - "WebTransport"
-  - "WebGPU"
-  - "前沿技术"
-categoryId: "cat-future-web-development-http3-webtransport-webgpu"
-category: "前端开发"
+  - HTTP3
+  - WebTransport
+  - WebGPU
+  - 前沿技术
+categoryId: cat-future-web-development-http3-webtransport-webgpu
+category: 前端开发
 categories:
-  - "前端开发"
+  - 前端开发
 images:
-  - "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1600&q=85"
+  - /covers/future-web-development-http3-webtransport-webgpu.svg
+cover: /covers/future-web-development-http3-webtransport-webgpu.svg
+coverImage: /covers/future-web-development-http3-webtransport-webgpu.svg
 ---
 
 # HTTP/3、WebTransport 与 WebGPU 全解

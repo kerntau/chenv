@@ -64,24 +64,13 @@ export const PostDetail: React.FC = () => {
     return stripDuplicateHeading(post?.content || '', post?.title);
   }, [post?.content, post?.title]);
 
-  // 真实封面背景图智能解析（优先读取文章 frontmatter 的 images/cover/coverImage，若缺失则按技术分类匹配高清水彩/科技大图）
-  const categoryDefaultCovers: Record<string, string> = {
-    '云原生与运维': 'https://images.unsplash.com/photo-1517433456452-f9633a875f6f?auto=format&fit=crop&w=1600&q=85',
-    '后端架构与分布式': 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1600&q=85',
-    '前端开发与架构': 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1600&q=85',
-    '数据库与存储': 'https://images.unsplash.com/photo-1544383835-bda2bc66a55d?auto=format&fit=crop&w=1600&q=85',
-    'AI 与机器学习': 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=1600&q=85',
-    '系统与安全': 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1600&q=85',
-  };
-
+  const [coverError, setCoverError] = useState(false);
   const coverUrl = useMemo(() => {
     if (!post) return null;
+    if (coverError) return `/covers/${post.slug}.svg`;
     if (post.coverImage) return post.coverImage;
-    return (
-      categoryDefaultCovers[post.category] ||
-      'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1600&q=85'
-    );
-  }, [post]);
+    return `/covers/${post.slug}.svg`;
+  }, [post, coverError]);
 
   if (!post) {
     return (
@@ -129,6 +118,9 @@ export const PostDetail: React.FC = () => {
                     alt={post.title}
                     className="w-full h-full object-cover"
                     loading="eager"
+                    onError={() => {
+                      if (!coverError) setCoverError(true);
+                    }}
                   />
                   {/* 自然的多阶环境光渐变遮罩 */}
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/30 to-slate-950/35 pointer-events-none" />

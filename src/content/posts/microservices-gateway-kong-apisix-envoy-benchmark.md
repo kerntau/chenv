@@ -1,23 +1,27 @@
 ---
-title: "API 网关选型：Kong、APISIX 与 Envoy"
-url: "microservices-gateway-kong-apisix-envoy-benchmark"
-date: "2025-11-28"
+title: API 网关选型：Kong、APISIX 与 Envoy
+url: microservices-gateway-kong-apisix-envoy-benchmark
+date: '2025-11-28'
 draft: false
 authors:
   - default
-summary: "全方位深度横评三大主流微服务云原生 API 网关：从 C++ 驱动的 Envoy、LuaJIT/etcd 架构的 Apache APISIX 到 Kong，涵盖动态配置热加载、插件生态与 QPS 基准压测。"
+summary: >-
+  全方位深度横评三大主流微服务云原生 API 网关：从 C++ 驱动的 Envoy、LuaJIT/etcd 架构的 Apache APISIX 到
+  Kong，涵盖动态配置热加载、插件生态与 QPS 基准压测。
 tags:
-  - "API网关"
-  - "APISIX"
-  - "Envoy"
-  - "Kong"
-  - "微服务"
-categoryId: "cat-microservices-gateway-kong-apisix-envoy-benchmark"
-category: "后端开发"
+  - API网关
+  - APISIX
+  - Envoy
+  - Kong
+  - 微服务
+categoryId: cat-microservices-gateway-kong-apisix-envoy-benchmark
+category: 后端开发
 categories:
-  - "后端开发"
+  - 后端开发
 images:
-  - "https://images.unsplash.com/photo-1508739773434-c26b3d09e071?auto=format&fit=crop&w=1600&q=85"
+  - /covers/microservices-gateway-kong-apisix-envoy-benchmark.svg
+cover: /covers/microservices-gateway-kong-apisix-envoy-benchmark.svg
+coverImage: /covers/microservices-gateway-kong-apisix-envoy-benchmark.svg
 ---
 
 # API 网关选型：Kong、APISIX 与 Envoy
@@ -41,12 +45,12 @@ images:
 ```mermaid
 graph TD
     subgraph Envoy_Arch [Envoy: C++ 原生 xDS 架构]
-        IstioPilot[控制面: xDS Server] -->|gRPC 双向流式推送| EnvoyCore[Envoy C++ 非阻塞主循环]
-        EnvoyCore --> FilterChain[Filter 责任链 (Auth -> RateLimit -> Router)]
+        IstioPilot["控制面: xDS Server"] -->|gRPC 双向流式推送| EnvoyCore[Envoy C++ 非阻塞主循环]
+        EnvoyCore --> FilterChain["Filter 责任链 (Auth -> RateLimit -> Router)"]
     end
 
     subgraph APISIX_Arch [Apache APISIX: etcd 毫秒级 Watch]
-        etcdCluster[etcd 集群: 存储路由规则与 Upstream] -->|HTTP/gRPC Watch| APISIXWorker[Worker 进程共享内存 / Radixtree 路由树]
+        etcdCluster["etcd 集群: 存储路由规则与 Upstream"] -->|HTTP/gRPC Watch| APISIXWorker[Worker 进程共享内存 / Radixtree 路由树]
         APISIXWorker --> LuaPlugins[LuaJIT 高速插件链条]
     end
 ```

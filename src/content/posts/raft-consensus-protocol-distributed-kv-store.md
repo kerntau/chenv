@@ -1,22 +1,24 @@
 ---
-title: "Raft 共识算法与分布式 KV 存储实现"
-url: "raft-consensus-protocol-distributed-kv-store"
-date: "2026-02-21"
+title: Raft 共识算法与分布式 KV 存储实现
+url: raft-consensus-protocol-distributed-kv-store
+date: '2026-02-21'
 draft: false
 authors:
   - default
-summary: "系统图解 Raft 核心算法：Leader 选举、日志追加复制、安全性约束与网络分区脑裂防御，并用 Go 语言从零实现高可用分布式 KV 存储。"
+summary: 系统图解 Raft 核心算法：Leader 选举、日志追加复制、安全性约束与网络分区脑裂防御，并用 Go 语言从零实现高可用分布式 KV 存储。
 tags:
-  - "Raft"
-  - "分布式系统"
-  - "Go"
-  - "存储引擎"
-categoryId: "cat-raft-consensus-protocol-distributed-kv-store"
-category: "后端开发"
+  - Raft
+  - 分布式系统
+  - Go
+  - 存储引擎
+categoryId: cat-raft-consensus-protocol-distributed-kv-store
+category: 后端开发
 categories:
-  - "后端开发"
+  - 后端开发
 images:
-  - "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1600&q=85"
+  - /covers/raft-consensus-protocol-distributed-kv-store.svg
+cover: /covers/raft-consensus-protocol-distributed-kv-store.svg
+coverImage: /covers/raft-consensus-protocol-distributed-kv-store.svg
 ---
 
 # Raft 共识算法与分布式 KV 存储实现
@@ -161,13 +163,13 @@ func (rf *RaftNode) RequestVote(args *RequestVoteArgs, reply *RequestVoteReply) 
 ```mermaid
 graph LR
     subgraph Quorum_Major [多数派分区 (3 节点: Node A, B, C)]
-        LeaderA[Node A (Leader)] --> NodeB[Node B]
+        LeaderA["Node A (Leader)"] --> NodeB[Node B]
         LeaderA --> NodeC[Node C]
         Note1[收敛多数派投票，正常处理写入并提交 Commit]
     end
 
     subgraph Partition_Minor [少数派孤岛分区 (2 节点: Node D, E)]
-        OldLeaderD[Node D (旧 Leader)] -. 无法收到多数派 ACK .-> NodeE[Node E]
+        OldLeaderD["Node D (旧 Leader)"] -. 无法收到多数派 ACK .-> NodeE[Node E]
         Note2[日志永远无法达到 Quorum 多数派，无法提交，保障一致性!]
     end
 ```

@@ -1,22 +1,24 @@
 ---
-title: "React 19 Server Components 落地指南"
-url: "react-19-server-components-guide"
-date: "2025-01-24"
+title: React 19 Server Components 落地指南
+url: react-19-server-components-guide
+date: '2025-01-24'
 recommend: 95
 draft: false
 authors:
   - default
-summary: "深入剖析 React 19 服务端组件 (RSC) 与 Server Actions 的执行模型，从数据流边界、流式渲染到企业级项目架构落地实践。"
+summary: 深入剖析 React 19 服务端组件 (RSC) 与 Server Actions 的执行模型，从数据流边界、流式渲染到企业级项目架构落地实践。
 tags:
-  - "React"
-  - "Next.js"
-  - "前端架构"
-categoryId: "cat-react-19-server-components-guide"
-category: "前端开发"
+  - React
+  - Next.js
+  - 前端架构
+categoryId: cat-react-19-server-components-guide
+category: 前端开发
 categories:
-  - "前端开发"
+  - 前端开发
 images:
-  - "https://images.unsplash.com/photo-1633356122544-f134324a6cee?auto=format&fit=crop&w=1600&q=85"
+  - /covers/react-19-server-components-guide.svg
+cover: /covers/react-19-server-components-guide.svg
+coverImage: /covers/react-19-server-components-guide.svg
 ---
 
 # React 19 Server Components 落地指南

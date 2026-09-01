@@ -1,22 +1,26 @@
 ---
-title: "Vitest 与 Playwright 前端测试实战"
-url: "frontend-testing-evolution-vitest-playwright"
-date: "2025-05-18"
+title: Vitest 与 Playwright 前端测试实战
+url: frontend-testing-evolution-vitest-playwright
+date: '2025-05-18'
 draft: false
 authors:
   - default
-summary: "全面重构前端测试金字塔：从 Jest/Cypress 迁移至基于 Vite 生态的极速单元测试 Vitest 与现代化端到端及视觉回归测试利器 Playwright。"
+summary: >-
+  全面重构前端测试金字塔：从 Jest/Cypress 迁移至基于 Vite 生态的极速单元测试 Vitest 与现代化端到端及视觉回归测试利器
+  Playwright。
 tags:
-  - "测试"
-  - "Vitest"
-  - "Playwright"
-  - "工程化"
-categoryId: "cat-frontend-testing-evolution-vitest-playwright"
-category: "前端开发"
+  - 测试
+  - Vitest
+  - Playwright
+  - 工程化
+categoryId: cat-frontend-testing-evolution-vitest-playwright
+category: 前端开发
 categories:
-  - "前端开发"
+  - 前端开发
 images:
-  - "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1600&q=85"
+  - /covers/frontend-testing-evolution-vitest-playwright.svg
+cover: /covers/frontend-testing-evolution-vitest-playwright.svg
+coverImage: /covers/frontend-testing-evolution-vitest-playwright.svg
 ---
 
 # Vitest 与 Playwright 前端测试实战
@@ -32,9 +36,9 @@ images:
 ```mermaid
 graph TD
     subgraph Test_Pyramid [现代前端测试金字塔]
-        E2E[E2E 端到端 / 视觉回归测试 (Playwright) - 真实浏览器环境 & 关键业务主流程]
-        Integration[组件集成测试 (Vitest + Testing Library + MSW) - Mock 网络接口 & 交互状态]
-        Unit[单元测试 (Vitest) - 纯函数、算法逻辑、工具库 & Hooks]
+        E2E["E2E 端到端 / 视觉回归测试 (Playwright) - 真实浏览器环境 & 关键业务主流程"]
+        Integration["组件集成测试 (Vitest + Testing Library + MSW) - Mock 网络接口 & 交互状态"]
+        Unit["单元测试 (Vitest) - 纯函数、算法逻辑、工具库 & Hooks"]
     end
 
     Unit --> Integration

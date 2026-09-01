@@ -1,21 +1,25 @@
 ---
-title: "微前端与 Module Federation 演进"
-url: "micro-frontends-architecture-enterprise-evolution"
-date: "2025-09-02"
+title: 微前端与 Module Federation 演进
+url: micro-frontends-architecture-enterprise-evolution
+date: '2025-09-02'
 draft: false
 authors:
   - default
-summary: "全面对比基于 single-spa/qiankun 的单实例路由驱动模型与 Webpack 5 / Rsbuild 现代 Module Federation，解决跨团队协作、共享依赖与多框架混用难题。"
+summary: >-
+  全面对比基于 single-spa/qiankun 的单实例路由驱动模型与 Webpack 5 / Rsbuild 现代 Module
+  Federation，解决跨团队协作、共享依赖与多框架混用难题。
 tags:
-  - "微前端"
-  - "架构设计"
-  - "前端工程化"
-categoryId: "cat-micro-frontends-architecture-enterprise-evolution"
-category: "前端开发"
+  - 微前端
+  - 架构设计
+  - 前端工程化
+categoryId: cat-micro-frontends-architecture-enterprise-evolution
+category: 前端开发
 categories:
-  - "前端开发"
+  - 前端开发
 images:
-  - "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1600&q=85"
+  - /covers/micro-frontends-architecture-enterprise-evolution.svg
+cover: /covers/micro-frontends-architecture-enterprise-evolution.svg
+coverImage: /covers/micro-frontends-architecture-enterprise-evolution.svg
 ---
 
 # 微前端与 Module Federation 演进

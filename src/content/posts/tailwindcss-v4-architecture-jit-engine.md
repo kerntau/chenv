@@ -1,21 +1,25 @@
 ---
-title: "Tailwind CSS v4 架构重构与 JIT 引擎"
-url: "tailwindcss-v4-architecture-jit-engine"
-date: "2026-03-04"
+title: Tailwind CSS v4 架构重构与 JIT 引擎
+url: tailwindcss-v4-architecture-jit-engine
+date: '2026-03-04'
 draft: false
 authors:
   - default
-summary: "深度剖析 Tailwind CSS v4 的全新 Oxide 编译引擎、CSS-First 原生配置模型以及相较于 v3 在构建性能与设计系统工程化上的颠覆性改进。"
+summary: >-
+  深度剖析 Tailwind CSS v4 的全新 Oxide 编译引擎、CSS-First 原生配置模型以及相较于 v3
+  在构建性能与设计系统工程化上的颠覆性改进。
 tags:
-  - "TailwindCSS"
-  - "CSS"
-  - "构建工具"
-categoryId: "cat-tailwindcss-v4-architecture-jit-engine"
-category: "前端开发"
+  - TailwindCSS
+  - CSS
+  - 构建工具
+categoryId: cat-tailwindcss-v4-architecture-jit-engine
+category: 前端开发
 categories:
-  - "前端开发"
+  - 前端开发
 images:
-  - "https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&w=1600&q=85"
+  - /covers/tailwindcss-v4-architecture-jit-engine.svg
+cover: /covers/tailwindcss-v4-architecture-jit-engine.svg
+coverImage: /covers/tailwindcss-v4-architecture-jit-engine.svg
 ---
 
 # Tailwind CSS v4 架构重构与 JIT 引擎
@@ -46,7 +50,7 @@ graph TD
     end
 
     subgraph v4_Pipeline [v4: Rust Oxide 统一原生流]
-        CSSFirst[globals.css: @theme] --> OxideEngine[Rust Oxide 高并发扫描器]
+        CSSFirst["globals.css: @theme"] --> OxideEngine[Rust Oxide 高并发扫描器]
         OxideEngine --> LightningCSS[Lightning CSS 极速生成与压缩]
         LightningCSS --> OutputCSS4[输出工业级紧凑 CSS]
     end

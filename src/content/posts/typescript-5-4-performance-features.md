@@ -1,21 +1,23 @@
 ---
-title: "TypeScript 5.4+ 核心特性与性能调优"
-url: "typescript-5-4-performance-features"
-date: "2025-01-01"
+title: TypeScript 5.4+ 核心特性与性能调优
+url: typescript-5-4-performance-features
+date: '2025-01-01'
 draft: false
 authors:
   - default
-summary: "深入剖析 TypeScript 5.4+ 的 NoInfer 工具类型、闭包类型缩小保留与条件类型计算优化，并提供 tsc 编译耗时诊断与类型热点调优实战。"
+summary: 深入剖析 TypeScript 5.4+ 的 NoInfer 工具类型、闭包类型缩小保留与条件类型计算优化，并提供 tsc 编译耗时诊断与类型热点调优实战。
 tags:
-  - "TypeScript"
-  - "JavaScript"
-  - "前端架构"
-categoryId: "cat-typescript-5-4-performance-features"
-category: "前端开发"
+  - TypeScript
+  - JavaScript
+  - 前端架构
+categoryId: cat-typescript-5-4-performance-features
+category: 前端开发
 categories:
-  - "前端开发"
+  - 前端开发
 images:
-  - "https://images.unsplash.com/photo-1516116211227-2c933481283e?auto=format&fit=crop&w=1600&q=85"
+  - /covers/typescript-5-4-performance-features.svg
+cover: /covers/typescript-5-4-performance-features.svg
+coverImage: /covers/typescript-5-4-performance-features.svg
 ---
 
 # TypeScript 5.4+ 核心特性与性能调优
@@ -119,7 +121,7 @@ npx tsc --noEmit --generateTrace ./tsc-trace
 graph TD
     Identify[tsc --generateTrace] --> ChromeTrace[Chrome Tracing 可视化分析]
     ChromeTrace --> FindHotspot[定位耗时超长的 Recursive Type / Deep Keyof]
-    FindHotspot --> Optimization[类型优化落地: 扁平化映射 & 接口缓存]
+    FindHotspot --> Optimization["类型优化落地: 扁平化映射 & 接口缓存"]
 ```
 
 ### 3. 类型优化四大军规

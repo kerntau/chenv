@@ -1,6 +1,15 @@
 import matter from 'gray-matter';
 import type { Diary, Post, PostFrontmatter, TOCItem } from '../types';
 
+export function generateHeadingId(text: string): string {
+  const cleanText = text.replace(/[*_`#]/g, '').trim();
+  const id = cleanText
+    .toLowerCase()
+    .replace(/[^\w\u4e00-\u9fa5]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+  return id || 'section';
+}
+
 export function calculateReadingTime(content: string): { readingTime: string; wordCount: number } {
   const cleanContent = content.replace(/[#*`_\[\]()]/g, '').trim();
   const cjkCount = (cleanContent.match(/[\u4e00-\u9fa5]/g) || []).length;
@@ -29,11 +38,8 @@ export function extractTOC(content: string): TOCItem[] {
     if (match) {
       const level = match[1].length;
       const rawText = match[2].trim();
-      const cleanText = rawText.replace(/[*_`]/g, '');
-      const id = cleanText
-        .toLowerCase()
-        .replace(/[^\w\u4e00-\u9fa5]+/g, '-')
-        .replace(/^-+|-+$/g, '');
+      const cleanText = rawText.replace(/[*_`]/g, '').trim();
+      const id = generateHeadingId(cleanText);
       
       toc.push({
         id: id || `heading-${toc.length}`,
@@ -49,8 +55,12 @@ export function extractTOC(content: string): TOCItem[] {
 export function parseMarkdownFile(slug: string, rawContent: string): Post {
   const { data, content } = matter(rawContent);
   const frontmatter = data as Partial<PostFrontmatter> & Record<string, unknown>;
-  const { readingTime, wordCount } = calculateReadingTime(content);
-  const toc = extractTOC(content);
+  const articleTitle = typeof frontmatter.title === 'string' ? frontmatter.title : slug;
+  
+  // 预先清洗重复首行标题，确保 TOC 和正文 DOM ID 绝对一致
+  const cleanContent = stripDuplicateHeading(content, articleTitle);
+  const { readingTime, wordCount } = calculateReadingTime(cleanContent);
+  const toc = extractTOC(cleanContent);
 
   const finalCategory =
     frontmatter.category ||

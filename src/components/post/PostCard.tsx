@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'wouter';
-import { Calendar, Folder, Tag, ImageIcon } from 'lucide-react';
+import { Calendar, Folder, Tag } from 'lucide-react';
 import type { Post } from '../../types';
 import { formatDateShort } from '../../lib/date';
 
@@ -9,30 +9,24 @@ interface PostCardProps {
 }
 
 export const PostCard: React.FC<PostCardProps> = ({ post }) => {
-  const coverImg = post.coverImage;
+  const [imgSrc, setImgSrc] = React.useState<string>(post.coverImage || `/covers/${post.slug}.svg`);
 
   return (
     <article className="group rounded-sm overflow-hidden paper-card transition-all duration-200 flex flex-col h-full">
       <Link href={`/posts/${post.slug}`} className="flex flex-col h-full">
         {/* 顶部标准 16:9 无缝相框封面 */}
         <div className="relative w-full aspect-[16/9] overflow-hidden bg-slate-100 dark:bg-slate-800 flex-shrink-0">
-          {coverImg ? (
-            <img
-              src={coverImg}
-              alt={post.title}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
-              loading="lazy"
-            />
-          ) : (
-            <div className="w-full h-full flex flex-col items-center justify-center p-3 text-center select-none relative overflow-hidden bg-gradient-to-br from-sky-50 via-blue-50 to-indigo-50/50 dark:from-slate-800 dark:via-slate-850 dark:to-slate-900">
-              <div className="w-8 h-8 rounded-sm bg-white/80 dark:bg-slate-800/80 border border-slate-200/60 dark:border-slate-700 shadow-2xs flex items-center justify-center text-blue-500 dark:text-blue-400 mb-1 group-hover:scale-110 transition-transform duration-300">
-                <ImageIcon className="w-4 h-4 opacity-80" />
-              </div>
-              <span className="text-[9px] font-mono text-slate-400 dark:text-slate-500 uppercase tracking-wider">
-                {post.category || 'ARTICLE'}
-              </span>
-            </div>
-          )}
+          <img
+            src={imgSrc}
+            alt={post.title}
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+            loading="lazy"
+            onError={() => {
+              if (imgSrc !== `/covers/${post.slug}.svg`) {
+                setImgSrc(`/covers/${post.slug}.svg`);
+              }
+            }}
+          />
         </div>
 
         {/* 下半部分白底内容区 */}

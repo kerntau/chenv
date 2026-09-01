@@ -1,22 +1,26 @@
 ---
-title: "Actix-web 与 Axum 架构性能实测"
-url: "rust-web-framework-actix-web-axum-benchmark"
-date: "2026-05-01"
+title: Actix-web 与 Axum 架构性能实测
+url: rust-web-framework-actix-web-axum-benchmark
+date: '2026-05-01'
 draft: false
 authors:
   - default
-summary: "全面对比 Rust 生态顶流 Web 框架 Actix-web 与 Axum：从 Actor/Arbiter 线程模型到 Tower/Hyper 中间件生态，附带生产级 API 实现与 QPS 基准压测。"
+summary: >-
+  全面对比 Rust 生态顶流 Web 框架 Actix-web 与 Axum：从 Actor/Arbiter 线程模型到 Tower/Hyper
+  中间件生态，附带生产级 API 实现与 QPS 基准压测。
 tags:
-  - "Rust"
-  - "Web框架"
-  - "Axum"
-  - "Actix-web"
-categoryId: "cat-rust-web-framework-actix-web-axum-benchmark"
-category: "后端开发"
+  - Rust
+  - Web框架
+  - Axum
+  - Actix-web
+categoryId: cat-rust-web-framework-actix-web-axum-benchmark
+category: 后端开发
 categories:
-  - "后端开发"
+  - 后端开发
 images:
-  - "https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?auto=format&fit=crop&w=1600&q=85"
+  - /covers/rust-web-framework-actix-web-axum-benchmark.svg
+cover: /covers/rust-web-framework-actix-web-axum-benchmark.svg
+coverImage: /covers/rust-web-framework-actix-web-axum-benchmark.svg
 ---
 
 # Actix-web 与 Axum 架构性能实测
@@ -39,8 +43,8 @@ Actix-web 长期称霸 TechEmpower 性能榜单第一梯队，而由 Tokio 核�
 ```mermaid
 graph TD
     subgraph Actix_Model [Actix-web: Arbiter 多线程分发]
-        Master1[主监听线程] --> Worker1[Arbiter 线程 1: 独占 LocalSet]
-        Master1 --> Worker2[Arbiter 线程 2: 独占 LocalSet]
+        Master1[主监听线程] --> Worker1["Arbiter 线程 1: 独占 LocalSet"]
+        Master1 --> Worker2["Arbiter 线程 2: 独占 LocalSet"]
         Worker1 --> HandlerA[本地单线程执行 Handler]
     end
 

@@ -1,22 +1,26 @@
 ---
-title: "Nginx 高并发调优与 TLS 1.3 实践"
-url: "nginx-performance-tuning-tls-1-3-optimization"
-date: "2025-04-29"
+title: Nginx 高并发调优与 TLS 1.3 实践
+url: nginx-performance-tuning-tls-1-3-optimization
+date: '2025-04-29'
 draft: false
 authors:
   - default
-summary: "深入剖析 Nginx Master-Worker 事件驱动架构，掌握内核参数与 epoll 调优，并通过 TLS 1.3 0-RTT 极速握手与 Upstream 连接池将反向代理性能发挥至硬件极限。"
+summary: >-
+  深入剖析 Nginx Master-Worker 事件驱动架构，掌握内核参数与 epoll 调优，并通过 TLS 1.3 0-RTT 极速握手与
+  Upstream 连接池将反向代理性能发挥至硬件极限。
 tags:
-  - "Nginx"
-  - "性能优化"
-  - "TLS1.3"
-  - "负载均衡"
-categoryId: "cat-nginx-performance-tuning-tls-1-3-optimization"
-category: "云原生与运维"
+  - Nginx
+  - 性能优化
+  - TLS1.3
+  - 负载均衡
+categoryId: cat-nginx-performance-tuning-tls-1-3-optimization
+category: 云原生与运维
 categories:
-  - "云原生与运维"
+  - 云原生与运维
 images:
-  - "https://images.unsplash.com/photo-1551808525-51a94da548ce?auto=format&fit=crop&w=1600&q=85"
+  - /covers/nginx-performance-tuning-tls-1-3-optimization.svg
+cover: /covers/nginx-performance-tuning-tls-1-3-optimization.svg
+coverImage: /covers/nginx-performance-tuning-tls-1-3-optimization.svg
 ---
 
 # Nginx 高并发调优与 TLS 1.3 实践
@@ -33,12 +37,12 @@ images:
 
 ```mermaid
 graph TD
-    Master[Nginx Master 进程 (接收系统信号, 管理子进程)] --> W0[Worker 进程 0 (绑定 CPU Core 0: 独占 epoll 事件循环)]
-    Master --> W1[Worker 进程 1 (绑定 CPU Core 1: 独占 epoll 事件循环)]
-    Master --> W2[Worker 进程 2 (绑定 CPU Core 2: 独占 epoll 事件循环)]
-    Master --> W3[Worker 进程 3 (绑定 CPU Core 3: 独占 epoll 事件循环)]
+    Master["Nginx Master 进程 (接收系统信号, 管理子进程)"] --> W0["Worker 进程 0 (绑定 CPU Core 0: 独占 epoll 事件循环)"]
+    Master --> W1["Worker 进程 1 (绑定 CPU Core 1: 独占 epoll 事件循环)"]
+    Master --> W2["Worker 进程 2 (绑定 CPU Core 2: 独占 epoll 事件循环)"]
+    Master --> W3["Worker 进程 3 (绑定 CPU Core 3: 独占 epoll 事件循环)"]
     
-    W0 <--> SocketQ[Linux 内核网络套接字 (SO_REUSEPORT 四层硬件/内核负载均衡)]
+    W0 <--> SocketQ["Linux 内核网络套接字 (SO_REUSEPORT 四层硬件/内核负载均衡)"]
     W1 <--> SocketQ
     W2 <--> SocketQ
     W3 <--> SocketQ

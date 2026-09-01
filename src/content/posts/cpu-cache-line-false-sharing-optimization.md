@@ -1,21 +1,25 @@
 ---
-title: "CPU 伪共享与缓存行优化"
-url: "cpu-cache-line-false-sharing-optimization"
-date: "2025-06-11"
+title: CPU 伪共享与缓存行优化
+url: cpu-cache-line-false-sharing-optimization
+date: '2025-06-11'
 draft: false
 authors:
   - default
-summary: "揭秘现代 CPU 多核 L1/L2/L3 缓存架构、MESI 缓存一致性协议与 64 字节 Cache Line 原理，通过内存对齐填充彻底消除伪共享性能瓶颈。"
+summary: >-
+  揭秘现代 CPU 多核 L1/L2/L3 缓存架构、MESI 缓存一致性协议与 64 字节 Cache Line
+  原理，通过内存对齐填充彻底消除伪共享性能瓶颈。
 tags:
-  - "底层原理"
-  - "性能优化"
-  - "多线程"
-categoryId: "cat-cpu-cache-line-false-sharing-optimization"
-category: "后端开发"
+  - 底层原理
+  - 性能优化
+  - 多线程
+categoryId: cat-cpu-cache-line-false-sharing-optimization
+category: 后端开发
 categories:
-  - "后端开发"
+  - 后端开发
 images:
-  - "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?auto=format&fit=crop&w=1600&q=85"
+  - /covers/cpu-cache-line-false-sharing-optimization.svg
+cover: /covers/cpu-cache-line-false-sharing-optimization.svg
+coverImage: /covers/cpu-cache-line-false-sharing-optimization.svg
 ---
 
 # CPU 伪共享与缓存行优化
@@ -43,11 +47,11 @@ images:
 ```mermaid
 graph TD
     subgraph Core0_Domain [CPU 核心 0 (Core 0)]
-        Thread0[线程 0: 频繁写入 varA] --> L1_0[L1 缓存: 包含 [varA, varB] 64B 行]
+        Thread0["线程 0: 频繁写入 varA"] --> L1_0["L1 缓存: 包含 [varA, varB"] 64B 行"]
     end
 
     subgraph Core1_Domain [CPU 核心 1 (Core 1)]
-        Thread1[线程 1: 频繁写入 varB] --> L1_1[L1 缓存: 也包含 [varA, varB] 64B 行]
+        Thread1["线程 1: 频繁写入 varB"] --> L1_1["L1 缓存: 也包含 [varA, varB"] 64B 行"]
     end
 
     L1_0 <==>|总线嗅探与 MESI 协议: 反复将对方缓存行置为 Invalid 导致缓存颠簸!| L1_1

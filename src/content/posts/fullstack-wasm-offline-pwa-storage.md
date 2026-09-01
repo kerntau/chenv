@@ -1,22 +1,26 @@
 ---
-title: "WebAssembly 与 OPFS 离线存储架构"
-url: "fullstack-wasm-offline-pwa-storage"
-date: "2025-11-05"
+title: WebAssembly 与 OPFS 离线存储架构
+url: fullstack-wasm-offline-pwa-storage
+date: '2025-11-05'
 draft: false
 authors:
   - default
-summary: "深入剖析 Origin Private File System (OPFS) 与 WebAssembly SQLite 的极致 IO 性能，构建无惧断网的 Local-First 离线优先渐进式 Web 应用。"
+summary: >-
+  深入剖析 Origin Private File System (OPFS) 与 WebAssembly SQLite 的极致 IO 性能，构建无惧断网的
+  Local-First 离线优先渐进式 Web 应用。
 tags:
-  - "WebAssembly"
-  - "PWA"
-  - "OPFS"
-  - "离线优先"
-categoryId: "cat-fullstack-wasm-offline-pwa-storage"
-category: "前端开发"
+  - WebAssembly
+  - PWA
+  - OPFS
+  - 离线优先
+categoryId: cat-fullstack-wasm-offline-pwa-storage
+category: 前端开发
 categories:
-  - "前端开发"
+  - 前端开发
 images:
-  - "https://images.unsplash.com/photo-1544383835-bda2bc66a55d?auto=format&fit=crop&w=1600&q=85"
+  - /covers/fullstack-wasm-offline-pwa-storage.svg
+cover: /covers/fullstack-wasm-offline-pwa-storage.svg
+coverImage: /covers/fullstack-wasm-offline-pwa-storage.svg
 ---
 
 # WebAssembly 与 OPFS 离线存储架构
@@ -43,11 +47,11 @@ graph TD
 
     subgraph Dedicated_Worker [专用 Web Worker 线程]
         WorkerBridge --> WasmSQLite[SQLite 官方 WebAssembly 引擎]
-        WasmSQLite --> OPFS_VFS[OPFS 同步虚拟文件系统 (VFS)]
+        WasmSQLite --> OPFS_VFS["OPFS 同步虚拟文件系统 (VFS)"]
     end
 
     subgraph Sandbox_Disk [浏览器专属持久化磁盘沙箱]
-        OPFS_VFS --> FastHandle[FileSystemSyncAccessHandle: 独占无锁二进制读写]
+        OPFS_VFS --> FastHandle["FileSystemSyncAccessHandle: 独占无锁二进制读写"]
     end
 ```
 

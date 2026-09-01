@@ -117,11 +117,11 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
         {highlightedHtml ? (
           <div
             dangerouslySetInnerHTML={{ __html: highlightedHtml }}
-            className="p-4 text-xs sm:text-sm font-mono overflow-x-auto leading-relaxed"
+            className="p-4 text-xs sm:text-sm font-mono overflow-x-auto leading-relaxed [&_pre]:!bg-transparent [&_pre]:!p-0 [&_pre]:!m-0 [&_code]:!bg-transparent [&_code]:!p-0 [&_code]:!rounded-none [&_span]:!bg-transparent [&_span]:!rounded-none"
           />
         ) : (
-          <pre className="p-4 font-mono text-xs sm:text-sm text-slate-700 dark:text-slate-300 whitespace-pre overflow-x-auto leading-relaxed">
-            <code>{code.trim()}</code>
+          <pre className="p-4 font-mono text-xs sm:text-sm text-slate-700 dark:text-slate-300 whitespace-pre overflow-x-auto leading-relaxed !bg-transparent">
+            <code className="!bg-transparent !p-0 !rounded-none">{code.trim()}</code>
           </pre>
         )}
 

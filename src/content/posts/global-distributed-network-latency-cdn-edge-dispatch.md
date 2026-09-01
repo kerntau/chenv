@@ -1,22 +1,26 @@
 ---
-title: "CDN 边缘计算与全球低延迟调度"
-url: "global-distributed-network-latency-cdn-edge-dispatch"
-date: "2025-09-15"
+title: CDN 边缘计算与全球低延迟调度
+url: global-distributed-network-latency-cdn-edge-dispatch
+date: '2025-09-15'
 draft: false
 authors:
   - default
-summary: "深入剖析全球跨国网络延迟根因，拆解 Anycast BGP 路由广播、DNS Geo 智能调度、TCP 动态路径加速与 Cloudflare/AWS 边缘计算 Serverless 落地实践。"
+summary: >-
+  深入剖析全球跨国网络延迟根因，拆解 Anycast BGP 路由广播、DNS Geo 智能调度、TCP 动态路径加速与 Cloudflare/AWS
+  边缘计算 Serverless 落地实践。
 tags:
-  - "CDN"
-  - "分布式网络"
-  - "边缘计算"
-  - "性能优化"
-categoryId: "cat-global-distributed-network-latency-cdn-edge-dispatch"
-category: "后端开发"
+  - CDN
+  - 分布式网络
+  - 边缘计算
+  - 性能优化
+categoryId: cat-global-distributed-network-latency-cdn-edge-dispatch
+category: 后端开发
 categories:
-  - "后端开发"
+  - 后端开发
 images:
-  - "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1600&q=85"
+  - /covers/global-distributed-network-latency-cdn-edge-dispatch.svg
+cover: /covers/global-distributed-network-latency-cdn-edge-dispatch.svg
+coverImage: /covers/global-distributed-network-latency-cdn-edge-dispatch.svg
 ---
 
 # CDN 边缘计算与全球低延迟调度
@@ -31,17 +35,17 @@ images:
 
 ```mermaid
 graph TD
-    UserClient[全球终端用户 (欧美 / 亚太 / 拉美)] --> EdgePOP[最近的边缘 PoP 节点 (Anycast BGP / GeoDNS 秒级接入)]
+    UserClient["全球终端用户 (欧美 / 亚太 / 拉美)"] --> EdgePOP["最近的边缘 PoP 节点 (Anycast BGP / GeoDNS 秒级接入)"]
     
     subgraph Edge_Tier [边缘计算层 (Edge Computing)]
         EdgePOP --> StaticCache{静态资源命中?}
         StaticCache -- Yes --> FastResp[5ms 极速响应]
-        StaticCache -- No --> EdgeWorker[Edge Functions: 边缘 JWT 鉴权 / A/B 流量分流]
+        StaticCache -- No --> EdgeWorker["Edge Functions: 边缘 JWT 鉴权 / A/B 流量分流"]
     end
 
     subgraph Dynamic_Acceleration [动态网络加速层 (Overlay Backbone)]
         EdgeWorker --> PrivateTunnel[自建高速专线 / 动态链路探测与多路径探路]
-        PrivateTunnel --> Origin[中心源站 (AWS us-east / 阿里云香港)]
+        PrivateTunnel --> Origin["中心源站 (AWS us-east / 阿里云香港)"]
     end
 ```
 

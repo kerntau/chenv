@@ -1,22 +1,26 @@
 ---
-title: "企业级 CI/CD 质量门禁演进实践"
-url: "enterprise-code-quality-cicd-pipeline-evolution"
-date: "2025-06-25"
+title: 企业级 CI/CD 质量门禁演进实践
+url: enterprise-code-quality-cicd-pipeline-evolution
+date: '2025-06-25'
 draft: false
 authors:
   - default
-summary: "全面构建企业级软件交付质量防护网：从 Git 预提交钩子、SonarQube/Semgrep 静态代码分析，到 GitHub Actions 依赖缓存加速与自动化质量门禁 (Quality Gate)。"
+summary: >-
+  全面构建企业级软件交付质量防护网：从 Git 预提交钩子、SonarQube/Semgrep 静态代码分析，到 GitHub Actions
+  依赖缓存加速与自动化质量门禁 (Quality Gate)。
 tags:
-  - "CI/CD"
-  - "代码质量"
-  - "DevOps"
-  - "工程效能"
-categoryId: "cat-enterprise-code-quality-cicd-pipeline-evolution"
-category: "云原生与运维"
+  - CI/CD
+  - 代码质量
+  - DevOps
+  - 工程效能
+categoryId: cat-enterprise-code-quality-cicd-pipeline-evolution
+category: 云原生与运维
 categories:
-  - "云原生与运维"
+  - 云原生与运维
 images:
-  - "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=1600&q=85"
+  - /covers/enterprise-code-quality-cicd-pipeline-evolution.svg
+cover: /covers/enterprise-code-quality-cicd-pipeline-evolution.svg
+coverImage: /covers/enterprise-code-quality-cicd-pipeline-evolution.svg
 ---
 
 # 企业级 CI/CD 质量门禁演进实践
@@ -39,7 +43,7 @@ graph TD
     subgraph Level2 [第二道防线: 代码审查与 CI 门禁 (Pull Request)]
         LocalLint --> PullReq[提交 GitHub / GitLab Pull Request]
         PullReq --> AutoCI[触发 CI 自动化流水线]
-        AutoCI --> FastTest[并发单元测试 & 覆盖率检测]
+        AutoCI --> FastTest["并发单元测试 & 覆盖率检测"]
         AutoCI --> SASTScan[Semgrep / SonarQube 静态语法与安全漏洞扫描]
         AutoCI --> ContainerScan[Trivy 容器镜像与依赖 CVE 扫描]
     end
@@ -47,7 +51,7 @@ graph TD
     subgraph Level3 [第三道防线: 质量门禁裁决 (Quality Gate)]
         SASTScan --> QualityGate{质量门禁规则判定}
         QualityGate -- "未通过 (测试失败 / 发现高危漏洞)" --> BlockMerge[强制阻断 PR 合并并通知作者]
-        QualityGate -- "全部通过" --> PeerReview[人工架构师 Code Review -> 合入主干]
+        QualityGate -- "全部通过" --> PeerReview["人工架构师 Code Review -> 合入主干"]
     end
 ```
 

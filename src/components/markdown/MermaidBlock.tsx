@@ -6,6 +6,41 @@ interface MermaidBlockProps {
   chart: string;
 }
 
+function cleanMermaidChart(raw: string): string {
+  const lines = raw.trim().split('\n');
+  const processed = lines.map((line) => {
+    const trimmed = line.trim();
+    if (
+      !trimmed ||
+      trimmed.startsWith('graph') ||
+      trimmed.startsWith('subgraph') ||
+      trimmed.startsWith('end') ||
+      trimmed.startsWith('%%') ||
+      trimmed.startsWith('classDef') ||
+      trimmed.startsWith('sequenceDiagram') ||
+      trimmed.startsWith('classDiagram')
+    ) {
+      return line;
+    }
+
+    let l = line;
+    // 自动清洗 NodeID[Text]
+    l = l.replace(/(\b[\w\d_\-]+)\[(.*?)\]/g, (match, id, text) => {
+      let t = text.trim();
+      if (t.startsWith('(') && t.endsWith(')')) return match; // 避免圆柱 [(...)]
+      if (t.startsWith('"') && t.endsWith('"')) return match;
+      if (t.includes('(') || t.includes(')') || t.includes('[') || t.includes(']') || t.includes(':') || t.includes(',') || t.includes("'")) {
+        return `${id}["${t.replace(/"/g, "'")}"]`;
+      }
+      return match;
+    });
+
+    return l;
+  });
+
+  return processed.join('\n');
+}
+
 export const MermaidBlock: React.FC<MermaidBlockProps> = ({ chart }) => {
   const { isDark } = useTheme();
   const containerRef = useRef<HTMLDivElement>(null);
@@ -19,6 +54,8 @@ export const MermaidBlock: React.FC<MermaidBlockProps> = ({ chart }) => {
     let active = true;
     setLoading(true);
     setError(null);
+
+    const safeChart = cleanMermaidChart(chart);
 
     import('mermaid')
       .then((m) => {
@@ -55,7 +92,7 @@ export const MermaidBlock: React.FC<MermaidBlockProps> = ({ chart }) => {
         });
 
         const id = `mermaid_${uniqueId}_${Date.now()}`;
-        return mermaid.render(id, chart.trim());
+        return mermaid.render(id, safeChart);
       })
       .then((result) => {
         if (active && result) {

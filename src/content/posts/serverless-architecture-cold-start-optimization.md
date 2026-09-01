@@ -1,22 +1,26 @@
 ---
-title: "Serverless 冷启动物理机理与优化"
-url: "serverless-architecture-cold-start-optimization"
-date: "2026-07-09"
+title: Serverless 冷启动物理机理与优化
+url: serverless-architecture-cold-start-optimization
+date: '2026-07-09'
 draft: false
 authors:
   - default
-summary: "深入剖析 AWS Lambda 与云函数冷启动的物理全流程：MicroVM 微虚拟机启动、语言运行时加载与初始化瓶颈，结合 SnapStart 快照恢复与预留并发实现亚毫秒级瞬时唤醒。"
+summary: >-
+  深入剖析 AWS Lambda 与云函数冷启动的物理全流程：MicroVM 微虚拟机启动、语言运行时加载与初始化瓶颈，结合 SnapStart
+  快照恢复与预留并发实现亚毫秒级瞬时唤醒。
 tags:
-  - "Serverless"
-  - "FaaS"
-  - "性能优化"
-  - "云计算"
-categoryId: "cat-serverless-architecture-cold-start-optimization"
-category: "云原生与运维"
+  - Serverless
+  - FaaS
+  - 性能优化
+  - 云计算
+categoryId: cat-serverless-architecture-cold-start-optimization
+category: 云原生与运维
 categories:
-  - "云原生与运维"
+  - 云原生与运维
 images:
-  - "https://images.unsplash.com/photo-1517433456452-f9633a875f6f?auto=format&fit=crop&w=1600&q=85"
+  - /covers/serverless-architecture-cold-start-optimization.svg
+cover: /covers/serverless-architecture-cold-start-optimization.svg
+coverImage: /covers/serverless-architecture-cold-start-optimization.svg
 ---
 
 # Serverless 冷启动物理机理与优化
@@ -42,7 +46,7 @@ sequenceDiagram
     Client->>Gateway: 发起 HTTP 请求
     Gateway->>FaaS: 调度函数实例 (当前无活跃热实例!)
     
-    rect rgb(240, 100, 100, 0.2)
+    rect rgb("240, 100, 100, 0.2")
         Note over FaaS,Runtime: 【冷启动阶段 (Cold Start: 耗时 500ms ~ 3000ms)】
         FaaS->>MicroVM: 1. 资源编排与 Firecracker MicroVM 启动 (~5ms)
         FaaS->>MicroVM: 2. 挂载容器镜像 / 解压代码包 (~100ms)
@@ -50,9 +54,9 @@ sequenceDiagram
         Runtime->>Handler: 4. 执行代码顶层全局初始化 (连接 DB / 加载权重) (~300ms)
     end
 
-    rect rgb(100, 240, 100, 0.2)
+    rect rgb("100, 240, 100, 0.2")
         Note over Handler,Client: 【热执行阶段 (Warm Execution: 耗时 10ms)】
-        Handler->>Handler: 5. 执行 handler(event, context)
+        Handler->>Handler: 5. 执行 handler("event, context")
         Handler-->>Client: 200 OK 快速响应
     end
 ```

@@ -1,23 +1,25 @@
 ---
-title: "分布式事务：Saga 与 TCC 方案选型"
-url: "distributed-transaction-saga-tcc-comparison"
-date: "2025-05-08"
+title: 分布式事务：Saga 与 TCC 方案选型
+url: distributed-transaction-saga-tcc-comparison
+date: '2025-05-08'
 recommend: 90
 draft: false
 authors:
   - default
-summary: "深入剖析微服务分布式事务痛点，全维度对比 2PC、TCC、Saga 与本地消息表模式，详解 TCC 空回滚/悬挂防御与 Saga 编排状态机落地实战。"
+summary: 深入剖析微服务分布式事务痛点，全维度对比 2PC、TCC、Saga 与本地消息表模式，详解 TCC 空回滚/悬挂防御与 Saga 编排状态机落地实战。
 tags:
-  - "分布式事务"
-  - "架构设计"
-  - "微服务"
-  - "高可用"
-categoryId: "cat-distributed-transaction-saga-tcc-comparison"
-category: "后端开发"
+  - 分布式事务
+  - 架构设计
+  - 微服务
+  - 高可用
+categoryId: cat-distributed-transaction-saga-tcc-comparison
+category: 后端开发
 categories:
-  - "后端开发"
+  - 后端开发
 images:
-  - "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1600&q=85"
+  - /covers/distributed-transaction-saga-tcc-comparison.svg
+cover: /covers/distributed-transaction-saga-tcc-comparison.svg
+coverImage: /covers/distributed-transaction-saga-tcc-comparison.svg
 ---
 
 # 分布式事务：Saga 与 TCC 方案选型
@@ -40,15 +42,15 @@ images:
 ```mermaid
 graph TD
     subgraph TCC_Workflow [TCC 模式: 预留再提交]
-        T_Try[Try: 校验并预留业务资源, 如冻结金额 100 元] -->|全部成功| T_Confirm[Confirm: 真正扣减预留金额]
-        T_Try -->|任一失败| T_Cancel[Cancel: 释放预留金额]
+        T_Try["Try: 校验并预留业务资源, 如冻结金额 100 元"] -->|全部成功| T_Confirm["Confirm: 真正扣减预留金额"]
+        T_Try -->|任一失败| T_Cancel["Cancel: 释放预留金额"]
     end
 
     subgraph Saga_Workflow [Saga 模式: 逐步提交 + 异常逆向补偿]
-        S_Step1[T1: 扣减库存 (直接提交)] --> S_Step2[T2: 生成订单 (直接提交)]
-        S_Step2 --> S_Step3[T3: 扣款失败!]
-        S_Step3 --> C_Step2[C2: 取消订单补偿]
-        C_Step2 --> C_Step1[C1: 增加库存补偿]
+        S_Step1["T1: 扣减库存 (直接提交)"] --> S_Step2["T2: 生成订单 (直接提交)"]
+        S_Step2 --> S_Step3["T3: 扣款失败!"]
+        S_Step3 --> C_Step2["C2: 取消订单补偿"]
+        C_Step2 --> C_Step1["C1: 增加库存补偿"]
     end
 ```
 

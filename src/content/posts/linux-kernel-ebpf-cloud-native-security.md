@@ -1,23 +1,27 @@
 ---
-title: "Linux 内核 eBPF 云原生安全实战"
-url: "linux-kernel-ebpf-cloud-native-security"
-date: "2025-07-29"
+title: Linux 内核 eBPF 云原生安全实战
+url: linux-kernel-ebpf-cloud-native-security
+date: '2025-07-29'
 draft: false
 recommend: 88
 authors:
   - default
-summary: "深入剖析 Linux eBPF 虚拟机沙箱验证器、JIT 编译与 BPF Maps 内存共享机制，利用 libbpf 与 XDP 编写生产级无侵入内核探针与容器安全阻断引擎。"
+summary: >-
+  深入剖析 Linux eBPF 虚拟机沙箱验证器、JIT 编译与 BPF Maps 内存共享机制，利用 libbpf 与 XDP
+  编写生产级无侵入内核探针与容器安全阻断引擎。
 tags:
-  - "eBPF"
-  - "Linux"
-  - "网络安全"
-  - "可观测性"
-categoryId: "cat-linux-kernel-ebpf-cloud-native-security"
-category: "云原生与运维"
+  - eBPF
+  - Linux
+  - 网络安全
+  - 可观测性
+categoryId: cat-linux-kernel-ebpf-cloud-native-security
+category: 云原生与运维
 categories:
-  - "云原生与运维"
+  - 云原生与运维
 images:
-  - "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1600&q=85"
+  - /covers/linux-kernel-ebpf-cloud-native-security.svg
+cover: /covers/linux-kernel-ebpf-cloud-native-security.svg
+coverImage: /covers/linux-kernel-ebpf-cloud-native-security.svg
 ---
 
 # Linux 内核 eBPF 云原生安全实战
@@ -33,16 +37,16 @@ images:
 ```mermaid
 graph TD
     UserC[用户编写 eBPF C 语言代码] --> ClangLLVM[Clang / LLVM 编译为 BPF 字节码]
-    ClangLLVM --> Syscall[bpf() 系统调用注入内核]
+    ClangLLVM --> Syscall["bpf() 系统调用注入内核"]
 
     subgraph Linux_Kernel_Space [Linux 内核空间]
-        Syscall --> Verifier[BPF 静态验证器 (Verifier): 检查死循环 / 越界内存访问 / 非法指针]
-        Verifier -- 验证通过 --> JIT[JIT 编译器: 实时翻译为宿主 CPU 原生机器码]
-        JIT --> HookPoints[挂载至内核挂钩点 (kprobe / tracepoint / XDP / TC / socket)]
-        HookPoints --> BPFMaps[(BPF Maps 共享键值内存)]
+        Syscall --> Verifier["BPF 静态验证器 (Verifier): 检查死循环 / 越界内存访问 / 非法指针"]
+        Verifier -- 验证通过 --> JIT["JIT 编译器: 实时翻译为宿主 CPU 原生机器码"]
+        JIT --> HookPoints["挂载至内核挂钩点 (kprobe / tracepoint / XDP / TC / socket)"]
+        HookPoints --> BPFMaps["(BPF Maps 共享键值内存)"]
     end
 
-    BPFMaps <-->|用户态零拷贝读取| UserSpaceApp[用户态监控分析守护进程 (Go / Rust / C)]
+    BPFMaps <-->|用户态零拷贝读取| UserSpaceApp["用户态监控分析守护进程 (Go / Rust / C)"]
 ```
 
 ### eBPF 验证器 (Verifier) 的三大铁律：

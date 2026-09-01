@@ -1,23 +1,27 @@
 ---
-title: "PyTorch 2 动态图编译与算子优化"
-url: "pytorch-2-dynamic-graph-compilation-cuda-optimization"
-date: "2026-01-05"
+title: PyTorch 2 动态图编译与算子优化
+url: pytorch-2-dynamic-graph-compilation-cuda-optimization
+date: '2026-01-05'
 draft: false
 authors:
   - default
-summary: "深入剖析 PyTorch 2.x 核心编译基础设施：TorchDynamo 字节码拦截、AOTAutograd 计算图捕获与 TorchInductor 基于 Triton 的算子融合 (Kernel Fusion) 实战。"
+summary: >-
+  深入剖析 PyTorch 2.x 核心编译基础设施：TorchDynamo 字节码拦截、AOTAutograd 计算图捕获与 TorchInductor
+  基于 Triton 的算子融合 (Kernel Fusion) 实战。
 tags:
-  - "PyTorch"
-  - "Python"
-  - "深度学习"
-  - "CUDA"
-  - "性能优化"
-categoryId: "cat-pytorch-2-dynamic-graph-compilation-cuda-optimization"
-category: "人工智能"
+  - PyTorch
+  - Python
+  - 深度学习
+  - CUDA
+  - 性能优化
+categoryId: cat-pytorch-2-dynamic-graph-compilation-cuda-optimization
+category: 人工智能
 categories:
-  - "人工智能"
+  - 人工智能
 images:
-  - "https://images.unsplash.com/photo-1555680202-c86f0e12f086?auto=format&fit=crop&w=1600&q=85"
+  - /covers/pytorch-2-dynamic-graph-compilation-cuda-optimization.svg
+cover: /covers/pytorch-2-dynamic-graph-compilation-cuda-optimization.svg
+coverImage: /covers/pytorch-2-dynamic-graph-compilation-cuda-optimization.svg
 ---
 
 # PyTorch 2 动态图编译与算子优化
@@ -32,13 +36,13 @@ images:
 
 ```mermaid
 graph TD
-    UserCode[原生 PyTorch Python 模型代码] --> TorchDynamo[1. TorchDynamo: CPython 字节码拦截与动态 FX 图提取]
+    UserCode[原生 PyTorch Python 模型代码] --> TorchDynamo["1. TorchDynamo: CPython 字节码拦截与动态 FX 图提取"]
     TorchDynamo --> GuardSystem{Guards 守卫校验: 输入维度 / 类型是否变更?}
     GuardSystem -- 命中缓存 --> FastKernel[直接执行优化后的 GPU Kernel]
     GuardSystem -- 未命中 / 图中断 --> Recompile[增量重新捕获 FX 计算图]
 
-    TorchDynamo --> AOTAutograd[2. AOTAutograd: 捕获前向与反向联合微分计算图]
-    AOTAutograd --> TorchInductor[3. TorchInductor 编译后端: 算子融合与代码生成]
+    TorchDynamo --> AOTAutograd["2. AOTAutograd: 捕获前向与反向联合微分计算图"]
+    AOTAutograd --> TorchInductor["3. TorchInductor 编译后端: 算子融合与代码生成"]
     TorchInductor --> TritonGen[生成极其紧凑的 OpenAI Triton / CUDA 原生算子]
 ```
 
@@ -57,16 +61,16 @@ graph TD
 ```mermaid
 graph TD
     subgraph Eager_Pipeline [传统 Eager 模式: 3 次 GPU 显存反复往返 (Memory Bound)]
-        In1[输入 Tensor] -->|显存读入| Kernel1[CUDA Kernel 1: Add]
-        Kernel1 -->|写回显存| VRAM1[(中间结果 Tensor 1 占显存)]
-        VRAM1 -->|显存读入| Kernel2[CUDA Kernel 2: GELU]
-        Kernel2 -->|写回显存| VRAM2[(中间结果 Tensor 2 占显存)]
-        VRAM2 -->|显存读入| Kernel3[CUDA Kernel 3: LayerNorm]
+        In1[输入 Tensor] -->|显存读入| Kernel1["CUDA Kernel 1: Add"]
+        Kernel1 -->|写回显存| VRAM1["(中间结果 Tensor 1 占显存)"]
+        VRAM1 -->|显存读入| Kernel2["CUDA Kernel 2: GELU"]
+        Kernel2 -->|写回显存| VRAM2["(中间结果 Tensor 2 占显存)"]
+        VRAM2 -->|显存读入| Kernel3["CUDA Kernel 3: LayerNorm"]
         Kernel3 -->|写回显存| Out1[最终输出 Tensor]
     end
 
     subgraph Inductor_Fused [TorchInductor 融合管线: 1 次读写, 片上 SRAM 流式计算]
-        In2[输入 Tensor] -->|1次读入 SRAM 寄存器| FusedKernel[Triton Fused Kernel: Add + GELU + Norm 连续计算]
+        In2[输入 Tensor] -->|1次读入 SRAM 寄存器| FusedKernel["Triton Fused Kernel: Add + GELU + Norm 连续计算"]
         FusedKernel -->|1次写回显存| Out2[最终输出 Tensor]
     end
 ```

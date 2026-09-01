@@ -1,21 +1,25 @@
 ---
-title: "Design Tokens 跨端设计系统交付实践"
-url: "frontend-design-system-tokens-automation"
-date: "2025-06-28"
+title: Design Tokens 跨端设计系统交付实践
+url: frontend-design-system-tokens-automation
+date: '2025-06-28'
 draft: false
 authors:
   - default
-summary: "全面解析基于 W3C DTCG 规范的 Design Tokens 三层架构模型，利用 Style Dictionary 构建从 Figma 到 Web、iOS、Android 跨平台自动化分发流水线。"
+summary: >-
+  全面解析基于 W3C DTCG 规范的 Design Tokens 三层架构模型，利用 Style Dictionary 构建从 Figma 到
+  Web、iOS、Android 跨平台自动化分发流水线。
 tags:
-  - "DesignSystem"
-  - "CSS"
-  - "工程化"
-categoryId: "cat-frontend-design-system-tokens-automation"
-category: "前端开发"
+  - DesignSystem
+  - CSS
+  - 工程化
+categoryId: cat-frontend-design-system-tokens-automation
+category: 前端开发
 categories:
-  - "前端开发"
+  - 前端开发
 images:
-  - "https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?auto=format&fit=crop&w=1600&q=85"
+  - /covers/frontend-design-system-tokens-automation.svg
+cover: /covers/frontend-design-system-tokens-automation.svg
+coverImage: /covers/frontend-design-system-tokens-automation.svg
 ---
 
 # Design Tokens 跨端设计系统交付实践
@@ -41,9 +45,9 @@ graph TD
     FigmaVariables[Figma Tokens / Variables 插件导出] --> GitHubSync[GitHub Webhook 同步 tokens.json]
     GitHubSync --> StyleDictEngine[Style Dictionary 自动化编译器]
 
-    StyleDictEngine --> WebOut[Web 产物: CSS Variables & Tailwind Theme]
-    StyleDictEngine --> iOSOut[iOS 产物: Swift Color & Layout Enums]
-    StyleDictEngine --> AndroidOut[Android 产物: Compose Theme / XML]
+    StyleDictEngine --> WebOut["Web 产物: CSS Variables & Tailwind Theme"]
+    StyleDictEngine --> iOSOut["iOS 产物: Swift Color & Layout Enums"]
+    StyleDictEngine --> AndroidOut["Android 产物: Compose Theme / XML"]
     StyleDictEngine --> TSOut[TypeScript 类型声明文件]
 ```
 

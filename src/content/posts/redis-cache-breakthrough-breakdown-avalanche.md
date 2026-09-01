@@ -1,22 +1,24 @@
 ---
-title: "Redis 缓存击穿、穿透与雪崩治理"
-url: "redis-cache-breakthrough-breakdown-avalanche"
-date: "2025-02-27"
+title: Redis 缓存击穿、穿透与雪崩治理
+url: redis-cache-breakthrough-breakdown-avalanche
+date: '2025-02-27'
 draft: false
 authors:
   - default
-summary: "系统剖析高并发架构下 Redis 缓存穿透、击穿与雪崩的物理诱因，通过布隆过滤器、逻辑过期异步刷新与随机打散构建坚不可摧的多级缓存防线。"
+summary: 系统剖析高并发架构下 Redis 缓存穿透、击穿与雪崩的物理诱因，通过布隆过滤器、逻辑过期异步刷新与随机打散构建坚不可摧的多级缓存防线。
 tags:
-  - "Redis"
-  - "缓存架构"
-  - "高并发"
-  - "系统设计"
-categoryId: "cat-redis-cache-breakthrough-breakdown-avalanche"
-category: "后端开发"
+  - Redis
+  - 缓存架构
+  - 高并发
+  - 系统设计
+categoryId: cat-redis-cache-breakthrough-breakdown-avalanche
+category: 后端开发
 categories:
-  - "后端开发"
+  - 后端开发
 images:
-  - "https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?auto=format&fit=crop&w=1600&q=85"
+  - /covers/redis-cache-breakthrough-breakdown-avalanche.svg
+cover: /covers/redis-cache-breakthrough-breakdown-avalanche.svg
+coverImage: /covers/redis-cache-breakthrough-breakdown-avalanche.svg
 ---
 
 # Redis 缓存击穿、穿透与雪崩治理
@@ -32,12 +34,12 @@ images:
 ```mermaid
 graph TD
     subgraph Penetration [1. 缓存穿透 (Penetration)]
-        QueryNonExist[查询根本不存在的恶意 Key (如 id = -999)] --> RedisMiss1[Redis 缓存未命中]
+        QueryNonExist["查询根本不存在的恶意 Key (如 id = -999)"] --> RedisMiss1[Redis 缓存未命中]
         RedisMiss1 --> DBMiss1[直打 DB，DB 亦无此数据，无法回填缓存，每次请求都穿透 DB!]
     end
 
     subgraph Breakdown [2. 缓存击穿 (Breakdown)]
-        HotKeyExpire[单个超级热点 Key (如爆款秒杀商品) 瞬间过期] --> MassiveReq[数十万 QPS 瞬间穿透到达 DB 重建缓存，拖垮 DB!]
+        HotKeyExpire["单个超级热点 Key (如爆款秒杀商品) 瞬间过期"] --> MassiveReq[数十万 QPS 瞬间穿透到达 DB 重建缓存，拖垮 DB!]
     end
 
     subgraph Avalanche [3. 缓存雪崩 (Avalanche)]

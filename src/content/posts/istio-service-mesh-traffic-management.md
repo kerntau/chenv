@@ -1,22 +1,26 @@
 ---
-title: "Istio 服务网格流量治理与混沌工程"
-url: "istio-service-mesh-traffic-management"
-date: "2025-05-27"
+title: Istio 服务网格流量治理与混沌工程
+url: istio-service-mesh-traffic-management
+date: '2025-05-27'
 draft: false
 authors:
   - default
-summary: "深入拆解 Istio 控制面 Istiod 与 Envoy 数据面流量透明劫持，通过 VirtualService 与 DestinationRule 实战金丝雀灰度切流、熔断断路器与混沌故障注入。"
+summary: >-
+  深入拆解 Istio 控制面 Istiod 与 Envoy 数据面流量透明劫持，通过 VirtualService 与 DestinationRule
+  实战金丝雀灰度切流、熔断断路器与混沌故障注入。
 tags:
-  - "Istio"
-  - "ServiceMesh"
-  - "云原生"
-  - "流量治理"
-categoryId: "cat-istio-service-mesh-traffic-management"
-category: "云原生与运维"
+  - Istio
+  - ServiceMesh
+  - 云原生
+  - 流量治理
+categoryId: cat-istio-service-mesh-traffic-management
+category: 云原生与运维
 categories:
-  - "云原生与运维"
+  - 云原生与运维
 images:
-  - "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=1600&q=85"
+  - /covers/istio-service-mesh-traffic-management.svg
+cover: /covers/istio-service-mesh-traffic-management.svg
+coverImage: /covers/istio-service-mesh-traffic-management.svg
 ---
 
 # Istio 服务网格流量治理与混沌工程
@@ -32,16 +36,16 @@ images:
 ```mermaid
 graph TD
     subgraph Control_Plane [Istio 控制面 (Istiod)]
-        Pilot[Pilot: 将 K8s CRD 规则转换为 xDS 配置并下发]
-        Citadel[Citadel: CA 证书签发与自动轮换]
+        Pilot["Pilot: 将 K8s CRD 规则转换为 xDS 配置并下发"]
+        Citadel["Citadel: CA 证书签发与自动轮换"]
     end
 
     subgraph ServicePod_A [业务 Pod A]
-        AppA[业务应用容器] -->|本地 127.0.0.1| SidecarA[Envoy 边车代理 (被 iptables 规则透明劫持)]
+        AppA[业务应用容器] -->|本地 127.0.0.1| SidecarA["Envoy 边车代理 (被 iptables 规则透明劫持)"]
     end
 
     subgraph ServicePod_B [业务 Pod B]
-        SidecarB[Envoy 边车代理 (双向 mTLS 解密)] --> AppB[业务应用容器]
+        SidecarB["Envoy 边车代理 (双向 mTLS 解密)"] --> AppB[业务应用容器]
     end
 
     Pilot -->|gRPC xDS 动态推送| SidecarA

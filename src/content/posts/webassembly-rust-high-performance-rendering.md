@@ -1,22 +1,26 @@
 ---
-title: "WebAssembly + Rust 高性能图形渲染"
-url: "webassembly-rust-high-performance-rendering"
-date: "2025-03-23"
+title: WebAssembly + Rust 高性能图形渲染
+url: webassembly-rust-high-performance-rendering
+date: '2025-03-23'
 draft: false
 authors:
   - default
-summary: "深入探讨 Rust + WebAssembly 在 WebGL2/Canvas 图形计算中的极致优化，剖析 Wasm 线性内存零拷贝 (Zero-Copy) 共享与十万级粒子系统实战。"
+summary: >-
+  深入探讨 Rust + WebAssembly 在 WebGL2/Canvas 图形计算中的极致优化，剖析 Wasm 线性内存零拷贝 (Zero-Copy)
+  共享与十万级粒子系统实战。
 tags:
-  - "WebAssembly"
-  - "Rust"
-  - "图形学"
-  - "WebGL"
-categoryId: "cat-webassembly-rust-high-performance-rendering"
-category: "前端开发"
+  - WebAssembly
+  - Rust
+  - 图形学
+  - WebGL
+categoryId: cat-webassembly-rust-high-performance-rendering
+category: 前端开发
 categories:
-  - "前端开发"
+  - 前端开发
 images:
-  - "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1600&q=85"
+  - /covers/webassembly-rust-high-performance-rendering.svg
+cover: /covers/webassembly-rust-high-performance-rendering.svg
+coverImage: /covers/webassembly-rust-high-performance-rendering.svg
 ---
 
 # WebAssembly + Rust 高性能图形渲染
@@ -32,15 +36,15 @@ images:
 ```mermaid
 graph TD
     subgraph Traditional_JS [传统纯 JS 渲染管线: 内存碎片 & GC 颠簸]
-        ObjArr[JS 对象数组: 100,000 个 Particle 实例] --> Iterate[for 循环更新物理坐标]
-        Iterate --> GC_Stall[大量临时对象分配 -> 触发 V8 Minor/Major GC -> 掉帧 30FPS]
+        ObjArr["JS 对象数组: 100,000 个 Particle 实例"] --> Iterate[for 循环更新物理坐标]
+        Iterate --> GC_Stall["大量临时对象分配 -> 触发 V8 Minor/Major GC -> 掉帧 30FPS"]
         Iterate --> CopyBridge[JS 遍历构造 Float32Array 拷贝到 GPU]
     end
 
     subgraph Wasm_Rust_Pipeline [Rust + Wasm 零拷贝管线: 连续紧凑内存]
-        RustStruct[Rust 连续平铺内存: Vec<Particle>] --> SIMDCompute[SIMD 向量化并行迭代更新]
+        RustStruct["Rust 连续平铺内存: Vec<Particle>"] --> SIMDCompute[SIMD 向量化并行迭代更新]
         SIMDCompute --> DirectMem[直接暴露 Wasm 内存指针 offset]
-        DirectMem --> GPU_VBO[gl.bufferData 直接从 wasm.memory.buffer 灌入 GPU VBO (0 复制!)]
+        DirectMem --> GPU_VBO["gl.bufferData 直接从 wasm.memory.buffer 灌入 GPU VBO (0 复制!)"]
     end
 ```
 

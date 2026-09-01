@@ -1,9 +1,11 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import katex from 'katex';
 import { CodeBlock } from './CodeBlock';
 import { MermaidBlock } from './MermaidBlock';
 import { AbcjsBlock } from './AbcjsBlock';
 import { Callout } from './Callout';
+import { generateHeadingId } from '../../lib/markdown';
+import { CheckSquare, Square, ImageIcon } from 'lucide-react';
 
 interface MarkdownRendererProps {
   content: string;
@@ -29,6 +31,42 @@ function renderKatexMath(math: string, displayMode: boolean = false): string {
   }
 }
 
+// 独立的图片渲染组件，带错误兜底与柔和相框
+const MarkdownImage: React.FC<{ src: string; alt?: string; title?: string }> = ({
+  src,
+  alt,
+  title,
+}) => {
+  const [loadError, setLoadError] = useState(false);
+
+  return (
+    <figure className="my-6 flex flex-col items-center justify-center">
+      <div className="relative overflow-hidden rounded-sm border border-slate-200/80 dark:border-slate-800/80 bg-slate-100/50 dark:bg-slate-900/50 shadow-2xs max-w-full">
+        {!loadError ? (
+          <img
+            src={src}
+            alt={alt || ''}
+            title={title || alt || ''}
+            className="max-w-full h-auto object-contain block mx-auto transition-transform duration-300 hover:scale-[1.01]"
+            loading="lazy"
+            onError={() => setLoadError(true)}
+          />
+        ) : (
+          <div className="p-8 flex flex-col items-center justify-center text-slate-400 space-y-2 select-none min-h-[140px]">
+            <ImageIcon className="w-8 h-8 opacity-60" />
+            <span className="text-xs font-mono">图片加载失败: {alt || src}</span>
+          </div>
+        )}
+      </div>
+      {(alt || title) && (
+        <figcaption className="mt-2 text-xs font-mono text-slate-500 dark:text-slate-400 text-center">
+          {title || alt}
+        </figcaption>
+      )}
+    </figure>
+  );
+};
+
 export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) => {
   const blocks = useMemo(() => {
     const lines = content.split('\n');
@@ -50,7 +88,7 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) =
       const line = lines[i];
       const trimmed = line.trim();
 
-      // 检测数学公式块 $$ ... $$
+      // 1. 数学公式块 $$ ... $$
       if (trimmed.startsWith('$$')) {
         flushMd();
         const mathLines: string[] = [];
@@ -83,7 +121,7 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) =
         }
       }
 
-      // 检测代码块 ```
+      // 2. 代码块 ```
       if (trimmed.startsWith('```')) {
         flushMd();
         const lang = trimmed.slice(3).trim().toLowerCase();
@@ -106,7 +144,7 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) =
         continue;
       }
 
-      // 检测引用 Callout
+      // 3. 引用块 / Callout >
       if (trimmed.startsWith('>')) {
         flushMd();
         const quoteLines: string[] = [];
@@ -119,20 +157,36 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) =
           i++;
         }
 
-        const rawText = quoteLines.join('\n');
-        if (rawText.includes('提示：') || rawText.includes('Tip:')) {
-          calloutType = 'tip';
-        } else if (rawText.includes('注意：') || rawText.includes('Warning:')) {
-          calloutType = 'warning';
-        } else if (rawText.includes('引用：') || rawText.includes('Quote:')) {
-          calloutType = 'quote';
+        const firstLine = quoteLines[0]?.trim() || '';
+        // 匹配 GitHub 风格 Alert: > [!NOTE], > [!TIP], > [!WARNING], > [!IMPORTANT], > [!CAUTION]
+        const alertMatch = firstLine.match(/^\[!(NOTE|TIP|WARNING|IMPORTANT|CAUTION)\]\s*(.*)$/i);
+        if (alertMatch) {
+          const alertTag = alertMatch[1].toUpperCase();
+          title = alertMatch[2]?.trim() || undefined;
+          quoteLines.shift(); // 移除 Alert 标头
+          if (alertTag === 'TIP' || alertTag === 'IMPORTANT') {
+            calloutType = 'tip';
+          } else if (alertTag === 'WARNING' || alertTag === 'CAUTION') {
+            calloutType = 'warning';
+          } else {
+            calloutType = 'note';
+          }
+        } else {
+          const fullText = quoteLines.join('\n');
+          if (fullText.includes('提示：') || fullText.includes('Tip:')) {
+            calloutType = 'tip';
+          } else if (fullText.includes('注意：') || fullText.includes('Warning:')) {
+            calloutType = 'warning';
+          } else if (fullText.includes('引用：') || fullText.includes('Quote:')) {
+            calloutType = 'quote';
+          }
         }
 
         result.push({
           type: 'callout',
           calloutType,
           title,
-          text: rawText,
+          text: quoteLines.join('\n'),
         });
         continue;
       }
@@ -145,27 +199,235 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) =
     return result;
   }, [content]);
 
-  // 处理标准 Markdown 段落行内样式与标题锚点
+  // 行内富文本解析器（支持嵌套解析：图片、公式、行内代码、加粗、斜体、删除线、高亮、链接）
+  const renderInlineMarkdown = (text: string): React.ReactNode => {
+    if (!text) return null;
+
+    // 正则拆分模式：图片 ![]()、行内公式 $...$、行内代码 `...`、加粗 **...** / __...__、删除线 ~~...~~、高亮 ==...==、链接 []()
+    const tokenRegex = /(!\[[^\]]*\]\([^)]+\)|\$[^$]+\$|`[^`]+`|\*\*[^*]+\*\*|__[^_]+__|~~[^~]+~~|==[^=]+==|\[[^\]]+\]\([^)]+\))/g;
+    const parts = text.split(tokenRegex);
+
+    return parts.map((part, index) => {
+      if (!part) return null;
+
+      // 1. 行内图片 ![alt](url)
+      const imgMatch = part.match(/^!\[([^\]]*)\]\(([^)]+)\)$/);
+      if (imgMatch) {
+        return (
+          <MarkdownImage
+            key={index}
+            src={imgMatch[2]}
+            alt={imgMatch[1]}
+          />
+        );
+      }
+
+      // 2. 行内数学公式 $...$
+      if (part.startsWith('$') && part.endsWith('$') && part.length > 2) {
+        const mathExpr = part.slice(1, -1);
+        const rendered = renderKatexMath(mathExpr, false);
+        return (
+          <span
+            key={index}
+            className="inline-katex mx-0.5"
+            dangerouslySetInnerHTML={{ __html: rendered }}
+          />
+        );
+      }
+
+      // 3. 行内代码 `...`
+      if (part.startsWith('`') && part.endsWith('`') && part.length > 2) {
+        return (
+          <code
+            key={index}
+            className="px-1.5 py-0.5 rounded-sm text-xs font-mono bg-slate-200/60 dark:bg-slate-800/80 text-slate-800 dark:text-slate-200"
+          >
+            {part.slice(1, -1)}
+          </code>
+        );
+      }
+
+      // 4. 加粗 **...** 或 __...__
+      if (
+        (part.startsWith('**') && part.endsWith('**') && part.length > 4) ||
+        (part.startsWith('__') && part.endsWith('__') && part.length > 4)
+      ) {
+        return (
+          <strong key={index} className="font-bold text-slate-900 dark:text-slate-100">
+            {part.slice(2, -2)}
+          </strong>
+        );
+      }
+
+      // 5. 删除线 ~~...~~
+      if (part.startsWith('~~') && part.endsWith('~~') && part.length > 4) {
+        return (
+          <del key={index} className="line-through text-slate-400 dark:text-slate-500">
+            {part.slice(2, -2)}
+          </del>
+        );
+      }
+
+      // 6. 高亮 ==...==
+      if (part.startsWith('==') && part.endsWith('==') && part.length > 4) {
+        return (
+          <mark
+            key={index}
+            className="bg-amber-100 dark:bg-amber-950/60 text-amber-900 dark:text-amber-200 px-1 py-0.5 rounded-sm"
+          >
+            {part.slice(2, -2)}
+          </mark>
+        );
+      }
+
+      // 7. 链接 [text](url)
+      const linkMatch = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
+      if (linkMatch) {
+        const linkUrl = linkMatch[2];
+        const isExternal = linkUrl.startsWith('http://') || linkUrl.startsWith('https://');
+        return (
+          <a
+            key={index}
+            href={linkUrl}
+            target={isExternal ? '_blank' : '_self'}
+            rel={isExternal ? 'noopener noreferrer' : undefined}
+            className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 underline underline-offset-4 decoration-blue-300/60 dark:decoration-blue-700/60 transition-colors font-medium"
+          >
+            {linkMatch[1]}
+          </a>
+        );
+      }
+
+      return part;
+    });
+  };
+
+  // 处理标准 Markdown 段落行内样式、列表、表格、标题锚点与分割线
   const renderMarkdownSegment = (md: string, keyPrefix: string) => {
     const rawLines = md.split('\n');
     const elements: React.ReactNode[] = [];
 
     let inList = false;
-    let listItems: string[] = [];
+    let listItems: { text: string; isTask?: boolean; checked?: boolean }[] = [];
+
+    let inTable = false;
+    let tableLines: string[] = [];
 
     const flushList = (listKey: string) => {
       if (inList && listItems.length > 0) {
-        elements.push(
-          <ul key={listKey} className="my-4 pl-6 space-y-1.5 list-disc text-slate-700 dark:text-slate-300">
-            {listItems.map((item, idx) => (
-              <li key={idx} className="leading-relaxed">
-                {renderInlineMarkdown(item)}
-              </li>
-            ))}
-          </ul>
-        );
+        const hasTask = listItems.some((item) => item.isTask);
+        if (hasTask) {
+          elements.push(
+            <ul key={listKey} className="my-4 space-y-2 text-slate-700 dark:text-slate-300 list-none pl-1">
+              {listItems.map((item, idx) => (
+                <li key={idx} className="flex items-start space-x-2 leading-relaxed">
+                  {item.isTask ? (
+                    item.checked ? (
+                      <CheckSquare className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-1" />
+                    ) : (
+                      <Square className="w-4 h-4 text-slate-400 dark:text-slate-600 shrink-0 mt-1" />
+                    )
+                  ) : (
+                    <span className="w-1.5 h-1.5 rounded-full bg-slate-400 mt-2.5 shrink-0" />
+                  )}
+                  <div className={item.checked ? 'line-through text-slate-400 dark:text-slate-500' : ''}>
+                    {renderInlineMarkdown(item.text)}
+                  </div>
+                </li>
+              ))}
+            </ul>
+          );
+        } else {
+          elements.push(
+            <ul key={listKey} className="my-4 pl-6 space-y-1.5 list-disc text-slate-700 dark:text-slate-300">
+              {listItems.map((item, idx) => (
+                <li key={idx} className="leading-relaxed">
+                  {renderInlineMarkdown(item.text)}
+                </li>
+              ))}
+            </ul>
+          );
+        }
         listItems = [];
         inList = false;
+      }
+    };
+
+    const flushTable = (tableKey: string) => {
+      if (inTable && tableLines.length >= 2) {
+        const headerCells = tableLines[0]
+          .split('|')
+          .slice(1, -1)
+          .map((c) => c.trim());
+
+        const alignCells = tableLines[1]
+          .split('|')
+          .slice(1, -1)
+          .map((c) => {
+            const t = c.trim();
+            if (t.startsWith(':') && t.endsWith(':')) return 'center';
+            if (t.endsWith(':')) return 'right';
+            return 'left';
+          });
+
+        const bodyRows = tableLines.slice(2).map((rowLine) =>
+          rowLine
+            .split('|')
+            .slice(1, -1)
+            .map((c) => c.trim())
+        );
+
+        elements.push(
+          <div
+            key={tableKey}
+            className="my-6 overflow-x-auto rounded-sm border border-slate-200/80 dark:border-slate-800/80 bg-white/50 dark:bg-slate-900/30 backdrop-blur-xs shadow-2xs"
+          >
+            <table className="min-w-full divide-y divide-slate-200/80 dark:divide-slate-800/80 text-xs sm:text-sm">
+              <thead className="bg-slate-100/75 dark:bg-slate-800/60">
+                <tr>
+                  {headerCells.map((cell, cIdx) => (
+                    <th
+                      key={cIdx}
+                      className={`px-4 py-2.5 font-semibold text-slate-900 dark:text-slate-100 uppercase tracking-wider text-${alignCells[cIdx] || 'left'}`}
+                    >
+                      {renderInlineMarkdown(cell)}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-200/60 dark:divide-slate-800/60 text-slate-700 dark:text-slate-300">
+                {bodyRows.map((row, rIdx) => (
+                  <tr
+                    key={rIdx}
+                    className="hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition-colors"
+                  >
+                    {row.map((cell, cIdx) => (
+                      <td
+                        key={cIdx}
+                        className={`px-4 py-2.5 leading-relaxed text-${alignCells[cIdx] || 'left'}`}
+                      >
+                        {renderInlineMarkdown(cell)}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        );
+
+        tableLines = [];
+        inTable = false;
+      } else if (inTable) {
+        tableLines.forEach((tLine, tIdx) => {
+          elements.push(
+            <p key={`${tableKey}-fallback-${tIdx}`} className="my-2 text-slate-700 dark:text-slate-300">
+              {renderInlineMarkdown(tLine)}
+            </p>
+          );
+        });
+        tableLines = [];
+        inTable = false;
       }
     };
 
@@ -175,20 +437,54 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) =
 
       if (!trimmed) {
         flushList(`list-${keyPrefix}-${idx}`);
+        flushTable(`table-${keyPrefix}-${idx}`);
         return;
       }
 
-      // 标题
+      // 表格处理
+      if (trimmed.startsWith('|') && trimmed.endsWith('|')) {
+        flushList(`list-${keyPrefix}-${idx}`);
+        inTable = true;
+        tableLines.push(trimmed);
+        return;
+      } else {
+        flushTable(`table-${keyPrefix}-${idx}`);
+      }
+
+      // 分割线 Horizontal Rule (---, ***, ___)
+      if (/^(\-{3,}|\*{3,}|_{3,})$/.test(trimmed)) {
+        flushList(`list-${keyPrefix}-${idx}`);
+        elements.push(
+          <hr
+            key={`hr-${keyPrefix}-${idx}`}
+            className="my-8 border-0 h-px bg-slate-200/80 dark:bg-slate-800/80"
+          />
+        );
+        return;
+      }
+
+      // 独立图片语法匹配 ![alt](url)
+      const standaloneImgMatch = trimmed.match(/^!\[([^\]]*)\]\(([^)]+)\)$/);
+      if (standaloneImgMatch) {
+        flushList(`list-${keyPrefix}-${idx}`);
+        elements.push(
+          <MarkdownImage
+            key={`img-${keyPrefix}-${idx}`}
+            src={standaloneImgMatch[2]}
+            alt={standaloneImgMatch[1]}
+          />
+        );
+        return;
+      }
+
+      // 标题（1~4级，自动绑定统一的 generateHeadingId）
       const headingMatch = line.match(/^(#{1,4})\s+(.+)$/);
       if (headingMatch) {
         flushList(`list-${keyPrefix}-${idx}`);
         const level = headingMatch[1].length;
         const text = headingMatch[2].trim();
-        const cleanText = text.replace(/[*_`]/g, '');
-        const id = cleanText
-          .toLowerCase()
-          .replace(/[^\w\u4e00-\u9fa5]+/g, '-')
-          .replace(/^-+|-+$/g, '');
+        const cleanText = text.replace(/[*_`]/g, '').trim();
+        const id = generateHeadingId(cleanText);
 
         if (level === 1) {
           elements.push(
@@ -234,25 +530,36 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) =
         return;
       }
 
-      // 列表
-      const listMatch = line.match(/^[-*+]\s+(.+)$/);
-      if (listMatch) {
+      // 任务列表与无序列表 (- [ ] / - [x] / - / * / +)
+      const taskListMatch = line.match(/^[-*+]\s+\[([ xX])\]\s+(.+)$/);
+      if (taskListMatch) {
         inList = true;
-        listItems.push(listMatch[1]);
+        listItems.push({
+          text: taskListMatch[2],
+          isTask: true,
+          checked: taskListMatch[1].toLowerCase() === 'x',
+        });
         return;
       }
 
-      // 有序列表
-      const numListMatch = line.match(/^\d+\.\s+(.+)$/);
+      const listMatch = line.match(/^[-*+]\s+(.+)$/);
+      if (listMatch) {
+        inList = true;
+        listItems.push({ text: listMatch[1], isTask: false });
+        return;
+      }
+
+      // 有序列表 (1. 2.)
+      const numListMatch = line.match(/^(\d+)\.\s+(.+)$/);
       if (numListMatch) {
         flushList(`list-${keyPrefix}-${idx}`);
         elements.push(
           <div key={`num-${keyPrefix}-${idx}`} className="my-2 flex items-start space-x-2 text-slate-700 dark:text-slate-300">
             <span className="font-mono text-xs font-semibold text-slate-500 mt-1 min-w-[1.25rem]">
-              {line.match(/^\d+\./)?.[0]}
+              {numListMatch[1]}.
             </span>
             <div className="flex-1 leading-relaxed">
-              {renderInlineMarkdown(numListMatch[1])}
+              {renderInlineMarkdown(numListMatch[2])}
             </div>
           </div>
         );
@@ -273,69 +580,8 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) =
     });
 
     flushList(`list-${keyPrefix}-end`);
+    flushTable(`table-${keyPrefix}-end`);
     return elements;
-  };
-
-  // 行内样式解析（支持行内 KaTeX $...$、加粗 **...**、行内代码 `...`、链接 [..](..)）
-  const renderInlineMarkdown = (text: string): React.ReactNode => {
-    // 替换行内公式 $...$ 为特殊标记并解析
-    const parts = text.split(/(\$[^$]+\$|`[^`]+`|\*\*[^*]+\*\*|\[[^\]]+\]\([^)]+\))/g);
-
-    return parts.map((part, index) => {
-      if (!part) return null;
-
-      // 行内数学公式 $...$
-      if (part.startsWith('$') && part.endsWith('$') && part.length > 2) {
-        const mathExpr = part.slice(1, -1);
-        const rendered = renderKatexMath(mathExpr, false);
-        return (
-          <span
-            key={index}
-            className="inline-katex mx-0.5"
-            dangerouslySetInnerHTML={{ __html: rendered }}
-          />
-        );
-      }
-
-      // 行内代码 `...`
-      if (part.startsWith('`') && part.endsWith('`') && part.length > 2) {
-        return (
-          <code
-            key={index}
-            className="px-1.5 py-0.5 rounded-sm text-xs font-mono bg-slate-200/60 dark:bg-slate-800/80 text-slate-800 dark:text-slate-200"
-          >
-            {part.slice(1, -1)}
-          </code>
-        );
-      }
-
-      // 加粗 **...**
-      if (part.startsWith('**') && part.endsWith('**') && part.length > 4) {
-        return (
-          <strong key={index} className="font-semibold text-slate-900 dark:text-slate-100">
-            {part.slice(2, -2)}
-          </strong>
-        );
-      }
-
-      // 链接 [text](url)
-      const linkMatch = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
-      if (linkMatch) {
-        return (
-          <a
-            key={index}
-            href={linkMatch[2]}
-            target={linkMatch[2].startsWith('http') ? '_blank' : '_self'}
-            rel="noreferrer"
-            className="text-slate-900 dark:text-slate-100 underline underline-offset-4 decoration-slate-300 dark:decoration-slate-600 hover:decoration-slate-800 dark:hover:decoration-slate-200 transition-colors"
-          >
-            {linkMatch[1]}
-          </a>
-        );
-      }
-
-      return part;
-    });
   };
 
   return (
@@ -373,7 +619,13 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) =
                 type={block.calloutType}
                 title={block.title}
               >
-                {renderInlineMarkdown(block.text)}
+                <div className="space-y-1.5">
+                  {block.text.split('\n').map((line, lIdx) => (
+                    <p key={lIdx} className="leading-relaxed">
+                      {renderInlineMarkdown(line)}
+                    </p>
+                  ))}
+                </div>
               </Callout>
             );
           case 'markdown':

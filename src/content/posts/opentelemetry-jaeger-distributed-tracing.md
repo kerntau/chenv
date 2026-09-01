@@ -1,22 +1,26 @@
 ---
-title: "OpenTelemetry 与 Jaeger 链路追踪实战"
-url: "opentelemetry-jaeger-distributed-tracing"
-date: "2026-04-19"
+title: OpenTelemetry 与 Jaeger 链路追踪实战
+url: opentelemetry-jaeger-distributed-tracing
+date: '2026-04-19'
 draft: false
 authors:
   - default
-summary: "全面理解 W3C Trace Context 头部传播协议，通过 OpenTelemetry SDK 无侵入与显式插桩透传 TraceId 与 SpanId，快速精确定位跨微服务性能瓶颈。"
+summary: >-
+  全面理解 W3C Trace Context 头部传播协议，通过 OpenTelemetry SDK 无侵入与显式插桩透传 TraceId 与
+  SpanId，快速精确定位跨微服务性能瓶颈。
 tags:
-  - "OpenTelemetry"
-  - "Jaeger"
-  - "可观测性"
-  - "微服务"
-categoryId: "cat-opentelemetry-jaeger-distributed-tracing"
-category: "云原生与运维"
+  - OpenTelemetry
+  - Jaeger
+  - 可观测性
+  - 微服务
+categoryId: cat-opentelemetry-jaeger-distributed-tracing
+category: 云原生与运维
 categories:
-  - "云原生与运维"
+  - 云原生与运维
 images:
-  - "https://images.unsplash.com/photo-1504639725590-34d0984388bd?auto=format&fit=crop&w=1600&q=85"
+  - /covers/opentelemetry-jaeger-distributed-tracing.svg
+cover: /covers/opentelemetry-jaeger-distributed-tracing.svg
+coverImage: /covers/opentelemetry-jaeger-distributed-tracing.svg
 ---
 
 # OpenTelemetry 与 Jaeger 链路追踪实战
@@ -38,10 +42,10 @@ traceparent: 00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01
 
 ```mermaid
 graph TD
-    RootSpan[Root Span: HTTP GET /api/v1/checkout (Gateway)] --> SpanAuth[Child Span 1: JWT Verify]
-    RootSpan --> SpanOrder[Child Span 2: Order Service RPC]
-    SpanOrder --> SpanDB[Child Span 2.1: PostgreSQL INSERT]
-    SpanOrder --> SpanPay[Child Span 2.2: Payment Charge API]
+    RootSpan["Root Span: HTTP GET /api/v1/checkout (Gateway)"] --> SpanAuth["Child Span 1: JWT Verify"]
+    RootSpan --> SpanOrder["Child Span 2: Order Service RPC"]
+    SpanOrder --> SpanDB["Child Span 2.1: PostgreSQL INSERT"]
+    SpanOrder --> SpanPay["Child Span 2.2: Payment Charge API"]
 ```
 
 - **Trace (全局调用链)**：代表单次端到端请求在整个分布式系统中的完整旅程。

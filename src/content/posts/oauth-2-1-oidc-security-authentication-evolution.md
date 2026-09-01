@@ -1,22 +1,26 @@
 ---
-title: "OAuth 2.1 与 PKCE 安全认证实战"
-url: "oauth-2-1-oidc-security-authentication-evolution"
-date: "2025-08-08"
+title: OAuth 2.1 与 PKCE 安全认证实战
+url: oauth-2-1-oidc-security-authentication-evolution
+date: '2025-08-08'
 draft: false
 authors:
   - default
-summary: "系统解读 OAuth 2.1 废弃隐式授权与密码模式的安全根因，深度剖析 PKCE (Proof Key for Code Exchange) 防御授权码拦截攻击，并实战 OIDC 现代化身份中台落地。"
+summary: >-
+  系统解读 OAuth 2.1 废弃隐式授权与密码模式的安全根因，深度剖析 PKCE (Proof Key for Code Exchange)
+  防御授权码拦截攻击，并实战 OIDC 现代化身份中台落地。
 tags:
-  - "OAuth2"
-  - "OIDC"
-  - "身份认证"
-  - "网络安全"
-categoryId: "cat-oauth-2-1-oidc-security-authentication-evolution"
-category: "网络安全"
+  - OAuth2
+  - OIDC
+  - 身份认证
+  - 网络安全
+categoryId: cat-oauth-2-1-oidc-security-authentication-evolution
+category: 网络安全
 categories:
-  - "网络安全"
+  - 网络安全
 images:
-  - "https://images.unsplash.com/photo-1614064641938-3bbee52942c7?auto=format&fit=crop&w=1600&q=85"
+  - /covers/oauth-2-1-oidc-security-authentication-evolution.svg
+cover: /covers/oauth-2-1-oidc-security-authentication-evolution.svg
+coverImage: /covers/oauth-2-1-oidc-security-authentication-evolution.svg
 ---
 
 # OAuth 2.1 与 PKCE 安全认证实战
@@ -51,7 +55,7 @@ sequenceDiagram
     participant AuthServer as 授权认证服务器 (OAuth 2.1 IdP)
     participant API as 资源微服务 API
 
-    User->>User: 1. 本地生成高熵随机串 code_verifier<br>计算 code_challenge = BASE64URL(SHA256(code_verifier))
+    User->>User: 1. 本地生成高熵随机串 code_verifier<br>计算 code_challenge = BASE64URL("SHA256(code_verifier"))
     User->>AuthServer: 2. 发起授权重定向: /authorize?response_type=code&code_challenge=xyz...&code_challenge_method=S256
     AuthServer->>User: 3. 用户完成登录并确认授权
     AuthServer-->>User: 4. 302 重定向回传授权码: /callback?code=AUTH_CODE_123

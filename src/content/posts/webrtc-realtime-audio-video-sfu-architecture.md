@@ -1,22 +1,26 @@
 ---
-title: "WebRTC 实时音视频与 SFU 架构实战"
-url: "webrtc-realtime-audio-video-sfu-architecture"
-date: "2025-12-02"
+title: WebRTC 实时音视频与 SFU 架构实战
+url: webrtc-realtime-audio-video-sfu-architecture
+date: '2025-12-02'
 draft: false
 authors:
   - default
-summary: "深入拆解 WebRTC SDP 协商与 ICE NAT 穿透机制，对比 Mesh、MCU 与 SFU 架构优劣，并基于 Mediasoup 打造高并发低延迟多人音视频会议系统。"
+summary: >-
+  深入拆解 WebRTC SDP 协商与 ICE NAT 穿透机制，对比 Mesh、MCU 与 SFU 架构优劣，并基于 Mediasoup
+  打造高并发低延迟多人音视频会议系统。
 tags:
-  - "WebRTC"
-  - "音视频"
-  - "实时通信"
-  - "流媒体"
-categoryId: "cat-webrtc-realtime-audio-video-sfu-architecture"
-category: "前端开发"
+  - WebRTC
+  - 音视频
+  - 实时通信
+  - 流媒体
+categoryId: cat-webrtc-realtime-audio-video-sfu-architecture
+category: 前端开发
 categories:
-  - "前端开发"
+  - 前端开发
 images:
-  - "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1600&q=85"
+  - /covers/webrtc-realtime-audio-video-sfu-architecture.svg
+cover: /covers/webrtc-realtime-audio-video-sfu-architecture.svg
+coverImage: /covers/webrtc-realtime-audio-video-sfu-architecture.svg
 ---
 
 # WebRTC 实时音视频与 SFU 架构实战
@@ -38,15 +42,15 @@ graph TD
     end
 
     subgraph MCU_Mode [2. MCU 模式 (中心混流解码转码)]
-        MCU_ClientA[客户端 A] --> MCU_Server[MCU 硬件/服务器 (重度混流编码)]
+        MCU_ClientA[客户端 A] --> MCU_Server["MCU 硬件/服务器 (重度混流编码)"]
         MCU_ClientB[客户端 B] --> MCU_Server
         MCU_Server --> SingleMix[合流单一视频流回传]
     end
 
     subgraph SFU_Mode [3. SFU 模式 (路由转发，零编解码消耗)]
         SFU_A[发布者 A] --> SFU_Node[SFU 路由分发核心]
-        SFU_Node --> SubB[订阅者 B: 按需拉取高清/标清]
-        SFU_Node --> SubC[订阅者 C: 按需拉取高清/标清]
+        SFU_Node --> SubB["订阅者 B: 按需拉取高清/标清"]
+        SFU_Node --> SubC["订阅者 C: 按需拉取高清/标清"]
     end
 ```
 

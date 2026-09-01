@@ -1,22 +1,26 @@
 ---
-title: "防御性 Bash 脚本与自动化运维规范"
-url: "shell-script-automation-defensive-bash-guide"
-date: "2026-04-08"
+title: 防御性 Bash 脚本与自动化运维规范
+url: shell-script-automation-defensive-bash-guide
+date: '2026-04-08'
 draft: false
 authors:
   - default
-summary: "告别 rm -rf /* 惨案！深入掌握 Bash 防御性编程四大法宝 (set -euo pipefail)、trap 资源退出自愈、严格参数解析与工业级自动化备份脚本范本。"
+summary: >-
+  告别 rm -rf /* 惨案！深入掌握 Bash 防御性编程四大法宝 (set -euo pipefail)、trap
+  资源退出自愈、严格参数解析与工业级自动化备份脚本范本。
 tags:
-  - "Shell"
-  - "Bash"
-  - "Linux"
-  - "自动化运维"
-categoryId: "cat-shell-script-automation-defensive-bash-guide"
-category: "云原生与运维"
+  - Shell
+  - Bash
+  - Linux
+  - 自动化运维
+categoryId: cat-shell-script-automation-defensive-bash-guide
+category: 云原生与运维
 categories:
-  - "云原生与运维"
+  - 云原生与运维
 images:
-  - "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1600&q=85"
+  - /covers/shell-script-automation-defensive-bash-guide.svg
+cover: /covers/shell-script-automation-defensive-bash-guide.svg
+coverImage: /covers/shell-script-automation-defensive-bash-guide.svg
 ---
 
 # 防御性 Bash 脚本与自动化运维规范

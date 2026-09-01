@@ -1,23 +1,27 @@
 ---
-title: "LLM Agent 架构设计与 LangChain 实战"
-url: "llm-agent-architecture-langchain-practice"
-date: "2026-05-14"
+title: LLM Agent 架构设计与 LangChain 实战
+url: llm-agent-architecture-langchain-practice
+date: '2026-05-14'
 draft: false
 recommend: 85
 authors:
   - default
-summary: "深入剖析基于大语言模型 (LLM) 的自主智能体认知架构：ReAct 循环推理范式、Function Calling 工具调度、长短期记忆系统，以及基于 LangGraph 的有向图工作流实战。"
+summary: >-
+  深入剖析基于大语言模型 (LLM) 的自主智能体认知架构：ReAct 循环推理范式、Function Calling 工具调度、长短期记忆系统，以及基于
+  LangGraph 的有向图工作流实战。
 tags:
-  - "LLM"
-  - "LangChain"
-  - "Agent"
-  - "人工智能"
-categoryId: "cat-llm-agent-architecture-langchain-practice"
-category: "人工智能"
+  - LLM
+  - LangChain
+  - Agent
+  - 人工智能
+categoryId: cat-llm-agent-architecture-langchain-practice
+category: 人工智能
 categories:
-  - "人工智能"
+  - 人工智能
 images:
-  - "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1600&q=85"
+  - /covers/llm-agent-architecture-langchain-practice.svg
+cover: /covers/llm-agent-architecture-langchain-practice.svg
+coverImage: /covers/llm-agent-architecture-langchain-practice.svg
 ---
 
 # LLM Agent 架构设计与 LangChain 实战
@@ -34,12 +38,12 @@ images:
 
 ```mermaid
 graph TD
-    UserGoal[用户输入复杂指令: '查询杭州明天下雨概率并根据降水推荐室外活动'] --> LLMReason[1. Thought: 思考分析当前缺失杭州未来天气数据]
-    LLMReason --> LLMAct[2. Action: 决定调用 weather_api(city='Hangzhou', date='tomorrow')]
-    LLMAct --> EnvExec[3. Tool Execution: 外部真实 API 返回降水概率 85%]
-    EnvExec --> LLMObs[4. Observation: 智能体观察到下雨概率极高]
-    LLMObs --> LLMNext[5. Thought: 确认降水极高，转为推荐室内活动如西湖博物馆]
-    LLMNext --> FinalAnswer[6. Final Answer: 输出详尽规划建议]
+    UserGoal["用户输入复杂指令: '查询杭州明天下雨概率并根据降水推荐室外活动'"] --> LLMReason["1. Thought: 思考分析当前缺失杭州未来天气数据"]
+    LLMReason --> LLMAct["2. Action: 决定调用 weather_api("city='Hangzhou', date='tomorrow'")"]
+    LLMAct --> EnvExec["3. Tool Execution: 外部真实 API 返回降水概率 85%"]
+    EnvExec --> LLMObs["4. Observation: 智能体观察到下雨概率极高"]
+    LLMObs --> LLMNext["5. Thought: 确认降水极高，转为推荐室内活动如西湖博物馆"]
+    LLMNext --> FinalAnswer["6. Final Answer: 输出详尽规划建议"]
 ```
 
 ---

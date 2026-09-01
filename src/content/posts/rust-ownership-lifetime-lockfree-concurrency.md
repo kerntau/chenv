@@ -1,22 +1,26 @@
 ---
-title: "Rust 所有权模型与无锁并发结构"
-url: "rust-ownership-lifetime-lockfree-concurrency"
-date: "2025-10-05"
+title: Rust 所有权模型与无锁并发结构
+url: rust-ownership-lifetime-lockfree-concurrency
+date: '2025-10-05'
 draft: false
 recommend: 95
 authors:
   - default
-summary: "深入剖析 Rust 编译期所有权借用检查器 (NLL)、生命周期标注的本质，并通过 AtomicPtr 与 CAS 操作实战编写内存安全的无锁并发栈 (Treiber Stack)。"
+summary: >-
+  深入剖析 Rust 编译期所有权借用检查器 (NLL)、生命周期标注的本质，并通过 AtomicPtr 与 CAS 操作实战编写内存安全的无锁并发栈
+  (Treiber Stack)。
 tags:
-  - "Rust"
-  - "系统编程"
-  - "无锁并发"
-categoryId: "cat-rust-ownership-lifetime-lockfree-concurrency"
-category: "后端开发"
+  - Rust
+  - 系统编程
+  - 无锁并发
+categoryId: cat-rust-ownership-lifetime-lockfree-concurrency
+category: 后端开发
 categories:
-  - "后端开发"
+  - 后端开发
 images:
-  - "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1600&q=85"
+  - /covers/rust-ownership-lifetime-lockfree-concurrency.svg
+cover: /covers/rust-ownership-lifetime-lockfree-concurrency.svg
+coverImage: /covers/rust-ownership-lifetime-lockfree-concurrency.svg
 ---
 
 # Rust 所有权模型与无锁并发结构
@@ -36,9 +40,9 @@ Rust 的核心内存契约由三大铁律构成：
 
 ```mermaid
 graph TD
-    Resource[堆内存资源 (Box<T> / Vec<T>)] --> OwnerA[所有者 Owner A]
+    Resource["堆内存资源 (Box<T> / Vec<T>)"] --> OwnerA[所有者 Owner A]
     OwnerA -- Move (移动所有权) --> OwnerB[新所有者 Owner B]
-    OwnerA -. 悬挂标记不可用 .-> Invalid[所有权失效 (编译期禁止访问)]
+    OwnerA -. 悬挂标记不可用 .-> Invalid["所有权失效 (编译期禁止访问)"]
 ```
 
 ### 生命周期标注 `'a` 的本质：编译期泛型约束

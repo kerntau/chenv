@@ -1,22 +1,26 @@
 ---
-title: "Linux IO 多路复用：select 到 epoll"
-url: "linux-io-multiplexing-select-poll-epoll"
-date: "2025-04-03"
+title: Linux IO 多路复用：select 到 epoll
+url: linux-io-multiplexing-select-poll-epoll
+date: '2025-04-03'
 draft: false
 authors:
   - default
-summary: "深入剖析 Linux select/poll 的性能瓶颈根因，拆解 epoll 红黑树与就绪双向链表内核源码机制，并详解边缘触发 (ET) 与水平触发 (LT) 的生产级编程规范。"
+summary: >-
+  深入剖析 Linux select/poll 的性能瓶颈根因，拆解 epoll 红黑树与就绪双向链表内核源码机制，并详解边缘触发 (ET) 与水平触发
+  (LT) 的生产级编程规范。
 tags:
-  - "Linux"
-  - "网络编程"
-  - "操作系统"
-  - "epoll"
-categoryId: "cat-linux-io-multiplexing-select-poll-epoll"
-category: "后端开发"
+  - Linux
+  - 网络编程
+  - 操作系统
+  - epoll
+categoryId: cat-linux-io-multiplexing-select-poll-epoll
+category: 后端开发
 categories:
-  - "后端开发"
+  - 后端开发
 images:
-  - "https://images.unsplash.com/photo-1629654297299-c8506221ca97?auto=format&fit=crop&w=1600&q=85"
+  - /covers/linux-io-multiplexing-select-poll-epoll.svg
+cover: /covers/linux-io-multiplexing-select-poll-epoll.svg
+coverImage: /covers/linux-io-multiplexing-select-poll-epoll.svg
 ---
 
 # Linux IO 多路复用：select 到 epoll
@@ -40,15 +44,15 @@ Linux 操作系统经历了从阻塞 IO、多进程/多线程模型，到 **IO �
 ```mermaid
 graph TD
     subgraph epoll_Kernel_Space [Linux 内核 epoll 实例结构 (struct eventpoll)]
-        RBRoot[红黑树 rbr: 快速 O(log N) 增删查监听的 Socket FD]
-        RDLst[就绪双向链表 rdllist: 仅存放当前有事件发生的 FD]
+        RBRoot["红黑树 rbr: 快速 O(log N) 增删查监听的 Socket FD"]
+        RDLst["就绪双向链表 rdllist: 仅存放当前有事件发生的 FD"]
         WQSock[Socket 等待队列与中断回调函数 ep_poll_callback]
     end
 
     NIC[网卡收到数据包] --> HardIRQ[硬件中断]
     HardIRQ --> SoftIRQ[协议栈处理并触发 ep_poll_callback]
     SoftIRQ --> InsertReady[将该 Socket 节点直接插入 rdllist 就绪链表]
-    InsertReady --> WakeUser[唤醒 epoll_wait() 用户态线程，时间复杂度 O(1)]
+    InsertReady --> WakeUser["唤醒 epoll_wait() 用户态线程，时间复杂度 O(1)"]
 ```
 
 ---

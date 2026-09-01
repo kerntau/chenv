@@ -1,22 +1,26 @@
 ---
-title: "ArgoCD 与 FluxCD GitOps 实践对比"
-url: "gitops-argocd-fluxcd-k8s-comparison"
-date: "2025-07-08"
+title: ArgoCD 与 FluxCD GitOps 实践对比
+url: gitops-argocd-fluxcd-k8s-comparison
+date: '2025-07-08'
 draft: false
 authors:
   - default
-summary: "全面对比传统 CI/CD Push 模式与 GitOps Pull 模式的安全与架构优势，深度测评 ArgoCD 与 FluxCD，实战声明式持续同步与配置漂移自愈。"
+summary: >-
+  全面对比传统 CI/CD Push 模式与 GitOps Pull 模式的安全与架构优势，深度测评 ArgoCD 与
+  FluxCD，实战声明式持续同步与配置漂移自愈。
 tags:
-  - "GitOps"
-  - "ArgoCD"
-  - "Kubernetes"
-  - "CI/CD"
-categoryId: "cat-gitops-argocd-fluxcd-k8s-comparison"
-category: "云原生与运维"
+  - GitOps
+  - ArgoCD
+  - Kubernetes
+  - CI/CD
+categoryId: cat-gitops-argocd-fluxcd-k8s-comparison
+category: 云原生与运维
 categories:
-  - "云原生与运维"
+  - 云原生与运维
 images:
-  - "https://images.unsplash.com/photo-1618401471353-b98aedd04e11?auto=format&fit=crop&w=1600&q=85"
+  - /covers/gitops-argocd-fluxcd-k8s-comparison.svg
+cover: /covers/gitops-argocd-fluxcd-k8s-comparison.svg
+coverImage: /covers/gitops-argocd-fluxcd-k8s-comparison.svg
 ---
 
 # ArgoCD 与 FluxCD GitOps 实践对比
@@ -37,7 +41,7 @@ graph TD
     end
 
     subgraph Pull_Model [GitOps Pull 模式: 集群内 Agent 单向拉取 -> 零权限暴露]
-        Dev2[开发者提交声明式 YAML/Helm/Kustomize] --> GitRepo[(Git 真实事实源仓库)]
+        Dev2[开发者提交声明式 YAML/Helm/Kustomize] --> GitRepo["(Git 真实事实源仓库)"]
         GitRepo -.->|单向只读拉取| GitOpsAgent[运行在 K8s 内部的 ArgoCD Agent]
         GitOpsAgent -->|调和同步 (Reconcile) 并自动修正漂移| LiveCluster[K8s 本地 APIServer]
     end

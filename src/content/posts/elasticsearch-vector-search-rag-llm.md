@@ -1,22 +1,26 @@
 ---
-title: "Elasticsearch 向量检索与 RAG 实战"
-url: "elasticsearch-vector-search-rag-llm"
-date: "2026-01-18"
+title: Elasticsearch 向量检索与 RAG 实战
+url: elasticsearch-vector-search-rag-llm
+date: '2026-01-18'
 draft: false
 authors:
   - default
-summary: "深入剖析 Elasticsearch 8.x 密集向量检索 (Dense Vector)、HNSW 层次化可导航小世界图索引算法，并实战 BM25 与向量混合检索 (Hybrid Search) 构建企业级 RAG 知识库。"
+summary: >-
+  深入剖析 Elasticsearch 8.x 密集向量检索 (Dense Vector)、HNSW 层次化可导航小世界图索引算法，并实战 BM25
+  与向量混合检索 (Hybrid Search) 构建企业级 RAG 知识库。
 tags:
-  - "Elasticsearch"
-  - "向量检索"
-  - "RAG"
-  - "LLM"
-categoryId: "cat-elasticsearch-vector-search-rag-llm"
-category: "人工智能"
+  - Elasticsearch
+  - 向量检索
+  - RAG
+  - LLM
+categoryId: cat-elasticsearch-vector-search-rag-llm
+category: 人工智能
 categories:
-  - "人工智能"
+  - 人工智能
 images:
-  - "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=1600&q=85"
+  - /covers/elasticsearch-vector-search-rag-llm.svg
+cover: /covers/elasticsearch-vector-search-rag-llm.svg
+coverImage: /covers/elasticsearch-vector-search-rag-llm.svg
 ---
 
 # Elasticsearch 向量检索与 RAG 实战
@@ -34,16 +38,16 @@ images:
 ```mermaid
 graph TD
     subgraph Offline_Indexing [离线知识入库流程]
-        Docs[企业私有文档 PDF / Markdown] --> ChunkSplit[文本智能切片 (Chunking: 500 Tokens)]
-        ChunkSplit --> EmbedModel[Embedding 嵌入模型 (如 text-embedding-3-small)]
-        EmbedModel --> ESIndex[(Elasticsearch: 存储 [文本 + 1536维向量] 并构建 HNSW 图索引)]
+        Docs[企业私有文档 PDF / Markdown] --> ChunkSplit["文本智能切片 (Chunking: 500 Tokens)"]
+        ChunkSplit --> EmbedModel["Embedding 嵌入模型 (如 text-embedding-3-small)"]
+        EmbedModel --> ESIndex["(Elasticsearch: 存储 [文本 + 1536维向量"] 并构建 HNSW 图索引)]
     end
 
     subgraph Online_RAG_Query [在线混合检索与生成流程]
-        UserQ[用户提问: '如何配置微服务的熔断阈值?'] --> QEmbed[生成 Query 向量]
-        QEmbed --> HybridSearch[ES 混合检索: BM25 关键字 + Dense Vector 语义]
-        HybridSearch --> RRF[RRF 倒数排名融合算法 -> 召回 Top-3 最优文档片段]
-        RRF --> PromptAugment[构建增强 Prompt: 上下文 Context + 原始提问]
+        UserQ["用户提问: '如何配置微服务的熔断阈值?'"] --> QEmbed[生成 Query 向量]
+        QEmbed --> HybridSearch["ES 混合检索: BM25 关键字 + Dense Vector 语义"]
+        HybridSearch --> RRF["RRF 倒数排名融合算法 -> 召回 Top-3 最优文档片段"]
+        RRF --> PromptAugment["构建增强 Prompt: 上下文 Context + 原始提问"]
         PromptAugment --> LLMGen[大模型推理生成精准无幻觉回答]
     end
 ```

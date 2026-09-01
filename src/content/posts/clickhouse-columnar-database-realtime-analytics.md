@@ -1,23 +1,27 @@
 ---
-title: "ClickHouse 千万级实时分析实战"
-url: "clickhouse-columnar-database-realtime-analytics"
-date: "2025-08-31"
+title: ClickHouse 千万级实时分析实战
+url: clickhouse-columnar-database-realtime-analytics
+date: '2025-08-31'
 draft: false
 recommend: 90
 authors:
   - default
-summary: "深入剖析 ClickHouse 极致分析性能的物理底层：列式存储压缩、MergeTree 稀疏索引与 SIMD 向量化计算，并提供百亿级日志与指标分析表最佳建表与聚合实战。"
+summary: >-
+  深入剖析 ClickHouse 极致分析性能的物理底层：列式存储压缩、MergeTree 稀疏索引与 SIMD
+  向量化计算，并提供百亿级日志与指标分析表最佳建表与聚合实战。
 tags:
-  - "ClickHouse"
-  - "大数据"
-  - "数据库"
-  - "OLAP"
-categoryId: "cat-clickhouse-columnar-database-realtime-analytics"
-category: "数据库系统"
+  - ClickHouse
+  - 大数据
+  - 数据库
+  - OLAP
+categoryId: cat-clickhouse-columnar-database-realtime-analytics
+category: 数据库系统
 categories:
-  - "数据库系统"
+  - 数据库系统
 images:
-  - "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1600&q=85"
+  - /covers/clickhouse-columnar-database-realtime-analytics.svg
+cover: /covers/clickhouse-columnar-database-realtime-analytics.svg
+coverImage: /covers/clickhouse-columnar-database-realtime-analytics.svg
 ---
 
 # ClickHouse 千万级实时分析实战
@@ -33,16 +37,16 @@ images:
 ```mermaid
 graph TD
     subgraph Row_Oriented [传统行式存储: MySQL / OLTP]
-        R1[Row 1: [ID, User, Age, Action, IP, Time]]
-        R2[Row 2: [ID, User, Age, Action, IP, Time]]
-        NoteRow[查询 'SELECT AVG(Age)' 必须将包含 User/Action/IP 等无关字段的整行全部从磁盘读取 -> IO 严重浪费!]
+        R1["Row 1: [ID, User, Age, Action, IP, Time"]"]
+        R2["Row 2: [ID, User, Age, Action, IP, Time"]"]
+        NoteRow["查询 'SELECT AVG(Age)' 必须将包含 User/Action/IP 等无关字段的整行全部从磁盘读取 -> IO 严重浪费!"]
     end
 
     subgraph Column_Oriented [ClickHouse 列式存储: OLAP 引擎]
-        C_ID[ID 列文件: [1, 2, ...]]
-        C_Age[Age 列文件: [25, 30, ...]]
-        C_Time[Time 列文件: [1710000, 1710001, ...]]
-        NoteCol[仅精准加载 Age 单列物理文件! 相同类型数据连续存放，压缩比高达 10:1 !]
+        C_ID["ID 列文件: [1, 2, ..."]"]
+        C_Age["Age 列文件: [25, 30, ..."]"]
+        C_Time["Time 列文件: [1710000, 1710001, ..."]"]
+        NoteCol["仅精准加载 Age 单列物理文件! 相同类型数据连续存放，压缩比高达 10:1 !"]
     end
 ```
 
@@ -61,9 +65,9 @@ ClickHouse 最核心的表引擎家族是 **`MergeTree`**（合并树）：
 
 ```mermaid
 graph LR
-    Index[稀疏索引 primary.idx: 默认每隔 8192 行记录一个 Index Mark]
-    Marks[标记文件 column.mrk: 建立索引 Mark 与物理数据块的精准偏移映射]
-    DataBin[压缩数据文件 column.bin: 经过 LZ4 压缩的数据块 (Compressed Data Blocks)]
+    Index["稀疏索引 primary.idx: 默认每隔 8192 行记录一个 Index Mark"]
+    Marks["标记文件 column.mrk: 建立索引 Mark 与物理数据块的精准偏移映射"]
+    DataBin["压缩数据文件 column.bin: 经过 LZ4 压缩的数据块 (Compressed Data Blocks)"]
 
     Index --> Marks
     Marks --> DataBin

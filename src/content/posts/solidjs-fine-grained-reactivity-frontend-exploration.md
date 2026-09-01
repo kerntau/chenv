@@ -1,21 +1,25 @@
 ---
-title: "SolidJS 细粒度响应式前端探索"
-url: "solidjs-fine-grained-reactivity-frontend-exploration"
-date: "2026-06-16"
+title: SolidJS 细粒度响应式前端探索
+url: solidjs-fine-grained-reactivity-frontend-exploration
+date: '2026-06-16'
 draft: false
 authors:
   - default
-summary: "深入剖析 SolidJS 无虚拟 DOM (No Virtual DOM) 的核心编译机制，解析 Signal、Effect 底层发布订阅图与细粒度 DOM 靶向更新。"
+summary: >-
+  深入剖析 SolidJS 无虚拟 DOM (No Virtual DOM) 的核心编译机制，解析 Signal、Effect 底层发布订阅图与细粒度 DOM
+  靶向更新。
 tags:
-  - "SolidJS"
-  - "JavaScript"
-  - "响应式原理"
-categoryId: "cat-solidjs-fine-grained-reactivity-frontend-exploration"
-category: "前端开发"
+  - SolidJS
+  - JavaScript
+  - 响应式原理
+categoryId: cat-solidjs-fine-grained-reactivity-frontend-exploration
+category: 前端开发
 categories:
-  - "前端开发"
+  - 前端开发
 images:
-  - "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=1600&q=85"
+  - /covers/solidjs-fine-grained-reactivity-frontend-exploration.svg
+cover: /covers/solidjs-fine-grained-reactivity-frontend-exploration.svg
+coverImage: /covers/solidjs-fine-grained-reactivity-frontend-exploration.svg
 ---
 
 # SolidJS 细粒度响应式前端探索

@@ -1,22 +1,26 @@
 ---
-title: "Web 安全：SQL 注入与 XSS 纵深防御"
-url: "sql-injection-xss-prevention-web-security"
-date: "2026-02-09"
+title: Web 安全：SQL 注入与 XSS 纵深防御
+url: sql-injection-xss-prevention-web-security
+date: '2026-02-09'
 draft: false
 authors:
   - default
-summary: "深入剖析 OWASP Top 10 中最危险的两大 Web 安全漏洞：从 AST 语法树篡改看 SQL 注入与参数化预编译防御，到存储/反射/DOM 型 XSS 攻防与 CSP 策略落地。"
+summary: >-
+  深入剖析 OWASP Top 10 中最危险的两大 Web 安全漏洞：从 AST 语法树篡改看 SQL 注入与参数化预编译防御，到存储/反射/DOM 型
+  XSS 攻防与 CSP 策略落地。
 tags:
-  - "Web安全"
-  - "SQL注入"
-  - "XSS"
-  - "网络安全"
-categoryId: "cat-sql-injection-xss-prevention-web-security"
-category: "网络安全"
+  - Web安全
+  - SQL注入
+  - XSS
+  - 网络安全
+categoryId: cat-sql-injection-xss-prevention-web-security
+category: 网络安全
 categories:
-  - "网络安全"
+  - 网络安全
 images:
-  - "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?auto=format&fit=crop&w=1600&q=85"
+  - /covers/sql-injection-xss-prevention-web-security.svg
+cover: /covers/sql-injection-xss-prevention-web-security.svg
+coverImage: /covers/sql-injection-xss-prevention-web-security.svg
 ---
 
 # Web 安全：SQL 注入与 XSS 纵深防御
@@ -36,13 +40,13 @@ SQL 注入的本质在于：**服务端将未经严格校验的用户外部不�
 ```mermaid
 graph TD
     subgraph Vulnerable_SQL [漏洞拼接: ' OR 1=1 --]
-        RawStr["SELECT * FROM users WHERE user = '" + input + "' AND pass = '" + pass + "'"] --> Lexer1[词法解析]
-        Lexer1 --> AST1[AST 语法树被恶意注入 OR 节点, 永远判定为 TRUE! 身份验证被完全绕过!]
+        RawStr["SELECT * FROM users WHERE user = '' + input + '' AND pass = '' + pass + ''"] --> Lexer1[词法解析]
+        Lexer1 --> AST1["AST 语法树被恶意注入 OR 节点, 永远判定为 TRUE! 身份验证被完全绕过!"]
     end
 
     subgraph Prepared_Statement [参数化预编译 (Prepared Statement): 指令与数据物理隔离]
-        Template["SELECT * FROM users WHERE user = ? AND pass = ?"] --> PreCompile[1. 数据库预先编译 AST 语法树骨架 (固定逻辑结构)]
-        UserInput[2. 传入外部不可信参数: ' OR 1=1 --] --> SafeBind[3. 数据库纯粹作为字面量值绑定, 绝不改变任何 AST 结构!]
+        Template[SELECT * FROM users WHERE user = ? AND pass = ?] --> PreCompile["1. 数据库预先编译 AST 语法树骨架 (固定逻辑结构)"]
+        UserInput["2. 传入外部不可信参数: ' OR 1=1 --"] --> SafeBind["3. 数据库纯粹作为字面量值绑定, 绝不改变任何 AST 结构!"]
     end
 ```
 

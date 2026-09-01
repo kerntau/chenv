@@ -1,22 +1,26 @@
 ---
-title: "Chrome V8 垃圾回收与内存泄漏排查"
-url: "v8-engine-garbage-collection-memory-leak"
-date: "2025-08-19"
+title: Chrome V8 垃圾回收与内存泄漏排查
+url: v8-engine-garbage-collection-memory-leak
+date: '2025-08-19'
 draft: false
 authors:
   - default
-summary: "系统图解 V8 新生代 Scavenge 算法、老生代 Mark-Sweep / Mark-Compact、三色标记法与 Orinoco 并发 GC，结合 Chrome & Node.js 堆快照实战定位内存泄漏。"
+summary: >-
+  系统图解 V8 新生代 Scavenge 算法、老生代 Mark-Sweep / Mark-Compact、三色标记法与 Orinoco 并发 GC，结合
+  Chrome & Node.js 堆快照实战定位内存泄漏。
 tags:
-  - "JavaScript"
-  - "V8"
-  - "性能优化"
-  - "Node.js"
-categoryId: "cat-v8-engine-garbage-collection-memory-leak"
-category: "前端开发"
+  - JavaScript
+  - V8
+  - 性能优化
+  - Node.js
+categoryId: cat-v8-engine-garbage-collection-memory-leak
+category: 前端开发
 categories:
-  - "前端开发"
+  - 前端开发
 images:
-  - "https://images.unsplash.com/photo-1516259762381-22954d7d3ad2?auto=format&fit=crop&w=1600&q=85"
+  - /covers/v8-engine-garbage-collection-memory-leak.svg
+cover: /covers/v8-engine-garbage-collection-memory-leak.svg
+coverImage: /covers/v8-engine-garbage-collection-memory-leak.svg
 ---
 
 # Chrome V8 垃圾回收与内存泄漏排查
@@ -33,11 +37,11 @@ V8 将堆内存划分为 **新生代 (Young Generation)** 与 **老生代 (Old G
 
 ```mermaid
 graph TD
-    V8Heap[V8 堆内存总量 (Heap)] --> Young[新生代空间 (1~64MB 极速分配)]
-    V8Heap --> Old[老生代空间 (长期存活对象)]
+    V8Heap["V8 堆内存总量 (Heap)"] --> Young["新生代空间 (1~64MB 极速分配)"]
+    V8Heap --> Old["老生代空间 (长期存活对象)"]
 
-    Young --> FromSpace[From 空间 (当前活跃)]
-    Young --> ToSpace[To 空间 (空闲中转)]
+    Young --> FromSpace["From 空间 (当前活跃)"]
+    Young --> ToSpace["To 空间 (空闲中转)"]
     
     Old --> OldPointer[Old Pointer Space]
     Old --> OldData[Old Data Space]
@@ -145,11 +149,11 @@ export function dumpMemorySnapshot(fileName = 'heap-dump.heapsnapshot') {
 
 ```mermaid
 graph LR
-    ShallowSize[Shallow Size 浅层大小: 对象本身消耗的内存]
-    RetainedSize[Retained Size 保留大小: 该对象被 GC 回收后能释放的总内存]
+    ShallowSize["Shallow Size 浅层大小: 对象本身消耗的内存"]
+    RetainedSize["Retained Size 保留大小: 该对象被 GC 回收后能释放的总内存"]
     
     ShallowSize --> RetainedSize
-    RetainedSize --> PathTrace[追查 Retainer 树: 定位 GC Root 根引用链]
+    RetainedSize --> PathTrace["追查 Retainer 树: 定位 GC Root 根引用链"]
 ```
 
 1. **定位异常 Retained Size**：寻找浅层体积小但保留体积巨大的孤儿根节点。

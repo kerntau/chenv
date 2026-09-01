@@ -1,22 +1,26 @@
 ---
-title: "gRPC 与 Protobuf 高性能微服务通信"
-url: "grpc-protobuf-high-performance-microservices"
-date: "2025-12-14"
+title: gRPC 与 Protobuf 高性能微服务通信
+url: grpc-protobuf-high-performance-microservices
+date: '2025-12-14'
 draft: false
 authors:
   - default
-summary: "深度剖析 Protocol Buffers Varint/Zigzag 二进制序列化原理与 HTTP/2 多路复用帧结构，提供 gRPC 双向流式通信与生产级拦截器实战。"
+summary: >-
+  深度剖析 Protocol Buffers Varint/Zigzag 二进制序列化原理与 HTTP/2 多路复用帧结构，提供 gRPC
+  双向流式通信与生产级拦截器实战。
 tags:
-  - "gRPC"
-  - "Protobuf"
-  - "微服务"
-  - "高性能"
-categoryId: "cat-grpc-protobuf-high-performance-microservices"
-category: "后端开发"
+  - gRPC
+  - Protobuf
+  - 微服务
+  - 高性能
+categoryId: cat-grpc-protobuf-high-performance-microservices
+category: 后端开发
 categories:
-  - "后端开发"
+  - 后端开发
 images:
-  - "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=1600&q=85"
+  - /covers/grpc-protobuf-high-performance-microservices.svg
+cover: /covers/grpc-protobuf-high-performance-microservices.svg
+coverImage: /covers/grpc-protobuf-high-performance-microservices.svg
 ---
 
 # gRPC 与 Protobuf 高性能微服务通信
@@ -33,9 +37,9 @@ Protobuf 能够在体积与解析速度上超越 JSON 5 到 10 倍，关键在�
 
 ```mermaid
 graph LR
-    Field[数据字段: Key + Value] --> Tag[Tag: (field_number << 3) | wire_type]
-    Field --> Length[Length (如果是字符串/嵌套消息)]
-    Field --> Value[Value: Varint 压缩编码]
+    Field["数据字段: Key + Value"] --> Tag["Tag: (field_number << 3) | wire_type"]
+    Field --> Length["Length (如果是字符串/嵌套消息)"]
+    Field --> Value["Value: Varint 压缩编码"]
 ```
 
 ### 1. Varint 动态变长整数编码

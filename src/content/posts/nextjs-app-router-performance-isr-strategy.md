@@ -1,21 +1,25 @@
 ---
-title: "Next.js App Router 性能调优与 ISR"
-url: "nextjs-app-router-performance-isr-strategy"
-date: "2025-04-12"
+title: Next.js App Router 性能调优与 ISR
+url: nextjs-app-router-performance-isr-strategy
+date: '2025-04-12'
 draft: false
 authors:
   - default
-summary: "全面拆解 Next.js App Router 的四层缓存体系、按需 ISR (On-demand Revalidation) 以及在海量商品/文章场景下的动静分离性能调优实践。"
+summary: >-
+  全面拆解 Next.js App Router 的四层缓存体系、按需 ISR (On-demand Revalidation)
+  以及在海量商品/文章场景下的动静分离性能调优实践。
 tags:
-  - "Next.js"
-  - "React"
-  - "性能优化"
-categoryId: "cat-nextjs-app-router-performance-isr-strategy"
-category: "前端开发"
+  - Next.js
+  - React
+  - 性能优化
+categoryId: cat-nextjs-app-router-performance-isr-strategy
+category: 前端开发
 categories:
-  - "前端开发"
+  - 前端开发
 images:
-  - "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1600&q=85"
+  - /covers/nextjs-app-router-performance-isr-strategy.svg
+cover: /covers/nextjs-app-router-performance-isr-strategy.svg
+coverImage: /covers/nextjs-app-router-performance-isr-strategy.svg
 ---
 
 # Next.js App Router 性能调优与 ISR
@@ -43,7 +47,7 @@ graph TD
     RC -- Yes --> RenderFast[0ms 客户端瞬时渲染]
     RC -- No --> Server[服务端渲染管线]
     Server --> FRC{Full Route Cache 命中?}
-    FRC -- Yes --> RetHTML[返回预编译 HTML & RSC Payload]
+    FRC -- Yes --> RetHTML["返回预编译 HTML & RSC Payload"]
     FRC -- No --> FetchStep[执行 Server Component 数据拉取]
     FetchStep --> RM{Request Memoization 去重?}
     RM -- Yes --> ReturnMem[复用当前请求上下文缓存]

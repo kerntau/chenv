@@ -1,23 +1,27 @@
 ---
-title: "SAML 2.0 与 OIDC 单点登录中台实战"
-url: "enterprise-sso-saml2-identity-provider-platform"
-date: "2025-08-11"
+title: SAML 2.0 与 OIDC 单点登录中台实战
+url: enterprise-sso-saml2-identity-provider-platform
+date: '2025-08-11'
 draft: false
 authors:
   - default
-summary: "深入拆解企业级身份中台架构：从 SAML 2.0 AuthNRequest / Assertion 签名断言到 OIDC 现代化令牌体系，构建跨系统统一 SSO 鉴权平台。"
+summary: >-
+  深入拆解企业级身份中台架构：从 SAML 2.0 AuthNRequest / Assertion 签名断言到 OIDC 现代化令牌体系，构建跨系统统一
+  SSO 鉴权平台。
 tags:
-  - "网络安全"
-  - "SSO"
-  - "SAML2"
-  - "OIDC"
-  - "架构设计"
-categoryId: "cat-enterprise-sso-saml2-identity-provider-platform"
-category: "后端开发"
+  - 网络安全
+  - SSO
+  - SAML2
+  - OIDC
+  - 架构设计
+categoryId: cat-enterprise-sso-saml2-identity-provider-platform
+category: 后端开发
 categories:
-  - "后端开发"
+  - 后端开发
 images:
-  - "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=1600&q=85"
+  - /covers/enterprise-sso-saml2-identity-provider-platform.svg
+cover: /covers/enterprise-sso-saml2-identity-provider-platform.svg
+coverImage: /covers/enterprise-sso-saml2-identity-provider-platform.svg
 ---
 
 # SAML 2.0 与 OIDC 单点登录中台实战

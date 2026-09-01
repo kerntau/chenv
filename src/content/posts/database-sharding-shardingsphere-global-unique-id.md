@@ -1,22 +1,26 @@
 ---
-title: "ShardingSphere 分库分表实战"
-url: "database-sharding-shardingsphere-global-unique-id"
-date: "2025-06-03"
+title: ShardingSphere 分库分表实战
+url: database-sharding-shardingsphere-global-unique-id
+date: '2025-06-03'
 draft: false
 authors:
   - default
-summary: "深入剖析单表过亿场景下的数据库分库分表架构：水平分片策略、Apache ShardingSphere 路由内核，以及雪花算法 (Snowflake) 时钟回拨防御与唯一 ID 设计。"
+summary: >-
+  深入剖析单表过亿场景下的数据库分库分表架构：水平分片策略、Apache ShardingSphere 路由内核，以及雪花算法 (Snowflake)
+  时钟回拨防御与唯一 ID 设计。
 tags:
-  - "分库分表"
-  - "ShardingSphere"
-  - "分布式"
-  - "数据库架构"
-categoryId: "cat-database-sharding-shardingsphere-global-unique-id"
-category: "数据库系统"
+  - 分库分表
+  - ShardingSphere
+  - 分布式
+  - 数据库架构
+categoryId: cat-database-sharding-shardingsphere-global-unique-id
+category: 数据库系统
 categories:
-  - "数据库系统"
+  - 数据库系统
 images:
-  - "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&w=1600&q=85"
+  - /covers/database-sharding-shardingsphere-global-unique-id.svg
+cover: /covers/database-sharding-shardingsphere-global-unique-id.svg
+coverImage: /covers/database-sharding-shardingsphere-global-unique-id.svg
 ---
 
 # ShardingSphere 分库分表实战
@@ -34,14 +38,14 @@ graph TD
     ClientApp[应用业务层] --> Proxy[Apache ShardingSphere 中间件]
     
     Proxy --> RouteLogic{分片键路由: user_id % 2}
-    RouteLogic -- 库 0 (ds_0) --> DB0[Database: ds_0]
-    RouteLogic -- 库 1 (ds_1) --> DB1[Database: ds_1]
+    RouteLogic -- 库 0 (ds_0) --> DB0["Database: ds_0"]
+    RouteLogic -- 库 1 (ds_1) --> DB1["Database: ds_1"]
 
-    DB0 --> T0_0[Table: t_order_0 (order_id % 2 = 0)]
-    DB0 --> T0_1[Table: t_order_1 (order_id % 2 = 1)]
+    DB0 --> T0_0["Table: t_order_0 (order_id % 2 = 0)"]
+    DB0 --> T0_1["Table: t_order_1 (order_id % 2 = 1)"]
 
-    DB1 --> T1_0[Table: t_order_0]
-    DB1 --> T1_1[Table: t_order_1]
+    DB1 --> T1_0["Table: t_order_0"]
+    DB1 --> T1_1["Table: t_order_1"]
 ```
 
 ### 分片键 (Sharding Key) 黄金选型原则：

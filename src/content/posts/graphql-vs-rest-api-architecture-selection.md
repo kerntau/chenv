@@ -1,22 +1,26 @@
 ---
-title: "GraphQL 与 REST API 架构选型权衡"
-url: "graphql-vs-rest-api-architecture-selection"
-date: "2025-07-22"
+title: GraphQL 与 REST API 架构选型权衡
+url: graphql-vs-rest-api-architecture-selection
+date: '2025-07-22'
 draft: false
 authors:
   - default
-summary: "全面权衡 REST 与 GraphQL 的架构利弊：过度/不足获取分析、强类型 Schema 驱动、DataLoader 批量缓存消除 N+1 数据库灾难以及查询复杂度防护策略。"
+summary: >-
+  全面权衡 REST 与 GraphQL 的架构利弊：过度/不足获取分析、强类型 Schema 驱动、DataLoader 批量缓存消除 N+1
+  数据库灾难以及查询复杂度防护策略。
 tags:
-  - "GraphQL"
-  - "RESTful"
-  - "API设计"
-  - "架构选型"
-categoryId: "cat-graphql-vs-rest-api-architecture-selection"
-category: "后端开发"
+  - GraphQL
+  - RESTful
+  - API设计
+  - 架构选型
+categoryId: cat-graphql-vs-rest-api-architecture-selection
+category: 后端开发
 categories:
-  - "后端开发"
+  - 后端开发
 images:
-  - "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1600&q=85"
+  - /covers/graphql-vs-rest-api-architecture-selection.svg
+cover: /covers/graphql-vs-rest-api-architecture-selection.svg
+coverImage: /covers/graphql-vs-rest-api-architecture-selection.svg
 ---
 
 # GraphQL 与 REST API 架构选型权衡

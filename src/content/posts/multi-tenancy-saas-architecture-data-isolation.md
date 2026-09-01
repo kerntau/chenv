@@ -1,22 +1,26 @@
 ---
-title: "SaaS 多租户架构与数据隔离实战"
-url: "multi-tenancy-saas-architecture-data-isolation"
-date: "2025-08-25"
+title: SaaS 多租户架构与数据隔离实战
+url: multi-tenancy-saas-architecture-data-isolation
+date: '2025-08-25'
 draft: false
 authors:
   - default
-summary: "系统拆解 SaaS 多租户三大数据隔离架构：独立数据库、独立 Schema 与共享数据表，并基于 PostgreSQL RLS (Row Level Security) 打造企业级防越权租户数据中台。"
+summary: >-
+  系统拆解 SaaS 多租户三大数据隔离架构：独立数据库、独立 Schema 与共享数据表，并基于 PostgreSQL RLS (Row Level
+  Security) 打造企业级防越权租户数据中台。
 tags:
-  - "SaaS"
-  - "架构设计"
-  - "PostgreSQL"
-  - "数据隔离"
-categoryId: "cat-multi-tenancy-saas-architecture-data-isolation"
-category: "后端开发"
+  - SaaS
+  - 架构设计
+  - PostgreSQL
+  - 数据隔离
+categoryId: cat-multi-tenancy-saas-architecture-data-isolation
+category: 后端开发
 categories:
-  - "后端开发"
+  - 后端开发
 images:
-  - "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1600&q=85"
+  - /covers/multi-tenancy-saas-architecture-data-isolation.svg
+cover: /covers/multi-tenancy-saas-architecture-data-isolation.svg
+coverImage: /covers/multi-tenancy-saas-architecture-data-isolation.svg
 ---
 
 # SaaS 多租户架构与数据隔离实战
@@ -32,20 +36,20 @@ images:
 ```mermaid
 graph TD
     subgraph Mode1 [1. 独立数据库 (Database-per-Tenant)]
-        App1[SaaS 业务网关] --> DB_TenantA[(租户 A 独立专属 DB)]
-        App1 --> DB_TenantB[(租户 B 独立专属 DB)]
+        App1[SaaS 业务网关] --> DB_TenantA["(租户 A 独立专属 DB)"]
+        App1 --> DB_TenantB["(租户 B 独立专属 DB)"]
     end
 
     subgraph Mode2 [2. 独立 Schema (Schema-per-Tenant)]
-        App2[SaaS 业务网关] --> SharedDB[(单一数据库实例)]
-        SharedDB --> SchemaA[Schema: tenant_a_db]
-        SharedDB --> SchemaB[Schema: tenant_b_db]
+        App2[SaaS 业务网关] --> SharedDB["(单一数据库实例)"]
+        SharedDB --> SchemaA["Schema: tenant_a_db"]
+        SharedDB --> SchemaB["Schema: tenant_b_db"]
     end
 
     subgraph Mode3 [3. 共享数据表 (Shared-Schema + Tenant_ID)]
-        App3[SaaS 业务网关] --> SingleTable[(单一公共表: orders)]
-        SingleTable --> Row1[Row: [id=1, tenant_id='corp_a', ...]]
-        SingleTable --> Row2[Row: [id=2, tenant_id='corp_b', ...]]
+        App3[SaaS 业务网关] --> SingleTable["(单一公共表: orders)"]
+        SingleTable --> Row1["Row: [id=1, tenant_id='corp_a', ..."]]
+        SingleTable --> Row2["Row: [id=2, tenant_id='corp_b', ..."]]
     end
 ```
 

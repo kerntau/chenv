@@ -1,22 +1,26 @@
 ---
-title: "跨云零信任网络架构落地实践"
-url: "zero-trust-network-architecture-hybrid-cloud"
-date: "2025-08-08"
+title: 跨云零信任网络架构落地实践
+url: zero-trust-network-architecture-hybrid-cloud
+date: '2025-08-08'
 draft: false
 authors:
   - default
-summary: "打破传统边界安全护城河理念：深度拆解 Google BeyondCorp 零信任架构模型、基于 SPIFFE/SPIRE 的跨多云工作负载身份认证与软件定义边界 (SDP) 微隔离落地实战。"
+summary: >-
+  打破传统边界安全护城河理念：深度拆解 Google BeyondCorp 零信任架构模型、基于 SPIFFE/SPIRE
+  的跨多云工作负载身份认证与软件定义边界 (SDP) 微隔离落地实战。
 tags:
-  - "网络安全"
-  - "零信任"
-  - "云原生"
-  - "架构设计"
-categoryId: "cat-zero-trust-network-architecture-hybrid-cloud"
-category: "网络安全"
+  - 网络安全
+  - 零信任
+  - 云原生
+  - 架构设计
+categoryId: cat-zero-trust-network-architecture-hybrid-cloud
+category: 网络安全
 categories:
-  - "网络安全"
+  - 网络安全
 images:
-  - "https://images.unsplash.com/photo-1510511459019-5dda7724fd87?auto=format&fit=crop&w=1600&q=85"
+  - /covers/zero-trust-network-architecture-hybrid-cloud.svg
+cover: /covers/zero-trust-network-architecture-hybrid-cloud.svg
+coverImage: /covers/zero-trust-network-architecture-hybrid-cloud.svg
 ---
 
 # 跨云零信任网络架构落地实践
@@ -41,14 +45,14 @@ images:
 ```mermaid
 graph TD
     subgraph Zero_Trust_Plane [零信任控制面与数据面协同]
-        UserDev[员工终端设备: TPM 芯片证书 + EDR 状态] --> PolicyEnforcer[PEP: 零信任安全访问代理 (Access Proxy)]
+        UserDev["员工终端设备: TPM 芯片证书 + EDR 状态"] --> PolicyEnforcer["PEP: 零信任安全访问代理 (Access Proxy)"]
         Workload[云端微服务 A] --> PolicyEnforcer
 
-        PolicyEnforcer <-->|每次请求实时判定| PolicyEngine[PDP: 动态策略引擎 (评估用户角色, IP地理, 设备健康度)]
-        PolicyEngine <--> IdP[(统一身份提供商: SSO / MFA)]
-        PolicyEngine <--> DeviceDB[(设备合规性注册库)]
+        PolicyEnforcer <-->|每次请求实时判定| PolicyEngine["PDP: 动态策略引擎 (评估用户角色, IP地理, 设备健康度)"]
+        PolicyEngine <--> IdP[("统一身份提供商: SSO / MFA")]
+        PolicyEngine <--> DeviceDB[("设备合规性注册库")]
 
-        PolicyEnforcer -- "授权通过 (颁发短期 mTLS 凭证)" --> TargetApp[目标私有应用 / 生产数据库 (零公网暴露)]
+        PolicyEnforcer -- "授权通过 (颁发短期 mTLS 凭证)" --> TargetApp["目标私有应用 / 生产数据库 (零公网暴露)"]
     end
 ```
 
@@ -62,8 +66,8 @@ graph TD
 
 ```mermaid
 graph LR
-    SpireServer[SPIRE Server (中心证书颁发机构 CA)] -->|SPIFFE 协议| SpireAgent[SPIRE Agent (宿主机守护进程)]
-    SpireAgent -->|Unix Domain Socket 工作负载 API| WorkloadContainer[业务容器: 动态获取 SVID 证书]
+    SpireServer["SPIRE Server (中心证书颁发机构 CA)"] -->|SPIFFE 协议| SpireAgent["SPIRE Agent (宿主机守护进程)"]
+    SpireAgent -->|Unix Domain Socket 工作负载 API| WorkloadContainer["业务容器: 动态获取 SVID 证书"]
     WorkloadContainer -->|使用 SVID 证书发起双向 mTLS 通信| RemoteMicroservice[跨云远端微服务]
 ```
 

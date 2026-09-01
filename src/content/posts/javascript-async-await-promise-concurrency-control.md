@@ -1,22 +1,24 @@
 ---
-title: "JavaScript 异步并发控制实战"
-url: "javascript-async-await-promise-concurrency-control"
-date: "2025-11-20"
+title: JavaScript 异步并发控制实战
+url: javascript-async-await-promise-concurrency-control
+date: '2025-11-20'
 draft: false
 authors:
   - default
-summary: "深入剖析浏览器并发请求限制与后端过载原理，手写支持最大并发限制、优先级插队、指数退避重试与 AbortController 取消的高性能异步任务调度器。"
+summary: 深入剖析浏览器并发请求限制与后端过载原理，手写支持最大并发限制、优先级插队、指数退避重试与 AbortController 取消的高性能异步任务调度器。
 tags:
-  - "JavaScript"
-  - "Promise"
-  - "并发控制"
-  - "性能优化"
-categoryId: "cat-javascript-async-await-promise-concurrency-control"
-category: "前端开发"
+  - JavaScript
+  - Promise
+  - 并发控制
+  - 性能优化
+categoryId: cat-javascript-async-await-promise-concurrency-control
+category: 前端开发
 categories:
-  - "前端开发"
+  - 前端开发
 images:
-  - "https://images.unsplash.com/photo-1509228468518-180dd4864904?auto=format&fit=crop&w=1600&q=85"
+  - /covers/javascript-async-await-promise-concurrency-control.svg
+cover: /covers/javascript-async-await-promise-concurrency-control.svg
+coverImage: /covers/javascript-async-await-promise-concurrency-control.svg
 ---
 
 # JavaScript 异步并发控制实战
@@ -36,8 +38,8 @@ images:
 
 ```mermaid
 graph TD
-    Tasks[持续涌入的异步任务 (Task 1..N)] --> Queue[优先级等待队列 (Priority Task Queue)]
-    Queue --> Dispatcher[调度器调度核心 (Dispatcher)]
+    Tasks["持续涌入的异步任务 (Task 1..N)"] --> Queue["优先级等待队列 (Priority Task Queue)"]
+    Queue --> Dispatcher["调度器调度核心 (Dispatcher)"]
 
     subgraph Pool [活跃执行池 (Active Pool, 容量 = Limit)]
         Slot1[并发槽位 1]

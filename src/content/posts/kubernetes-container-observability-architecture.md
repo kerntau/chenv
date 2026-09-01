@@ -1,22 +1,26 @@
 ---
-title: "Kubernetes 容器编排与可观测性全解"
-url: "kubernetes-container-observability-architecture"
-date: "2025-06-20"
+title: Kubernetes 容器编排与可观测性全解
+url: kubernetes-container-observability-architecture
+date: '2025-06-20'
 draft: false
 authors:
   - default
-summary: "深入剖析 Kubernetes 声明式 API、Informer 机制与控制器调和循环 (Reconcile Loop)，构建集 Prometheus 指标、Loki 日志与 OTel 链路追踪于一体的云原生可观测性架构。"
+summary: >-
+  深入剖析 Kubernetes 声明式 API、Informer 机制与控制器调和循环 (Reconcile Loop)，构建集 Prometheus
+  指标、Loki 日志与 OTel 链路追踪于一体的云原生可观测性架构。
 tags:
-  - "Kubernetes"
-  - "云原生"
-  - "可观测性"
-  - "Prometheus"
-categoryId: "cat-kubernetes-container-observability-architecture"
-category: "云原生与运维"
+  - Kubernetes
+  - 云原生
+  - 可观测性
+  - Prometheus
+categoryId: cat-kubernetes-container-observability-architecture
+category: 云原生与运维
 categories:
-  - "云原生与运维"
+  - 云原生与运维
 images:
-  - "https://images.unsplash.com/photo-1667372393119-3d4c48d07fc9?auto=format&fit=crop&w=1600&q=85"
+  - /covers/kubernetes-container-observability-architecture.svg
+cover: /covers/kubernetes-container-observability-architecture.svg
+coverImage: /covers/kubernetes-container-observability-architecture.svg
 ---
 
 # Kubernetes 容器编排与可观测性全解
@@ -34,13 +38,13 @@ Kubernetes 系统的核心精髓是 **声明式设计 (Declarative API)** 与 **
 ```mermaid
 graph TD
     User[用户 kubectl apply -f deployment.yaml] --> APIServer[kube-apiserver]
-    APIServer --> etcd[(etcd 强一致元数据存储)]
+    APIServer --> etcd["(etcd 强一致元数据存储)"]
 
     subgraph Controller_Runtime [自定义控制器 / K8s 内置控制器]
-        Reflector[Reflector: List-Watch 机制监听 etcd 变更] --> DeltaFIFO[DeltaFIFO 增量队列]
+        Reflector["Reflector: List-Watch 机制监听 etcd 变更"] --> DeltaFIFO[DeltaFIFO 增量队列]
         DeltaFIFO --> Indexer[Indexer 本地内存缓存]
         DeltaFIFO --> WorkQueue[WorkQueue 待处理工作队列]
-        WorkQueue --> ReconcileLoop[Reconcile() 调和循环: 对比 Expect State 与 Actual State -> 驱动 Pod 扩缩]
+        WorkQueue --> ReconcileLoop["Reconcile() 调和循环: 对比 Expect State 与 Actual State -> 驱动 Pod 扩缩"]
     end
 
     APIServer <-->|HTTP/2 gRPC Watch 长连接| Reflector
@@ -111,15 +115,15 @@ spec:
 ```mermaid
 graph LR
     subgraph K8s_Nodes [K8s 集群各节点]
-        Pods[业务 Pod: 运行 OTel SDK] --> PushOTel[推送分布式调用链 Traces]
-        PodLogs[容器标准输出 stdout/stderr] --> DaemonFluent[DaemonSet: FluentBit 极速抓取日志]
-        cAdvisor[Kubelet cAdvisor & NodeExporter] --> NodeMetrics[节点物理指标]
+        Pods["业务 Pod: 运行 OTel SDK"] --> PushOTel[推送分布式调用链 Traces]
+        PodLogs[容器标准输出 stdout/stderr] --> DaemonFluent["DaemonSet: FluentBit 极速抓取日志"]
+        cAdvisor["Kubelet cAdvisor & NodeExporter"] --> NodeMetrics[节点物理指标]
     end
 
     subgraph Observability_Cluster [中心可观测平台]
-        PushOTel --> Jaeger[(Jaeger / Tempo 链路追踪)]
-        DaemonFluent --> Loki[(Grafana Loki 紧凑日志存储)]
-        NodeMetrics --> Prometheus[(Prometheus TSDB 时序数据库)]
+        PushOTel --> Jaeger["(Jaeger / Tempo 链路追踪)"]
+        DaemonFluent --> Loki["(Grafana Loki 紧凑日志存储)"]
+        NodeMetrics --> Prometheus["(Prometheus TSDB 时序数据库)"]
     end
 
     Jaeger --> UnifiedGrafana[Grafana 统一大屏协同关联分析]

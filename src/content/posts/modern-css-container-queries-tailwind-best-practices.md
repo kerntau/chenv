@@ -1,21 +1,25 @@
 ---
-title: "现代 CSS 容器查询与自适应组件设计"
-url: "modern-css-container-queries-tailwind-best-practices"
-date: "2025-07-15"
+title: 现代 CSS 容器查询与自适应组件设计
+url: modern-css-container-queries-tailwind-best-practices
+date: '2025-07-15'
 draft: false
 authors:
   - default
-summary: "告别传统 Media Queries 的视口局限！全面掌握 CSS 容器查询 (@container)、容器尺寸单位 (cqw/cqh) 与组件级响应式架构实战。"
+summary: >-
+  告别传统 Media Queries 的视口局限！全面掌握 CSS 容器查询 (@container)、容器尺寸单位 (cqw/cqh)
+  与组件级响应式架构实战。
 tags:
-  - "CSS"
-  - "前端"
-  - "响应式设计"
-categoryId: "cat-modern-css-container-queries-tailwind-best-practices"
-category: "前端开发"
+  - CSS
+  - 前端
+  - 响应式设计
+categoryId: cat-modern-css-container-queries-tailwind-best-practices
+category: 前端开发
 categories:
-  - "前端开发"
+  - 前端开发
 images:
-  - "https://images.unsplash.com/photo-1508873696983-2df57046475b?auto=format&fit=crop&w=1600&q=85"
+  - /covers/modern-css-container-queries-tailwind-best-practices.svg
+cover: /covers/modern-css-container-queries-tailwind-best-practices.svg
+coverImage: /covers/modern-css-container-queries-tailwind-best-practices.svg
 ---
 
 # 现代 CSS 容器查询与自适应组件设计
@@ -38,8 +42,8 @@ images:
 ```mermaid
 graph TD
     subgraph Viewport_Media [媒体查询: 仅看视口]
-        VP[视口宽度 1200px] --> CompA[主内容卡片 (横向展示)]
-        VP --> CompB[侧边栏卡片 (也误判为宽屏, 内容挤压变形!)]
+        VP[视口宽度 1200px] --> CompA["主内容卡片 (横向展示)"]
+        VP --> CompB["侧边栏卡片 (也误判为宽屏, 内容挤压变形!)"]
     end
 
     subgraph Container_Queries [容器查询: 各自按父容器自适应]

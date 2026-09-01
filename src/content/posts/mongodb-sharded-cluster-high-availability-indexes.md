@@ -1,22 +1,26 @@
 ---
-title: "MongoDB 分片集群与复合索引调优"
-url: "mongodb-sharded-cluster-high-availability-indexes"
-date: "2025-09-23"
+title: MongoDB 分片集群与复合索引调优
+url: mongodb-sharded-cluster-high-availability-indexes
+date: '2025-09-23'
 draft: false
 authors:
   - default
-summary: "系统剖析 MongoDB 分片集群三大组件架构（Mongos、Config Server、Shard），掌握 Hashed 与 Ranged 分片键选型，并实战 ESR 复合索引优化法则。"
+summary: >-
+  系统剖析 MongoDB 分片集群三大组件架构（Mongos、Config Server、Shard），掌握 Hashed 与 Ranged
+  分片键选型，并实战 ESR 复合索引优化法则。
 tags:
-  - "MongoDB"
-  - "NoSQL"
-  - "分布式数据库"
-  - "索引优化"
-categoryId: "cat-mongodb-sharded-cluster-high-availability-indexes"
-category: "数据库系统"
+  - MongoDB
+  - NoSQL
+  - 分布式数据库
+  - 索引优化
+categoryId: cat-mongodb-sharded-cluster-high-availability-indexes
+category: 数据库系统
 categories:
-  - "数据库系统"
+  - 数据库系统
 images:
-  - "https://images.unsplash.com/photo-1579546929518-9e396f3cc809?auto=format&fit=crop&w=1600&q=85"
+  - /covers/mongodb-sharded-cluster-high-availability-indexes.svg
+cover: /covers/mongodb-sharded-cluster-high-availability-indexes.svg
+coverImage: /covers/mongodb-sharded-cluster-high-availability-indexes.svg
 ---
 
 # MongoDB 分片集群与复合索引调优
@@ -33,15 +37,15 @@ MongoDB 分片集群由三大核心组件协同运作：
 
 ```mermaid
 graph TD
-    AppClient[应用客户端驱动 (Node/Java/Go)] --> Mongos1[Mongos 路由器 1]
-    AppClient --> Mongos2[Mongos 路由器 2 (无状态水平扩展)]
+    AppClient["应用客户端驱动 (Node/Java/Go)"] --> Mongos1[Mongos 路由器 1]
+    AppClient --> Mongos2["Mongos 路由器 2 (无状态水平扩展)"]
 
-    Mongos1 <--> ConfigServer[(Config Server 副本集: 存储路由表与 Chunk 分布元数据)]
+    Mongos1 <--> ConfigServer["(Config Server 副本集: 存储路由表与 Chunk 分布元数据)"]
     Mongos2 <--> ConfigServer
 
-    Mongos1 --> Shard1[(Shard 1: 副本集 [Primary + 2 Secondary])]
-    Mongos1 --> Shard2[(Shard 2: 副本集 [Primary + 2 Secondary])]
-    Mongos1 --> Shard3[(Shard 3: 副本集 [Primary + 2 Secondary])]
+    Mongos1 --> Shard1["(Shard 1: 副本集 [Primary + 2 Secondary"])]
+    Mongos1 --> Shard2["(Shard 2: 副本集 [Primary + 2 Secondary"])]
+    Mongos1 --> Shard3["(Shard 3: 副本集 [Primary + 2 Secondary"])]
 ```
 
 | 集群组件 | 核心权责 | 高可用与扩展机制 |
@@ -76,8 +80,8 @@ sh.shardCollection("iot_platform.device_telemetry", { "device_id": "hashed" });
 
 ```mermaid
 graph LR
-    E[1. Equality: 精确等值字段 (如 status: 'ACTIVE')] --> S[2. Sort: 排序字段 (如 sort: { created_at: -1 })]
-    S --> R[3. Range: 范围过滤字段 (如 age: { $gte: 18 })]
+    E["1. Equality: 精确等值字段 (如 status: 'ACTIVE')"] --> S["2. Sort: 排序字段 (如 sort: { created_at: -1 })"]
+    S --> R["3. Range: 范围过滤字段 (如 age: { $gte: 18 })"]
 ```
 
 ### 违反 ESR 与遵循 ESR 的性能对比实测：

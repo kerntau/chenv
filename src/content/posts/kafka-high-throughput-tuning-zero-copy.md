@@ -1,22 +1,26 @@
 ---
-title: "Kafka 百万吞吐与零拷贝调优实战"
-url: "kafka-high-throughput-tuning-zero-copy"
-date: "2025-10-18"
+title: Kafka 百万吞吐与零拷贝调优实战
+url: kafka-high-throughput-tuning-zero-copy
+date: '2025-10-18'
 draft: false
 authors:
   - default
-summary: "深入剖析 Apache Kafka 支撑百万 QPS 的四大杀手锏：Linux 零拷贝 sendfile、操作系统的 PageCache 顺序写、分区批量压缩与 ISR 高可用复制调优。"
+summary: >-
+  深入剖析 Apache Kafka 支撑百万 QPS 的四大杀手锏：Linux 零拷贝 sendfile、操作系统的 PageCache
+  顺序写、分区批量压缩与 ISR 高可用复制调优。
 tags:
-  - "Kafka"
-  - "分布式"
-  - "性能优化"
-  - "消息队列"
-categoryId: "cat-kafka-high-throughput-tuning-zero-copy"
-category: "后端开发"
+  - Kafka
+  - 分布式
+  - 性能优化
+  - 消息队列
+categoryId: cat-kafka-high-throughput-tuning-zero-copy
+category: 后端开发
 categories:
-  - "后端开发"
+  - 后端开发
 images:
-  - "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1600&q=85"
+  - /covers/kafka-high-throughput-tuning-zero-copy.svg
+cover: /covers/kafka-high-throughput-tuning-zero-copy.svg
+coverImage: /covers/kafka-high-throughput-tuning-zero-copy.svg
 ---
 
 # Kafka 百万吞吐与零拷贝调优实战

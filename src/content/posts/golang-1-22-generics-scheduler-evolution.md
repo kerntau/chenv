@@ -1,21 +1,23 @@
 ---
-title: "Go 泛型机制与 GMP 调度器解析"
-url: "golang-1-22-generics-scheduler-evolution"
-date: "2025-03-10"
+title: Go 泛型机制与 GMP 调度器解析
+url: golang-1-22-generics-scheduler-evolution
+date: '2025-03-10'
 draft: false
 authors:
   - default
-summary: "深入剖析 Go 1.22+ 循环变量作用域重构、GC Shape 泛型单态化底层实现，以及 GMP 调度器在工作窃取与非协作抢占上的演进细节。"
+summary: 深入剖析 Go 1.22+ 循环变量作用域重构、GC Shape 泛型单态化底层实现，以及 GMP 调度器在工作窃取与非协作抢占上的演进细节。
 tags:
-  - "Go"
-  - "并发编程"
-  - "底层原理"
-categoryId: "cat-golang-1-22-generics-scheduler-evolution"
-category: "后端开发"
+  - Go
+  - 并发编程
+  - 底层原理
+categoryId: cat-golang-1-22-generics-scheduler-evolution
+category: 后端开发
 categories:
-  - "后端开发"
+  - 后端开发
 images:
-  - "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1600&q=85"
+  - /covers/golang-1-22-generics-scheduler-evolution.svg
+cover: /covers/golang-1-22-generics-scheduler-evolution.svg
+coverImage: /covers/golang-1-22-generics-scheduler-evolution.svg
 ---
 
 # Go 泛型机制与 GMP 调度器解析
@@ -108,14 +110,14 @@ Go 运行时调度器通过 `G` (Goroutine)、`M` (OS Thread)、`P` (Processor �
 ```mermaid
 graph TD
     subgraph GMP_Architecture [GMP 调度体系]
-        P1[逻辑处理器 P1] --> LRQ1[本地就绪队列 LRQ: G1, G2, G3]
+        P1[逻辑处理器 P1] --> LRQ1["本地就绪队列 LRQ: G1, G2, G3"]
         P1 --> M1[系统物理线程 M1]
         M1 --> G_Running[当前正在执行的 G0]
 
-        P2[逻辑处理器 P2 (空闲)] --> LRQ2[本地队列空]
+        P2["逻辑处理器 P2 (空闲)"] --> LRQ2[本地队列空]
         P2 --> M2[系统线程 M2]
 
-        GRQ[全局运行队列 GRQ (带全局锁保护)]
+        GRQ["全局运行队列 GRQ (带全局锁保护)"]
     end
 
     LRQ2 -.->|工作窃取 Work Stealing: 窃取 P1 队列后半部 1/2 的 G| LRQ1
