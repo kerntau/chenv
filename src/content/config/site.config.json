@@ -21,7 +21,7 @@
   "author": {
     "name": "kerntau",
     "avatar": "/avatar.webp",
-    "description": "心中有景,花香满径 | 全栈工程师与开源爱好者",
+    "description": "全栈工程师与开源爱好者",
     "email": "hi@chent.co",
     "github": "https://github.com/kerntau",
     "location": "浙江 · 宁波",
@@ -77,7 +77,7 @@
   },
   "about": {
     "identityTitle": "IDENTITY • 关于作者",
-    "quote": "心中有景,花香满径。记录全栈开发、云原生、系统架构与工程实践心得。",
+    "quote": "",
     "techStackTitle": "工程与全栈技术栈",
     "techStackDesc": "在工程实践与系统构建中常用的工具与技术链条：",
     "techCategories": [
