@@ -121,7 +121,7 @@ export const InneiHero: React.FC = () => {
             <span>&bull;</span>
             <span>{totalWordsText}</span>
             <span>&bull;</span>
-            <span>{siteConfig.title} 博客</span>
+            <span>{siteConfig.title}</span>
           </div>
         )}
       </motion.div>
@@ -161,23 +161,23 @@ export const InneiHero: React.FC = () => {
           transition={{ duration: 0.5, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
           className="mt-7 max-w-xl mx-auto w-full px-2"
         >
-          <div className="flex items-center justify-between gap-2.5 px-3 py-2 rounded-md bg-slate-100/75 dark:bg-slate-850/60 border border-slate-200/75 dark:border-slate-800/80 backdrop-blur-xs text-xs font-sans text-slate-600 dark:text-slate-300 shadow-2xs">
+          <div className="flex items-center justify-between gap-2.5 px-3.5 py-2.5 rounded-lg bg-slate-100/90 dark:bg-slate-900/90 border border-slate-200/90 dark:border-slate-800/90 backdrop-blur-sm text-xs font-sans text-slate-700 dark:text-slate-200 shadow-xs">
             <div className="flex items-center gap-2 min-w-0 text-left">
-              <span className="shrink-0 inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-mono font-semibold bg-sky-100 dark:bg-sky-950/60 text-sky-700 dark:text-sky-300 border border-sky-200/70 dark:border-sky-800/60">
+              <span className="shrink-0 inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10.5px] font-mono font-semibold bg-sky-100 dark:bg-sky-950/70 text-sky-700 dark:text-sky-300 border border-sky-200/80 dark:border-sky-800/70">
                 <Megaphone className="w-3 h-3 text-sky-600 dark:text-sky-400" />
                 <span>{siteConfig.announcement.badge || '公告'}</span>
               </span>
-              <span className="text-[11.5px] sm:text-xs text-slate-600 dark:text-slate-300 line-clamp-1 sm:line-clamp-none">
+              <span className="text-xs text-slate-700 dark:text-slate-200 line-clamp-1 sm:line-clamp-none font-medium">
                 {siteConfig.announcement.content}
               </span>
             </div>
             {siteConfig.announcement.linkUrl && (
               <Link
                 href={siteConfig.announcement.linkUrl}
-                className="shrink-0 text-[11px] font-medium text-sky-600 dark:text-sky-400 hover:text-sky-700 dark:hover:text-sky-300 inline-flex items-center gap-0.5 group transition-colors"
+                className="shrink-0 text-xs font-medium text-sky-600 dark:text-sky-400 hover:text-sky-700 dark:hover:text-sky-300 inline-flex items-center gap-0.5 group transition-colors ml-1"
               >
                 <span>{siteConfig.announcement.linkText || '动态'}</span>
-                <ChevronRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
               </Link>
             )}
           </div>
