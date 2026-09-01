@@ -60,8 +60,33 @@ export interface FriendItem {
 
 export interface SocialLink {
   name: string;
-  icon: 'github' | 'bilibili' | 'x' | 'email';
+  icon: 'github' | 'bilibili' | 'x' | 'email' | 'weibo' | 'juejin' | 'zhihu' | 'telegram' | 'discord' | 'custom' | string;
   url: string;
+}
+
+export interface NavLinkItem {
+  id: string;
+  label: string;
+  href: string;
+  icon: string;
+  enabled?: boolean;
+  isExternal?: boolean;
+}
+
+export interface FooterNavColumn {
+  title: string;
+  links: Array<{ label: string; href: string; isExternal?: boolean }>;
+}
+
+export interface TechStackItem {
+  name: string;
+  icon?: string;
+  desc?: string;
+}
+
+export interface TechStackCategory {
+  category: string;
+  items: TechStackItem[];
 }
 
 export interface SiteConfig {
@@ -69,19 +94,96 @@ export interface SiteConfig {
   subtitle: string;
   description: string;
   url: string;
+  favicon?: string;
+  keywords?: string[];
+  analytics?: {
+    gtmId?: string;
+    gaId?: string;
+    clarityId?: string;
+  };
   author: {
     name: string;
     avatar: string;
     description: string;
     email: string;
     github: string;
+    location?: string;
+    statusBadge?: string;
     socials: SocialLink[];
+  };
+  home?: {
+    hero?: {
+      greeting?: string;
+      highlightRole?: string;
+      skillsPills?: string;
+      quote?: string;
+      showMetrics?: boolean;
+      showSocials?: boolean;
+      onlineStatus?: 'online' | 'busy' | 'away' | 'offline';
+    };
+    sections?: {
+      postsLimit?: number;
+      postsTitle?: string;
+      diariesLimit?: number;
+      diariesTitle?: string;
+      saysLimit?: number;
+      saysTitle?: string;
+    };
+  };
+  about?: {
+    identityTitle?: string;
+    quote?: string;
+    techStackTitle?: string;
+    techStackDesc?: string;
+    techCategories?: TechStackCategory[];
+    designTitle?: string;
+    designPhilosophy?: string;
+  };
+  postsPage?: {
+    title?: string;
+    subtitle?: string;
+  };
+  diariesPage?: {
+    title?: string;
+    subtitle?: string;
+  };
+  saysPage?: {
+    title?: string;
+    subtitle?: string;
+    pageSize?: number;
+  };
+  archivesPage?: {
+    title?: string;
+    subtitle?: string;
+  };
+  friendsPage?: {
+    title?: string;
+    subtitle?: string;
+    guideTitle?: string;
+    guideText?: string;
+    template?: {
+      name?: string;
+      desc?: string;
+      url?: string;
+      avatar?: string;
+    };
+  };
+  header?: {
+    navLinks?: NavLinkItem[];
+    enableMegaMenu?: boolean;
+    enableSearch?: boolean;
   };
   footer: {
     copyright: string;
     sinceYear: number;
     customText: string;
     icp?: string;
+    icpUrl?: string;
+    motto?: string;
+    navColumns?: FooterNavColumn[];
+    showThemeToggle?: boolean;
+    showRss?: boolean;
+    showSitemap?: boolean;
   };
 }
 
