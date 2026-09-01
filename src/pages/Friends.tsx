@@ -27,7 +27,9 @@ export const Friends: React.FC = () => {
   const pageTitle = friendsPage?.title || '志同道合的朋友';
   const pageSubtitle = friendsPage?.subtitle || '在浩瀚的互联网海洋里，感谢每一次思想的交汇与灵感的共振。';
   const guideTitle = friendsPage?.guideTitle || '交换友链';
-  const guideText = friendsPage?.guideText || '如果您也拥有自己的个人独立博客，欢迎在您的站点添加本站后通过邮件或 Issue 联系交换。';
+  const guideText =
+    friendsPage?.guideText ||
+    `如果您也拥有自己的个人独立博客，欢迎在您的站点添加本站（${siteConfig.url.replace(/^https?:\/\//, '')}）后通过邮件（${siteConfig.author.email}）或 GitHub 联系交换。`;
   const templateName = friendsPage?.template?.name || siteConfig.title;
   const templateDesc = friendsPage?.template?.desc || `${siteConfig.subtitle} | ${siteConfig.description}`;
   const templateUrl = friendsPage?.template?.url || siteConfig.url;
