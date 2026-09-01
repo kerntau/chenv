@@ -62,13 +62,13 @@ export interface ActivityLog {
 }
 
 const STORAGE_KEYS = {
-  POSTS: 'cot_posts_data_v1',
-  DIARIES: 'cot_diaries_data_v1',
-  RECORDS: 'cot_records_data_v1',
-  FRIENDS: 'cot_friends_data_v1',
-  CONFIG: 'cot_site_config_v1',
-  LOGS: 'cot_activity_logs_v1',
-  PREFERENCES: 'cot_admin_prefs_v1',
+  POSTS: 'cot_posts_data_v2',
+  DIARIES: 'cot_diaries_data_v2',
+  RECORDS: 'cot_records_data_v2',
+  FRIENDS: 'cot_friends_data_v2',
+  CONFIG: 'cot_site_config_v2',
+  LOGS: 'cot_activity_logs_v2',
+  PREFERENCES: 'cot_admin_prefs_v2',
 };
 
 export interface AdminPreferences {
@@ -105,7 +105,8 @@ function safeLoad<T>(key: string, fallback: T): T {
   try {
     const raw = localStorage.getItem(key);
     if (!raw) return fallback;
-    return JSON.parse(raw) as T;
+    const parsed = JSON.parse(raw) as T;
+    return parsed;
   } catch (e) {
     console.error(`[AdminStore] Failed to load key: ${key}`, e);
     return fallback;
@@ -121,12 +122,52 @@ function safeSave<T>(key: string, value: T): void {
   }
 }
 
-// 内存中活跃数据
-let currentPosts: Post[] = safeLoad<Post[]>(STORAGE_KEYS.POSTS, defaultPosts);
+function deepMerge<T>(defaultObj: T, loadedObj: any): T {
+  if (!loadedObj || typeof loadedObj !== 'object') return defaultObj;
+  if (!defaultObj || typeof defaultObj !== 'object') return loadedObj;
+
+  const result: any = Array.isArray(defaultObj) ? [...defaultObj] : { ...defaultObj };
+
+  for (const key of Object.keys(loadedObj)) {
+    const srcVal = loadedObj[key];
+    const defVal = (defaultObj as any)[key];
+
+    if (srcVal !== undefined && srcVal !== null) {
+      if (Array.isArray(srcVal)) {
+        result[key] = srcVal;
+      } else if (typeof srcVal === 'object' && typeof defVal === 'object' && defVal !== null && !Array.isArray(defVal)) {
+        result[key] = deepMerge(defVal, srcVal);
+      } else {
+        result[key] = srcVal;
+      }
+    }
+  }
+
+  // 保证默认对象中新增的顶层或嵌套字段不会因 loadedObj 缺失而丢失
+  for (const key of Object.keys(defaultObj as any)) {
+    if (result[key] === undefined) {
+      result[key] = (defaultObj as any)[key];
+    }
+  }
+
+  return result as T;
+}
+
+// 内存中活跃数据：对 posts 自动确保封面有效
+const loadedPosts = safeLoad<Post[]>(STORAGE_KEYS.POSTS, defaultPosts);
+const sanitizedPosts = loadedPosts.map((p) => ({
+  ...p,
+  coverImage: p.coverImage?.startsWith('/covers/') ? p.coverImage : `/covers/${p.slug}.svg`,
+}));
+
+let currentPosts: Post[] = sanitizedPosts;
 let currentDiaries: Diary[] = safeLoad<Diary[]>(STORAGE_KEYS.DIARIES, defaultDiaries);
 let currentRecords: RecordItem[] = safeLoad<RecordItem[]>(STORAGE_KEYS.RECORDS, defaultRecords);
 let currentFriends: FriendItem[] = safeLoad<FriendItem[]>(STORAGE_KEYS.FRIENDS, defaultFriends);
-let currentSiteConfig: SiteConfig = safeLoad<SiteConfig>(STORAGE_KEYS.CONFIG, defaultSiteConfig);
+let currentSiteConfig: SiteConfig = deepMerge<SiteConfig>(
+  defaultSiteConfig,
+  safeLoad<Partial<SiteConfig>>(STORAGE_KEYS.CONFIG, {})
+);
 let currentLogs: ActivityLog[] = safeLoad<ActivityLog[]>(STORAGE_KEYS.LOGS, [
   {
     id: 'log-init',
@@ -544,6 +585,96 @@ export const AdminStore = {
     safeSave(STORAGE_KEYS.PREFERENCES, currentPreferences);
     notify();
     return currentPreferences;
+  },
+
+  // ===== 直接动文件源码操作 (Direct File Source Code) =====
+  getSiteConfigFileContent(): string {
+    return JSON.stringify(currentSiteConfig, null, 2);
+  },
+
+  getFriendsFileContent(): string {
+    return JSON.stringify(currentFriends, null, 2);
+  },
+
+  getRecordsFileContent(): string {
+    return JSON.stringify(currentRecords, null, 2);
+  },
+
+  saveSiteConfigFileContent(rawJson: string): { success: boolean; message: string } {
+    try {
+      const parsed = JSON.parse(rawJson);
+      if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
+        return { success: false, message: 'site.config.json 必须是 JSON 对象格式' };
+      }
+      currentSiteConfig = deepMerge<SiteConfig>(defaultSiteConfig, parsed);
+      safeSave(STORAGE_KEYS.CONFIG, currentSiteConfig);
+      this.addLog('setting', 'update', '直接更新配置文件', '通过源码编辑器更新了 site.config.json');
+      notify();
+      return { success: true, message: 'site.config.json 配置已成功应用并持久化！' };
+    } catch (e) {
+      return { success: false, message: `JSON 语法错误: ${(e as Error).message}` };
+    }
+  },
+
+  saveFriendsFileContent(rawJson: string): { success: boolean; message: string } {
+    try {
+      const parsed = JSON.parse(rawJson);
+      if (!Array.isArray(parsed)) {
+        return { success: false, message: 'friends.json 必须是 JSON 数组格式' };
+      }
+      currentFriends = parsed;
+      safeSave(STORAGE_KEYS.FRIENDS, currentFriends);
+      this.addLog('friend', 'update', '直接更新友链文件', `通过源码编辑器更新了 friends.json（共 ${parsed.length} 项）`);
+      notify();
+      return { success: true, message: `friends.json 已更新并保存（共 ${parsed.length} 条友链）！` };
+    } catch (e) {
+      return { success: false, message: `JSON 语法错误: ${(e as Error).message}` };
+    }
+  },
+
+  saveRecordsFileContent(rawJson: string): { success: boolean; message: string } {
+    try {
+      const parsed = JSON.parse(rawJson);
+      if (!Array.isArray(parsed)) {
+        return { success: false, message: 'records.json 必须是 JSON 数组格式' };
+      }
+      currentRecords = parsed;
+      safeSave(STORAGE_KEYS.RECORDS, currentRecords);
+      this.addLog('record', 'update', '直接更新动态文件', `通过源码编辑器更新了 records.json（共 ${parsed.length} 条）`);
+      notify();
+      return { success: true, message: `records.json 已更新并保存（共 ${parsed.length} 条动态）！` };
+    } catch (e) {
+      return { success: false, message: `JSON 语法错误: ${(e as Error).message}` };
+    }
+  },
+
+  downloadFile(filename: string, content: string, mimeType = 'application/json'): void {
+    if (typeof window === 'undefined') return;
+    const blob = new Blob([content], { type: `${mimeType};charset=utf-8` });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  },
+
+  downloadProjectFile(fileType: 'siteConfig' | 'friends' | 'records' | 'fullBackup'): void {
+    if (fileType === 'siteConfig') {
+      this.downloadFile('site.config.json', this.getSiteConfigFileContent());
+    } else if (fileType === 'friends') {
+      this.downloadFile('friends.json', this.getFriendsFileContent());
+    } else if (fileType === 'records') {
+      this.downloadFile('records.json', this.getRecordsFileContent());
+    } else if (fileType === 'fullBackup') {
+      const backup = this.exportAllData();
+      this.downloadFile(
+        `cot-full-backup-${new Date().toISOString().slice(0, 10)}.json`,
+        JSON.stringify(backup, null, 2)
+      );
+    }
   },
 
   // ===== 数据备份、恢复与统计 =====

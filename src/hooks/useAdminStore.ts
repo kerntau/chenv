@@ -53,6 +53,16 @@ export function useAdminStore() {
     saveSiteConfig: (config: SiteConfig) => AdminStore.saveSiteConfig(config),
     savePreferences: (prefs: Partial<AdminPreferences>) => AdminStore.savePreferences(prefs),
 
+    // 直接动文件操作
+    getSiteConfigFileContent: () => AdminStore.getSiteConfigFileContent(),
+    getFriendsFileContent: () => AdminStore.getFriendsFileContent(),
+    getRecordsFileContent: () => AdminStore.getRecordsFileContent(),
+    saveSiteConfigFileContent: (rawJson: string) => AdminStore.saveSiteConfigFileContent(rawJson),
+    saveFriendsFileContent: (rawJson: string) => AdminStore.saveFriendsFileContent(rawJson),
+    saveRecordsFileContent: (rawJson: string) => AdminStore.saveRecordsFileContent(rawJson),
+    downloadFile: (filename: string, content: string, mimeType?: string) => AdminStore.downloadFile(filename, content, mimeType),
+    downloadProjectFile: (fileType: 'siteConfig' | 'friends' | 'records' | 'fullBackup') => AdminStore.downloadProjectFile(fileType),
+
     exportAllData: () => AdminStore.exportAllData(),
     importData: (json: string) => AdminStore.importData(json),
     resetToDefault: () => AdminStore.resetToDefault(),

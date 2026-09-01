@@ -1,35 +1,23 @@
 import { useCallback, useEffect, useState } from 'react';
-import { getAllRecords } from '../content';
+import { AdminStore } from '../lib/admin-store';
 import type { RecordItem } from '../types';
 
-const KEY = 'cot-static-records-v1';
-
-const read = (): RecordItem[] => {
-  try {
-    const saved = localStorage.getItem(KEY);
-    if (saved) return JSON.parse(saved) as RecordItem[];
-  } catch { /* ignore malformed browser data */ }
-  return getAllRecords();
-};
-
 export function useStaticRecords() {
-  const [records, setRecords] = useState<RecordItem[]>(read);
+  const [records, setRecords] = useState<RecordItem[]>(() => AdminStore.getRecords());
 
   useEffect(() => {
-    localStorage.setItem(KEY, JSON.stringify(records));
-  }, [records]);
+    const unsubscribe = AdminStore.subscribe(() => {
+      setRecords(AdminStore.getRecords());
+    });
+    return unsubscribe;
+  }, []);
 
   const saveRecord = useCallback((record: RecordItem) => {
-    setRecords((current) => {
-      const next = current.some((item) => String(item.id) === String(record.id))
-        ? current.map((item) => String(item.id) === String(record.id) ? record : item)
-        : [record, ...current];
-      return next.sort((a, b) => Number(b.createTime) - Number(a.createTime));
-    });
+    AdminStore.saveRecord(record);
   }, []);
 
   const removeRecord = useCallback((id: string | number) => {
-    setRecords((current) => current.filter((item) => String(item.id) !== String(id)));
+    AdminStore.deleteRecord(id);
   }, []);
 
   return { records, saveRecord, removeRecord };
