@@ -121,14 +121,26 @@ const config: Config = {
               fontWeight: '500',
               fontSize: '0.875em',
               padding: '0.2em 0.4em',
-              borderRadius: '0.375rem',
-              backgroundColor: 'rgba(100, 116, 139, 0.1)',
+              borderRadius: '0.25rem',
+              backgroundColor: 'rgba(100, 116, 139, 0.12)',
             },
             'code::before': {
               content: '""',
             },
             'code::after': {
               content: '""',
+            },
+            'pre code': {
+              backgroundColor: 'transparent !important',
+              padding: '0 !important',
+              borderRadius: '0 !important',
+              fontWeight: 'inherit !important',
+              fontSize: 'inherit !important',
+            },
+            'pre code span': {
+              backgroundColor: 'transparent !important',
+              padding: '0 !important',
+              borderRadius: '0 !important',
             },
           },
         },
