@@ -229,27 +229,35 @@ function generateArtShape(shapeType, accent1, accent2) {
   }
 }
 
+function escapeXml(str) {
+  return String(str ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;');
+}
+
 // 生成单篇 16:9 出版级矢量封面 SVG
 function generateCoverSvg(post) {
   const theme = matchTheme(post);
-  const tagsStr = (post.tags || []).slice(0, 3).join('  ·  ');
-  const safeTitle = post.title
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;');
+  const rawTagsStr = (post.tags || []).slice(0, 3).join('  ·  ');
+  const tagsStr = escapeXml(rawTagsStr || post.category);
+  const categoryStr = escapeXml(theme.category);
+  const safeTitle = escapeXml(post.title);
 
   // 分割标题为双行（如果过长）
   let titleLine1 = safeTitle;
   let titleLine2 = '';
-  if (safeTitle.length > 18) {
-    const mid = Math.ceil(safeTitle.length / 2);
-    const splitIndex = safeTitle.indexOf(' ', mid - 5) !== -1 
-      ? safeTitle.indexOf(' ', mid - 5) 
-      : safeTitle.indexOf('：', 6) !== -1 
-        ? safeTitle.indexOf('：', 6) + 1 
+  if (post.title.length > 18) {
+    const mid = Math.ceil(post.title.length / 2);
+    const splitIndex = post.title.indexOf(' ', mid - 5) !== -1 
+      ? post.title.indexOf(' ', mid - 5) 
+      : post.title.indexOf('：', 6) !== -1 
+        ? post.title.indexOf('：', 6) + 1 
         : mid;
-    titleLine1 = safeTitle.slice(0, splitIndex).trim();
-    titleLine2 = safeTitle.slice(splitIndex).trim();
+    titleLine1 = escapeXml(post.title.slice(0, splitIndex).trim());
+    titleLine2 = escapeXml(post.title.slice(splitIndex).trim());
   }
 
   const artShape = generateArtShape(theme.shape, theme.accent1, theme.accent2);
@@ -317,7 +325,7 @@ function generateCoverSvg(post) {
     <g transform="translate(0, 0)">
       <rect x="0" y="0" width="220" height="38" rx="6" fill="${theme.accent1}" fill-opacity="0.15" stroke="${theme.accent1}" stroke-width="1.5" stroke-opacity="0.7"/>
       <circle cx="20" cy="19" r="4.5" fill="${theme.accent1}"/>
-      <text x="36" y="24" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="700" fill="${theme.accent1}" letter-spacing="1.5">${theme.category}</text>
+      <text x="36" y="24" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="700" fill="${theme.accent1}" letter-spacing="1.5">${categoryStr}</text>
     </g>
 
     <text x="240" y="24" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="500" fill="rgba(255,255,255,0.45)" letter-spacing="2">CHENT.CO ARCHITECTURE SERIES</text>
@@ -340,7 +348,7 @@ function generateCoverSvg(post) {
 
     <!-- 标签与技术栈标记 -->
     <g transform="translate(0, 420)">
-      <text x="0" y="0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="16" font-weight="600" fill="${theme.accent2}" opacity="0.95" letter-spacing="1">TAGS: ${tagsStr || post.category}</text>
+      <text x="0" y="0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="16" font-weight="600" fill="${theme.accent2}" opacity="0.95" letter-spacing="1">TAGS: ${tagsStr}</text>
       <text x="0" y="36" font-family="monospace" font-size="14" fill="rgba(255,255,255,0.4)" letter-spacing="1.2">SYSTEM / ARCHITECTURE / CLOUD-NATIVE / ENGINEERING</text>
     </g>
 
