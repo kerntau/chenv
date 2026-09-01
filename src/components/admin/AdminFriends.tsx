@@ -208,7 +208,7 @@ export const AdminFriends: React.FC = () => {
               return (
                 <div
                   key={String(friend.id)}
-                  className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-2xs hover:shadow-md transition-all flex flex-col justify-between space-y-3"
+                  className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 bg-white dark:bg-slate-900 transition-colors flex flex-col justify-between space-y-3"
                 >
                   <div className="flex items-start gap-3 min-w-0">
                     <div className="w-11 h-11 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 overflow-hidden flex items-center justify-center font-bold text-slate-600 dark:text-slate-300 text-base shrink-0">

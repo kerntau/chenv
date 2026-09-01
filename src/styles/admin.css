@@ -457,8 +457,6 @@
 }
 
 .admin-stat-card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--admin-shadow-md);
   border-color: var(--admin-accent);
 }
 

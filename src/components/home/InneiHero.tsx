@@ -1,5 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'wouter';
+import { Megaphone, ChevronRight } from 'lucide-react';
 import type { SocialLink } from '../../types';
 import { GithubIcon, XTwitterIcon, MailIcon, BilibiliIcon } from '../ui/Icons';
 import { siteConfig, getAllPosts } from '../../content';
@@ -36,7 +38,7 @@ export const InneiHero: React.FC = () => {
           : 'bg-slate-400';
 
   return (
-    <section className="relative flex flex-col items-center justify-center pt-8 pb-16 sm:py-20 text-center overflow-hidden">
+    <section className="relative flex flex-col items-center justify-center pt-8 pb-12 sm:pt-16 sm:pb-16 text-center overflow-hidden">
       {/* 放射状背景呼吸光晕 */}
       <div
         className="pointer-events-none absolute -z-10 left-1/2 top-[42%] -translate-x-1/2 -translate-y-1/2 rounded-full w-[280px] sm:w-[500px] h-[280px] sm:h-[500px] bg-[radial-gradient(ellipse,rgba(186,230,253,0.45)_0%,transparent_65%)] dark:bg-[radial-gradient(ellipse,rgba(56,189,248,0.12)_0%,transparent_65%)] blur-3xl opacity-80 transition-opacity duration-500"
@@ -130,7 +132,7 @@ export const InneiHero: React.FC = () => {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-          className="mt-8 flex flex-wrap justify-center items-center gap-2"
+          className="mt-6 flex flex-wrap justify-center items-center gap-2"
         >
           {siteConfig.author.socials.map((social) => {
             const Icon = (SOCIAL_ICONS as any)[social.icon] || GithubIcon;
@@ -148,6 +150,37 @@ export const InneiHero: React.FC = () => {
               </a>
             );
           })}
+        </motion.div>
+      )}
+
+      {/* 建站初期演示公告条 */}
+      {siteConfig.announcement?.enabled && (
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
+          className="mt-7 max-w-xl mx-auto w-full px-2"
+        >
+          <div className="flex items-center justify-between gap-2.5 px-3 py-2 rounded-md bg-slate-100/75 dark:bg-slate-850/60 border border-slate-200/75 dark:border-slate-800/80 backdrop-blur-xs text-xs font-sans text-slate-600 dark:text-slate-300 shadow-2xs">
+            <div className="flex items-center gap-2 min-w-0 text-left">
+              <span className="shrink-0 inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-mono font-semibold bg-sky-100 dark:bg-sky-950/60 text-sky-700 dark:text-sky-300 border border-sky-200/70 dark:border-sky-800/60">
+                <Megaphone className="w-3 h-3 text-sky-600 dark:text-sky-400" />
+                <span>{siteConfig.announcement.badge || '公告'}</span>
+              </span>
+              <span className="text-[11.5px] sm:text-xs text-slate-600 dark:text-slate-300 line-clamp-1 sm:line-clamp-none">
+                {siteConfig.announcement.content}
+              </span>
+            </div>
+            {siteConfig.announcement.linkUrl && (
+              <Link
+                href={siteConfig.announcement.linkUrl}
+                className="shrink-0 text-[11px] font-medium text-sky-600 dark:text-sky-400 hover:text-sky-700 dark:hover:text-sky-300 inline-flex items-center gap-0.5 group transition-colors"
+              >
+                <span>{siteConfig.announcement.linkText || '动态'}</span>
+                <ChevronRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+              </Link>
+            )}
+          </div>
         </motion.div>
       )}
     </section>

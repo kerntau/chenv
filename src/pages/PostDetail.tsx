@@ -255,13 +255,13 @@ export const PostDetail: React.FC = () => {
                   {prevPost ? (
                     <Link
                       href={`/posts/${prevPost.slug}`}
-                      className="group p-3 rounded-sm paper-card block text-left"
+                      className="group p-3 rounded-sm paper-card block text-left transition-colors hover:border-slate-300 dark:hover:border-slate-700"
                     >
                       <span className="text-[10.5px] font-mono text-slate-400 flex items-center space-x-1 mb-1">
                         <ChevronLeft className="w-3 h-3 group-hover:-translate-x-0.5 transition-transform" />
                         <span>上一篇</span>
                       </span>
-                      <div className="text-xs font-semibold text-slate-800 dark:text-slate-200 group-hover:text-slate-950 dark:group-hover:text-white transition-colors line-clamp-1">
+                      <div className="text-xs font-semibold text-slate-800 dark:text-slate-200 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors line-clamp-1">
                         {prevPost.title}
                       </div>
                     </Link>
@@ -272,13 +272,13 @@ export const PostDetail: React.FC = () => {
                   {nextPost ? (
                     <Link
                       href={`/posts/${nextPost.slug}`}
-                      className="group p-3 rounded-sm paper-card block text-right sm:ml-auto w-full"
+                      className="group p-3 rounded-sm paper-card block text-right sm:ml-auto w-full transition-colors hover:border-slate-300 dark:hover:border-slate-700"
                     >
                       <span className="text-[10.5px] font-mono text-slate-400 flex items-center justify-end space-x-1 mb-1">
                         <span>下一篇</span>
                         <ChevronRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
                       </span>
-                      <div className="text-xs font-semibold text-slate-800 dark:text-slate-200 group-hover:text-slate-950 dark:group-hover:text-white transition-colors line-clamp-1">
+                      <div className="text-xs font-semibold text-slate-800 dark:text-slate-200 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors line-clamp-1">
                         {nextPost.title}
                       </div>
                     </Link>

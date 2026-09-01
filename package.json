@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
+  "packageManager": "pnpm@10.28.0",
   "scripts": {
     "dev": "rsbuild dev --open",
-    "build": "tsc --noEmit && rsbuild build",
+    "build": "tsc --noEmit && rsbuild build && node scripts/post-build.mjs",
     "preview": "rsbuild preview",
     "typecheck": "tsc --noEmit",
     "detect:friends": "node scripts/detect-friends.mjs",

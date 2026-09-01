@@ -49,6 +49,13 @@
       }
     ]
   },
+  "announcement": {
+    "enabled": true,
+    "badge": "建站公告",
+    "content": "本站目前处于上线试运行与架构验证阶段，当前展示的部分文稿主要用于排版演示，后续将全部替换为原创深度技术内容。",
+    "linkText": "动态",
+    "linkUrl": "/says"
+  },
   "home": {
     "hero": {
       "greeting": "Hi, I'm",
@@ -138,7 +145,7 @@
     "title": "志同道合的朋友",
     "subtitle": "在浩瀚的互联网海洋里，感谢每一次思想的交汇与灵感的共振。",
     "guideTitle": "交换友链",
-    "guideText": "如果您也拥有自己的个人独立博客，欢迎在您的站点添加本站（chent.co）后通过邮件（hi@chent.co）或 GitHub 联系交换。",
+    "guideText": "如果您也拥有自己的个人独立博客，欢迎在您的站点添加本站后通过邮件（hi@chent.co）联系交换。",
     "template": {
       "name": "序栈",
       "desc": "心中有景,花香满径 | 全栈开发与云原生知识库",

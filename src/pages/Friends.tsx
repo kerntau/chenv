@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { Container } from '../components/layout/Container';
 import { PageShell } from '../components/layout/PageShell';
-import { Users, Sparkles, Search, X } from 'lucide-react';
+import { Users, Sparkles, Search, X, Mail, Check, Copy } from 'lucide-react';
 import { getAllFriends, siteConfig } from '../content';
 import type { FriendItem } from '../types';
 
@@ -9,6 +9,8 @@ import { TechBadge } from '../components/friends/TechBadge';
 
 export const Friends: React.FC = () => {
   const [query, setQuery] = useState('');
+  const [copiedEmail, setCopiedEmail] = useState(false);
+  const [copiedTemplate, setCopiedTemplate] = useState(false);
   const allFriends = useMemo(() => getAllFriends(), []);
 
   const filteredFriends = useMemo(() => {
@@ -27,13 +29,27 @@ export const Friends: React.FC = () => {
   const pageTitle = friendsPage?.title || '志同道合的朋友';
   const pageSubtitle = friendsPage?.subtitle || '在浩瀚的互联网海洋里，感谢每一次思想的交汇与灵感的共振。';
   const guideTitle = friendsPage?.guideTitle || '交换友链';
-  const guideText =
-    friendsPage?.guideText ||
-    `如果您也拥有自己的个人独立博客，欢迎在您的站点添加本站后通过邮件（${siteConfig.author.email}）或 GitHub 联系交换。`;
   const templateName = friendsPage?.template?.name || siteConfig.title;
   const templateDesc = friendsPage?.template?.desc || `${siteConfig.subtitle} | ${siteConfig.description}`;
   const templateUrl = friendsPage?.template?.url || siteConfig.url;
   const templateAvatar = friendsPage?.template?.avatar || `${siteConfig.url}${siteConfig.author.avatar}`;
+
+  const email = siteConfig.author.email || 'hi@chent.co';
+
+  const handleCopyEmail = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    navigator.clipboard.writeText(email);
+    setCopiedEmail(true);
+    setTimeout(() => setCopiedEmail(false), 2000);
+  };
+
+  const handleCopyTemplate = () => {
+    const tpl = `名称：${templateName}\n简介：${templateDesc}\n链接：${templateUrl}\n头像：${templateAvatar}`;
+    navigator.clipboard.writeText(tpl);
+    setCopiedTemplate(true);
+    setTimeout(() => setCopiedTemplate(false), 2000);
+  };
 
   return (
     <PageShell>
@@ -92,15 +108,62 @@ export const Friends: React.FC = () => {
         </div>
 
         {/* 申请友链指南 */}
-        <div className="p-4 sm:p-5 rounded-sm paper-card space-y-2.5 bg-slate-50/50 dark:bg-[#18181A]/50">
+        <div className="p-4 sm:p-5 rounded-sm border border-slate-200/70 dark:border-slate-800/70 space-y-3 bg-slate-50/50 dark:bg-[#18181A]/50">
           <div className="flex items-center space-x-2 font-sans font-semibold text-slate-900 dark:text-slate-100 text-sm">
             <Sparkles className="w-4 h-4 text-sky-600 dark:text-sky-400" />
             <h2>{guideTitle}</h2>
           </div>
-          <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-sans">
-            {guideText}
-          </p>
-          <div className="p-3 rounded-sm bg-white/70 dark:bg-slate-900/70 border border-slate-200/50 dark:border-slate-800/50 text-xs font-mono text-slate-600 dark:text-slate-400 space-y-1">
+          
+          <div className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-sans flex flex-wrap items-center gap-1.5">
+            <span>如果您也拥有自己的个人独立博客，欢迎在您的站点添加本站后通过邮件</span>
+            
+            {/* 美化邮件胶囊 */}
+            <span className="inline-flex items-center gap-1.5 pl-2.5 pr-1.5 py-0.5 rounded bg-sky-50 dark:bg-sky-950/40 border border-sky-200/80 dark:border-sky-800/60 text-sky-700 dark:text-sky-300 font-mono text-[11px] shadow-xs group transition-colors hover:bg-sky-100/70 dark:hover:bg-sky-900/50">
+              <Mail className="w-3.5 h-3.5 text-sky-600 dark:text-sky-400 shrink-0" />
+              <a
+                href={`mailto:${email}`}
+                className="hover:underline tracking-tight font-medium"
+                title="点击发送邮件"
+              >
+                {email}
+              </a>
+              <button
+                type="button"
+                onClick={handleCopyEmail}
+                className="p-1 hover:bg-sky-200/60 dark:hover:bg-sky-800/80 rounded transition-colors text-slate-400 hover:text-sky-600 dark:hover:text-sky-300 cursor-pointer"
+                title={copiedEmail ? '已复制邮箱' : '复制邮箱地址'}
+                aria-label="复制邮箱地址"
+              >
+                {copiedEmail ? (
+                  <Check className="w-3 h-3 text-emerald-600 dark:text-emerald-400" />
+                ) : (
+                  <Copy className="w-3 h-3" />
+                )}
+              </button>
+            </span>
+
+            <span>联系交换。</span>
+          </div>
+
+          <div className="relative p-3.5 rounded-sm bg-white/70 dark:bg-slate-900/70 border border-slate-200/50 dark:border-slate-800/50 text-xs font-mono text-slate-600 dark:text-slate-400 space-y-1 group">
+            <button
+              type="button"
+              onClick={handleCopyTemplate}
+              className="absolute top-2.5 right-2.5 inline-flex items-center gap-1 px-2 py-1 rounded text-[11px] font-sans font-medium text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 bg-slate-100/80 hover:bg-slate-200/80 dark:bg-slate-800/80 dark:hover:bg-slate-700/80 border border-slate-200/60 dark:border-slate-700/60 transition-all shadow-xs cursor-pointer"
+              title="复制本站友链信息"
+            >
+              {copiedTemplate ? (
+                <>
+                  <Check className="w-3 h-3 text-emerald-600 dark:text-emerald-400" />
+                  <span className="text-emerald-600 dark:text-emerald-400">已复制</span>
+                </>
+              ) : (
+                <>
+                  <Copy className="w-3 h-3" />
+                  <span>复制信息</span>
+                </>
+              )}
+            </button>
             <div>名称：{templateName}</div>
             <div>简介：{templateDesc}</div>
             <div>链接：{templateUrl}</div>
@@ -121,10 +184,10 @@ const FriendCard: React.FC<{ friend: FriendItem }> = ({ friend }) => {
       href={friend.link}
       target="_blank"
       rel="noreferrer"
-      className="p-3.5 rounded-sm paper-card flex items-start space-x-3 group block h-full"
+      className="p-3.5 rounded-sm paper-card flex items-start space-x-3 group block h-full transition-colors hover:border-slate-300 dark:hover:border-slate-700"
     >
       {/* 左侧头像 */}
-      <div className="w-9 h-9 rounded-sm bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100 flex items-center justify-center font-sans text-xs font-bold shrink-0 overflow-hidden group-hover:scale-105 transition-transform border border-slate-200/50 dark:border-slate-700/50">
+      <div className="w-9 h-9 rounded-sm bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100 flex items-center justify-center font-sans text-xs font-bold shrink-0 overflow-hidden border border-slate-200/50 dark:border-slate-700/50">
         {friend.avatar && !imgError ? (
           <img
             src={friend.avatar}
@@ -141,7 +204,7 @@ const FriendCard: React.FC<{ friend: FriendItem }> = ({ friend }) => {
       {/* 右侧主体：上方标题+技术栈/部署图标，下方简介 */}
       <div className="flex-1 min-w-0">
         <div className="flex items-center justify-between gap-1.5">
-          <h3 className="font-sans text-xs sm:text-[13px] font-semibold text-slate-900 dark:text-slate-100 truncate">
+          <h3 className="font-sans text-xs sm:text-[13px] font-semibold text-slate-900 dark:text-slate-100 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors truncate">
             {friend.name}
           </h3>
 

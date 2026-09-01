@@ -12,14 +12,14 @@ export const PostCard: React.FC<PostCardProps> = ({ post }) => {
   const [imgSrc, setImgSrc] = React.useState<string>(post.coverImage || `/covers/${post.slug}.svg`);
 
   return (
-    <article className="group rounded-sm overflow-hidden paper-card transition-all duration-200 flex flex-col h-full">
+    <article className="group rounded-sm overflow-hidden paper-card transition-colors duration-200 flex flex-col h-full hover:border-slate-300 dark:hover:border-slate-700">
       <Link href={`/posts/${post.slug}`} className="flex flex-col h-full">
         {/* 顶部标准 16:9 无缝相框封面 */}
         <div className="relative w-full aspect-[16/9] overflow-hidden bg-slate-100 dark:bg-slate-800 flex-shrink-0">
           <img
             src={imgSrc}
             alt={post.title}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+            className="w-full h-full object-cover transition-opacity duration-300 group-hover:opacity-95"
             loading="lazy"
             onError={() => {
               if (imgSrc !== `/covers/${post.slug}.svg`) {
@@ -33,7 +33,7 @@ export const PostCard: React.FC<PostCardProps> = ({ post }) => {
         <div className="p-3 sm:p-3.5 flex-1 flex flex-col justify-between space-y-2">
           <div className="space-y-1.5">
             {/* 标题 */}
-            <h3 className="text-sm sm:text-base font-bold text-slate-900 dark:text-slate-100 group-hover:text-slate-950 dark:group-hover:text-white transition-colors line-clamp-1 leading-snug tracking-tight font-sans">
+            <h3 className="text-sm sm:text-base font-bold text-slate-900 dark:text-slate-100 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors line-clamp-1 leading-snug tracking-tight font-sans">
               {post.title}
             </h3>
 

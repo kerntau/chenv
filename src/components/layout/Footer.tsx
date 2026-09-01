@@ -82,8 +82,8 @@ export const Footer: React.FC = () => {
             </div>
           </div>
 
-          {/* 右侧导航列 */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 sm:gap-10 pt-0.5">
+          {/* 右侧导航列：移动端与大屏保持 3 列对齐 */}
+          <div className="grid grid-cols-3 gap-3 sm:gap-8 md:gap-12 pt-0.5">
             {navColumns.map((col, idx) => (
               <div key={col.title || idx} className="space-y-2">
                 <div className="font-mono text-[11px] font-medium text-slate-400 dark:text-slate-500 uppercase tracking-wider">
@@ -121,93 +121,94 @@ export const Footer: React.FC = () => {
           </div>
         </div>
 
-        {/* 下层: 底部单行底栏 */}
-        <div className="pt-4 border-t border-slate-200/50 dark:border-slate-800/50 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] font-mono text-slate-400 dark:text-slate-500">
-          {/* 左侧: RSS 订阅 · 站点地图 · 主题切换器 · 语言 */}
+        {/* 下层: 底部信息与操作栏 */}
+        <div className="pt-4 border-t border-slate-200/50 dark:border-slate-800/50 flex flex-col md:flex-row items-center justify-between gap-2.5 text-[11px] font-mono text-slate-400 dark:text-slate-500 text-center sm:text-left">
+          {/* 左侧: RSS 订阅 · 站点地图 · 主题切换器 */}
           <div className="flex flex-wrap items-center justify-center sm:justify-start gap-x-2 gap-y-1">
             {showRss && (
-              <>
-                <Link
-                  href="/posts"
-                  className="hover:text-slate-700 dark:hover:text-slate-300 transition-colors"
-                >
-                  RSS 订阅
-                </Link>
-                <span className="text-slate-300 dark:text-slate-700">&bull;</span>
-              </>
+              <Link
+                href="/posts"
+                className="hover:text-slate-700 dark:hover:text-slate-300 transition-colors"
+              >
+                RSS 订阅
+              </Link>
+            )}
+            {showRss && showSitemap && (
+              <span className="text-slate-300 dark:text-slate-700">&bull;</span>
             )}
             {showSitemap && (
-              <>
-                <Link
-                  href="/archives"
-                  className="hover:text-slate-700 dark:hover:text-slate-300 transition-colors"
-                >
-                  站点地图
-                </Link>
-                <span className="text-slate-300 dark:text-slate-700">&bull;</span>
-              </>
+              <Link
+                href="/archives"
+                className="hover:text-slate-700 dark:hover:text-slate-300 transition-colors"
+              >
+                站点地图
+              </Link>
+            )}
+            {(showRss || showSitemap) && showThemeToggle && (
+              <span className="text-slate-300 dark:text-slate-700">&bull;</span>
             )}
 
             {/* 主题切换器 */}
             {showThemeToggle && (
-              <>
-                <div className="inline-flex items-center space-x-1.5">
-                  <button
-                    onClick={() => setTheme('light')}
-                    className={`hover:text-slate-900 dark:hover:text-slate-100 transition-colors ${
-                      theme === 'light'
-                        ? 'font-semibold text-slate-800 dark:text-slate-200 underline underline-offset-4 decoration-sky-500'
-                        : 'text-slate-400 dark:text-slate-500'
-                    }`}
-                  >
-                    Light
-                  </button>
-                  <span className="text-slate-300 dark:text-slate-700 text-[9px]">&bull;</span>
-                  <button
-                    onClick={() => setTheme('system')}
-                    className={`hover:text-slate-900 dark:hover:text-slate-100 transition-colors ${
-                      theme === 'system'
-                        ? 'font-semibold text-slate-800 dark:text-slate-200 underline underline-offset-4 decoration-sky-500'
-                        : 'text-slate-400 dark:text-slate-500'
-                    }`}
-                  >
-                    System
-                  </button>
-                  <span className="text-slate-300 dark:text-slate-700 text-[9px]">&bull;</span>
-                  <button
-                    onClick={() => setTheme('dark')}
-                    className={`hover:text-slate-900 dark:hover:text-slate-100 transition-colors ${
-                      theme === 'dark'
-                        ? 'font-semibold text-slate-800 dark:text-slate-200 underline underline-offset-4 decoration-sky-500'
-                        : 'text-slate-400 dark:text-slate-500'
-                    }`}
-                  >
-                    Dark
-                  </button>
-                </div>
-                <span className="text-slate-300 dark:text-slate-700 px-0.5">|</span>
-              </>
+              <div className="inline-flex items-center space-x-1.5">
+                <button
+                  type="button"
+                  onClick={() => setTheme('light')}
+                  className={`hover:text-slate-900 dark:hover:text-slate-100 transition-colors cursor-pointer ${
+                    theme === 'light'
+                      ? 'font-semibold text-slate-800 dark:text-slate-200 underline underline-offset-4 decoration-sky-500'
+                      : 'text-slate-400 dark:text-slate-500'
+                  }`}
+                >
+                  Light
+                </button>
+                <span className="text-slate-300 dark:text-slate-700 text-[9px]">&bull;</span>
+                <button
+                  type="button"
+                  onClick={() => setTheme('system')}
+                  className={`hover:text-slate-900 dark:hover:text-slate-100 transition-colors cursor-pointer ${
+                    theme === 'system'
+                      ? 'font-semibold text-slate-800 dark:text-slate-200 underline underline-offset-4 decoration-sky-500'
+                      : 'text-slate-400 dark:text-slate-500'
+                  }`}
+                >
+                  System
+                </button>
+                <span className="text-slate-300 dark:text-slate-700 text-[9px]">&bull;</span>
+                <button
+                  type="button"
+                  onClick={() => setTheme('dark')}
+                  className={`hover:text-slate-900 dark:hover:text-slate-100 transition-colors cursor-pointer ${
+                    theme === 'dark'
+                      ? 'font-semibold text-slate-800 dark:text-slate-200 underline underline-offset-4 decoration-sky-500'
+                      : 'text-slate-400 dark:text-slate-500'
+                  }`}
+                >
+                  Dark
+                </button>
+              </div>
             )}
-
-            {/* 自定义底部文本或标语 */}
-            <span className="text-slate-400 dark:text-slate-500">
-              {footer?.customText || '简体中文'}
-            </span>
           </div>
 
-          {/* 右侧: 备案号 */}
-          {footer?.icp && (
-            <div className="text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 transition-colors">
+          {/* 右侧: 自定义标语与备案号 */}
+          <div className="flex flex-wrap items-center justify-center sm:justify-end gap-x-2 gap-y-1">
+            {footer?.customText && (
+              <span>{footer.customText}</span>
+            )}
+            {footer?.customText && footer?.icp && (
+              <span className="text-slate-300 dark:text-slate-700">&bull;</span>
+            )}
+            {footer?.icp && (
               <a
                 href={icpUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="hover:underline underline-offset-2"
+                className="hover:text-slate-700 dark:hover:text-slate-300 hover:underline underline-offset-2 transition-colors"
               >
                 {footer.icp}
               </a>
-            </div>
-          )}
+            )}
+          </div>
         </div>
 
       </div>

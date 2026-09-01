@@ -41,7 +41,7 @@ export const Says: React.FC = () => {
           ))}
         </div>
         {visibleRecords.length === 0 && (
-          <div className="paper-card py-10 text-center text-sm text-slate-500">
+          <div className="rounded-sm border border-slate-200/60 dark:border-slate-800/60 py-12 text-center text-xs font-mono text-slate-400">
             暂时还没有动态。
           </div>
         )}

@@ -409,7 +409,7 @@ export const AdminPosts: React.FC<AdminPostsProps> = ({ onOpenEditor }) => {
             {filteredPosts.map((post) => (
               <div
                 key={post.slug}
-                className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-2xs hover:shadow-md transition-all flex flex-col justify-between space-y-3"
+                className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 bg-white dark:bg-slate-900 transition-colors flex flex-col justify-between space-y-3"
               >
                 <div className="space-y-2">
                   <div className="flex items-center justify-between gap-2">

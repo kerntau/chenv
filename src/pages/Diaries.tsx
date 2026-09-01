@@ -43,7 +43,7 @@ export const Diaries: React.FC = () => {
             <Link
               key={diary.slug}
               href={`/diaries/${diary.slug}`}
-              className="p-3.5 sm:p-4 rounded-sm paper-card transition-all duration-200 group flex flex-col justify-between block"
+              className="p-3.5 sm:p-4 rounded-sm paper-card transition-colors duration-200 group flex flex-col justify-between block hover:border-slate-300 dark:hover:border-slate-700"
             >
               <div>
                 {/* 顶部元数据头：天气、心情、时间与地点 */}
@@ -71,7 +71,7 @@ export const Diaries: React.FC = () => {
                   <div className="flex items-center space-x-1.5 text-[10.5px]">
                     {diary.location && (
                       <span className="flex items-center space-x-1 text-slate-400">
-                        <MapPin className="w-3 h-3 text-slate-400" />
+                        <MapPin className="w-3 w-3.5 text-slate-400" />
                         <span>{diary.location}</span>
                       </span>
                     )}
@@ -85,7 +85,7 @@ export const Diaries: React.FC = () => {
 
                 {/* 标题与摘要导言 */}
                 <div className="space-y-1.5">
-                  <h2 className="font-serif text-base sm:text-[17px] font-semibold text-slate-900 dark:text-slate-100 group-hover:text-slate-950 dark:group-hover:text-white transition-colors leading-snug line-clamp-2">
+                  <h2 className="font-serif text-base sm:text-[17px] font-semibold text-slate-900 dark:text-slate-100 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors leading-snug line-clamp-2">
                     {diary.title}
                   </h2>
                   {diary.summary && (
@@ -106,7 +106,7 @@ export const Diaries: React.FC = () => {
         )}
 
         {/* 底部手札卷尾 · 纸上印记与感言 */}
-        <div className="mt-14 relative overflow-hidden p-5 sm:p-6 rounded-sm paper-card bg-gradient-to-b from-white/90 via-slate-50/70 to-slate-100/40 dark:from-[#18181A]/95 dark:via-[#151518]/90 dark:to-[#101012]/80 border border-slate-200/70 dark:border-slate-800/70 shadow-sm">
+        <div className="mt-14 relative overflow-hidden p-5 sm:p-6 rounded-sm border border-slate-200/70 dark:border-slate-800/70 bg-gradient-to-b from-white/90 via-slate-50/70 to-slate-100/40 dark:from-[#18181A]/95 dark:via-[#151518]/90 dark:to-[#101012]/80 shadow-xs">
           {/* 背景轻柔艺术双引号水印 */}
           <div className="absolute right-4 -bottom-4 text-slate-200/40 dark:text-slate-800/30 select-none pointer-events-none font-serif text-8xl leading-none">
             &rdquo;

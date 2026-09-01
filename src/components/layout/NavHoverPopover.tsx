@@ -219,10 +219,10 @@ export const NavHoverPopover: React.FC<NavHoverPopoverProps> = ({
                           key={post.slug}
                           href={`/posts/${post.slug}`}
                           onClick={onItemClick}
-                          className="group block p-2.5 rounded-sm paper-card"
+                          className="group block p-2.5 rounded-sm border border-slate-200/50 dark:border-slate-800/50 hover:border-slate-300/80 dark:hover:border-slate-700/80 hover:bg-slate-100/60 dark:hover:bg-slate-800/50 transition-colors"
                         >
                           <div className="flex items-start justify-between gap-2">
-                            <h4 className="text-xs font-semibold text-slate-800 dark:text-slate-200 group-hover:text-slate-950 dark:group-hover:text-white transition-colors line-clamp-1 leading-snug">
+                            <h4 className="text-xs font-semibold text-slate-800 dark:text-slate-200 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors line-clamp-1 leading-snug">
                               {post.title}
                             </h4>
                             <span className="text-[10px] font-mono text-slate-400 shrink-0">
@@ -293,13 +293,13 @@ export const NavHoverPopover: React.FC<NavHoverPopoverProps> = ({
                         key={post.slug}
                         href={`/posts/${post.slug}`}
                         onClick={onItemClick}
-                        className="group flex items-center justify-between p-2.5 rounded-sm paper-card"
+                        className="group flex items-center justify-between p-2.5 rounded-sm border border-slate-200/50 dark:border-slate-800/50 hover:border-slate-300/80 dark:hover:border-slate-700/80 hover:bg-slate-100/60 dark:hover:bg-slate-800/50 transition-colors"
                       >
                         <div className="flex items-center space-x-2.5 min-w-0 pr-2">
                           <span className="text-[10px] font-mono text-slate-400 shrink-0">
                             {formatDateShort(post.date)}
                           </span>
-                          <span className="text-xs font-medium text-slate-800 dark:text-slate-200 group-hover:text-slate-950 dark:group-hover:text-white transition-colors truncate">
+                          <span className="text-xs font-medium text-slate-800 dark:text-slate-200 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors truncate">
                             {post.title}
                           </span>
                         </div>
@@ -343,7 +343,7 @@ export const NavHoverPopover: React.FC<NavHoverPopoverProps> = ({
                         key={diary.slug}
                         href={`/diaries/${diary.slug}`}
                         onClick={onItemClick}
-                        className="block p-3 rounded-sm paper-card group"
+                        className="block p-3 rounded-sm border border-slate-200/50 dark:border-slate-800/50 hover:border-slate-300/80 dark:hover:border-slate-700/80 hover:bg-slate-100/60 dark:hover:bg-slate-800/50 transition-colors group"
                       >
                         <div className="flex items-center justify-between text-[10px] font-mono text-slate-400 mb-1">
                           <span>{formatDateShort(diary.date)}</span>
@@ -353,7 +353,7 @@ export const NavHoverPopover: React.FC<NavHoverPopoverProps> = ({
                             </span>
                           )}
                         </div>
-                        <h4 className="text-xs font-semibold text-slate-800 dark:text-slate-200 group-hover:text-slate-950 dark:group-hover:text-white transition-colors line-clamp-1">
+                        <h4 className="text-xs font-semibold text-slate-800 dark:text-slate-200 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors line-clamp-1">
                           {diary.title}
                         </h4>
                         {diary.summary && (
@@ -396,7 +396,7 @@ export const NavHoverPopover: React.FC<NavHoverPopoverProps> = ({
                         key={record.id}
                         href="/says"
                         onClick={onItemClick}
-                        className="block p-3 rounded-sm paper-card group"
+                        className="block p-3 rounded-sm border border-slate-200/50 dark:border-slate-800/50 hover:border-slate-300/80 dark:hover:border-slate-700/80 hover:bg-slate-100/60 dark:hover:bg-slate-800/50 transition-colors group"
                       >
                         <p className="text-xs text-slate-700 dark:text-slate-300 line-clamp-2 leading-relaxed">
                           {record.content}
@@ -445,7 +445,7 @@ export const NavHoverPopover: React.FC<NavHoverPopoverProps> = ({
                         href={friend.link}
                         target="_blank"
                         rel="noreferrer"
-                        className="p-2.5 rounded-sm paper-card group flex items-start space-x-2.5"
+                        className="p-2.5 rounded-sm border border-slate-200/50 dark:border-slate-800/50 hover:border-slate-300/80 dark:hover:border-slate-700/80 hover:bg-slate-100/60 dark:hover:bg-slate-800/50 transition-colors group flex items-start space-x-2.5"
                       >
                         <div className="w-7 h-7 rounded-sm bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 flex items-center justify-center font-bold text-xs shrink-0 overflow-hidden border border-slate-200/50 dark:border-slate-700/50">
                           {friend.avatar ? (
@@ -456,7 +456,7 @@ export const NavHoverPopover: React.FC<NavHoverPopoverProps> = ({
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center justify-between">
-                            <span className="text-xs font-semibold text-slate-800 dark:text-slate-200 group-hover:text-slate-950 dark:group-hover:text-white transition-colors truncate">
+                            <span className="text-xs font-semibold text-slate-800 dark:text-slate-200 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors truncate">
                               {friend.name}
                             </span>
                             <ArrowUpRight className="w-2.5 h-2.5 text-slate-400 group-hover:text-slate-700 dark:group-hover:text-slate-300 transition-colors shrink-0" />

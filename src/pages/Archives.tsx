@@ -190,12 +190,12 @@ export const Archives: React.FC = () => {
                 {itemsByYear[year].map((item) => (
                   <div key={item.id} className="relative group">
                     {/* 时间轴微节点圆点 */}
-                    <div className="absolute -left-5 sm:-left-7 top-2.5 w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-700 group-hover:bg-sky-500 group-hover:scale-125 transition-all duration-200" />
+                    <div className="absolute -left-5 sm:-left-7 top-2.5 w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-700 group-hover:bg-sky-500 transition-colors" />
 
                     {/* 单篇归档行卡片 */}
                     <Link
                       href={item.slug}
-                      className="flex flex-col sm:flex-row sm:items-baseline justify-between py-1.5 px-2 -mx-1.5 rounded-sm hover:bg-white/80 dark:hover:bg-slate-900/80 hover:shadow-2xs transition-all border border-transparent hover:border-slate-200/60 dark:hover:border-slate-800/60"
+                      className="flex flex-col sm:flex-row sm:items-baseline justify-between py-1.5 px-2 -mx-1.5 rounded-sm hover:bg-white/80 dark:hover:bg-slate-900/80 transition-colors border border-transparent hover:border-slate-200/60 dark:hover:border-slate-800/60"
                     >
                       <div className="flex items-baseline space-x-2.5 min-w-0 pr-3">
                         {/* 发布日期 (MM-DD) */}

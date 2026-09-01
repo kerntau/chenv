@@ -243,7 +243,7 @@ export const DiaryDetail: React.FC = () => {
                   {prevDiary ? (
                     <Link
                       href={`/diaries/${prevDiary.slug}`}
-                      className="group p-3 rounded-sm paper-card block text-left"
+                      className="group p-3 rounded-sm paper-card block text-left transition-colors hover:border-slate-300 dark:hover:border-slate-700"
                     >
                       <span className="text-[10.5px] font-mono text-slate-400 flex items-center space-x-1 mb-1">
                         <ChevronLeft className="w-3 h-3 group-hover:-translate-x-0.5 transition-transform" />
@@ -260,7 +260,7 @@ export const DiaryDetail: React.FC = () => {
                   {nextDiary ? (
                     <Link
                       href={`/diaries/${nextDiary.slug}`}
-                      className="group p-3 rounded-sm paper-card block text-right sm:ml-auto w-full"
+                      className="group p-3 rounded-sm paper-card block text-right sm:ml-auto w-full transition-colors hover:border-slate-300 dark:hover:border-slate-700"
                     >
                       <span className="text-[10.5px] font-mono text-slate-400 flex items-center justify-end space-x-1 mb-1">
                         <span>后一篇手记</span>

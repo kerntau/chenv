@@ -139,6 +139,13 @@ export interface SiteConfig {
     designTitle?: string;
     designPhilosophy?: string;
   };
+  announcement?: {
+    enabled?: boolean;
+    badge?: string;
+    content: string;
+    linkText?: string;
+    linkUrl?: string;
+  };
   postsPage?: {
     title?: string;
     subtitle?: string;

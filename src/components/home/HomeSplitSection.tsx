@@ -86,7 +86,7 @@ export const HomeSplitSection: React.FC = () => {
                   <Link
                     key={diary.slug}
                     href={`/diaries/${diary.slug}`}
-                    className="block p-2.5 rounded-sm paper-card transition-all group"
+                    className="block p-2.5 rounded-sm paper-card transition-colors group hover:border-slate-300 dark:hover:border-slate-700"
                   >
                     <div className="flex items-center justify-between text-[10.5px] font-mono text-slate-400 dark:text-slate-500 mb-0.5">
                       <span>{formatDateShort(diary.date)}</span>
@@ -96,7 +96,7 @@ export const HomeSplitSection: React.FC = () => {
                         </span>
                       )}
                     </div>
-                    <h4 className="text-[12.5px] font-semibold text-slate-800 dark:text-slate-200 group-hover:text-slate-950 dark:group-hover:text-white transition-colors line-clamp-1 leading-snug">
+                    <h4 className="text-[12.5px] font-semibold text-slate-800 dark:text-slate-200 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors line-clamp-1 leading-snug">
                       {diary.title}
                     </h4>
                     {diary.summary && (
@@ -139,7 +139,7 @@ export const HomeSplitSection: React.FC = () => {
                 records.map((rec) => (
                   <div
                     key={rec.id}
-                    className="p-2.5 rounded-sm paper-card space-y-1 transition-all"
+                    className="p-2.5 rounded-sm paper-card space-y-1"
                   >
                     <div className="flex items-center justify-between text-[10.5px] font-mono text-slate-400 dark:text-slate-500">
                       <span>{formatDateTime(rec.createTime)}</span>
