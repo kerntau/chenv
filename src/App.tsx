@@ -53,9 +53,27 @@ export const App: React.FC = () => {
       document.title = `管理控制台 · ${siteConfig.title}`;
     } else {
       const section = findSection(location);
-      document.title = section
-        ? `${section.label} · ${siteConfig.title}`
-        : siteConfig.title;
+      if (section) {
+        document.title = `${section.label} · ${siteConfig.title} - ${siteConfig.subtitle}`;
+        const metaDesc = document.querySelector('meta[name="description"]');
+        if (metaDesc) {
+          const sectionDescMap: Record<string, string> = {
+            '文章': siteConfig.postsPage?.subtitle || siteConfig.description,
+            '归档': siteConfig.archivesPage?.subtitle || `${siteConfig.title} 全站文稿与手记的时间脉络与足迹索引。`,
+            '手记': siteConfig.diariesPage?.subtitle || siteConfig.description,
+            '说说': siteConfig.saysPage?.subtitle || '把灵感、日常与正在发生的事情，留在时间线上。',
+            '友链': siteConfig.friendsPage?.subtitle || '在浩瀚的互联网海洋里，感谢每一次思想的交汇与灵感的共振。',
+            '关于': `关于 ${siteConfig.author?.name || 'kerntau'} - ${siteConfig.author?.description || '全栈工程师与开源爱好者'}。${siteConfig.about?.quote || siteConfig.description}`,
+          };
+          metaDesc.setAttribute('content', sectionDescMap[section.label] || siteConfig.description);
+        }
+      } else {
+        document.title = `${siteConfig.title} · ${siteConfig.subtitle}`;
+        const metaDesc = document.querySelector('meta[name="description"]');
+        if (metaDesc) {
+          metaDesc.setAttribute('content', siteConfig.description);
+        }
+      }
     }
   }, [location, isAdminRoute]);
 
