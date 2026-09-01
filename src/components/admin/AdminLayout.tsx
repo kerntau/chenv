@@ -17,11 +17,21 @@ import {
   Sun,
   Moon,
   Database,
+  FileCode2,
 } from 'lucide-react';
 import { useAdminStore } from '../../hooks/useAdminStore';
 import { AdminCommandPalette } from './AdminCommandPalette';
 
-export type AdminViewType = 'overview' | 'posts' | 'diaries' | 'records' | 'friends' | 'taxonomy' | 'settings' | 'editor';
+export type AdminViewType =
+  | 'overview'
+  | 'posts'
+  | 'diaries'
+  | 'records'
+  | 'friends'
+  | 'taxonomy'
+  | 'settings'
+  | 'fileEditor'
+  | 'editor';
 
 interface AdminLayoutProps {
   currentView: AdminViewType;
@@ -83,7 +93,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
     {
       title: '内容创作',
       items: [
-        { id: 'posts' as const, label: '文章管理', icon: FileText, badge: posts.length },
+        { id: 'posts' as const, label: '文章文稿', icon: FileText, badge: posts.length },
         { id: 'diaries' as const, label: '手记随笔', icon: BookOpen, badge: diaries.length },
         { id: 'records' as const, label: '说说动态', icon: Activity, badge: records.length },
       ],
@@ -96,9 +106,10 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
       ],
     },
     {
-      title: '系统运维',
+      title: '全页面与文件定制',
       items: [
-        { id: 'settings' as const, label: '站点设置与数据', icon: Settings2, badge: null },
+        { id: 'settings' as const, label: '全页面定制中心', icon: Settings2, badge: null },
+        { id: 'fileEditor' as const, label: '直接动文件中心', icon: FileCode2, badge: null },
       ],
     },
   ];
@@ -110,7 +121,8 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
     records: '说说动态',
     friends: '友链伙伴',
     taxonomy: '分类与标签',
-    settings: '系统与备份设置',
+    settings: '全页面高度定制中心',
+    fileEditor: '直接动文件源码中心',
     editor: '内容编辑器',
   };
 

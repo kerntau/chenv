@@ -109,10 +109,18 @@ export const AdminCommandPalette: React.FC<AdminCommandPaletteProps> = ({
       {
         id: 'nav-settings',
         group: '页面导航',
-        title: '站点与偏好设置 (Settings)',
-        subtitle: '配置站点信息与数据导入导出',
+        title: '全页面定制中心 (Page Customizer)',
+        subtitle: '可视化配置全站信息、首页Hero、关于页、友链、导航与页脚',
         icon: Settings2,
         action: () => { onNavigate('settings'); onClose(); },
+      },
+      {
+        id: 'nav-fileEditor',
+        group: '页面导航',
+        title: '直接动文件中心 (Direct File Hub)',
+        subtitle: '在线查看、校验与编辑 site.config.json 等源码并下载同步',
+        icon: FileText,
+        action: () => { onNavigate('fileEditor'); onClose(); },
       },
       {
         id: 'act-new-post',

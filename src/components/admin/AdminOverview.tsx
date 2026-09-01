@@ -88,6 +88,55 @@ export const AdminOverview: React.FC<AdminOverviewProps> = ({
         </div>
       </div>
 
+      {/* 快捷定制与动文件入口横幅 */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div
+          onClick={() => onNavigate('settings')}
+          className="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-sky-400 dark:hover:border-sky-500 transition-all cursor-pointer flex items-center justify-between group shadow-sm"
+        >
+          <div className="flex items-center gap-3.5">
+            <div className="p-2.5 rounded-xl bg-sky-500/10 text-sky-600 dark:text-sky-400 group-hover:bg-sky-500 group-hover:text-white transition-all">
+              <Layers className="w-5 h-5" />
+            </div>
+            <div>
+              <h3 className="font-semibold text-xs sm:text-sm text-slate-900 dark:text-slate-100 flex items-center gap-1.5">
+                <span>全页面高度定制中心</span>
+                <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-sky-100 dark:bg-sky-950 text-sky-700 dark:text-sky-300">
+                  8 大 Tab
+                </span>
+              </h3>
+              <p className="text-[11px] text-slate-500 mt-0.5">
+                可视化配置首页 Hero 标语、关于页技术栈、友链指南、导航与页脚
+              </p>
+            </div>
+          </div>
+          <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-sky-500 group-hover:translate-x-0.5 transition-all" />
+        </div>
+
+        <div
+          onClick={() => onNavigate('fileEditor')}
+          className="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-emerald-400 dark:hover:border-emerald-500 transition-all cursor-pointer flex items-center justify-between group shadow-sm"
+        >
+          <div className="flex items-center gap-3.5">
+            <div className="p-2.5 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 group-hover:bg-emerald-500 group-hover:text-white transition-all">
+              <HardDrive className="w-5 h-5" />
+            </div>
+            <div>
+              <h3 className="font-semibold text-xs sm:text-sm text-slate-900 dark:text-slate-100 flex items-center gap-1.5">
+                <span>直接动文件源码中心</span>
+                <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300">
+                  JSON 源码
+                </span>
+              </h3>
+              <p className="text-[11px] text-slate-500 mt-0.5">
+                直接编辑 site.config.json 等原始文件，支持实时校验与下载同步
+              </p>
+            </div>
+          </div>
+          <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-emerald-500 group-hover:translate-x-0.5 transition-all" />
+        </div>
+      </div>
+
       {/* 核心指标矩阵 */}
       <div className="admin-metric-grid">
         {/* 公开文章 */}

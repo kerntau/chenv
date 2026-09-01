@@ -8,6 +8,7 @@ import { AdminRecords } from '../components/admin/AdminRecords';
 import { AdminFriends } from '../components/admin/AdminFriends';
 import { AdminTaxonomy } from '../components/admin/AdminTaxonomy';
 import { AdminSettings } from '../components/admin/AdminSettings';
+import { AdminFileEditor } from '../components/admin/AdminFileEditor';
 import { AdminEditor } from '../components/admin/AdminEditor';
 
 export const Admin: React.FC = () => {
@@ -59,6 +60,7 @@ export const Admin: React.FC = () => {
         {currentView === 'friends' && <AdminFriends />}
         {currentView === 'taxonomy' && <AdminTaxonomy />}
         {currentView === 'settings' && <AdminSettings />}
+        {currentView === 'fileEditor' && <AdminFileEditor />}
         {currentView === 'editor' && editorState && (
           <AdminEditor
             type={editorState.type}
