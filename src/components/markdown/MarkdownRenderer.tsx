@@ -6,6 +6,7 @@ import { AbcjsBlock } from './AbcjsBlock';
 import { Callout } from './Callout';
 import { generateHeadingId } from '../../lib/markdown';
 import { CheckSquare, Square, ImageIcon } from 'lucide-react';
+import { MediaLightbox } from '../says/MediaLightbox';
 
 interface MarkdownRendererProps {
   content: string;
@@ -31,39 +32,52 @@ function renderKatexMath(math: string, displayMode: boolean = false): string {
   }
 }
 
-// 独立的图片渲染组件，带错误兜底与柔和相框
+// 独立的图片渲染组件，带错误兜底、点击放大与柔和相框
 const MarkdownImage: React.FC<{ src: string; alt?: string; title?: string }> = ({
   src,
   alt,
   title,
 }) => {
   const [loadError, setLoadError] = useState(false);
+  const [showLightbox, setShowLightbox] = useState(false);
 
   return (
-    <figure className="my-6 flex flex-col items-center justify-center">
-      <div className="relative overflow-hidden rounded-sm border border-slate-200/80 dark:border-slate-800/80 bg-slate-100/50 dark:bg-slate-900/50 shadow-2xs max-w-full">
-        {!loadError ? (
-          <img
-            src={src}
-            alt={alt || ''}
-            title={title || alt || ''}
-            className="max-w-full h-auto object-contain block mx-auto transition-transform duration-300 hover:scale-[1.01]"
-            loading="lazy"
-            onError={() => setLoadError(true)}
-          />
-        ) : (
-          <div className="p-8 flex flex-col items-center justify-center text-slate-400 space-y-2 select-none min-h-[140px]">
-            <ImageIcon className="w-8 h-8 opacity-60" />
-            <span className="text-xs font-mono">图片加载失败: {alt || src}</span>
-          </div>
+    <>
+      <figure className="my-6 flex flex-col items-center justify-center">
+        <div className="relative overflow-hidden rounded-sm border border-slate-200/80 dark:border-slate-800/80 bg-slate-100/50 dark:bg-slate-900/50 shadow-2xs max-w-full">
+          {!loadError ? (
+            <img
+              src={src}
+              alt={alt || ''}
+              title={title || alt || '点击放大查看'}
+              className="max-w-full h-auto object-contain block mx-auto transition-transform duration-300 hover:scale-[1.01] cursor-zoom-in"
+              loading="lazy"
+              onClick={() => setShowLightbox(true)}
+              onError={() => setLoadError(true)}
+            />
+          ) : (
+            <div className="p-8 flex flex-col items-center justify-center text-slate-400 space-y-2 select-none min-h-[140px]">
+              <ImageIcon className="w-8 h-8 opacity-60" />
+              <span className="text-xs font-mono">图片加载失败: {alt || src}</span>
+            </div>
+          )}
+        </div>
+        {(alt || title) && (
+          <figcaption className="mt-2 text-xs font-mono text-slate-500 dark:text-slate-400 text-center">
+            {title || alt}
+          </figcaption>
         )}
-      </div>
-      {(alt || title) && (
-        <figcaption className="mt-2 text-xs font-mono text-slate-500 dark:text-slate-400 text-center">
-          {title || alt}
-        </figcaption>
+      </figure>
+
+      {showLightbox && !loadError && (
+        <MediaLightbox
+          images={[{ url: src, alt: alt || title }]}
+          index={0}
+          onClose={() => setShowLightbox(false)}
+          onChange={() => {}}
+        />
       )}
-    </figure>
+    </>
   );
 };
 

@@ -27,6 +27,8 @@ export const MediaLightbox: React.FC<MediaLightboxProps> = ({
   const [scale, setScale] = useState(1);
   const [rotation, setRotation] = useState(0);
   const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [imgLoading, setImgLoading] = useState(true);
+  const [imgError, setImgError] = useState(false);
 
   const isDraggingRef = useRef(false);
   const startMouseRef = useRef({ x: 0, y: 0 });
@@ -38,6 +40,8 @@ export const MediaLightbox: React.FC<MediaLightboxProps> = ({
     setScale(1);
     setRotation(0);
     setPosition({ x: 0, y: 0 });
+    setImgLoading(true);
+    setImgError(false);
     isDraggingRef.current = false;
     hasDraggedRef.current = false;
   }, []);
@@ -291,22 +295,54 @@ export const MediaLightbox: React.FC<MediaLightboxProps> = ({
           </button>
         )}
 
+        {/* 加载状态提示 */}
+        {imgLoading && !imgError && (
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
+            <div className="w-8 h-8 rounded-full border-2 border-white/20 border-t-sky-400 animate-spin" />
+          </div>
+        )}
+
+        {/* 错误提示 */}
+        {imgError && (
+          <div className="flex flex-col items-center justify-center text-slate-300 p-6 bg-white/5 backdrop-blur-md rounded-xl border border-white/10 space-y-3 z-10">
+            <p className="text-sm font-sans">图片加载失败或文件不存在</p>
+            <a
+              href={currentImage.url}
+              target="_blank"
+              rel="noreferrer"
+              className="text-xs font-mono text-sky-400 hover:underline inline-flex items-center gap-1"
+            >
+              <span>{currentImage.url}</span>
+              <ExternalLink className="w-3 h-3" />
+            </a>
+          </div>
+        )}
+
         {/* 图片主体 */}
-        <div
-          className="flex items-center justify-center p-2"
-          onDoubleClick={handleDoubleClick}
-          style={{
-            transform: `translate3d(${position.x}px, ${position.y}px, 0) scale(${scale}) rotate(${rotation}deg)`,
-            transition: 'transform 0.12s ease-out',
-          }}
-        >
-          <img
-            src={currentImage.url}
-            alt={currentImage.alt || '预览大图'}
-            className="max-h-[82vh] max-w-[88vw] object-contain rounded-xs shadow-2xl pointer-events-none select-none"
-            draggable={false}
-          />
-        </div>
+        {!imgError && (
+          <div
+            className="flex items-center justify-center p-2"
+            onDoubleClick={handleDoubleClick}
+            style={{
+              transform: `translate3d(${position.x}px, ${position.y}px, 0) scale(${scale}) rotate(${rotation}deg)`,
+              transition: 'transform 0.12s ease-out',
+            }}
+          >
+            <img
+              src={currentImage.url}
+              alt={currentImage.alt || '预览大图'}
+              className={`max-h-[82vh] max-w-[88vw] object-contain rounded-xs shadow-2xl pointer-events-none select-none transition-opacity duration-200 ${
+                imgLoading ? 'opacity-0' : 'opacity-100'
+              }`}
+              draggable={false}
+              onLoad={() => setImgLoading(false)}
+              onError={() => {
+                setImgLoading(false);
+                setImgError(true);
+              }}
+            />
+          </div>
+        )}
 
         {/* 下一张按钮 */}
         {images.length > 1 && (
