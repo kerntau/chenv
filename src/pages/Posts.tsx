@@ -3,7 +3,7 @@ import { Link } from 'wouter';
 import { Container } from '../components/layout/Container';
 import { PageShell } from '../components/layout/PageShell';
 import { PostCard } from '../components/post/PostCard';
-import { getAllPosts, getAllCategories } from '../content';
+import { getAllPosts, getAllCategories, siteConfig } from '../content';
 import { getYear } from '../lib/date';
 import {
   FileText,
@@ -106,6 +106,9 @@ export const Posts: React.FC = () => {
     setSearchQuery('');
   };
 
+  const postsPage = siteConfig.postsPage;
+  const pageTitle = postsPage?.title || '文稿归档';
+
   return (
     <PageShell>
       <Container size="wide">
@@ -143,7 +146,7 @@ export const Posts: React.FC = () => {
 
           <div className="flex flex-wrap items-center gap-3 sm:gap-4">
             <h1 className="font-sans text-3xl sm:text-4xl font-semibold text-slate-900 dark:text-slate-100 tracking-tight">
-              文稿归档
+              {pageTitle}
             </h1>
 
             {/* 实时搜索过滤 (并排大标题右侧) */}

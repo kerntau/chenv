@@ -14,6 +14,10 @@ import {
 export const Diaries: React.FC = () => {
   const allDiaries = useMemo(() => getAllDiaries(), []);
 
+  const diariesPage = siteConfig.diariesPage;
+  const pageTitle = diariesPage?.title || '散落的日常与手记';
+  const pageSubtitle = diariesPage?.subtitle || '捕捉那些代码之外的日暮微风、深夜随笔与生活切片。';
+
   return (
     <PageShell>
       <div className="w-full max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
@@ -24,11 +28,13 @@ export const Diaries: React.FC = () => {
             <span>DIARIES &bull; 纸上温度 &bull; 心境手记</span>
           </div>
           <h1 className="font-sans text-3xl sm:text-4xl font-semibold text-slate-900 dark:text-slate-100 tracking-tight">
-            散落的日常与手记
+            {pageTitle}
           </h1>
-          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-2 font-sans max-w-md mx-auto">
-            捕捉那些代码之外的日暮微风、深夜随笔与生活切片。
-          </p>
+          {pageSubtitle && (
+            <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-2 font-sans max-w-md mx-auto">
+              {pageSubtitle}
+            </p>
+          )}
         </div>
 
         {/* 手记多列卡片网格布局 (2列/3列响应式纯净卡片) */}

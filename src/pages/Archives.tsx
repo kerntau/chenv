@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { Link } from 'wouter';
 import { Container } from '../components/layout/Container';
 import { PageShell } from '../components/layout/PageShell';
-import { getAllPosts, getAllDiaries } from '../content';
+import { getAllPosts, getAllDiaries, siteConfig } from '../content';
 import { formatDateShort, getYear } from '../lib/date';
 import {
   Clock,
@@ -83,6 +83,10 @@ export const Archives: React.FC = () => {
 
   const years = Object.keys(itemsByYear).sort((a, b) => Number(b) - Number(a));
 
+  const archivesPage = siteConfig.archivesPage;
+  const pageTitle = archivesPage?.title || '时光归档';
+  const pageSubtitle = archivesPage?.subtitle || `共收录 ${timelineItems.length} 篇文稿与散落手记，依时间轨迹沉淀与梳理。`;
+
   return (
     <PageShell>
       <Container size="narrow">
@@ -94,10 +98,10 @@ export const Archives: React.FC = () => {
           </div>
 
           <h1 className="text-3xl sm:text-4xl font-semibold text-slate-900 dark:text-slate-100 tracking-tight">
-            时光归档
+            {pageTitle}
           </h1>
           <p className="text-sm text-slate-500 dark:text-slate-400 mt-1.5">
-            共收录 {timelineItems.length} 篇文稿与散落手记，依时间轨迹沉淀与梳理。
+            {pageSubtitle}
           </p>
 
           {/* 一级内容类型筛选胶囊（温润天蓝微光选中态，规范统一） */}

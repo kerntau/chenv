@@ -9,16 +9,53 @@ import {
   MessageSquareQuote,
   Users,
   User,
+  Sparkles,
+  Link2,
+  Globe,
+  ArrowUpRight,
 } from 'lucide-react';
 import { SearchModal } from '../search/SearchModal';
 import { NavHoverPopover } from './NavHoverPopover';
+import { siteConfig } from '../../content';
+import type { NavLinkItem } from '../../types';
+
+const ICON_MAP: Record<string, React.FC<{ className?: string }>> = {
+  HomeIcon,
+  FileText,
+  History,
+  Feather,
+  MessageSquareQuote,
+  Users,
+  User,
+  Sparkles,
+  Link2,
+  Globe,
+};
+
+const DEFAULT_NAV_LINKS: NavLinkItem[] = [
+  { id: 'nav-home', href: '/', label: '首页', icon: 'HomeIcon', enabled: true },
+  { id: 'nav-posts', href: '/posts', label: '文稿', icon: 'FileText', enabled: true },
+  { id: 'nav-archives', href: '/archives', label: '归档', icon: 'History', enabled: true },
+  { id: 'nav-diaries', href: '/diaries', label: '手记', icon: 'Feather', enabled: true },
+  { id: 'nav-says', href: '/says', label: '动态', icon: 'MessageSquareQuote', enabled: true },
+  { id: 'nav-friends', href: '/friends', label: '朋友', icon: 'Users', enabled: true },
+  { id: 'nav-about', href: '/about', label: '关于', icon: 'User', enabled: true },
+];
 
 export const Header: React.FC = () => {
   const [location] = useLocation();
   const [searchOpen, setSearchOpen] = useState(false);
 
+  const headerConfig = siteConfig.header;
+  const enableMegaMenu = headerConfig?.enableMegaMenu ?? true;
+  const enableSearch = headerConfig?.enableSearch ?? true;
+
+  // 过滤出启用的导航项
+  const navLinks = (headerConfig?.navLinks || DEFAULT_NAV_LINKS).filter((l) => l.enabled !== false);
+
   // 全局快捷键 ⌘K / Ctrl+K 唤起搜索
   useEffect(() => {
+    if (!enableSearch) return;
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
         e.preventDefault();
@@ -27,7 +64,7 @@ export const Header: React.FC = () => {
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
+  }, [enableSearch]);
 
   // 导航项 Hover 悬浮联动状态
   const [hoveredNav, setHoveredNav] = useState<string | null>(null);
@@ -41,23 +78,13 @@ export const Header: React.FC = () => {
   const navRef = useRef<HTMLElement | null>(null);
   const leaveTimerRef = useRef<NodeJS.Timeout | null>(null);
 
-  const navLinks = [
-    { href: '/', label: '首页', icon: HomeIcon },
-    { href: '/posts', label: '文稿', icon: FileText },
-    { href: '/archives', label: '归档', icon: History },
-    { href: '/diaries', label: '手记', icon: Feather },
-    { href: '/says', label: '动态', icon: MessageSquareQuote },
-    { href: '/friends', label: '朋友', icon: Users },
-    { href: '/about', label: '关于', icon: User },
-  ];
-
   const isActive = (href: string) => {
     if (href === '/') return location === '/';
     return location.startsWith(href);
   };
 
-  const handleNavMouseEnter = (href: string, e: React.MouseEvent<HTMLAnchorElement>) => {
-    if (href === '/' || href === '/about') {
+  const handleNavMouseEnter = (href: string, e: React.MouseEvent<HTMLElement>) => {
+    if (!enableMegaMenu || href === '/' || href === '/about' || href.startsWith('http')) {
       setHoveredNav(null);
       return;
     }
@@ -120,12 +147,28 @@ export const Header: React.FC = () => {
                 className="flex items-center p-1 rounded-sm bg-white/70 dark:bg-slate-900/70 backdrop-blur-md border border-slate-200/65 dark:border-slate-800/65 shadow-[0_2px_10px_-3px_rgba(0,0,0,0.03)] gap-0.5 text-xs max-w-full overflow-x-auto"
               >
                 {navLinks.map((link) => {
-                  const active = isActive(link.href);
-                  const IconComponent = link.icon;
+                  const isExt = link.isExternal || link.href.startsWith('http');
+                  const active = !isExt && isActive(link.href);
+                  const IconComponent = ICON_MAP[link.icon] || FileText;
+
+                  if (isExt) {
+                    return (
+                      <a
+                        key={link.id || link.href}
+                        href={link.href}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="relative px-2.5 py-1 rounded-sm transition-colors duration-150 select-none flex items-center justify-center gap-1.5 shrink-0 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100/50 dark:hover:bg-slate-800/40"
+                      >
+                        <span className="leading-none translate-y-[0.5px]">{link.label}</span>
+                        <ArrowUpRight className="w-3 h-3 opacity-60 ml-[-2px]" />
+                      </a>
+                    );
+                  }
 
                   return (
                     <Link
-                      key={link.href}
+                      key={link.id || link.href}
                       href={link.href}
                       onMouseEnter={(e) => handleNavMouseEnter(link.href, e)}
                       onClick={handleItemClick}
@@ -155,20 +198,24 @@ export const Header: React.FC = () => {
               </nav>
             </LayoutGroup>
 
-            {/* Innei 风格导航悬浮 MegaMenu Popover (动态精准位置感知) */}
-            <NavHoverPopover
-              activeKey={hoveredNav}
-              position={navPosition}
-              onMouseEnter={handlePopoverMouseEnter}
-              onMouseLeave={handlePopoverMouseLeave}
-              onItemClick={handleItemClick}
-            />
+            {/* Innei 风格导航悬浮 MegaMenu Popover */}
+            {enableMegaMenu && (
+              <NavHoverPopover
+                activeKey={hoveredNav}
+                position={navPosition}
+                onMouseEnter={handlePopoverMouseEnter}
+                onMouseLeave={handlePopoverMouseLeave}
+                onItemClick={handleItemClick}
+              />
+            )}
           </div>
         </div>
       </header>
 
-      {/* 搜索弹窗 (支持全局快捷键 ⌘K / Ctrl+K 调起) */}
-      <SearchModal open={searchOpen} onOpenChange={setSearchOpen} />
+      {/* 搜索弹窗 */}
+      {enableSearch && (
+        <SearchModal open={searchOpen} onOpenChange={setSearchOpen} />
+      )}
     </>
   );
 };

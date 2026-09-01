@@ -4,9 +4,43 @@ import { ArrowUpRight } from 'lucide-react';
 import { useTheme } from '../../hooks/useTheme';
 import { siteConfig } from '../../content';
 
+const DEFAULT_NAV_COLUMNS = [
+  {
+    title: '关于',
+    links: [
+      { label: '关于本站', href: '/about' },
+      { label: '关于我', href: '/about' },
+      { label: '关于此项目', href: 'https://github.com/kerntau', isExternal: true },
+    ],
+  },
+  {
+    title: '更多',
+    links: [
+      { label: '动态手记', href: '/diaries' },
+      { label: '全站归档', href: '/archives' },
+      { label: '志同道合', href: '/friends' },
+    ],
+  },
+  {
+    title: '联系',
+    links: [
+      { label: '发邮件', href: 'mailto:hi@chent.co', isExternal: true },
+      { label: 'GitHub', href: 'https://github.com/kerntau', isExternal: true },
+      { label: '日常说说', href: '/says' },
+    ],
+  },
+];
+
 export const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
-  const sinceYear = siteConfig.footer.sinceYear;
+  const footer = siteConfig.footer;
+  const sinceYear = footer?.sinceYear || 2024;
+  const motto = footer?.motto || 'Stay hungry. Stay foolish.';
+  const navColumns = footer?.navColumns && footer.navColumns.length > 0 ? footer.navColumns : DEFAULT_NAV_COLUMNS;
+  const showThemeToggle = footer?.showThemeToggle ?? true;
+  const showRss = footer?.showRss ?? true;
+  const showSitemap = footer?.showSitemap ?? true;
+  const icpUrl = footer?.icpUrl || (footer?.icp ? `https://icp.gov.moe/?keyword=${footer.icp.replace(/[^0-9]/g, '')}` : '#');
   const { theme, setTheme } = useTheme();
 
   return (
@@ -20,9 +54,11 @@ export const Footer: React.FC = () => {
             <h3 className="font-sans font-bold text-base sm:text-lg text-slate-900 dark:text-slate-100 tracking-tight">
               {siteConfig.author.name || siteConfig.title}
             </h3>
-            <p className="italic text-xs text-slate-500 dark:text-slate-400 font-serif leading-relaxed">
-              Stay hungry. Stay foolish.
-            </p>
+            {motto && (
+              <p className="italic text-xs text-slate-500 dark:text-slate-400 font-serif leading-relaxed">
+                {motto}
+              </p>
+            )}
             <div className="text-[11px] text-slate-400 dark:text-slate-500 font-mono leading-relaxed pt-0.5">
               <span>&copy; {sinceYear}-{currentYear} Powered by </span>
               <a
@@ -46,113 +82,42 @@ export const Footer: React.FC = () => {
             </div>
           </div>
 
-          {/* 右侧导航列 (3 列) */}
-          <div className="grid grid-cols-3 gap-6 sm:gap-10 pt-0.5">
-            {/* 1. 关于 */}
-            <div className="space-y-2">
-              <div className="font-mono text-[11px] font-medium text-slate-400 dark:text-slate-500 uppercase tracking-wider">
-                关于
+          {/* 右侧导航列 */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 sm:gap-10 pt-0.5">
+            {navColumns.map((col, idx) => (
+              <div key={col.title || idx} className="space-y-2">
+                <div className="font-mono text-[11px] font-medium text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+                  {col.title}
+                </div>
+                <ul className="space-y-1.5 text-xs">
+                  {col.links.map((link, lIdx) => {
+                    const isExt = link.isExternal || link.href.startsWith('http') || link.href.startsWith('mailto:');
+                    return (
+                      <li key={link.label || lIdx}>
+                        {isExt ? (
+                          <a
+                            href={link.href}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="group inline-flex items-center hover:text-slate-900 dark:hover:text-slate-100 transition-colors"
+                          >
+                            <span>{link.label}</span>
+                            <ArrowUpRight className="w-3 h-3 ml-0.5 text-slate-400 group-hover:text-slate-700 dark:group-hover:text-slate-300 transition-colors" />
+                          </a>
+                        ) : (
+                          <Link
+                            href={link.href}
+                            className="hover:text-slate-900 dark:hover:text-slate-100 transition-colors"
+                          >
+                            {link.label}
+                          </Link>
+                        )}
+                      </li>
+                    );
+                  })}
+                </ul>
               </div>
-              <ul className="space-y-1.5 text-xs">
-                <li>
-                  <Link
-                    href="/about"
-                    className="hover:text-slate-900 dark:hover:text-slate-100 transition-colors"
-                  >
-                    关于本站
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/about"
-                    className="hover:text-slate-900 dark:hover:text-slate-100 transition-colors"
-                  >
-                    关于我
-                  </Link>
-                </li>
-                <li>
-                  <a
-                    href={siteConfig.author.github}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="group inline-flex items-center hover:text-slate-900 dark:hover:text-slate-100 transition-colors"
-                  >
-                    <span>关于此项目</span>
-                    <ArrowUpRight className="w-3 h-3 ml-0.5 text-slate-400 group-hover:text-slate-700 dark:group-hover:text-slate-300 transition-colors" />
-                  </a>
-                </li>
-              </ul>
-            </div>
-
-            {/* 2. 更多 */}
-            <div className="space-y-2">
-              <div className="font-mono text-[11px] font-medium text-slate-400 dark:text-slate-500 uppercase tracking-wider">
-                更多
-              </div>
-              <ul className="space-y-1.5 text-xs">
-                <li>
-                  <Link
-                    href="/diaries"
-                    className="hover:text-slate-900 dark:hover:text-slate-100 transition-colors"
-                  >
-                    动态手记
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/archives"
-                    className="hover:text-slate-900 dark:hover:text-slate-100 transition-colors"
-                  >
-                    全站归档
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/friends"
-                    className="hover:text-slate-900 dark:hover:text-slate-100 transition-colors"
-                  >
-                    志同道合
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            {/* 3. 联系 */}
-            <div className="space-y-2">
-              <div className="font-mono text-[11px] font-medium text-slate-400 dark:text-slate-500 uppercase tracking-wider">
-                联系
-              </div>
-              <ul className="space-y-1.5 text-xs">
-                <li>
-                  <a
-                    href={`mailto:${siteConfig.author.email}`}
-                    className="group inline-flex items-center hover:text-slate-900 dark:hover:text-slate-100 transition-colors"
-                  >
-                    <span>发邮件</span>
-                    <ArrowUpRight className="w-3 h-3 ml-0.5 text-slate-400 group-hover:text-slate-700 dark:group-hover:text-slate-300 transition-colors" />
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href={siteConfig.author.github}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="group inline-flex items-center hover:text-slate-900 dark:hover:text-slate-100 transition-colors"
-                  >
-                    <span>GitHub</span>
-                    <ArrowUpRight className="w-3 h-3 ml-0.5 text-slate-400 group-hover:text-slate-700 dark:group-hover:text-slate-300 transition-colors" />
-                  </a>
-                </li>
-                <li>
-                  <Link
-                    href="/says"
-                    className="hover:text-slate-900 dark:hover:text-slate-100 transition-colors"
-                  >
-                    日常说说
-                  </Link>
-                </li>
-              </ul>
-            </div>
+            ))}
           </div>
         </div>
 
@@ -160,84 +125,89 @@ export const Footer: React.FC = () => {
         <div className="pt-4 border-t border-slate-200/50 dark:border-slate-800/50 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] font-mono text-slate-400 dark:text-slate-500">
           {/* 左侧: RSS 订阅 · 站点地图 · 主题切换器 · 语言 */}
           <div className="flex flex-wrap items-center justify-center sm:justify-start gap-x-2 gap-y-1">
-            <Link
-              href="/posts"
-              className="hover:text-slate-700 dark:hover:text-slate-300 transition-colors"
-            >
-              RSS 订阅
-            </Link>
-            <span className="text-slate-300 dark:text-slate-700">&bull;</span>
-            <Link
-              href="/archives"
-              className="hover:text-slate-700 dark:hover:text-slate-300 transition-colors"
-            >
-              站点地图
-            </Link>
-            <span className="text-slate-300 dark:text-slate-700">&bull;</span>
-            <Link
-              href="/friends"
-              className="hover:text-slate-700 dark:hover:text-slate-300 transition-colors"
-            >
-              订阅
-            </Link>
-
-            <span className="text-slate-300 dark:text-slate-700 px-0.5">|</span>
+            {showRss && (
+              <>
+                <Link
+                  href="/posts"
+                  className="hover:text-slate-700 dark:hover:text-slate-300 transition-colors"
+                >
+                  RSS 订阅
+                </Link>
+                <span className="text-slate-300 dark:text-slate-700">&bull;</span>
+              </>
+            )}
+            {showSitemap && (
+              <>
+                <Link
+                  href="/archives"
+                  className="hover:text-slate-700 dark:hover:text-slate-300 transition-colors"
+                >
+                  站点地图
+                </Link>
+                <span className="text-slate-300 dark:text-slate-700">&bull;</span>
+              </>
+            )}
 
             {/* 主题切换器 */}
-            <div className="inline-flex items-center space-x-1.5">
-              <button
-                onClick={() => setTheme('light')}
-                className={`hover:text-slate-900 dark:hover:text-slate-100 transition-colors ${
-                  theme === 'light'
-                    ? 'font-semibold text-slate-800 dark:text-slate-200 underline underline-offset-4 decoration-sky-500'
-                    : 'text-slate-400 dark:text-slate-500'
-                }`}
-              >
-                Light
-              </button>
-              <span className="text-slate-300 dark:text-slate-700 text-[9px]">&bull;</span>
-              <button
-                onClick={() => setTheme('system')}
-                className={`hover:text-slate-900 dark:hover:text-slate-100 transition-colors ${
-                  theme === 'system'
-                    ? 'font-semibold text-slate-800 dark:text-slate-200 underline underline-offset-4 decoration-sky-500'
-                    : 'text-slate-400 dark:text-slate-500'
-                }`}
-              >
-                System
-              </button>
-              <span className="text-slate-300 dark:text-slate-700 text-[9px]">&bull;</span>
-              <button
-                onClick={() => setTheme('dark')}
-                className={`hover:text-slate-900 dark:hover:text-slate-100 transition-colors ${
-                  theme === 'dark'
-                    ? 'font-semibold text-slate-800 dark:text-slate-200 underline underline-offset-4 decoration-sky-500'
-                    : 'text-slate-400 dark:text-slate-500'
-                }`}
-              >
-                Dark
-              </button>
-            </div>
+            {showThemeToggle && (
+              <>
+                <div className="inline-flex items-center space-x-1.5">
+                  <button
+                    onClick={() => setTheme('light')}
+                    className={`hover:text-slate-900 dark:hover:text-slate-100 transition-colors ${
+                      theme === 'light'
+                        ? 'font-semibold text-slate-800 dark:text-slate-200 underline underline-offset-4 decoration-sky-500'
+                        : 'text-slate-400 dark:text-slate-500'
+                    }`}
+                  >
+                    Light
+                  </button>
+                  <span className="text-slate-300 dark:text-slate-700 text-[9px]">&bull;</span>
+                  <button
+                    onClick={() => setTheme('system')}
+                    className={`hover:text-slate-900 dark:hover:text-slate-100 transition-colors ${
+                      theme === 'system'
+                        ? 'font-semibold text-slate-800 dark:text-slate-200 underline underline-offset-4 decoration-sky-500'
+                        : 'text-slate-400 dark:text-slate-500'
+                    }`}
+                  >
+                    System
+                  </button>
+                  <span className="text-slate-300 dark:text-slate-700 text-[9px]">&bull;</span>
+                  <button
+                    onClick={() => setTheme('dark')}
+                    className={`hover:text-slate-900 dark:hover:text-slate-100 transition-colors ${
+                      theme === 'dark'
+                        ? 'font-semibold text-slate-800 dark:text-slate-200 underline underline-offset-4 decoration-sky-500'
+                        : 'text-slate-400 dark:text-slate-500'
+                    }`}
+                  >
+                    Dark
+                  </button>
+                </div>
+                <span className="text-slate-300 dark:text-slate-700 px-0.5">|</span>
+              </>
+            )}
 
-            <span className="text-slate-300 dark:text-slate-700 px-0.5">|</span>
-
-            {/* 语言提示 */}
+            {/* 自定义底部文本或标语 */}
             <span className="text-slate-400 dark:text-slate-500">
-              简体中文
+              {footer?.customText || '简体中文'}
             </span>
           </div>
 
           {/* 右侧: 备案号 */}
-          <div className="text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 transition-colors">
-            <a
-              href="https://icp.gov.moe/?keyword=20268811"
-              target="_blank"
-              rel="noreferrer"
-              className="hover:underline underline-offset-2"
-            >
-              {siteConfig.footer.icp}
-            </a>
-          </div>
+          {footer?.icp && (
+            <div className="text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 transition-colors">
+              <a
+                href={icpUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="hover:underline underline-offset-2"
+              >
+                {footer.icp}
+              </a>
+            </div>
+          )}
         </div>
 
       </div>

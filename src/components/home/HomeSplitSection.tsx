@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'wouter';
-import { getAllPosts, getAllDiaries, getAllRecords } from '../../content';
+import { getAllPosts, getAllDiaries, getAllRecords, siteConfig } from '../../content';
 import { formatDateShort, formatDateTime } from '../../lib/date';
 import { PostCard } from '../post/PostCard';
 import {
@@ -10,16 +10,24 @@ import {
 } from 'lucide-react';
 
 export const HomeSplitSection: React.FC = () => {
-  const posts = getAllPosts().slice(0, 6); // 展示 6 篇精选文章 (3列x2行)
-  const diaries = getAllDiaries().slice(0, 4); // 4 则手记
-  const records = getAllRecords().slice(0, 3); // 3 条动态
+  const sections = siteConfig.home?.sections;
+  const postsLimit = sections?.postsLimit ?? 6;
+  const postsTitle = sections?.postsTitle || '最新文章';
+  const diariesLimit = sections?.diariesLimit ?? 4;
+  const diariesTitle = sections?.diariesTitle || '近期手记';
+  const saysLimit = sections?.saysLimit ?? 3;
+  const saysTitle = sections?.saysTitle || '即时动态';
+
+  const posts = getAllPosts().slice(0, postsLimit);
+  const diaries = getAllDiaries().slice(0, diariesLimit);
+  const records = getAllRecords().slice(0, saysLimit);
 
   return (
     <section className="mt-16 sm:mt-20 mb-2 sm:mb-4 w-full font-sans">
       {/* 8:4 黄金分割左右双栏栅格 (items-stretch 确保两栏高度基准一致) */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch">
         
-        {/* ================= 左侧专区: 封面相框文章流 (6 篇 16:9 标准卡片) ================= */}
+        {/* ================= 左侧专区: 封面相框文章流 ================= */}
         <div className="lg:col-span-8 flex flex-col justify-between">
           <div>
             {/* 左侧专区标题栏 */}
@@ -29,7 +37,7 @@ export const HomeSplitSection: React.FC = () => {
                   <FileText className="w-4 h-4" />
                 </div>
                 <h2 className="text-base font-semibold text-slate-900 dark:text-slate-100 tracking-tight leading-none">
-                  最新文章
+                  {postsTitle}
                 </h2>
               </div>
               <Link
@@ -40,7 +48,7 @@ export const HomeSplitSection: React.FC = () => {
               </Link>
             </div>
 
-            {/* 文章相框卡片列表 (6 篇 3 列标准 16:9 网格) */}
+            {/* 文章相框卡片列表 */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 mt-4">
               {posts.map((post) => (
                 <PostCard key={post.slug} post={post} />
@@ -60,7 +68,7 @@ export const HomeSplitSection: React.FC = () => {
                   <Feather className="w-4 h-4" />
                 </div>
                 <h2 className="text-base font-semibold text-slate-900 dark:text-slate-100 tracking-tight leading-none">
-                  近期手记
+                  {diariesTitle}
                 </h2>
               </div>
               <Link
@@ -114,7 +122,7 @@ export const HomeSplitSection: React.FC = () => {
                   <MessageSquareQuote className="w-4 h-4" />
                 </div>
                 <h2 className="text-base font-semibold text-slate-900 dark:text-slate-100 tracking-tight leading-none">
-                  即时动态
+                  {saysTitle}
                 </h2>
               </div>
               <Link

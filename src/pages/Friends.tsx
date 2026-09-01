@@ -23,6 +23,16 @@ export const Friends: React.FC = () => {
     );
   }, [allFriends, query]);
 
+  const friendsPage = siteConfig.friendsPage;
+  const pageTitle = friendsPage?.title || '志同道合的朋友';
+  const pageSubtitle = friendsPage?.subtitle || '在浩瀚的互联网海洋里，感谢每一次思想的交汇与灵感的共振。';
+  const guideTitle = friendsPage?.guideTitle || '交换友链';
+  const guideText = friendsPage?.guideText || '如果您也拥有自己的个人独立博客，欢迎在您的站点添加本站后通过邮件或 Issue 联系交换。';
+  const templateName = friendsPage?.template?.name || siteConfig.title;
+  const templateDesc = friendsPage?.template?.desc || `${siteConfig.subtitle} | ${siteConfig.description}`;
+  const templateUrl = friendsPage?.template?.url || siteConfig.url;
+  const templateAvatar = friendsPage?.template?.avatar || `${siteConfig.url}${siteConfig.author.avatar}`;
+
   return (
     <PageShell>
       <Container size="wide">
@@ -35,7 +45,7 @@ export const Friends: React.FC = () => {
 
           <div className="flex flex-wrap items-center gap-3 sm:gap-4">
             <h1 className="font-sans text-3xl sm:text-4xl font-semibold text-slate-900 dark:text-slate-100 tracking-tight">
-              志同道合的朋友
+              {pageTitle}
             </h1>
 
             {/* 实时搜索过滤 (并排大标题右侧) */}
@@ -60,9 +70,11 @@ export const Friends: React.FC = () => {
             </div>
           </div>
 
-          <p className="text-sm text-slate-500 dark:text-slate-400 mt-2 font-sans">
-            在浩瀚的互联网海洋里，感谢每一次思想的交汇与灵感的共振。
-          </p>
+          {pageSubtitle && (
+            <p className="text-sm text-slate-500 dark:text-slate-400 mt-2 font-sans">
+              {pageSubtitle}
+            </p>
+          )}
         </div>
 
         {/* 朋友卡片 Grid (一行 4 个) */}
@@ -81,16 +93,16 @@ export const Friends: React.FC = () => {
         <div className="p-4 sm:p-5 rounded-sm paper-card space-y-2.5 bg-slate-50/50 dark:bg-[#18181A]/50">
           <div className="flex items-center space-x-2 font-sans font-semibold text-slate-900 dark:text-slate-100 text-sm">
             <Sparkles className="w-4 h-4 text-sky-600 dark:text-sky-400" />
-            <h2>交换友链</h2>
+            <h2>{guideTitle}</h2>
           </div>
           <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-sans">
-            如果您也拥有自己的个人独立博客，欢迎在您的站点添加本站后通过邮件或 Issue 联系交换。
+            {guideText}
           </p>
           <div className="p-3 rounded-sm bg-white/70 dark:bg-slate-900/70 border border-slate-200/50 dark:border-slate-800/50 text-xs font-mono text-slate-600 dark:text-slate-400 space-y-1">
-            <div>名称：{siteConfig.title}</div>
-            <div>简介：{siteConfig.subtitle} | {siteConfig.description}</div>
-            <div>链接：{siteConfig.url}</div>
-            <div>头像：{siteConfig.url}{siteConfig.author.avatar}</div>
+            <div>名称：{templateName}</div>
+            <div>简介：{templateDesc}</div>
+            <div>链接：{templateUrl}</div>
+            <div>头像：{templateAvatar}</div>
           </div>
         </div>
       </Container>
