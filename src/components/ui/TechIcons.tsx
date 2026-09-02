@@ -97,17 +97,17 @@ export const SpringBootIcon: React.FC<IconProps> = ({ size = 16, className, ...p
 // 6. React
 export const ReactIcon: React.FC<IconProps> = ({ size = 16, className, ...props }) => (
   <svg
-    viewBox="-11.5 -10.23174 23 20.46348"
+    viewBox="-13 -13 26 26"
     width={size}
     height={size}
     className={className}
     {...props}
   >
-    <circle cx="0" cy="0" r="2.05" fill="#61DAFB" />
-    <g stroke="#61DAFB" strokeWidth="1" fill="none">
-      <ellipse rx="11" ry="4.2" />
-      <ellipse rx="11" ry="4.2" transform="rotate(60)" />
-      <ellipse rx="11" ry="4.2" transform="rotate(120)" />
+    <circle cx="0" cy="0" r="2.2" fill="#61DAFB" />
+    <g stroke="#61DAFB" strokeWidth="1.1" fill="none">
+      <ellipse rx="10.5" ry="4.2" />
+      <ellipse rx="10.5" ry="4.2" transform="rotate(60)" />
+      <ellipse rx="10.5" ry="4.2" transform="rotate(120)" />
     </g>
   </svg>
 );

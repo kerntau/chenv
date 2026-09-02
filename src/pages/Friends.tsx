@@ -30,7 +30,7 @@ export const Friends: React.FC = () => {
   const pageSubtitle = friendsPage?.subtitle || '在浩瀚的互联网海洋里，感谢每一次思想的交汇与灵感的共振。';
   const guideTitle = friendsPage?.guideTitle || '交换友链';
   const templateName = friendsPage?.template?.name || siteConfig.title;
-  const templateDesc = friendsPage?.template?.desc || `${siteConfig.subtitle} | ${siteConfig.description}`;
+  const templateDesc = friendsPage?.template?.desc || siteConfig.description;
   const templateUrl = friendsPage?.template?.url || siteConfig.url;
   const templateAvatar = friendsPage?.template?.avatar || `${siteConfig.url}${siteConfig.author.avatar}`;
 

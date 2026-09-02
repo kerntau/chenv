@@ -180,9 +180,11 @@ export interface SiteConfig {
     enableMegaMenu?: boolean;
     enableSearch?: boolean;
   };
+  sinceDate?: string;
   footer: {
     copyright: string;
     sinceYear: number;
+    sinceDate?: string;
     customText: string;
     icp?: string;
     icpUrl?: string;

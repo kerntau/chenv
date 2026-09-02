@@ -6,8 +6,12 @@ export default defineConfig({
   html: {
     title: '序栈',
     meta: {
-      description: '个人技术博客与知识库，记录全栈开发、云原生、系统架构与工程实践心得。',
+      description: '心中有景，花香满径。',
       viewport: 'width=device-width, initial-scale=1.0',
+      'og:image': 'https://chent.co/avatar.webp',
+      'og:type': 'website',
+      'twitter:image': 'https://chent.co/avatar.webp',
+      'twitter:card': 'summary_large_image',
     },
     favicon: './public/favicon.svg',
     tags: [
