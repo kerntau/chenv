@@ -84,14 +84,14 @@ export const AmbientBackground: React.FC = () => {
     };
 
     const handlePointerDown = (e: PointerEvent) => {
-      // 每次点击仅生成 1 道极简纯净水晕，轻柔扩散后自然消散
+      // 每次点击生成 1 道极轻淡天青纯净水晕，轻柔扩散后自然消散
       ripplesRef.current.push({
         x: e.clientX,
         y: e.clientY,
         radius: 2,
-        maxRadius: 55,
-        alpha: 0.28,
-        maxAlpha: 0.28,
+        maxRadius: 48,
+        alpha: 0.22,
+        maxAlpha: 0.22,
       });
 
       startAnimation();
@@ -113,55 +113,31 @@ export const AmbientBackground: React.FC = () => {
       aria-hidden="true"
       className="fixed inset-0 pointer-events-none -z-20 overflow-hidden select-none transition-colors duration-500"
     >
-      {/* 浅蓝顶层基底微妙渐变 */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#EAF4FC] via-[#F2F7FC] to-[#F6F8FB] dark:from-[#0B1830] dark:via-[#070D18] dark:to-[#080D16]" />
+      {/* 柔和淡天蓝纯净基底渐变 */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#EDF5FD] via-[#F4F8FC] to-[#F7F9FC] dark:from-[#0B121D] dark:via-[#080D15] dark:to-[#070B12]" />
 
-      {/* 暗色模式星空层：静态星点避免额外渲染与随机状态 */}
-      <div className="ambient-stars absolute inset-0 opacity-0 dark:opacity-50" />
-      <div className="ambient-star-dust absolute inset-0 opacity-0 dark:opacity-25" />
-
-      {/* Innei 标志性核心: 中心 Hero 大椭圆呼吸光晕 */}
+      {/* 顶部微蓝柔光穹顶：居中大尺寸高斯漫射微光，超舒缓 22s 呼吸阻尼 */}
       <div
-        className="absolute -top-[6%] left-1/2 w-[340px] sm:w-[680px] lg:w-[860px] h-[340px] sm:h-[580px] lg:h-[680px] rounded-[100%] opacity-80 dark:opacity-40 blur-[80px] sm:blur-[120px] transition-all duration-1000"
+        className="absolute -top-[10%] left-1/2 w-[420px] sm:w-[780px] lg:w-[980px] h-[360px] sm:h-[520px] lg:h-[620px] rounded-[100%] opacity-70 dark:opacity-30 blur-[100px] sm:blur-[140px] transition-all duration-1000"
         style={{
-          background: 'radial-gradient(ellipse at center, rgba(139, 205, 255, 0.55) 0%, rgba(147, 197, 253, 0.24) 45%, rgba(224, 242, 254, 0.08) 70%, transparent 80%)',
-          animation: 'inneiBreathGlow 14s ease-in-out infinite',
+          background: 'radial-gradient(ellipse at center, rgba(160, 215, 255, 0.38) 0%, rgba(186, 230, 253, 0.16) 45%, rgba(224, 242, 254, 0.05) 70%, transparent 80%)',
+          animation: 'inneiBreathGlow 22s ease-in-out infinite',
           willChange: 'transform, opacity',
         }}
       />
 
-      {/* 动态光晕光斑 2: 清透冰川青蓝 (左下随和流动) */}
+      {/* 暗色模式专属深海柔蓝微光漫射（极低对比度，消除刺眼光感） */}
       <div
-        className="absolute top-[38%] -left-[12%] w-[420px] sm:w-[600px] h-[420px] sm:h-[600px] rounded-full opacity-50 dark:opacity-25 blur-[90px] sm:blur-[130px] transition-all duration-700"
+        className="hidden dark:block absolute -top-[8%] left-1/2 w-[700px] lg:w-[900px] h-[480px] rounded-[100%] opacity-25 blur-[130px]"
         style={{
-          background: 'radial-gradient(circle, rgba(133, 225, 214, 0.42) 0%, rgba(191, 219, 254, 0.18) 50%, transparent 75%)',
-          animation: 'ambientDriftB 28s ease-in-out infinite',
+          background: 'radial-gradient(ellipse at center, rgba(56, 130, 210, 0.28) 0%, rgba(30, 64, 115, 0.14) 50%, transparent 75%)',
+          animation: 'inneiBreathGlow 24s ease-in-out infinite reverse',
           willChange: 'transform',
         }}
       />
 
-      {/* 动态光晕光斑 3: 浅天青雾蓝 (右下柔和浮动) */}
-      <div
-        className="absolute bottom-[-10%] right-[-5%] w-[460px] sm:w-[650px] h-[460px] sm:h-[650px] rounded-full opacity-45 dark:opacity-20 blur-[90px] sm:blur-[130px] transition-all duration-700"
-        style={{
-          background: 'radial-gradient(circle, rgba(148, 181, 255, 0.34) 0%, rgba(224, 231, 255, 0.14) 50%, transparent 75%)',
-          animation: 'inneiSubtleDrift 22s ease-in-out infinite',
-          willChange: 'transform',
-        }}
-      />
-
-      {/* 动态光晕光斑 4: 暗色模式极光深青深蓝补充 */}
-      <div
-        className="hidden dark:block absolute top-[10%] left-1/2 -translate-x-1/2 w-[700px] h-[550px] rounded-[100%] opacity-25 blur-[120px]"
-        style={{
-          background: 'radial-gradient(ellipse at center, rgba(56, 189, 248, 0.45) 0%, rgba(59, 130, 246, 0.2) 55%, transparent 75%)',
-          animation: 'inneiBreathGlow 16s ease-in-out infinite reverse',
-          willChange: 'transform',
-        }}
-      />
-
-      {/* 细腻微点网格遮罩，增添纸质与余白层次 */}
-      <div className="absolute inset-0 bg-paper-texture opacity-65 dark:opacity-45" />
+      {/* 极细腻微点网格遮罩，赋予纸张触感 */}
+      <div className="absolute inset-0 bg-paper-texture opacity-40 dark:opacity-20" />
 
       {/* 极简克制单层水波 Canvas */}
       <canvas
