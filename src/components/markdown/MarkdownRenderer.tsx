@@ -471,7 +471,7 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) =
         elements.push(
           <hr
             key={`hr-${keyPrefix}-${idx}`}
-            className="my-8 border-0 h-px bg-slate-200/80 dark:bg-slate-800/80"
+            className="my-5 sm:my-8 border-0 h-px bg-slate-200/80 dark:bg-slate-800/80"
           />
         );
         return;
@@ -505,7 +505,7 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) =
             <h1
               id={id}
               key={`h1-${keyPrefix}-${idx}`}
-              className="scroll-mt-24 font-serif text-2xl sm:text-3xl font-semibold text-slate-900 dark:text-slate-100 mt-10 mb-4 tracking-tight"
+              className="scroll-mt-24 font-serif text-xl sm:text-3xl font-semibold text-slate-900 dark:text-slate-100 mt-6 sm:mt-10 mb-2.5 sm:mb-4 tracking-tight"
             >
               {renderInlineMarkdown(text)}
             </h1>
@@ -515,7 +515,7 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) =
             <h2
               id={id}
               key={`h2-${keyPrefix}-${idx}`}
-              className="scroll-mt-24 font-serif text-xl sm:text-2xl font-semibold text-slate-900 dark:text-slate-100 mt-8 mb-3 tracking-tight border-b border-slate-200/60 dark:border-slate-800/60 pb-1.5"
+              className="scroll-mt-24 font-serif text-lg sm:text-2xl font-semibold text-slate-900 dark:text-slate-100 mt-5 sm:mt-8 mb-2 sm:mb-3 tracking-tight border-b border-slate-200/60 dark:border-slate-800/60 pb-1 sm:pb-1.5"
             >
               {renderInlineMarkdown(text)}
             </h2>
@@ -525,7 +525,7 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) =
             <h3
               id={id}
               key={`h3-${keyPrefix}-${idx}`}
-              className="scroll-mt-24 font-serif text-lg sm:text-xl font-medium text-slate-800 dark:text-slate-200 mt-6 mb-2"
+              className="scroll-mt-24 font-serif text-base sm:text-xl font-medium text-slate-800 dark:text-slate-200 mt-4 sm:mt-6 mb-1.5 sm:mb-2"
             >
               {renderInlineMarkdown(text)}
             </h3>
@@ -535,7 +535,7 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) =
             <h4
               id={id}
               key={`h4-${keyPrefix}-${idx}`}
-              className="scroll-mt-24 font-serif text-base font-medium text-slate-800 dark:text-slate-200 mt-4 mb-2"
+              className="scroll-mt-24 font-serif text-sm sm:text-base font-medium text-slate-800 dark:text-slate-200 mt-3 sm:mt-4 mb-1 sm:mb-2"
             >
               {renderInlineMarkdown(text)}
             </h4>
@@ -568,8 +568,8 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) =
       if (numListMatch) {
         flushList(`list-${keyPrefix}-${idx}`);
         elements.push(
-          <div key={`num-${keyPrefix}-${idx}`} className="my-2 flex items-start space-x-2 text-slate-700 dark:text-slate-300">
-            <span className="font-mono text-xs font-semibold text-slate-500 mt-1 min-w-[1.25rem]">
+          <div key={`num-${keyPrefix}-${idx}`} className="my-1.5 sm:my-2 flex items-start space-x-2 text-slate-700 dark:text-slate-300 text-xs sm:text-sm">
+            <span className="font-mono text-xs font-semibold text-slate-500 mt-0.5 sm:mt-1 min-w-[1.25rem]">
               {numListMatch[1]}.
             </span>
             <div className="flex-1 leading-relaxed">
@@ -586,7 +586,7 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) =
       elements.push(
         <p
           key={`p-${keyPrefix}-${idx}`}
-          className="my-3.5 leading-relaxed text-slate-700 dark:text-slate-300 text-[1.02rem] tracking-wide"
+          className="my-2.5 sm:my-3.5 leading-[1.75] sm:leading-relaxed text-slate-700 dark:text-slate-300 text-[0.9375rem] sm:text-[1.02rem] tracking-normal sm:tracking-wide"
         >
           {renderInlineMarkdown(line)}
         </p>

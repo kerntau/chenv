@@ -45,9 +45,9 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
   };
 
   return (
-    <div className="my-6 rounded-sm overflow-hidden border border-slate-200/80 dark:border-slate-800 bg-slate-50/50 dark:bg-[#161618] text-sm transition-all duration-200">
+    <div className="my-4 sm:my-6 rounded-sm overflow-hidden border border-slate-200/80 dark:border-slate-800 bg-slate-50/50 dark:bg-[#161618] text-xs sm:text-sm transition-all duration-200">
       {/* 顶部工具条 */}
-      <div className="flex items-center justify-between px-4 py-2 bg-slate-100/70 dark:bg-[#1a1a1e] border-b border-slate-200/60 dark:border-slate-800/80 text-xs text-slate-600 dark:text-slate-400 font-mono select-none">
+      <div className="flex items-center justify-between px-3 sm:px-4 py-1.5 sm:py-2 bg-slate-100/70 dark:bg-[#1a1a1e] border-b border-slate-200/60 dark:border-slate-800/80 text-[11px] sm:text-xs text-slate-600 dark:text-slate-400 font-mono select-none">
         <div className="flex items-center space-x-2">
           <div className="flex space-x-1.5 mr-2">
             <div className="w-2.5 h-2.5 rounded-full bg-slate-300 dark:bg-slate-700" />
