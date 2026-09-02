@@ -21,22 +21,20 @@ const config: Config = {
         xs: '0.1875rem', // 3px
         sm: '0.25rem', // 4px (徽标、小按钮)
         DEFAULT: '0.3125rem', // 5px (黄金微倒角)
-        md: '0.375rem', // 6px (容器、卡片微倒角上限)
-        lg: '0.375rem', // 封顶 6px
-        xl: '0.375rem',
+        md: '0.375rem', // 6px (容器、卡片微倒角)
+        lg: '0.5rem', // 8px (模态框、下拉面板)
+        xl: '0.75rem', // 12px (抽屉、主卡片)
+        '2xl': '1rem', // 16px (移动端自适应抽屉)
         full: '9999px',
       },
       fontFamily: {
         serif: [
-          'MiSans',
-          'MiSans Normal',
-          'MiSans-Normal',
-          'MiSans VF',
-          '-apple-system',
-          'BlinkMacSystemFont',
-          '"Segoe UI"',
-          'Roboto',
-          'sans-serif',
+          'Newsreader',
+          '"Source Han Serif SC"',
+          '"Noto Serif SC"',
+          'Georgia',
+          '"Songti SC"',
+          'serif',
         ],
         sans: [
           'MiSans',
@@ -50,17 +48,14 @@ const config: Config = {
           'sans-serif',
         ],
         mono: [
-          'MiSans',
-          'MiSans Normal',
-          'MiSans-Normal',
-          'MiSans VF',
-          '"SF Pro Text"',
-          '-apple-system',
-          'BlinkMacSystemFont',
-          '"Segoe UI"',
-          'Roboto',
+          '"JetBrains Mono"',
+          '"Fira Code"',
+          'ui-monospace',
+          'SFMono-Regular',
+          'Menlo',
+          'Monaco',
+          'Consolas',
           'monospace',
-          'sans-serif',
         ],
       },
       typography: () => ({
@@ -102,9 +97,6 @@ const config: Config = {
             lineHeight: '1.85',
             letterSpacing: '0.015em',
             fontSize: '1.03rem',
-            'p, li': {
-              fontStyle: 'normal !important',
-            },
             blockquote: {
               fontStyle: 'italic',
               fontWeight: '400',
@@ -127,7 +119,7 @@ const config: Config = {
               fontWeight: '600',
             },
             code: {
-              fontFamily: 'MiSans, "MiSans Normal", "MiSans-Normal", "MiSans VF", monospace, sans-serif',
+              fontFamily: '"JetBrains Mono", "Fira Code", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
               fontWeight: '500',
               fontSize: '0.875em',
               padding: '0.2em 0.4em',

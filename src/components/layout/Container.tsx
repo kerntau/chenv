@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface ContainerProps extends React.HTMLAttributes<HTMLDivElement> {
-  size?: 'default' | 'narrow' | 'reading' | 'wide';
+  size?: 'default' | 'narrow' | 'reading' | 'wide' | 'diary';
 }
 
 export const Container: React.FC<ContainerProps> = ({
@@ -11,8 +11,9 @@ export const Container: React.FC<ContainerProps> = ({
   ...props
 }) => {
   const sizeClasses = {
+    diary: 'max-w-[720px]',
     narrow: 'max-w-3xl',
-    reading: 'max-w-[960px]',
+    reading: 'max-w-[800px]',
     default: 'max-w-5xl',
     wide: 'max-w-[1400px]',
   };
