@@ -15,6 +15,7 @@ import { Friends } from './pages/Friends';
 import { Sitemap } from './pages/Sitemap';
 import { NotFound } from './pages/NotFound';
 import { Admin } from './pages/Admin';
+import { About } from './pages/About';
 import { ExternalLinkModal } from './components/ui/ExternalLinkModal';
 
 // 栏目路由定义（含旧路径别名），同时驱动 <Switch> 与浏览器标签标题
@@ -32,6 +33,7 @@ const SECTIONS: Section[] = [
   { label: '说说', paths: ['/says', '/record'], list: Says },
   { label: '友链', paths: ['/friends', '/friend'], list: Friends },
   { label: '站点地图', paths: ['/sitemap'], list: Sitemap },
+  { label: '关于', paths: ['/about'], list: About },
 ];
 
 
@@ -107,6 +109,11 @@ export const App: React.FC = () => {
     // 寻找冒泡路径中最近的 a 标签
     const target = (e.target as Element).closest('a');
     if (!target) return;
+
+    // 检查是否有直接放行标记 (如志同道合友链、受信生态链接)
+    if (target.closest('[data-external-bypass="true"]')) {
+      return;
+    }
 
     const href = target.getAttribute('href');
     if (!href) return;
