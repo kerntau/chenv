@@ -92,7 +92,7 @@ export const App: React.FC = () => {
     <div className="min-h-screen flex flex-col relative selection:bg-sky-200 selection:text-sky-900 dark:selection:bg-sky-900/60 dark:selection:text-sky-100 transition-colors duration-300">
       <AmbientBackground />
       <Header />
-      <div className="flex-1">
+      <div className={`flex-1 flex flex-col ${location === '/' ? 'justify-center' : ''}`}>
         <Switch>
           <Route path="/" component={Home} />
           {SECTIONS.map((section) => (

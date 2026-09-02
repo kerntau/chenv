@@ -38,18 +38,13 @@ export const InneiHero: React.FC = () => {
           : 'bg-slate-400';
 
   return (
-    <section className="relative flex flex-col items-center justify-center pt-8 pb-12 sm:pt-16 sm:pb-16 text-center overflow-hidden">
-      {/* 放射状背景呼吸光晕 */}
-      <div
-        className="pointer-events-none absolute -z-10 left-1/2 top-[42%] -translate-x-1/2 -translate-y-1/2 rounded-full w-[280px] sm:w-[500px] h-[280px] sm:h-[500px] bg-[radial-gradient(ellipse,rgba(186,230,253,0.45)_0%,transparent_65%)] dark:bg-[radial-gradient(ellipse,rgba(56,189,248,0.12)_0%,transparent_65%)] blur-3xl opacity-80 transition-opacity duration-500"
-      />
-
+    <section className="relative flex flex-col items-center justify-center pt-2 pb-6 sm:pt-4 sm:pb-8 text-center overflow-hidden w-full">
       {/* 头像区域 */}
       <motion.div
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-        className="mb-8 relative group"
+        className="mb-6 relative group"
       >
         <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-full p-1 bg-gradient-to-tr from-sky-200 to-blue-300/40 dark:from-slate-800 dark:to-sky-900/60 shadow-md">
           <img
@@ -82,26 +77,13 @@ export const InneiHero: React.FC = () => {
           {highlightRole}
         </span>
         <span className="font-light opacity-75"> with </span>
-        <span className="inline-block mx-1 text-sky-600 dark:text-sky-400 text-[0.8em] align-middle animate-[aiTwinkle_2.4s_ease-in-out_infinite]">
-          ✦
-        </span>
         {skillsPills && (
-          <code className="inline-flex items-center font-sans text-[0.65em] font-semibold px-2.5 py-1 rounded-sm text-sky-800 dark:text-sky-300 border border-sky-300/50 dark:border-sky-500/30 bg-sky-50/60 dark:bg-sky-950/30 shadow-sm align-middle">
+          <code className="inline-flex items-center font-sans text-[0.65em] font-semibold px-2.5 py-1 rounded-sm text-slate-800 dark:text-slate-200 border border-sky-200/60 dark:border-sky-900/40 bg-sky-50/40 dark:bg-sky-950/20 align-middle">
             {skillsPills}
           </code>
         )}
-        <span className="inline-block w-[2px] h-[0.85em] bg-sky-600 dark:bg-sky-400 ml-1.5 align-middle rounded-full animate-[blink_1.2s_linear_infinite]" />
+        <span className="inline-block w-[2px] h-[0.85em] bg-sky-500/80 dark:bg-sky-400/80 ml-1.5 align-middle rounded-full animate-[blink_1.2s_linear_infinite]" />
       </motion.h1>
-
-      {/* 副标题 */}
-      <motion.p
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-        className="mt-4 max-w-2xl text-xs sm:text-sm tracking-wide text-slate-500 dark:text-slate-400 font-sans"
-      >
-        {siteConfig.description}
-      </motion.p>
 
       {/* 格言与数据指标 */}
       <motion.div
@@ -161,9 +143,9 @@ export const InneiHero: React.FC = () => {
           transition={{ duration: 0.5, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
           className="mt-7 max-w-xl mx-auto w-full px-2"
         >
-          <div className="flex items-center justify-between gap-2.5 px-3.5 py-2.5 rounded-lg bg-slate-100/90 dark:bg-slate-900/90 border border-slate-200/90 dark:border-slate-800/90 backdrop-blur-sm text-xs font-sans text-slate-700 dark:text-slate-200 shadow-xs">
+          <div className="flex items-center justify-between gap-2.5 px-3.5 py-2 rounded-sm bg-white/70 dark:bg-slate-900/60 border border-sky-100/70 dark:border-slate-800/60 text-xs font-sans text-slate-700 dark:text-slate-200">
             <div className="flex items-center gap-2 min-w-0 text-left">
-              <span className="shrink-0 inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10.5px] font-mono font-semibold bg-sky-100 dark:bg-sky-950/70 text-sky-700 dark:text-sky-300 border border-sky-200/80 dark:border-sky-800/70">
+              <span className="shrink-0 inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10.5px] font-mono font-medium bg-sky-50 dark:bg-sky-950/40 text-sky-700 dark:text-sky-300 border border-sky-200/50 dark:border-sky-800/40">
                 <Megaphone className="w-3 h-3 text-sky-600 dark:text-sky-400" />
                 <span>{siteConfig.announcement.badge || '公告'}</span>
               </span>
