@@ -44,8 +44,24 @@ export default defineConfig({
       {
         tag: 'link',
         attrs: {
+          rel: 'apple-touch-icon',
+          href: '/apple-touch-icon.png',
+        },
+      },
+      {
+        tag: 'link',
+        attrs: {
           rel: 'stylesheet',
           href: 'https://cdn.jsdelivr.net/npm/misans-webfont/misans-style.css',
+        },
+      },
+      {
+        tag: 'link',
+        attrs: {
+          rel: 'alternate',
+          type: 'application/rss+xml',
+          title: '序栈 - RSS 订阅源',
+          href: '/feed.xml',
         },
       },
     ],

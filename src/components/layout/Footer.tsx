@@ -124,20 +124,24 @@ export const Footer: React.FC = () => {
           {/* 左侧: RSS 订阅 · 站点地图 · 主题切换器 */}
           <div className="flex flex-wrap items-center justify-center sm:justify-start gap-x-2 gap-y-1">
             {showRss && (
-              <Link
-                href="/posts"
+              <a
+                href="/feed.xml"
+                target="_blank"
+                rel="noreferrer"
                 className="hover:text-slate-700 dark:hover:text-slate-300 transition-colors"
+                title="RSS 2.0 订阅源 (可直接导入阅读器)"
               >
                 RSS 订阅
-              </Link>
+              </a>
             )}
             {showRss && showSitemap && (
               <span className="text-slate-300 dark:text-slate-700">&bull;</span>
             )}
             {showSitemap && (
               <Link
-                href="/archives"
+                href="/sitemap"
                 className="hover:text-slate-700 dark:hover:text-slate-300 transition-colors"
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
               >
                 站点地图
               </Link>

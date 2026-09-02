@@ -17,10 +17,14 @@ const config: Config = {
         },
       },
       borderRadius: {
-        sm: '0.25rem', // 4px (默认是 2px)
-        DEFAULT: '0.375rem', // 6px (默认是 4px)
-        md: '0.5rem', // 8px (默认是 6px)
-        lg: '0.75rem', // 12px (默认是 8px)
+        none: '0',
+        xs: '0.1875rem', // 3px
+        sm: '0.25rem', // 4px (徽标、小按钮)
+        DEFAULT: '0.3125rem', // 5px (黄金微倒角)
+        md: '0.375rem', // 6px (容器、卡片微倒角上限)
+        lg: '0.375rem', // 封顶 6px
+        xl: '0.375rem',
+        full: '9999px',
       },
       fontFamily: {
         serif: [

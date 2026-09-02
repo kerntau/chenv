@@ -33,7 +33,6 @@ export const HomeHero: React.FC = () => {
   const totalWordsText = totalWords > 10000 ? `${(totalWords / 10000).toFixed(1)} 万字` : `${totalWords} 字`;
 
   const sinceDateStr =
-    siteConfig.sinceDate ||
     siteConfig.footer?.sinceDate ||
     (siteConfig.footer?.sinceYear ? `${siteConfig.footer.sinceYear}-01-01` : '2024-01-01');
 
@@ -105,7 +104,7 @@ export const HomeHero: React.FC = () => {
         {skillsPills && (
           <div className="mt-2.5 sm:mt-3 flex items-center justify-center gap-1.5 flex-wrap">
             <span className="font-light opacity-75 text-sm sm:text-base">with</span>
-            <code className="inline-flex items-center font-sans text-xs sm:text-[13px] font-medium px-2.5 py-0.5 rounded-sm text-slate-700 dark:text-slate-200 border border-sky-200/60 dark:border-sky-900/40 bg-sky-50/40 dark:bg-sky-950/25">
+            <code className="inline-flex items-center font-sans text-xs sm:text-[13px] font-medium px-2.5 py-0.5 rounded-md text-slate-700 dark:text-slate-200 border border-sky-200/60 dark:border-sky-900/40 bg-sky-50/50 dark:bg-sky-950/30">
               {skillsPills}
             </code>
             <span className="inline-block w-[2px] h-3.5 bg-sky-500/80 dark:bg-sky-400/80 rounded-full animate-[blink_1.2s_linear_infinite]" />
@@ -157,12 +156,12 @@ export const HomeHero: React.FC = () => {
         </div>
       )}
 
-      {/* 建站初期演示公告条（严格契合全站 rounded-sm 极简微框风格） */}
+      {/* 建站初期演示公告条 */}
       {siteConfig.announcement?.enabled && (
         <div className="gsap-hero-announcement opacity-0 mt-7 max-w-xl mx-auto w-full px-2">
-          <div className="flex items-center justify-between gap-3 px-3.5 py-2 rounded-sm bg-white/70 dark:bg-slate-900/50 border border-sky-100/60 dark:border-slate-800/60 text-xs font-sans text-slate-700 dark:text-slate-200">
+          <div className="flex items-center justify-between gap-3 px-3.5 py-2 rounded-lg bg-white/75 dark:bg-slate-900/60 border border-slate-200/70 dark:border-slate-800/60 text-xs font-sans text-slate-700 dark:text-slate-200 shadow-2xs">
             <div className="flex items-center gap-2 min-w-0 text-left">
-              <span className="shrink-0 inline-flex items-center gap-1 px-1.5 py-0.5 rounded-sm text-[10.5px] font-mono font-medium bg-sky-50 dark:bg-sky-950/40 text-sky-700 dark:text-sky-300 border border-sky-200/50 dark:border-sky-800/40">
+              <span className="shrink-0 inline-flex items-center gap-1 px-1.5 py-0.5 rounded-xs text-[10.5px] font-mono font-medium bg-sky-50 dark:bg-sky-950/40 text-sky-700 dark:text-sky-300 border border-sky-200/50 dark:border-sky-800/40">
                 <Megaphone className="w-3 h-3 text-sky-600 dark:text-sky-400" />
                 <span>{siteConfig.announcement.badge || '公告'}</span>
               </span>

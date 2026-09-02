@@ -37,7 +37,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 bg-slate-900/40 dark:bg-black/60 backdrop-blur-sm z-50 transition-opacity animate-in fade-in duration-150" />
-        <Dialog.Content className="fixed top-[18%] left-1/2 -translate-x-1/2 w-full max-w-xl bg-[#FAF8F5] dark:bg-[#1C1C20] rounded-sm border border-slate-200/90 dark:border-slate-800 shadow-2xl z-50 p-0 overflow-hidden outline-none animate-in fade-in zoom-in-95 duration-150">
+        <Dialog.Content className="fixed top-[18%] left-1/2 -translate-x-1/2 w-full max-w-xl bg-white/95 dark:bg-[#121B2A]/95 backdrop-blur-xl rounded border border-slate-200/90 dark:border-slate-800 shadow-2xl z-50 p-0 overflow-hidden outline-none animate-in fade-in zoom-in-95 duration-150">
           <Dialog.Title className="sr-only">搜索博客文稿与笔记</Dialog.Title>
           <Dialog.Description className="sr-only">
             通过标题、标签或摘要快速检索全站文章与安全笔记
@@ -57,7 +57,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
             {query && (
               <button
                 onClick={() => setQuery('')}
-                className="p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 rounded-sm"
+                className="p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 rounded-xs"
               >
                 <X className="w-3.5 h-3.5" />
               </button>
@@ -75,10 +75,10 @@ export const SearchModal: React.FC<SearchModalProps> = ({
                 <div
                   key={item.id}
                   onClick={() => handleSelect(item.slug)}
-                  className="group flex items-start justify-between p-3 rounded-sm hover:bg-slate-200/50 dark:hover:bg-slate-800/60 cursor-pointer transition-colors"
+                  className="group flex items-start justify-between p-3 rounded-md hover:bg-slate-100/70 dark:hover:bg-slate-800/60 cursor-pointer transition-colors"
                 >
                   <div className="flex items-start space-x-3 min-w-0 pr-2">
-                    <div className="mt-0.5 p-1.5 rounded-sm bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 group-hover:bg-slate-200 dark:group-hover:bg-slate-700 transition-colors shrink-0">
+                    <div className="mt-0.5 p-1.5 rounded-xs bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 group-hover:bg-slate-200 dark:group-hover:bg-slate-700 transition-colors shrink-0">
                       {item.type === 'post' ? (
                         <BookOpen className="w-4 h-4" />
                       ) : (
@@ -90,7 +90,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
                         <span className="font-serif text-sm font-medium text-slate-900 dark:text-slate-100 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors truncate">
                           {item.title}
                         </span>
-                        <span className="text-[10px] font-mono px-1.5 py-0.5 rounded-sm bg-slate-200/60 dark:bg-slate-800 text-slate-600 dark:text-slate-400 shrink-0">
+                        <span className="text-[10px] font-mono px-1.5 py-0.5 rounded-xs bg-slate-200/60 dark:bg-slate-800 text-slate-600 dark:text-slate-400 shrink-0">
                           {item.category}
                         </span>
                       </div>
@@ -119,13 +119,13 @@ export const SearchModal: React.FC<SearchModalProps> = ({
           <div className="px-4 py-2 bg-slate-100/60 dark:bg-[#18181A]/60 border-t border-slate-200/60 dark:border-slate-800/60 flex items-center justify-between text-[11px] text-slate-400 dark:text-slate-500 font-mono">
             <div className="flex items-center space-x-3">
               <span>
-                <kbd className="px-1 py-0.5 rounded-sm bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-[10px]">
+                <kbd className="px-1 py-0.5 rounded-xs bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-[10px]">
                   ESC
                 </kbd>{' '}
                 关闭
               </span>
               <span>
-                <kbd className="px-1 py-0.5 rounded-sm bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-[10px]">
+                <kbd className="px-1 py-0.5 rounded-xs bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-[10px]">
                   ↵
                 </kbd>{' '}
                 跳转

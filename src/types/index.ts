@@ -13,17 +13,6 @@ export interface PostFrontmatter {
   recommend?: number;
 }
 
-export interface FriendRecord {
-  id: number | string;
-  name: string;
-  desc?: string;
-  avatar?: string;
-  link: string;
-  order?: number;
-  framework?: string;
-  deploy?: string;
-}
-
 export interface TOCItem {
   id: string;
   text: string;
@@ -180,7 +169,6 @@ export interface SiteConfig {
     enableMegaMenu?: boolean;
     enableSearch?: boolean;
   };
-  sinceDate?: string;
   footer: {
     copyright: string;
     sinceYear: number;

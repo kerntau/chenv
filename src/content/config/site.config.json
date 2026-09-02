@@ -126,7 +126,7 @@
   },
   "postsPage": {
     "title": "深度文稿",
-    "subtitle": "探索云原生、系统架构、前端工程与编程范式的思考与实践。"
+    "subtitle": "探索技术本质，记录思考与实践的轨迹。"
   },
   "diariesPage": {
     "title": "散落的日常与手记",
@@ -143,7 +143,7 @@
   },
   "friendsPage": {
     "title": "志同道合的朋友",
-    "subtitle": "在浩瀚的互联网海洋里，感谢每一次思想的交汇与灵感的共振。",
+    "subtitle": "山海相逢，灵感共振。",
     "guideTitle": "交换友链",
     "guideText": "如果您也拥有自己的个人独立博客，欢迎在您的站点添加本站后通过邮件（hi@chent.co）联系交换。",
     "template": {

@@ -1333,7 +1333,7 @@ export const AdminSettings: React.FC = () => {
                   <label className="admin-label">页面副标题与导语</label>
                   <input
                     type="text"
-                    value={configForm.postsPage?.subtitle || '探索云原生、系统架构、前端工程与编程范式的思考与实践。'}
+                    value={configForm.postsPage?.subtitle || '探索技术本质，记录思考与实践的轨迹。'}
                     onChange={(e) =>
                       setConfigForm({
                         ...configForm,
