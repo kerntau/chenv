@@ -1,7 +1,7 @@
 {
   "title": "序栈",
-  "subtitle": "心中有景,花香满径",
-  "description": "个人技术博客与知识库，记录全栈开发、云原生、系统架构与工程实践心得。",
+  "subtitle": "",
+  "description": "心中有景，花香满径。",
   "url": "https://chent.co",
   "favicon": "/favicon.svg",
   "keywords": [
@@ -61,7 +61,7 @@
       "greeting": "Hi, I'm",
       "highlightRole": "Cloud Native & Systems",
       "skillsPills": "Go • Rust • React 19 • K8s",
-      "quote": "心中有景,花香满径",
+      "quote": "心中有景，花香满径",
       "showMetrics": true,
       "showSocials": true,
       "onlineStatus": "online"
@@ -148,7 +148,7 @@
     "guideText": "如果您也拥有自己的个人独立博客，欢迎在您的站点添加本站后通过邮件（hi@chent.co）联系交换。",
     "template": {
       "name": "序栈",
-      "desc": "心中有景,花香满径 | 全栈开发与云原生知识库",
+      "desc": "心中有景，花香满径 | 全栈开发与云原生知识库",
       "url": "https://chent.co",
       "avatar": "/avatar.webp"
     }
@@ -160,8 +160,7 @@
       { "id": "nav-archives", "label": "归档", "href": "/archives", "icon": "History", "enabled": true },
       { "id": "nav-diaries", "label": "手记", "href": "/diaries", "icon": "Feather", "enabled": true },
       { "id": "nav-says", "label": "动态", "href": "/says", "icon": "MessageSquareQuote", "enabled": true },
-      { "id": "nav-friends", "label": "朋友", "href": "/friends", "icon": "Users", "enabled": true },
-      { "id": "nav-about", "label": "关于", "href": "/about", "icon": "User", "enabled": true }
+      { "id": "nav-friends", "label": "朋友", "href": "/friends", "icon": "Users", "enabled": true }
     ],
     "enableMegaMenu": true,
     "enableSearch": true
@@ -169,16 +168,15 @@
   "footer": {
     "motto": "Stay hungry. Stay foolish.",
     "copyright": "© 2026 kerntau. All Rights Reserved.",
-    "sinceYear": 2024,
-    "customText": "心中有景,花香满径",
+    "sinceYear": 2025,
+    "sinceDate": "2025-11-10",
+    "customText": "心中有景，花香满径",
     "icp": "萌ICP备20268811号",
     "icpUrl": "https://icp.gov.moe/?keyword=20268811",
     "navColumns": [
       {
         "title": "关于",
         "links": [
-          { "label": "关于本站", "href": "/about" },
-          { "label": "关于我", "href": "/about" },
           { "label": "关于此项目", "href": "https://github.com/kerntau", "isExternal": true }
         ]
       },
