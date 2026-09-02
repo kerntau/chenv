@@ -444,7 +444,7 @@ export const AdminSettings: React.FC = () => {
                     })
                   }
                   className="admin-input"
-                  placeholder="🚀 正在构建全栈系统"
+                  placeholder="正在构建全栈系统"
                 />
               </div>
 

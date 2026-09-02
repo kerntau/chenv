@@ -366,7 +366,7 @@ export const AdminStore = {
         content: record.content,
         createTime: record.createTime || Date.now(),
         likes: record.likes || 0,
-        mood: record.mood || '✨',
+        mood: record.mood || '随笔',
         location: record.location || '',
         author: record.author || currentSiteConfig.author.name,
         contentType: record.contentType || 'markdown',

@@ -601,12 +601,12 @@ export const AdminEditor: React.FC<AdminEditorProps> = ({
                         onChange={(e) => setWeather(e.target.value)}
                         className="admin-select"
                       >
-                        <option value="晴">☀️ 晴</option>
-                        <option value="多云">⛅ 多云</option>
-                        <option value="阴">☁️ 阴</option>
-                        <option value="雨">🌧️ 雨</option>
-                        <option value="雪">❄️ 雪</option>
-                        <option value="微风">🍃 微风</option>
+                        <option value="晴">晴</option>
+                        <option value="多云">多云</option>
+                        <option value="阴">阴</option>
+                        <option value="雨">雨</option>
+                        <option value="雪">雪</option>
+                        <option value="微风">微风</option>
                       </select>
                     </div>
 
@@ -620,12 +620,12 @@ export const AdminEditor: React.FC<AdminEditorProps> = ({
                         onChange={(e) => setMood(e.target.value)}
                         className="admin-select"
                       >
-                        <option value="平静">🌿 平静</option>
-                        <option value="喜悦">✨ 喜悦</option>
-                        <option value="思考">🤔 思考</option>
-                        <option value="专注">💻 专注</option>
-                        <option value="疲倦">☕ 疲倦</option>
-                        <option value="治愈">🍵 治愈</option>
+                        <option value="平静">平静</option>
+                        <option value="喜悦">喜悦</option>
+                        <option value="思考">思考</option>
+                        <option value="专注">专注</option>
+                        <option value="疲倦">疲倦</option>
+                        <option value="治愈">治愈</option>
                       </select>
                     </div>
                   </div>

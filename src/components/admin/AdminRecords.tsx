@@ -34,7 +34,7 @@ export const AdminRecords: React.FC = () => {
   // 发布/编辑表单状态
   const [editingId, setEditingId] = useState<string | number | null>(null);
   const [content, setContent] = useState('');
-  const [mood, setMood] = useState('✨');
+  const [mood, setMood] = useState('灵感');
   const [location, setLocation] = useState('');
   const [imageUrl, setImageUrl] = useState('');
   const [isPinned, setIsPinned] = useState(false);
@@ -84,14 +84,14 @@ export const AdminRecords: React.FC = () => {
     setLocation('');
     setImageUrl('');
     setIsPinned(false);
-    setMood('✨');
+    setMood('灵感');
   };
 
   // 开始编辑现有说说
   const handleStartEdit = (rec: RecordItem) => {
     setEditingId(rec.id);
     setContent(rec.content);
-    setMood(rec.mood || '✨');
+    setMood(rec.mood || '灵感');
     setLocation(rec.location || '');
     setIsPinned(Boolean(rec.pinned));
     const imgMedia = rec.media?.find((m) => m.type === 'image');
@@ -106,7 +106,7 @@ export const AdminRecords: React.FC = () => {
     setLocation('');
     setImageUrl('');
     setIsPinned(false);
-    setMood('✨');
+    setMood('灵感');
   };
 
   // 发表博主回复
@@ -167,12 +167,12 @@ export const AdminRecords: React.FC = () => {
                 onChange={(e) => setMood(e.target.value)}
                 className="bg-transparent outline-none w-full text-slate-700 dark:text-slate-300"
               >
-                <option value="✨">✨ 灵感与光芒</option>
-                <option value="☕">☕ 悠闲喝茶</option>
-                <option value="💻">💻 沉浸编码</option>
-                <option value="🌿">🌿 平和宁静</option>
-                <option value="🔥">🔥 热烈充实</option>
-                <option value="🌙">🌙 夜深人静</option>
+                <option value="灵感">灵感与光芒</option>
+                <option value="随笔">悠闲随笔</option>
+                <option value="编码">沉浸编码</option>
+                <option value="平静">平和宁静</option>
+                <option value="充实">热烈充实</option>
+                <option value="夜读">夜深人静</option>
               </select>
             </div>
 

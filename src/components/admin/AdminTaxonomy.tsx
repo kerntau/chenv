@@ -211,7 +211,7 @@ export const AdminTaxonomy: React.FC = () => {
             </div>
 
             <div className="p-3 rounded-lg bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 text-[11px] text-slate-500 leading-relaxed font-mono">
-              💡 提示：点击任意标签即可直接在线修改名称，变更会自动同步到所有关联文章与手记。
+              提示：点击任意标签即可直接在线修改名称，变更会自动同步到所有关联文章与手记。
             </div>
           </div>
         </div>

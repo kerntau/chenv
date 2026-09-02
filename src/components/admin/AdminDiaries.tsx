@@ -97,10 +97,10 @@ export const AdminDiaries: React.FC<AdminDiariesProps> = ({ onOpenEditor }) => {
                 className="admin-select !w-auto !py-1 !text-xs"
               >
                 <option value="all">所有天气</option>
-                <option value="晴">☀️ 晴</option>
-                <option value="多云">⛅ 多云</option>
-                <option value="阴">☁️ 阴</option>
-                <option value="雨">🌧️ 雨</option>
+                <option value="晴">晴</option>
+                <option value="多云">多云</option>
+                <option value="阴">阴</option>
+                <option value="雨">雨</option>
               </select>
 
               <select
@@ -109,10 +109,10 @@ export const AdminDiaries: React.FC<AdminDiariesProps> = ({ onOpenEditor }) => {
                 className="admin-select !w-auto !py-1 !text-xs"
               >
                 <option value="all">所有心境</option>
-                <option value="平静">🌿 平静</option>
-                <option value="喜悦">✨ 喜悦</option>
-                <option value="思考">🤔 思考</option>
-                <option value="专注">💻 专注</option>
+                <option value="平静">平静</option>
+                <option value="喜悦">喜悦</option>
+                <option value="思考">思考</option>
+                <option value="专注">专注</option>
               </select>
             </div>
           </div>
