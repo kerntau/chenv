@@ -16,6 +16,12 @@ const config: Config = {
           'dark-border': 'rgba(56, 78, 108, 0.6)',
         },
       },
+      borderRadius: {
+        sm: '0.25rem', // 4px (默认是 2px)
+        DEFAULT: '0.375rem', // 6px (默认是 4px)
+        md: '0.5rem', // 8px (默认是 6px)
+        lg: '0.75rem', // 12px (默认是 8px)
+      },
       fontFamily: {
         serif: [
           'MiSans',
