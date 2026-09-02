@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>序栈</title>
+    <link>https://chent.co/</link>
+    <description>心中有景，花香满径。</description>
+    <language>zh-CN</language>
+    <lastBuildDate>Wed, 02 Sep 2026 06:42:37 GMT</lastBuildDate>
+    <atom:link href="https://chent.co/feed.xml" rel="self" type="application/rss+xml" />
+    <managingEditor>kerntau</managingEditor>
+    <webMaster>kerntau</webMaster>
+    <item>
+      <title><![CDATA[Serverless 冷启动物理机理与优化]]></title>
+      <link>https://chent.co/posts/serverless-architecture-cold-start-optimization</link>
+      <guid isPermaLink="true">https://chent.co/posts/serverless-architecture-cold-start-optimization</guid>
+      <pubDate>Thu, 09 Jul 2026 00:00:00 GMT</pubDate>
+      <description><![CDATA[深入剖析 AWS Lambda 与云函数冷启动的物理全流程：MicroVM 微虚拟机启动、语言运行时加载与初始化瓶颈，结合 SnapStart 快照恢复与预留并发实现亚毫秒级瞬时唤醒。]]></description>
+      <category><![CDATA[云原生与运维]]></category>
+    </item>
+    <item>
+      <title><![CDATA[SolidJS 细粒度响应式前端探索]]></title>
+      <link>https://chent.co/posts/solidjs-fine-grained-reactivity-frontend-exploration</link>
+      <guid isPermaLink="true">https://chent.co/posts/solidjs-fine-grained-reactivity-frontend-exploration</guid>
+      <pubDate>Tue, 16 Jun 2026 00:00:00 GMT</pubDate>
+      <description><![CDATA[深入剖析 SolidJS 无虚拟 DOM (No Virtual DOM) 的核心编译机制，解析 Signal、Effect 底层发布订阅图与细粒度 DOM 靶向更新。]]></description>
+      <category><![CDATA[前端开发]]></category>
+    </item>
+    <item>
+      <title><![CDATA[LLM Agent 架构设计与 LangChain 实战]]></title>
+      <link>https://chent.co/posts/llm-agent-architecture-langchain-practice</link>
+      <guid isPermaLink="true">https://chent.co/posts/llm-agent-architecture-langchain-practice</guid>
+      <pubDate>Thu, 14 May 2026 00:00:00 GMT</pubDate>
+      <description><![CDATA[深入剖析基于大语言模型 (LLM) 的自主智能体认知架构：ReAct 循环推理范式、Function Calling 工具调度、长短期记忆系统，以及基于 LangGraph 的有向图工作流实战。]]></description>
+      <category><![CDATA[人工智能]]></category>
+    </item>
+    <item>
+      <title><![CDATA[Actix-web 与 Axum 架构性能实测]]></title>
+      <link>https://chent.co/posts/rust-web-framework-actix-web-axum-benchmark</link>
+      <guid isPermaLink="true">https://chent.co/posts/rust-web-framework-actix-web-axum-benchmark</guid>
+      <pubDate>Fri, 01 May 2026 00:00:00 GMT</pubDate>
+      <description><![CDATA[全面对比 Rust 生态顶流 Web 框架 Actix-web 与 Axum：从 Actor/Arbiter 线程模型到 Tower/Hyper 中间件生态，附带生产级 API 实现与 QPS 基准压测。]]></description>
+      <category><![CDATA[后端开发]]></category>
+    </item>
+    <item>
+      <title><![CDATA[OpenTelemetry 与 Jaeger 链路追踪实战]]></title>
+      <link>https://chent.co/posts/opentelemetry-jaeger-distributed-tracing</link>
+      <guid isPermaLink="true">https://chent.co/posts/opentelemetry-jaeger-distributed-tracing</guid>
+      <pubDate>Sun, 19 Apr 2026 00:00:00 GMT</pubDate>
+      <description><![CDATA[全面理解 W3C Trace Context 头部传播协议，通过 OpenTelemetry SDK 无侵入与显式插桩透传 TraceId 与 SpanId，快速精确定位跨微服务性能瓶颈。]]></description>
+      <category><![CDATA[云原生与运维]]></category>
+    </item>
+    <item>
+      <title><![CDATA[防御性 Bash 脚本与自动化运维规范]]></title>
+      <link>https://chent.co/posts/shell-script-automation-defensive-bash-guide</link>
+      <guid isPermaLink="true">https://chent.co/posts/shell-script-automation-defensive-bash-guide</guid>
+      <pubDate>Wed, 08 Apr 2026 00:00:00 GMT</pubDate>
+      <description><![CDATA[告别 rm -rf /* 惨案！深入掌握 Bash 防御性编程四大法宝 (set -euo pipefail)、trap 资源退出自愈、严格参数解析与工业级自动化备份脚本范本。]]></description>
+      <category><![CDATA[云原生与运维]]></category>
+    </item>
+    <item>
+      <title><![CDATA[HTTP/3、WebTransport 与 WebGPU 全解]]></title>
+      <link>https://chent.co/posts/future-web-development-http3-webtransport-webgpu</link>
+      <guid isPermaLink="true">https://chent.co/posts/future-web-development-http3-webtransport-webgpu</guid>
+      <pubDate>Sun, 29 Mar 2026 00:00:00 GMT</pubDate>
+      <description><![CDATA[全面解析构建次时代高性能 Web 应用的三大支柱：基于 UDP 的 HTTP/3 QUIC 传输协议、取代 WebSocket 的 WebTransport 双向流，以及基于 GPU 并行计算的 WebGPU。]]></description>
+      <category><![CDATA[前端开发]]></category>
+    </item>
+    <item>
+      <title><![CDATA[Tailwind CSS v4 架构重构与 JIT 引擎]]></title>
+      <link>https://chent.co/posts/tailwindcss-v4-architecture-jit-engine</link>
+      <guid isPermaLink="true">https://chent.co/posts/tailwindcss-v4-architecture-jit-engine</guid>
+      <pubDate>Wed, 04 Mar 2026 00:00:00 GMT</pubDate>
+      <description><![CDATA[深度剖析 Tailwind CSS v4 的全新 Oxide 编译引擎、CSS-First 原生配置模型以及相较于 v3 在构建性能与设计系统工程化上的颠覆性改进。]]></description>
+      <category><![CDATA[前端开发]]></category>
+    </item>
+    <item>
+      <title><![CDATA[Raft 共识算法与分布式 KV 存储实现]]></title>
+      <link>https://chent.co/posts/raft-consensus-protocol-distributed-kv-store</link>
+      <guid isPermaLink="true">https://chent.co/posts/raft-consensus-protocol-distributed-kv-store</guid>
+      <pubDate>Sat, 21 Feb 2026 00:00:00 GMT</pubDate>
+      <description><![CDATA[系统图解 Raft 核心算法：Leader 选举、日志追加复制、安全性约束与网络分区脑裂防御，并用 Go 语言从零实现高可用分布式 KV 存储。]]></description>
+      <category><![CDATA[后端开发]]></category>
+    </item>
+    <item>
+      <title><![CDATA[Web 安全：SQL 注入与 XSS 纵深防御]]></title>
+      <link>https://chent.co/posts/sql-injection-xss-prevention-web-security</link>
+      <guid isPermaLink="true">https://chent.co/posts/sql-injection-xss-prevention-web-security</guid>
+      <pubDate>Mon, 09 Feb 2026 00:00:00 GMT</pubDate>
+      <description><![CDATA[深入剖析 OWASP Top 10 中最危险的两大 Web 安全漏洞：从 AST 语法树篡改看 SQL 注入与参数化预编译防御，到存储/反射/DOM 型 XSS 攻防与 CSP 策略落地。]]></description>
+      <category><![CDATA[网络安全]]></category>
+    </item>
+    <item>
+      <title><![CDATA[Elasticsearch 向量检索与 RAG 实战]]></title>
+      <link>https://chent.co/posts/elasticsearch-vector-search-rag-llm</link>
+      <guid isPermaLink="true">https://chent.co/posts/elasticsearch-vector-search-rag-llm</guid>
+      <pubDate>Sun, 18 Jan 2026 00:00:00 GMT</pubDate>
+      <description><![CDATA[深入剖析 Elasticsearch 8.x 密集向量检索 (Dense Vector)、HNSW 层次化可导航小世界图索引算法，并实战 BM25 与向量混合检索 (Hybrid Search) 构建企业级 RAG 知识库。]]></description>
+      <category><![CDATA[人工智能]]></category>
+    </item>
+    <item>
+      <title><![CDATA[PyTorch 2 动态图编译与算子优化]]></title>
+      <link>https://chent.co/posts/pytorch-2-dynamic-graph-compilation-cuda-optimization</link>
+      <guid isPermaLink="true">https://chent.co/posts/pytorch-2-dynamic-graph-compilation-cuda-optimization</guid>
+      <pubDate>Mon, 05 Jan 2026 00:00:00 GMT</pubDate>
+      <description><![CDATA[深入剖析 PyTorch 2.x 核心编译基础设施：TorchDynamo 字节码拦截、AOTAutograd 计算图捕获与 TorchInductor 基于 Triton 的算子融合 (Kernel Fusion) 实战。]]></description>
+      <category><![CDATA[人工智能]]></category>
+    </item>
+    <item>
+      <title><![CDATA[gRPC 与 Protobuf 高性能微服务通信]]></title>
+      <link>https://chent.co/posts/grpc-protobuf-high-performance-microservices</link>
+      <guid isPermaLink="true">https://chent.co/posts/grpc-protobuf-high-performance-microservices</guid>
+      <pubDate>Sun, 14 Dec 2025 00:00:00 GMT</pubDate>
+      <description><![CDATA[深度剖析 Protocol Buffers Varint/Zigzag 二进制序列化原理与 HTTP/2 多路复用帧结构，提供 gRPC 双向流式通信与生产级拦截器实战。]]></description>
+      <category><![CDATA[后端开发]]></category>
+    </item>
+    <item>
+      <title><![CDATA[WebRTC 实时音视频与 SFU 架构实战]]></title>
+      <link>https://chent.co/posts/webrtc-realtime-audio-video-sfu-architecture</link>
+      <guid isPermaLink="true">https://chent.co/posts/webrtc-realtime-audio-video-sfu-architecture</guid>
+      <pubDate>Tue, 02 Dec 2025 00:00:00 GMT</pubDate>
+      <description><![CDATA[深入拆解 WebRTC SDP 协商与 ICE NAT 穿透机制，对比 Mesh、MCU 与 SFU 架构优劣，并基于 Mediasoup 打造高并发低延迟多人音视频会议系统。]]></description>
+      <category><![CDATA[前端开发]]></category>
+    </item>
+    <item>
+      <title><![CDATA[API 网关选型：Kong、APISIX 与 Envoy]]></title>
+      <link>https://chent.co/posts/microservices-gateway-kong-apisix-envoy-benchmark</link>
+      <guid isPermaLink="true">https://chent.co/posts/microservices-gateway-kong-apisix-envoy-benchmark</guid>
+      <pubDate>Fri, 28 Nov 2025 00:00:00 GMT</pubDate>
+      <description><![CDATA[全方位深度横评三大主流微服务云原生 API 网关：从 C++ 驱动的 Envoy、LuaJIT/etcd 架构的 Apache APISIX 到 Kong，涵盖动态配置热加载、插件生态与 QPS 基准压测。]]></description>
+      <category><![CDATA[后端开发]]></category>
+    </item>
+    <item>
+      <title><![CDATA[JavaScript 异步并发控制实战]]></title>
+      <link>https://chent.co/posts/javascript-async-await-promise-concurrency-control</link>
+      <guid isPermaLink="true">https://chent.co/posts/javascript-async-await-promise-concurrency-control</guid>
+      <pubDate>Thu, 20 Nov 2025 00:00:00 GMT</pubDate>
+      <description><![CDATA[深入剖析浏览器并发请求限制与后端过载原理，手写支持最大并发限制、优先级插队、指数退避重试与 AbortController 取消的高性能异步任务调度器。]]></description>
+      <category><![CDATA[前端开发]]></category>
+    </item>
+    <item>
+      <title><![CDATA[Flutter 3 Impeller 渲染引擎深度剖析]]></title>
+      <link>https://chent.co/posts/flutter-3-cross-platform-impeller-engine</link>
+      <guid isPermaLink="true">https://chent.co/posts/flutter-3-cross-platform-impeller-engine</guid>
+      <pubDate>Wed, 12 Nov 2025 00:00:00 GMT</pubDate>
+      <description><![CDATA[深入剖析 Flutter 早期基于 Skia 引擎的着色器编译卡顿 (Shader Jank) 根因，拆解 Impeller AOT 离线预编译 MSL/SPIR-V 与扁平化渲染架构。]]></description>
+      <category><![CDATA[前端开发]]></category>
+    </item>
+    <item>
+      <title><![CDATA[WebAssembly 与 OPFS 离线存储架构]]></title>
+      <link>https://chent.co/posts/fullstack-wasm-offline-pwa-storage</link>
+      <guid isPermaLink="true">https://chent.co/posts/fullstack-wasm-offline-pwa-storage</guid>
+      <pubDate>Wed, 05 Nov 2025 00:00:00 GMT</pubDate>
+      <description><![CDATA[深入剖析 Origin Private File System (OPFS) 与 WebAssembly SQLite 的极致 IO 性能，构建无惧断网的 Local-First 离线优先渐进式 Web 应用。]]></description>
+      <category><![CDATA[前端开发]]></category>
+    </item>
+    <item>
+      <title><![CDATA[Kafka 百万吞吐与零拷贝调优实战]]></title>
+      <link>https://chent.co/posts/kafka-high-throughput-tuning-zero-copy</link>
+      <guid isPermaLink="true">https://chent.co/posts/kafka-high-throughput-tuning-zero-copy</guid>
+      <pubDate>Sat, 18 Oct 2025 00:00:00 GMT</pubDate>
+      <description><![CDATA[深入剖析 Apache Kafka 支撑百万 QPS 的四大杀手锏：Linux 零拷贝 sendfile、操作系统的 PageCache 顺序写、分区批量压缩与 ISR 高可用复制调优。]]></description>
+      <category><![CDATA[后端开发]]></category>
+    </item>
+    <item>
+      <title><![CDATA[Rust 所有权模型与无锁并发结构]]></title>
+      <link>https://chent.co/posts/rust-ownership-lifetime-lockfree-concurrency</link>
+      <guid isPermaLink="true">https://chent.co/posts/rust-ownership-lifetime-lockfree-concurrency</guid>
+      <pubDate>Sun, 05 Oct 2025 00:00:00 GMT</pubDate>
+      <description><![CDATA[深入剖析 Rust 编译期所有权借用检查器 (NLL)、生命周期标注的本质，并通过 AtomicPtr 与 CAS 操作实战编写内存安全的无锁并发栈 (Treiber Stack)。]]></description>
+      <category><![CDATA[后端开发]]></category>
+    </item>
+    <item>
+      <title><![CDATA[MongoDB 分片集群与复合索引调优]]></title>
+      <link>https://chent.co/posts/mongodb-sharded-cluster-high-availability-indexes</link>
+      <guid isPermaLink="true">https://chent.co/posts/mongodb-sharded-cluster-high-availability-indexes</guid>
+      <pubDate>Tue, 23 Sep 2025 00:00:00 GMT</pubDate>
+      <description><![CDATA[系统剖析 MongoDB 分片集群三大组件架构（Mongos、Config Server、Shard），掌握 Hashed 与 Ranged 分片键选型，并实战 ESR 复合索引优化法则。]]></description>
+      <category><![CDATA[数据库系统]]></category>
+    </item>
+    <item>
+      <title><![CDATA[CDN 边缘计算与全球低延迟调度]]></title>
+      <link>https://chent.co/posts/global-distributed-network-latency-cdn-edge-dispatch</link>
+      <guid isPermaLink="true">https://chent.co/posts/global-distributed-network-latency-cdn-edge-dispatch</guid>
+      <pubDate>Mon, 15 Sep 2025 00:00:00 GMT</pubDate>
+      <description><![CDATA[深入剖析全球跨国网络延迟根因，拆解 Anycast BGP 路由广播、DNS Geo 智能调度、TCP 动态路径加速与 Cloudflare/AWS 边缘计算 Serverless 落地实践。]]></description>
+      <category><![CDATA[后端开发]]></category>
+    </item>
+    <item>
+      <title><![CDATA[微前端与 Module Federation 演进]]></title>
+      <link>https://chent.co/posts/micro-frontends-architecture-enterprise-evolution</link>
+      <guid isPermaLink="true">https://chent.co/posts/micro-frontends-architecture-enterprise-evolution</guid>
+      <pubDate>Tue, 02 Sep 2025 00:00:00 GMT</pubDate>
+      <description><![CDATA[全面对比基于 single-spa/qiankun 的单实例路由驱动模型与 Webpack 5 / Rsbuild 现代 Module Federation，解决跨团队协作、共享依赖与多框架混用难题。]]></description>
+      <category><![CDATA[前端开发]]></category>
+    </item>
+    <item>
+      <title><![CDATA[ClickHouse 千万级实时分析实战]]></title>
+      <link>https://chent.co/posts/clickhouse-columnar-database-realtime-analytics</link>
+      <guid isPermaLink="true">https://chent.co/posts/clickhouse-columnar-database-realtime-analytics</guid>
+      <pubDate>Sun, 31 Aug 2025 00:00:00 GMT</pubDate>
+      <description><![CDATA[深入剖析 ClickHouse 极致分析性能的物理底层：列式存储压缩、MergeTree 稀疏索引与 SIMD 向量化计算，并提供百亿级日志与指标分析表最佳建表与聚合实战。]]></description>
+      <category><![CDATA[数据库系统]]></category>
+    </item>
+    <item>
+      <title><![CDATA[SaaS 多租户架构与数据隔离实战]]></title>
+      <link>https://chent.co/posts/multi-tenancy-saas-architecture-data-isolation</link>
+      <guid isPermaLink="true">https://chent.co/posts/multi-tenancy-saas-architecture-data-isolation</guid>
+      <pubDate>Mon, 25 Aug 2025 00:00:00 GMT</pubDate>
+      <description><![CDATA[系统拆解 SaaS 多租户三大数据隔离架构：独立数据库、独立 Schema 与共享数据表，并基于 PostgreSQL RLS (Row Level Security) 打造企业级防越权租户数据中台。]]></description>
+      <category><![CDATA[后端开发]]></category>
+    </item>
+    <item>
+      <title><![CDATA[Chrome V8 垃圾回收与内存泄漏排查]]></title>
+      <link>https://chent.co/posts/v8-engine-garbage-collection-memory-leak</link>
+      <guid isPermaLink="true">https://chent.co/posts/v8-engine-garbage-collection-memory-leak</guid>
+      <pubDate>Tue, 19 Aug 2025 00:00:00 GMT</pubDate>
+      <description><![CDATA[系统图解 V8 新生代 Scavenge 算法、老生代 Mark-Sweep / Mark-Compact、三色标记法与 Orinoco 并发 GC，结合 Chrome & Node.js 堆快照实战定位内存泄漏。]]></description>
+      <category><![CDATA[前端开发]]></category>
+    </item>
+    <item>
+      <title><![CDATA[SAML 2.0 与 OIDC 单点登录中台实战]]></title>
+      <link>https://chent.co/posts/enterprise-sso-saml2-identity-provider-platform</link>
+      <guid isPermaLink="true">https://chent.co/posts/enterprise-sso-saml2-identity-provider-platform</guid>
+      <pubDate>Mon, 11 Aug 2025 00:00:00 GMT</pubDate>
+      <description><![CDATA[深入拆解企业级身份中台架构：从 SAML 2.0 AuthNRequest / Assertion 签名断言到 OIDC 现代化令牌体系，构建跨系统统一 SSO 鉴权平台。]]></description>
+      <category><![CDATA[后端开发]]></category>
+    </item>
+    <item>
+      <title><![CDATA[OAuth 2.1 与 PKCE 安全认证实战]]></title>
+      <link>https://chent.co/posts/oauth-2-1-oidc-security-authentication-evolution</link>
+      <guid isPermaLink="true">https://chent.co/posts/oauth-2-1-oidc-security-authentication-evolution</guid>
+      <pubDate>Fri, 08 Aug 2025 00:00:00 GMT</pubDate>
+      <description><![CDATA[系统解读 OAuth 2.1 废弃隐式授权与密码模式的安全根因，深度剖析 PKCE (Proof Key for Code Exchange) 防御授权码拦截攻击，并实战 OIDC 现代化身份中台落地。]]></description>
+      <category><![CDATA[网络安全]]></category>
+    </item>
+    <item>
+      <title><![CDATA[跨云零信任网络架构落地实践]]></title>
+      <link>https://chent.co/posts/zero-trust-network-architecture-hybrid-cloud</link>
+      <guid isPermaLink="true">https://chent.co/posts/zero-trust-network-architecture-hybrid-cloud</guid>
+      <pubDate>Fri, 08 Aug 2025 00:00:00 GMT</pubDate>
+      <description><![CDATA[打破传统边界安全护城河理念：深度拆解 Google BeyondCorp 零信任架构模型、基于 SPIFFE/SPIRE 的跨多云工作负载身份认证与软件定义边界 (SDP) 微隔离落地实战。]]></description>
+      <category><![CDATA[网络安全]]></category>
+    </item>
+    <item>
+      <title><![CDATA[Linux 内核 eBPF 云原生安全实战]]></title>
+      <link>https://chent.co/posts/linux-kernel-ebpf-cloud-native-security</link>
+      <guid isPermaLink="true">https://chent.co/posts/linux-kernel-ebpf-cloud-native-security</guid>
+      <pubDate>Tue, 29 Jul 2025 00:00:00 GMT</pubDate>
+      <description><![CDATA[深入剖析 Linux eBPF 虚拟机沙箱验证器、JIT 编译与 BPF Maps 内存共享机制，利用 libbpf 与 XDP 编写生产级无侵入内核探针与容器安全阻断引擎。]]></description>
+      <category><![CDATA[云原生与运维]]></category>
+    </item>
+    <item>
+      <title><![CDATA[GraphQL 与 REST API 架构选型权衡]]></title>
+      <link>https://chent.co/posts/graphql-vs-rest-api-architecture-selection</link>
+      <guid isPermaLink="true">https://chent.co/posts/graphql-vs-rest-api-architecture-selection</guid>
+      <pubDate>Tue, 22 Jul 2025 00:00:00 GMT</pubDate>
+      <description><![CDATA[全面权衡 REST 与 GraphQL 的架构利弊：过度/不足获取分析、强类型 Schema 驱动、DataLoader 批量缓存消除 N+1 数据库灾难以及查询复杂度防护策略。]]></description>
+      <category><![CDATA[后端开发]]></category>
+    </item>
+    <item>
+      <title><![CDATA[现代 CSS 容器查询与自适应组件设计]]></title>
+      <link>https://chent.co/posts/modern-css-container-queries-tailwind-best-practices</link>
+      <guid isPermaLink="true">https://chent.co/posts/modern-css-container-queries-tailwind-best-practices</guid>
+      <pubDate>Tue, 15 Jul 2025 00:00:00 GMT</pubDate>
+      <description><![CDATA[告别传统 Media Queries 的视口局限！全面掌握 CSS 容器查询 (@container)、容器尺寸单位 (cqw/cqh) 与组件级响应式架构实战。]]></description>
+      <category><![CDATA[前端开发]]></category>
+    </item>
+    <item>
+      <title><![CDATA[ArgoCD 与 FluxCD GitOps 实践对比]]></title>
+      <link>https://chent.co/posts/gitops-argocd-fluxcd-k8s-comparison</link>
+      <guid isPermaLink="true">https://chent.co/posts/gitops-argocd-fluxcd-k8s-comparison</guid>
+      <pubDate>Tue, 08 Jul 2025 00:00:00 GMT</pubDate>
+      <description><![CDATA[全面对比传统 CI/CD Push 模式与 GitOps Pull 模式的安全与架构优势，深度测评 ArgoCD 与 FluxCD，实战声明式持续同步与配置漂移自愈。]]></description>
+      <category><![CDATA[云原生与运维]]></category>
+    </item>
+    <item>
+      <title><![CDATA[Design Tokens 跨端设计系统交付实践]]></title>
+      <link>https://chent.co/posts/frontend-design-system-tokens-automation</link>
+      <guid isPermaLink="true">https://chent.co/posts/frontend-design-system-tokens-automation</guid>
+      <pubDate>Sat, 28 Jun 2025 00:00:00 GMT</pubDate>
+      <description><![CDATA[全面解析基于 W3C DTCG 规范的 Design Tokens 三层架构模型，利用 Style Dictionary 构建从 Figma 到 Web、iOS、Android 跨平台自动化分发流水线。]]></description>
+      <category><![CDATA[前端开发]]></category>
+    </item>
+    <item>
+      <title><![CDATA[企业级 CI/CD 质量门禁演进实践]]></title>
+      <link>https://chent.co/posts/enterprise-code-quality-cicd-pipeline-evolution</link>
+      <guid isPermaLink="true">https://chent.co/posts/enterprise-code-quality-cicd-pipeline-evolution</guid>
+      <pubDate>Wed, 25 Jun 2025 00:00:00 GMT</pubDate>
+      <description><![CDATA[全面构建企业级软件交付质量防护网：从 Git 预提交钩子、SonarQube/Semgrep 静态代码分析，到 GitHub Actions 依赖缓存加速与自动化质量门禁 (Quality Gate)。]]></description>
+      <category><![CDATA[云原生与运维]]></category>
+    </item>
+    <item>
+      <title><![CDATA[Kubernetes 容器编排与可观测性全解]]></title>
+      <link>https://chent.co/posts/kubernetes-container-observability-architecture</link>
+      <guid isPermaLink="true">https://chent.co/posts/kubernetes-container-observability-architecture</guid>
+      <pubDate>Fri, 20 Jun 2025 00:00:00 GMT</pubDate>
+      <description><![CDATA[深入剖析 Kubernetes 声明式 API、Informer 机制与控制器调和循环 (Reconcile Loop)，构建集 Prometheus 指标、Loki 日志与 OTel 链路追踪于一体的云原生可观测性架构。]]></description>
+      <category><![CDATA[云原生与运维]]></category>
+    </item>
+    <item>
+      <title><![CDATA[CPU 伪共享与缓存行优化]]></title>
+      <link>https://chent.co/posts/cpu-cache-line-false-sharing-optimization</link>
+      <guid isPermaLink="true">https://chent.co/posts/cpu-cache-line-false-sharing-optimization</guid>
+      <pubDate>Wed, 11 Jun 2025 00:00:00 GMT</pubDate>
+      <description><![CDATA[揭秘现代 CPU 多核 L1/L2/L3 缓存架构、MESI 缓存一致性协议与 64 字节 Cache Line 原理，通过内存对齐填充彻底消除伪共享性能瓶颈。]]></description>
+      <category><![CDATA[后端开发]]></category>
+    </item>
+    <item>
+      <title><![CDATA[ShardingSphere 分库分表实战]]></title>
+      <link>https://chent.co/posts/database-sharding-shardingsphere-global-unique-id</link>
+      <guid isPermaLink="true">https://chent.co/posts/database-sharding-shardingsphere-global-unique-id</guid>
+      <pubDate>Tue, 03 Jun 2025 00:00:00 GMT</pubDate>
+      <description><![CDATA[深入剖析单表过亿场景下的数据库分库分表架构：水平分片策略、Apache ShardingSphere 路由内核，以及雪花算法 (Snowflake) 时钟回拨防御与唯一 ID 设计。]]></description>
+      <category><![CDATA[数据库系统]]></category>
+    </item>
+    <item>
+      <title><![CDATA[Istio 服务网格流量治理与混沌工程]]></title>
+      <link>https://chent.co/posts/istio-service-mesh-traffic-management</link>
+      <guid isPermaLink="true">https://chent.co/posts/istio-service-mesh-traffic-management</guid>
+      <pubDate>Tue, 27 May 2025 00:00:00 GMT</pubDate>
+      <description><![CDATA[深入拆解 Istio 控制面 Istiod 与 Envoy 数据面流量透明劫持，通过 VirtualService 与 DestinationRule 实战金丝雀灰度切流、熔断断路器与混沌故障注入。]]></description>
+      <category><![CDATA[云原生与运维]]></category>
+    </item>
+    <item>
+      <title><![CDATA[Vitest 与 Playwright 前端测试实战]]></title>
+      <link>https://chent.co/posts/frontend-testing-evolution-vitest-playwright</link>
+      <guid isPermaLink="true">https://chent.co/posts/frontend-testing-evolution-vitest-playwright</guid>
+      <pubDate>Sun, 18 May 2025 00:00:00 GMT</pubDate>
+      <description><![CDATA[全面重构前端测试金字塔：从 Jest/Cypress 迁移至基于 Vite 生态的极速单元测试 Vitest 与现代化端到端及视觉回归测试利器 Playwright。]]></description>
+      <category><![CDATA[前端开发]]></category>
+    </item>
+    <item>
+      <title><![CDATA[分布式事务：Saga 与 TCC 方案选型]]></title>
+      <link>https://chent.co/posts/distributed-transaction-saga-tcc-comparison</link>
+      <guid isPermaLink="true">https://chent.co/posts/distributed-transaction-saga-tcc-comparison</guid>
+      <pubDate>Thu, 08 May 2025 00:00:00 GMT</pubDate>
+      <description><![CDATA[深入剖析微服务分布式事务痛点，全维度对比 2PC、TCC、Saga 与本地消息表模式，详解 TCC 空回滚/悬挂防御与 Saga 编排状态机落地实战。]]></description>
+      <category><![CDATA[后端开发]]></category>
+    </item>
+    <item>
+      <title><![CDATA[Nginx 高并发调优与 TLS 1.3 实践]]></title>
+      <link>https://chent.co/posts/nginx-performance-tuning-tls-1-3-optimization</link>
+      <guid isPermaLink="true">https://chent.co/posts/nginx-performance-tuning-tls-1-3-optimization</guid>
+      <pubDate>Tue, 29 Apr 2025 00:00:00 GMT</pubDate>
+      <description><![CDATA[深入剖析 Nginx Master-Worker 事件驱动架构，掌握内核参数与 epoll 调优，并通过 TLS 1.3 0-RTT 极速握手与 Upstream 连接池将反向代理性能发挥至硬件极限。]]></description>
+      <category><![CDATA[云原生与运维]]></category>
+    </item>
+    <item>
+      <title><![CDATA[Next.js App Router 性能调优与 ISR]]></title>
+      <link>https://chent.co/posts/nextjs-app-router-performance-isr-strategy</link>
+      <guid isPermaLink="true">https://chent.co/posts/nextjs-app-router-performance-isr-strategy</guid>
+      <pubDate>Sat, 12 Apr 2025 00:00:00 GMT</pubDate>
+      <description><![CDATA[全面拆解 Next.js App Router 的四层缓存体系、按需 ISR (On-demand Revalidation) 以及在海量商品/文章场景下的动静分离性能调优实践。]]></description>
+      <category><![CDATA[前端开发]]></category>
+    </item>
+    <item>
+      <title><![CDATA[Linux IO 多路复用：select 到 epoll]]></title>
+      <link>https://chent.co/posts/linux-io-multiplexing-select-poll-epoll</link>
+      <guid isPermaLink="true">https://chent.co/posts/linux-io-multiplexing-select-poll-epoll</guid>
+      <pubDate>Thu, 03 Apr 2025 00:00:00 GMT</pubDate>
+      <description><![CDATA[深入剖析 Linux select/poll 的性能瓶颈根因，拆解 epoll 红黑树与就绪双向链表内核源码机制，并详解边缘触发 (ET) 与水平触发 (LT) 的生产级编程规范。]]></description>
+      <category><![CDATA[后端开发]]></category>
+    </item>
+    <item>
+      <title><![CDATA[WebAssembly + Rust 高性能图形渲染]]></title>
+      <link>https://chent.co/posts/webassembly-rust-high-performance-rendering</link>
+      <guid isPermaLink="true">https://chent.co/posts/webassembly-rust-high-performance-rendering</guid>
+      <pubDate>Sun, 23 Mar 2025 00:00:00 GMT</pubDate>
+      <description><![CDATA[深入探讨 Rust + WebAssembly 在 WebGL2/Canvas 图形计算中的极致优化，剖析 Wasm 线性内存零拷贝 (Zero-Copy) 共享与十万级粒子系统实战。]]></description>
+      <category><![CDATA[前端开发]]></category>
+    </item>
+    <item>
+      <title><![CDATA[Go 泛型机制与 GMP 调度器解析]]></title>
+      <link>https://chent.co/posts/golang-1-22-generics-scheduler-evolution</link>
+      <guid isPermaLink="true">https://chent.co/posts/golang-1-22-generics-scheduler-evolution</guid>
+      <pubDate>Mon, 10 Mar 2025 00:00:00 GMT</pubDate>
+      <description><![CDATA[深入剖析 Go 1.22+ 循环变量作用域重构、GC Shape 泛型单态化底层实现，以及 GMP 调度器在工作窃取与非协作抢占上的演进细节。]]></description>
+      <category><![CDATA[后端开发]]></category>
+    </item>
+    <item>
+      <title><![CDATA[Redis 缓存击穿、穿透与雪崩治理]]></title>
+      <link>https://chent.co/posts/redis-cache-breakthrough-breakdown-avalanche</link>
+      <guid isPermaLink="true">https://chent.co/posts/redis-cache-breakthrough-breakdown-avalanche</guid>
+      <pubDate>Thu, 27 Feb 2025 00:00:00 GMT</pubDate>
+      <description><![CDATA[系统剖析高并发架构下 Redis 缓存穿透、击穿与雪崩的物理诱因，通过布隆过滤器、逻辑过期异步刷新与随机打散构建坚不可摧的多级缓存防线。]]></description>
+      <category><![CDATA[后端开发]]></category>
+    </item>
+    <item>
+      <title><![CDATA[PostgreSQL 索引调优与高并发死锁排查]]></title>
+      <link>https://chent.co/posts/postgresql-index-tuning-deadlock-troubleshooting</link>
+      <guid isPermaLink="true">https://chent.co/posts/postgresql-index-tuning-deadlock-troubleshooting</guid>
+      <pubDate>Tue, 04 Feb 2025 00:00:00 GMT</pubDate>
+      <description><![CDATA[系统剖析 PostgreSQL B-Tree、GIN、BRIN 索引物理特性与适用边界，掌握 EXPLAIN BUFFERS 执行计划分析，并深度排查解决千万级并发事务死锁难题。]]></description>
+      <category><![CDATA[数据库系统]]></category>
+    </item>
+    <item>
+      <title><![CDATA[React 19 Server Components 落地指南]]></title>
+      <link>https://chent.co/posts/react-19-server-components-guide</link>
+      <guid isPermaLink="true">https://chent.co/posts/react-19-server-components-guide</guid>
+      <pubDate>Fri, 24 Jan 2025 00:00:00 GMT</pubDate>
+      <description><![CDATA[深入剖析 React 19 服务端组件 (RSC) 与 Server Actions 的执行模型，从数据流边界、流式渲染到企业级项目架构落地实践。]]></description>
+      <category><![CDATA[前端开发]]></category>
+    </item>
+    <item>
+      <title><![CDATA[TypeScript 5.4+ 核心特性与性能调优]]></title>
+      <link>https://chent.co/posts/typescript-5-4-performance-features</link>
+      <guid isPermaLink="true">https://chent.co/posts/typescript-5-4-performance-features</guid>
+      <pubDate>Wed, 01 Jan 2025 00:00:00 GMT</pubDate>
+      <description><![CDATA[深入剖析 TypeScript 5.4+ 的 NoInfer 工具类型、闭包类型缩小保留与条件类型计算优化，并提供 tsc 编译耗时诊断与类型热点调优实战。]]></description>
+      <category><![CDATA[前端开发]]></category>
+    </item>
+  </channel>
+</rss>
