@@ -10,7 +10,7 @@ export const RecordCard: React.FC<{
   record: RecordItem;
 }> = ({ record }) => {
   return (
-    <article className="paper-card rounded-sm p-3.5 sm:p-4">
+    <article className="border border-sky-100/60 dark:border-slate-800/60 bg-white/70 dark:bg-slate-900/50 rounded-sm p-3.5 sm:p-4">
       <div className="flex gap-3">
         <img
           src={siteConfig.author.avatar}

@@ -12,7 +12,7 @@ export const PostCard: React.FC<PostCardProps> = ({ post }) => {
   const [imgSrc, setImgSrc] = React.useState<string>(post.coverImage || `/covers/${post.slug}.svg`);
 
   return (
-    <article className="group rounded-sm overflow-hidden paper-card transition-colors duration-200 flex flex-col h-full hover:border-slate-300 dark:hover:border-slate-700">
+    <article className="group rounded-sm overflow-hidden border border-sky-100/60 dark:border-slate-800/60 bg-white/70 dark:bg-slate-900/50 transition-colors duration-200 flex flex-col h-full hover:bg-white/95 dark:hover:bg-slate-900/80">
       <Link href={`/posts/${post.slug}`} className="flex flex-col h-full">
         {/* 顶部标准 16:9 无缝相框封面 */}
         <div className="relative w-full aspect-[16/9] overflow-hidden bg-slate-100 dark:bg-slate-800 flex-shrink-0">

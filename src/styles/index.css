@@ -11,9 +11,9 @@
     --card-paper: rgba(255, 255, 255, 0.88);
     --card-paper-hover: rgba(255, 255, 255, 0.98);
     --text-main: #1E293B;
-    --border-paper: rgba(203, 219, 235, 0.75);
-    --selection-bg: #DCEAF8;
-    --selection-text: #0369A1;
+    --border-paper: rgba(186, 215, 242, 0.45);
+    --selection-bg: #E0EEFA;
+    --selection-text: #0284C7;
   }
 
   .dark {
@@ -21,9 +21,9 @@
     --card-paper: rgba(18, 27, 44, 0.82);
     --card-paper-hover: rgba(24, 36, 58, 0.92);
     --text-main: #F1F5F9;
-    --border-paper: rgba(56, 78, 108, 0.6);
-    --selection-bg: #1E3A5F;
-    --selection-text: #F0F9FF;
+    --border-paper: rgba(45, 68, 98, 0.4);
+    --selection-bg: #1B3554;
+    --selection-text: #E0F2FE;
   }
 
   *, *::before, *::after {
@@ -86,47 +86,22 @@
 
 @layer utilities {
   .bg-paper-texture {
-    background-image: radial-gradient(rgba(14, 116, 144, 0.07) 1px, transparent 1px);
-    background-size: 24px 24px;
-  }
-
-  .ambient-stars {
-    pointer-events: none;
-    background-image:
-      radial-gradient(circle at 8% 12%, rgba(255, 255, 255, 0.8) 0 1px, transparent 1.5px),
-      radial-gradient(circle at 22% 25%, rgba(179, 216, 255, 0.65) 0 1px, transparent 1.5px),
-      radial-gradient(circle at 37% 9%, rgba(255, 255, 255, 0.7) 0 1px, transparent 1.5px),
-      radial-gradient(circle at 54% 18%, rgba(162, 211, 255, 0.55) 0 1px, transparent 1.5px),
-      radial-gradient(circle at 71% 7%, rgba(255, 255, 255, 0.75) 0 1px, transparent 1.5px),
-      radial-gradient(circle at 88% 24%, rgba(175, 230, 222, 0.6) 0 1px, transparent 1.5px),
-      radial-gradient(circle at 14% 42%, rgba(255, 255, 255, 0.45) 0 1px, transparent 1.5px),
-      radial-gradient(circle at 80% 44%, rgba(173, 211, 255, 0.4) 0 1px, transparent 1.5px);
-    animation: star-twinkle 8s ease-in-out infinite;
-  }
-
-  .ambient-star-dust {
-    pointer-events: none;
-    background-image: radial-gradient(circle, rgba(174, 211, 255, 0.7) 0 0.7px, transparent 0.9px);
-    background-size: 97px 113px;
-    background-position: 18px 31px;
+    background-image: radial-gradient(rgba(14, 116, 144, 0.04) 1px, transparent 1px);
+    background-size: 20px 20px;
   }
 
   .dark .bg-paper-texture {
-    background-image: radial-gradient(rgba(125, 211, 252, 0.06) 1px, transparent 1px);
-    background-size: 24px 24px;
+    background-image: radial-gradient(rgba(125, 211, 252, 0.03) 1px, transparent 1px);
+    background-size: 20px 20px;
   }
 
+  /* 极简平整无重边框卡片（无边框发光高亮） */
   .paper-card {
     background-color: var(--card-paper);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
     border: 1px solid var(--border-paper);
-    transition: border-color 0.2s ease,
-                background-color 0.2s ease,
-                box-shadow 0.2s ease;
+    transition: background-color 0.2s ease, opacity 0.2s ease;
   }
 
-  /* 仅针对可交互卡片（链接或指定交互类）提供克制平稳的背景与边框微调，严禁任何 translateY 位移与弥散蓝光 */
   .paper-card-interactive {
     cursor: pointer;
   }
@@ -134,14 +109,6 @@
   .paper-card-interactive:hover,
   a.paper-card:hover {
     background-color: var(--card-paper-hover);
-    border-color: rgba(148, 163, 184, 0.65);
-    box-shadow: 0 2px 6px -1px rgba(15, 23, 42, 0.04);
-  }
-
-  .dark .paper-card-interactive:hover,
-  .dark a.paper-card:hover {
-    border-color: rgba(100, 116, 139, 0.6);
-    box-shadow: 0 2px 8px -1px rgba(0, 0, 0, 0.3);
   }
 
   /* 高端出版级自然温润纸质大板 (Natural Muted Editorial Paper Sheet) */
@@ -155,10 +122,10 @@
     border: 1px solid rgba(203, 219, 235, 0.85);
     border-radius: 0.125rem; /* rounded-sm (2px), 极简超微倒角 */
     box-shadow: 
-      0 1px 0 0 rgba(255, 255, 255, 0.8) inset,
-      0 2px 6px rgba(15, 23, 42, 0.03),
-      0 8px 24px -4px rgba(186, 215, 245, 0.35),
-      0 16px 36px -8px rgba(15, 23, 42, 0.05);
+      0 1px 0 0 rgba(255, 255, 255, 0.9) inset,
+      0 2px 6px rgba(15, 23, 42, 0.02),
+      0 8px 24px -4px rgba(15, 23, 42, 0.05),
+      0 16px 36px -8px rgba(15, 23, 42, 0.03);
     position: relative;
   }
 
@@ -172,43 +139,21 @@
     border: 1px solid rgba(56, 78, 108, 0.7);
     border-radius: 0.125rem;
     box-shadow: 
-      0 1px 0 0 rgba(255, 255, 255, 0.04) inset,
-      0 4px 16px -2px rgba(0, 0, 0, 0.4),
-      0 12px 32px -8px rgba(0, 0, 0, 0.55);
+      0 1px 0 0 rgba(255, 255, 255, 0.03) inset,
+      0 4px 16px -2px rgba(0, 0, 0, 0.45),
+      0 12px 32px -8px rgba(0, 0, 0, 0.6);
   }
 }
 
-/* Innei 风格中心大椭圆微光呼吸动画 */
+/* 顶部微蓝柔光穹顶：超舒缓 22s 呼吸动画 */
 @keyframes inneiBreathGlow {
   0%, 100% {
     transform: translate3d(-50%, 0, 0) scale(1);
+    opacity: 0.7;
+  }
+  50% {
+    transform: translate3d(-50%, -6px, 0) scale(1.03);
     opacity: 0.85;
-  }
-  50% {
-    transform: translate3d(-50%, -12px, 0) scale(1.08);
-    opacity: 1;
-  }
-}
-
-@keyframes inneiSubtleDrift {
-  0%, 100% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-  50% {
-    transform: translate3d(24px, -18px, 0) scale(1.05);
-  }
-}
-
-/* 随和舒缓的动态背景关键帧动画 */
-@keyframes ambientDriftB {
-  0%, 100% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-  33% {
-    transform: translate3d(-45px, 35px, 0) scale(1.06);
-  }
-  66% {
-    transform: translate3d(30px, -40px, 0) scale(0.92);
   }
 }
 
@@ -230,11 +175,6 @@
   53%, 100% {
     opacity: 0.15;
   }
-}
-
-@keyframes star-twinkle {
-  0%, 100% { opacity: 0.28; }
-  50% { opacity: 0.52; }
 }
 
 /* 自定义纤细滚动条 */
@@ -289,13 +229,22 @@
 .prose pre,
 pre.shiki {
   margin: 0 !important;
-  padding: 1.25rem !important;
+  padding: 0.875rem 1rem !important;
   border-radius: 0.375rem !important;
   overflow-x: auto;
   font-family: 'MiSans', 'MiSans Normal', 'MiSans-Normal', 'MiSans VF', monospace, sans-serif;
-  font-size: 0.875rem;
-  line-height: 1.7;
+  font-size: 0.8125rem;
+  line-height: 1.65;
   background-color: transparent !important;
+}
+
+@media (min-width: 640px) {
+  .prose pre,
+  pre.shiki {
+    padding: 1.25rem !important;
+    font-size: 0.875rem;
+    line-height: 1.7;
+  }
 }
 
 .prose pre code,

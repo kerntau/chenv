@@ -6,7 +6,6 @@ import { formatDate } from '../lib/date';
 import {
   Feather,
   Calendar,
-  Clock,
   MapPin,
   Sparkles,
 } from 'lucide-react';
@@ -20,7 +19,7 @@ export const Diaries: React.FC = () => {
 
   return (
     <PageShell>
-      <div className="w-full max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* 顶部标题区 */}
         <div className="mb-10 pb-6 border-b border-slate-200/70 dark:border-slate-800/70 text-center">
           <div className="inline-flex items-center space-x-1.5 px-2.5 py-1 rounded-sm bg-slate-100 dark:bg-slate-800 text-xs font-mono text-slate-600 dark:text-slate-400 mb-3">
@@ -43,7 +42,7 @@ export const Diaries: React.FC = () => {
             <Link
               key={diary.slug}
               href={`/diaries/${diary.slug}`}
-              className="p-3.5 sm:p-4 rounded-sm paper-card transition-colors duration-200 group flex flex-col justify-between block hover:border-slate-300 dark:hover:border-slate-700"
+              className="p-3.5 sm:p-4 rounded-sm border border-sky-100/60 dark:border-slate-800/60 bg-white/70 dark:bg-slate-900/50 transition-colors duration-200 group flex flex-col justify-between block hover:bg-white/95 dark:hover:bg-slate-900/80"
             >
               <div>
                 {/* 顶部元数据头：天气、心情、时间与地点 */}
@@ -75,11 +74,6 @@ export const Diaries: React.FC = () => {
                         <span>{diary.location}</span>
                       </span>
                     )}
-                    <span>&bull;</span>
-                    <span className="flex items-center space-x-1">
-                      <Clock className="w-3 h-3 text-slate-400" />
-                      <span>{diary.readingTime}</span>
-                    </span>
                   </div>
                 </div>
 
