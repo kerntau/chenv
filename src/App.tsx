@@ -12,9 +12,9 @@ import { Diaries } from './pages/Diaries';
 import { DiaryDetail } from './pages/DiaryDetail';
 import { Says } from './pages/Says';
 import { Friends } from './pages/Friends';
-import { About } from './pages/About';
 import { NotFound } from './pages/NotFound';
 import { Admin } from './pages/Admin';
+import { ExternalLinkModal } from './components/ui/ExternalLinkModal';
 
 // 栏目路由定义（含旧路径别名），同时驱动 <Switch> 与浏览器标签标题
 interface Section {
@@ -30,7 +30,6 @@ const SECTIONS: Section[] = [
   { label: '手记', paths: ['/diaries', '/journal', '/shouji'], list: Diaries, detail: DiaryDetail },
   { label: '说说', paths: ['/says', '/record'], list: Says },
   { label: '友链', paths: ['/friends', '/friend'], list: Friends },
-  { label: '关于', paths: ['/about', '/my'], list: About },
 ];
 
 
@@ -42,6 +41,8 @@ function findSection(pathname: string) {
 
 export const App: React.FC = () => {
   const [location] = useLocation();
+  const [externalUrl, setExternalUrl] = React.useState<string | null>(null);
+  const [isExternalModalOpen, setIsExternalModalOpen] = React.useState(false);
 
   const isAdminRoute = location === '/admin' || location.startsWith('/admin/');
 
@@ -54,7 +55,7 @@ export const App: React.FC = () => {
     } else {
       const section = findSection(location);
       if (section) {
-        document.title = `${section.label} · ${siteConfig.title} - ${siteConfig.subtitle}`;
+        document.title = `${section.label} · ${siteConfig.title}`;
         const metaDesc = document.querySelector('meta[name="description"]');
         if (metaDesc) {
           const sectionDescMap: Record<string, string> = {
@@ -68,7 +69,7 @@ export const App: React.FC = () => {
           metaDesc.setAttribute('content', sectionDescMap[section.label] || siteConfig.description);
         }
       } else {
-        document.title = `${siteConfig.title} · ${siteConfig.subtitle}`;
+        document.title = siteConfig.title;
         const metaDesc = document.querySelector('meta[name="description"]');
         if (metaDesc) {
           metaDesc.setAttribute('content', siteConfig.description);
@@ -87,9 +88,43 @@ export const App: React.FC = () => {
     );
   }
 
+  // 全局外链拦截代理
+  const handleGlobalClick = (e: React.MouseEvent) => {
+    // 忽略在后台路由发生的点击，只处理前台
+    if (isAdminRoute) return;
+    
+    // 寻找冒泡路径中最近的 a 标签
+    const target = (e.target as Element).closest('a');
+    if (!target) return;
+
+    const href = target.getAttribute('href');
+    if (!href) return;
+
+    // 检查是否为外部链接
+    if (href.startsWith('http://') || href.startsWith('https://')) {
+      try {
+        const urlObj = new URL(href);
+        // 如果是本站域名，放行
+        if (window && urlObj.hostname === window.location.hostname) {
+          return;
+        }
+        
+        // 拦截并弹窗
+        e.preventDefault();
+        setExternalUrl(href);
+        setIsExternalModalOpen(true);
+      } catch (err) {
+        // 解析失败则忽略
+      }
+    }
+  };
+
   // 前台博客浏览体系
   return (
-    <div className="min-h-screen flex flex-col relative selection:bg-sky-200 selection:text-sky-900 dark:selection:bg-sky-900/60 dark:selection:text-sky-100 transition-colors duration-300">
+    <div 
+      className="min-h-screen flex flex-col relative selection:bg-sky-200 selection:text-sky-900 dark:selection:bg-sky-900/60 dark:selection:text-sky-100 transition-colors duration-300"
+      onClick={handleGlobalClick}
+    >
       <AmbientBackground />
       <Header />
       <div className={`flex-1 flex flex-col ${location === '/' ? 'justify-center' : ''}`}>
@@ -111,6 +146,19 @@ export const App: React.FC = () => {
         </Switch>
       </div>
       <Footer />
+      
+      {/* 外部链接二次确认弹窗 */}
+      <ExternalLinkModal 
+        isOpen={isExternalModalOpen}
+        url={externalUrl}
+        onClose={() => setIsExternalModalOpen(false)}
+        onConfirm={() => {
+          if (externalUrl) {
+            window.open(externalUrl, '_blank', 'noopener,noreferrer');
+          }
+          setIsExternalModalOpen(false);
+        }}
+      />
     </div>
   );
 };

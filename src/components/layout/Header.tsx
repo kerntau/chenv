@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, useLocation } from 'wouter';
-import { motion, LayoutGroup } from 'framer-motion';
 import {
   Home as HomeIcon,
   FileText,
@@ -39,7 +38,6 @@ const DEFAULT_NAV_LINKS: NavLinkItem[] = [
   { id: 'nav-diaries', href: '/diaries', label: '手记', icon: 'Feather', enabled: true },
   { id: 'nav-says', href: '/says', label: '动态', icon: 'MessageSquareQuote', enabled: true },
   { id: 'nav-friends', href: '/friends', label: '朋友', icon: 'Users', enabled: true },
-  { id: 'nav-about', href: '/about', label: '关于', icon: 'User', enabled: true },
 ];
 
 export const Header: React.FC = () => {
@@ -84,7 +82,7 @@ export const Header: React.FC = () => {
   };
 
   const handleNavMouseEnter = (href: string, e: React.MouseEvent<HTMLElement>) => {
-    if (!enableMegaMenu || href === '/' || href === '/about' || href.startsWith('http')) {
+    if (!enableMegaMenu || href === '/' || href.startsWith('http')) {
       setHoveredNav(null);
       return;
     }
@@ -141,7 +139,6 @@ export const Header: React.FC = () => {
             className="pointer-events-auto flex items-center justify-center relative"
             onMouseLeave={handleNavMouseLeave}
           >
-            <LayoutGroup id="nav-rectangular-group">
               <nav
                 ref={navRef}
                 className="flex items-center p-1 rounded-sm bg-white/70 dark:bg-slate-900/70 backdrop-blur-md border border-slate-200/65 dark:border-slate-800/65 shadow-[0_2px_10px_-3px_rgba(0,0,0,0.03)] gap-0.5 text-xs max-w-full overflow-x-auto"
@@ -178,15 +175,12 @@ export const Header: React.FC = () => {
                           : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100/50 dark:hover:bg-slate-800/40'
                       }`}
                     >
-                      {/* 选中项的独立小矩形卡片 */}
+                      {/* 静态的选中项小矩形卡片 */}
                       {active && (
-                        <motion.span
-                          layoutId="active-nav-block"
-                          className="absolute inset-0 rounded-sm bg-white/95 dark:bg-slate-800 border border-slate-200/90 dark:border-slate-700/80 shadow-[0_1px_3px_rgba(0,0,0,0.06),0_1px_1px_rgba(0,0,0,0.03)] dark:shadow-[0_1px_3px_rgba(0,0,0,0.4)] pointer-events-none -z-10"
-                          transition={{ type: 'spring', stiffness: 500, damping: 38 }}
+                        <span
+                          className="absolute inset-0 rounded-sm bg-white/95 dark:bg-slate-800 border border-slate-200/90 dark:border-slate-700/80 shadow-[0_1px_3px_rgba(0,0,0,0.06),0_1px_1px_rgba(0,0,0,0.03)] dark:shadow-[0_1px_3px_rgba(0,0,0,0.4)] pointer-events-none -z-10 transition-all duration-300"
                         />
                       )}
-
                       {/* 选中项专属图标 */}
                       {active && (
                         <IconComponent className="w-3.5 h-3.5 opacity-90 text-slate-800 dark:text-slate-200 flex-shrink-0" />
@@ -196,9 +190,8 @@ export const Header: React.FC = () => {
                   );
                 })}
               </nav>
-            </LayoutGroup>
 
-            {/* Innei 风格导航悬浮 MegaMenu Popover */}
+            {/* 导航悬浮预览卡片 MegaMenu Popover */}
             {enableMegaMenu && (
               <NavHoverPopover
                 activeKey={hoveredNav}

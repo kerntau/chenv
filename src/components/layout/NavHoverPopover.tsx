@@ -1,6 +1,7 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { Link } from 'wouter';
-import { motion, AnimatePresence } from 'framer-motion';
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
 import {
   ChevronRight,
   ArrowUpRight,
@@ -70,7 +71,7 @@ export const NavHoverPopover: React.FC<NavHoverPopoverProps> = ({
 
   const isValidTab = Boolean(
     activeKey &&
-      ['/posts', '/archives', '/diaries', '/says', '/friends', '/about'].includes(
+      ['/posts', '/archives', '/diaries', '/says', '/friends'].includes(
         activeKey
       )
   );
@@ -107,35 +108,60 @@ export const NavHoverPopover: React.FC<NavHoverPopoverProps> = ({
     return Math.max(28, Math.min(panelWidth - 28, rawArrowX));
   }, [position, targetLeft, panelWidth]);
 
+  const [isRendered, setIsRendered] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const arrowRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (isValidTab) {
+      setIsRendered(true);
+    }
+  }, [isValidTab]);
+
+  useGSAP(() => {
+    if (isValidTab && isRendered) {
+      // 首次出现或切换
+      gsap.to(containerRef.current, {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        x: targetLeft,
+        width: panelWidth,
+        duration: 0.2,
+        ease: 'power3.out'
+      });
+      gsap.to(arrowRef.current, {
+        left: arrowOffset,
+        duration: 0.2,
+        ease: 'power3.out'
+      });
+    } else if (!isValidTab && isRendered) {
+      // 退场
+      gsap.to(containerRef.current, {
+        opacity: 0,
+        y: 6,
+        scale: 0.96,
+        duration: 0.15,
+        ease: 'power3.in',
+        onComplete: () => setIsRendered(false)
+      });
+    }
+  }, [isValidTab, isRendered, targetLeft, panelWidth, arrowOffset]);
+
   return (
-    <AnimatePresence>
-      {isValidTab && (
-        <motion.div
-          key="nav-hover-popover-container"
-          initial={{ opacity: 0, y: 8, scale: 0.96 }}
-          animate={{
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            x: targetLeft,
-            width: panelWidth,
-          }}
-          exit={{ opacity: 0, y: 6, scale: 0.96, transition: { duration: 0.15 } }}
-          transition={{
-            type: 'spring',
-            stiffness: 460,
-            damping: 36,
-            opacity: { duration: 0.18 },
-          }}
+    <>
+      {isRendered && (
+        <div
+          ref={containerRef}
           onMouseEnter={onMouseEnter}
           onMouseLeave={onMouseLeave}
           className="absolute top-full mt-2.5 left-0 pointer-events-auto z-50 select-none font-sans before:content-[''] before:absolute before:-top-3 before:left-0 before:right-0 before:h-3 before:bg-transparent"
+          style={{ opacity: 0, transform: 'translateY(8px) scale(0.96)' }}
         >
           {/* 顶部指示微型三角箭头 (跟随激活项平滑滑动) */}
-          <motion.div
+          <div
+            ref={arrowRef}
             className="absolute -top-1.5 w-3 h-3 rotate-45 bg-white/95 dark:bg-[#0E1624]/95 border-t border-l border-slate-200/80 dark:border-slate-800/80 -translate-x-1/2 z-10 pointer-events-none shadow-[-2px_-2px_4px_rgba(0,0,0,0.02)]"
-            animate={{ left: arrowOffset }}
-            transition={{ type: 'spring', stiffness: 460, damping: 36 }}
           />
 
           {/* 弹窗核心卡片容器 */}
@@ -483,8 +509,8 @@ export const NavHoverPopover: React.FC<NavHoverPopoverProps> = ({
               </div>
             )}
           </div>
-        </motion.div>
+        </div>
       )}
-    </AnimatePresence>
+    </>
   );
 };
