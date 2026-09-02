@@ -46,10 +46,11 @@ export const Says: React.FC = () => {
         )}
         {visibleRecords.length < records.length && (
           <button
+            type="button"
             onClick={() => setPage((value) => value + 1)}
-            className="mx-auto mt-6 flex min-h-9 items-center gap-2 rounded-sm border border-slate-200/80 px-4 text-xs text-slate-600 transition hover:border-sky-400 hover:text-sky-600 dark:border-slate-700 dark:text-slate-300 dark:hover:border-sky-500 dark:hover:text-sky-400"
+            className="mx-auto mt-7 flex min-h-9 items-center gap-2 rounded-md bg-white/80 dark:bg-slate-900/80 border border-slate-200/80 dark:border-slate-800 px-4 py-2 text-xs font-mono text-slate-600 hover:text-sky-600 dark:text-slate-300 dark:hover:text-sky-400 hover:bg-slate-50 dark:hover:bg-slate-850 shadow-2xs transition-all cursor-pointer"
           >
-            <RefreshCw className="h-3.5 w-3.5" /> 加载更多
+            <RefreshCw className="h-3.5 w-3.5" /> 加载更多动态
           </button>
         )}
       </Container>

@@ -190,7 +190,7 @@ export const NavHoverPopover: React.FC<NavHoverPopoverProps> = ({
                         }`}
                       >
                         <span className="truncate">全部</span>
-                        <span className={`text-[10px] font-mono px-1.5 py-0.2 rounded-xs ${
+                        <span className={`text-[10px] font-mono px-1.5 py-0.5 rounded-xs ${
                           selectedCategory === 'all'
                             ? 'bg-sky-100 dark:bg-sky-900/60 text-sky-700 dark:text-sky-300'
                             : 'bg-slate-200/50 dark:bg-slate-800/60 text-slate-400'
@@ -215,7 +215,7 @@ export const NavHoverPopover: React.FC<NavHoverPopoverProps> = ({
                             }`}
                           >
                             <span className="truncate">{cat.name}</span>
-                            <span className={`text-[10px] font-mono px-1.5 py-0.2 rounded-xs ${
+                            <span className={`text-[10px] font-mono px-1.5 py-0.5 rounded-xs ${
                               isSelected
                                 ? 'bg-sky-100 dark:bg-sky-900/60 text-sky-700 dark:text-sky-300'
                                 : 'bg-slate-200/50 dark:bg-slate-800/60 text-slate-400'
@@ -325,7 +325,7 @@ export const NavHoverPopover: React.FC<NavHoverPopoverProps> = ({
                           </span>
                         </div>
                         {post.category && (
-                          <span className="text-[9.5px] font-mono px-1.5 py-0.2 rounded-xs bg-slate-100 dark:bg-slate-800 text-slate-400 shrink-0">
+                          <span className="text-[9.5px] font-mono px-1.5 py-0.5 rounded-xs bg-slate-100 dark:bg-slate-800 text-slate-400 shrink-0">
                             {post.category}
                           </span>
                         )}
@@ -369,7 +369,7 @@ export const NavHoverPopover: React.FC<NavHoverPopoverProps> = ({
                         <div className="flex items-center justify-between text-[10px] font-mono text-slate-400 mb-1">
                           <span>{formatDateShort(diary.date)}</span>
                           {diary.weather && (
-                            <span className="px-1.5 py-0.2 rounded-xs bg-sky-50 dark:bg-sky-950/40 text-sky-600 dark:text-sky-400 text-[9px] border border-sky-200/40 dark:border-sky-800/40">
+                            <span className="px-1.5 py-0.5 rounded-xs bg-sky-50 dark:bg-sky-950/40 text-sky-600 dark:text-sky-400 text-[9px] border border-sky-200/40 dark:border-sky-800/40">
                               {diary.weather}
                             </span>
                           )}

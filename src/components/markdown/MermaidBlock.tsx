@@ -13,7 +13,7 @@ function cleanMermaidChart(raw: string): string {
     if (
       !trimmed ||
       trimmed.startsWith('graph') ||
-      trimmed.startsWith('subgraph') ||
+      trimmed.startsWith('flowchart') ||
       trimmed.startsWith('end') ||
       trimmed.startsWith('%%') ||
       trimmed.startsWith('classDef') ||
@@ -24,12 +24,33 @@ function cleanMermaidChart(raw: string): string {
     }
 
     let l = line;
+
+    // 处理 subgraph ID [Title with special characters]
+    if (trimmed.startsWith('subgraph')) {
+      return l.replace(/subgraph\s+([A-Za-z0-9_-]+)\s*\[(.*?)\]/g, (match, id, text) => {
+        let t = text.trim();
+        if (t.startsWith('"') && t.endsWith('"')) return match;
+        return `subgraph ${id} ["${t.replace(/"/g, "'")}"]`;
+      });
+    }
+
     // 自动清洗 NodeID[Text]
     l = l.replace(/(\b[\w\d_\-]+)\[(.*?)\]/g, (match, id, text) => {
       let t = text.trim();
       if (t.startsWith('(') && t.endsWith(')')) return match; // 避免圆柱 [(...)]
       if (t.startsWith('"') && t.endsWith('"')) return match;
-      if (t.includes('(') || t.includes(')') || t.includes('[') || t.includes(']') || t.includes(':') || t.includes(',') || t.includes("'")) {
+      if (
+        t.includes('(') ||
+        t.includes(')') ||
+        t.includes('[') ||
+        t.includes(']') ||
+        t.includes(':') ||
+        t.includes(',') ||
+        t.includes("'") ||
+        t.includes('>') ||
+        t.includes('<') ||
+        t.includes('&')
+      ) {
         return `${id}["${t.replace(/"/g, "'")}"]`;
       }
       return match;
@@ -63,6 +84,7 @@ export const MermaidBlock: React.FC<MermaidBlockProps> = ({ chart }) => {
         const mermaid = m.default;
         mermaid.initialize({
           startOnLoad: false,
+          suppressErrorRendering: true,
           theme: isDark ? 'dark' : 'neutral',
           securityLevel: 'loose',
           fontFamily: 'MiSans, "MiSans Normal", "MiSans-Normal", "MiSans VF", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
@@ -92,7 +114,16 @@ export const MermaidBlock: React.FC<MermaidBlockProps> = ({ chart }) => {
         });
 
         const id = `mermaid_${uniqueId}_${Date.now()}`;
-        return mermaid.render(id, safeChart);
+        // 使用离屏沙箱容器隔离，防止 Mermaid 向 document.body 直接挂载节点
+        const tempContainer = document.createElement('div');
+        tempContainer.style.display = 'none';
+        document.body.appendChild(tempContainer);
+
+        return mermaid
+          .render(id, safeChart, tempContainer)
+          .finally(() => {
+            tempContainer.remove();
+          });
       })
       .then((result) => {
         if (active && result) {
@@ -103,6 +134,16 @@ export const MermaidBlock: React.FC<MermaidBlockProps> = ({ chart }) => {
       .catch((err) => {
         if (active) {
           console.error('Mermaid render error:', err);
+          // 彻底清除任何 Mermaid 库可能注入到页面底部 document.body 的错误 SVG 节点
+          try {
+            const errorSvgs = document.querySelectorAll(
+              'svg.error-icon, body > svg[id*="mermaid"], body > [id^="dmermaid_"], svg[id^="dmermaid_"]'
+            );
+            errorSvgs.forEach((el) => el.remove());
+          } catch (cleanupErr) {
+            // ignore
+          }
+
           setError('流程图解析失败，请检查语法规范');
           setLoading(false);
         }
@@ -110,6 +151,13 @@ export const MermaidBlock: React.FC<MermaidBlockProps> = ({ chart }) => {
 
     return () => {
       active = false;
+      // 卸载时清理可能遗留的临时节点
+      try {
+        const tempNodes = document.querySelectorAll('body > svg[id*="mermaid"], body > [id^="dmermaid_"]');
+        tempNodes.forEach((node) => node.remove());
+      } catch (e) {
+        // ignore
+      }
     };
   }, [chart, isDark, uniqueId]);
 

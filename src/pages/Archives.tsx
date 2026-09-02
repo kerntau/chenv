@@ -8,6 +8,7 @@ import {
   History,
   FileText,
   Feather,
+  LayoutGrid,
 } from 'lucide-react';
 
 interface TimelineItem {
@@ -106,7 +107,7 @@ export const Archives: React.FC = () => {
             </p>
           )}
 
-          {/* 一级内容类型筛选胶囊 */}
+          {/* 一级内容类型筛选胶囊与视图切换 */}
           <div className="mt-3.5 sm:mt-5 flex flex-wrap items-center justify-center gap-2">
             <button
               onClick={() => setActiveType('all')}
@@ -118,7 +119,7 @@ export const Archives: React.FC = () => {
             >
               <span>全部</span>
               <span
-                className={`text-[10.5px] font-mono px-1.5 py-0.2 rounded-sm ${
+                className={`text-[10.5px] font-mono px-1.5 py-0.5 rounded-sm ${
                   activeType === 'all'
                     ? 'bg-sky-100 dark:bg-sky-900/60 text-sky-700 dark:text-sky-300 font-medium'
                     : 'bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500'
@@ -139,7 +140,7 @@ export const Archives: React.FC = () => {
               <FileText className="w-3 h-3" />
               <span>文稿</span>
               <span
-                className={`text-[10.5px] font-mono px-1.5 py-0.2 rounded-sm ${
+                className={`text-[10.5px] font-mono px-1.5 py-0.5 rounded-sm ${
                   activeType === 'post'
                     ? 'bg-sky-100 dark:bg-sky-900/60 text-sky-700 dark:text-sky-300 font-medium'
                     : 'bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500'
@@ -160,7 +161,7 @@ export const Archives: React.FC = () => {
               <Feather className="w-3 h-3" />
               <span>手记</span>
               <span
-                className={`text-[10.5px] font-mono px-1.5 py-0.2 rounded-sm ${
+                className={`text-[10.5px] font-mono px-1.5 py-0.5 rounded-sm ${
                   activeType === 'diary'
                     ? 'bg-sky-100 dark:bg-sky-900/60 text-sky-700 dark:text-sky-300 font-medium'
                     : 'bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500'
@@ -169,6 +170,16 @@ export const Archives: React.FC = () => {
                 {allDiaries.length}
               </span>
             </button>
+
+            {/* 切换至文稿相册网格模式 */}
+            <Link
+              href="/posts"
+              className="inline-flex items-center space-x-1 px-2.5 py-1.5 rounded-sm text-xs font-mono text-slate-500 hover:text-sky-600 dark:hover:text-sky-400 bg-white/80 dark:bg-slate-900/80 hover:bg-slate-100 dark:hover:bg-slate-800/80 border border-slate-200/70 dark:border-slate-800/70 transition-colors shadow-2xs shrink-0 ml-1"
+              title="切换至相框卡片视图"
+            >
+              <LayoutGrid className="w-3 h-3" />
+              <span>卡片相册</span>
+            </Link>
           </div>
         </div>
 
@@ -181,7 +192,7 @@ export const Archives: React.FC = () => {
                 <span className="font-serif text-2xl sm:text-3xl font-bold text-slate-800 dark:text-slate-200 tracking-tight">
                   {year}
                 </span>
-                <div className="flex-1 h-px bg-slate-200/70 dark:border-slate-800/70" />
+                <div className="flex-1 h-px bg-slate-200/70 dark:bg-slate-800/70" />
                 <span className="text-xs font-mono text-slate-400 dark:text-slate-500">
                   {itemsByYear[year].length} 篇
                 </span>
@@ -191,38 +202,40 @@ export const Archives: React.FC = () => {
               <div className="relative pl-6 sm:pl-7 space-y-0.5 before:content-[''] before:absolute before:left-2 sm:before:left-2.5 before:top-2 before:bottom-2 before:w-px before:bg-slate-200/80 dark:before:bg-slate-800/80">
                 {itemsByYear[year].map((item) => (
                   <div key={item.id} className="relative group">
-                    {/* 时间轴微节点圆点 (与竖线精确居中同轴) */}
-                    <div className="absolute -left-[19px] sm:-left-[21px] top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-700 group-hover:bg-sky-500 transition-colors" />
+                    {/* 时间轴微节点圆点 (移动端对准首行文字，桌面端居中) */}
+                    <div className="absolute -left-[19px] sm:-left-[21px] top-3 sm:top-1/2 sm:-translate-y-1/2 w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-700 group-hover:bg-sky-500 transition-colors" />
 
-                    {/* 单篇归档行卡片 (移动端与桌面端均保持单行流线) */}
+                    {/* 归档行卡片 (桌面端优雅单行，移动端自适应展示完整标题) */}
                     <Link
                       href={item.slug}
-                      className="flex items-center justify-between py-1.5 px-2 -mx-1.5 rounded-sm hover:bg-slate-100/50 dark:hover:bg-slate-900/50 transition-colors group"
+                      className="flex flex-col sm:flex-row sm:items-center justify-between py-2 sm:py-1.5 px-2 -mx-1.5 rounded-sm hover:bg-slate-100/50 dark:hover:bg-slate-900/50 transition-colors group gap-1 sm:gap-2"
                     >
-                      <div className="flex items-center space-x-2 sm:space-x-2.5 min-w-0 pr-2">
+                      <div className="flex items-start sm:items-center space-x-2 sm:space-x-2.5 min-w-0 pr-1 sm:pr-2">
                         {/* 发布日期 (MM-DD) */}
-                        <span className="font-mono text-xs text-slate-400 dark:text-slate-500 shrink-0 select-none">
+                        <span className="font-mono text-xs text-slate-400 dark:text-slate-500 shrink-0 select-none mt-0.5 sm:mt-0">
                           {formatDateShort(item.date)}
                         </span>
 
                         {/* 标题 */}
-                        <span className="text-[13px] sm:text-sm text-slate-800 dark:text-slate-200 group-hover:text-slate-950 dark:group-hover:text-white font-medium transition-colors truncate">
+                        <span className="text-[13px] sm:text-sm text-slate-800 dark:text-slate-200 group-hover:text-sky-600 dark:group-hover:text-sky-400 font-medium transition-colors sm:truncate leading-snug">
                           {item.title}
                         </span>
 
                         {/* 分类微标签 (桌面端展示) */}
                         {item.category && (
-                          <span className="hidden sm:inline-block text-[10px] font-mono px-1.5 py-0.2 rounded-sm bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 shrink-0">
+                          <span className="hidden sm:inline-block text-[10px] font-mono px-1.5 py-0.5 rounded-sm bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 shrink-0">
                             {item.category}
                           </span>
                         )}
                       </div>
 
-                      {/* 类型标 (手记标签同行右侧展示，避免折行) */}
+                      {/* 类型标 (手记标签) */}
                       {item.type === 'diary' && (
-                        <span className="shrink-0 px-1.5 py-0.5 rounded-sm bg-sky-50 dark:bg-sky-950/40 text-sky-600 dark:text-sky-400 text-[10.5px] font-mono leading-none">
-                          手记
-                        </span>
+                        <div className="flex items-center pl-10 sm:pl-0 shrink-0">
+                          <span className="px-1.5 py-0.5 rounded-sm bg-sky-50 dark:bg-sky-950/40 text-sky-600 dark:text-sky-400 text-[10.5px] font-mono leading-none">
+                            手记
+                          </span>
+                        </div>
                       )}
                     </Link>
                   </div>

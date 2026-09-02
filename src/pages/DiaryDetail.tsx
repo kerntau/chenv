@@ -1,6 +1,7 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import { useRoute, Link, useLocation } from 'wouter';
 import { PageShell } from '../components/layout/PageShell';
+import { Container } from '../components/layout/Container';
 import { MarkdownRenderer } from '../components/markdown/MarkdownRenderer';
 import { ReadingProgressBar } from '../components/post/ReadingProgressBar';
 import { getDiaryBySlug, getAllDiaries, siteConfig } from '../content';
@@ -11,11 +12,9 @@ import {
   MapPin,
   Tag,
   ChevronLeft,
-  Share2,
-  Check,
+  ChevronRight,
   Feather,
   Sparkles,
-  Heart,
 } from 'lucide-react';
 
 export const DiaryDetail: React.FC = () => {
@@ -25,9 +24,6 @@ export const DiaryDetail: React.FC = () => {
   const [, setLocation] = useLocation();
 
   const slug = params?.slug || journalParams?.slug || shoujiParams?.slug;
-  const [copied, setCopied] = useState(false);
-  const [liked, setLiked] = useState(false);
-  const [likeCount, setLikeCount] = useState(0);
 
   const allDiaries = useMemo(() => getAllDiaries(), []);
   const diary = useMemo(() => (slug ? getDiaryBySlug(slug) : null), [slug]);
@@ -49,23 +45,6 @@ export const DiaryDetail: React.FC = () => {
     };
   }, [allDiaries, slug]);
 
-  const handleCopyLink = async () => {
-    try {
-      await navigator.clipboard.writeText(window.location.href);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
-  const handleLike = () => {
-    if (!liked) {
-      setLiked(true);
-      setLikeCount((prev) => prev + 1);
-    }
-  };
-
   // 过滤掉 Markdown 正文开头与标题重复的首行 # 标题
   const cleanContent = useMemo(() => {
     return stripDuplicateHeading(diary?.content || '', diary?.title);
@@ -76,19 +55,18 @@ export const DiaryDetail: React.FC = () => {
       <PageShell>
         <div className="w-full max-w-[960px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="py-24 text-center">
-            <div className="inline-flex items-center space-x-1.5 px-2.5 py-1 rounded-sm bg-slate-100 dark:bg-slate-800 text-xs font-mono text-slate-500 mb-4">
-              <Feather className="w-3.5 h-3.5 text-sky-600 dark:text-sky-400" />
-              <span>DIARY NOT FOUND</span>
+            <div className="w-12 h-12 rounded-sm bg-slate-200/60 dark:bg-slate-800 text-slate-700 dark:text-slate-300 flex items-center justify-center mx-auto mb-4">
+              <Feather className="w-6 h-6 text-sky-600 dark:text-sky-400" />
             </div>
             <h2 className="font-sans text-2xl font-semibold text-slate-800 dark:text-slate-200">
               手记未找到
             </h2>
             <p className="text-sm text-slate-500 mt-2 font-mono">
-              请求的手记篇目不存在或已被移除
+              请求的手记篇章不存在或已归档
             </p>
             <button
               onClick={() => setLocation('/diaries')}
-              className="mt-6 px-4 py-2 rounded-sm bg-slate-900 dark:bg-slate-100 text-slate-100 dark:text-slate-900 text-xs font-medium hover:opacity-90 transition-opacity"
+              className="mt-6 px-4 py-2 rounded-sm bg-slate-900 dark:bg-slate-100 text-slate-100 dark:text-slate-900 text-xs font-medium"
             >
               返回手记列表
             </button>
@@ -103,36 +81,8 @@ export const DiaryDetail: React.FC = () => {
       <ReadingProgressBar />
 
       <PageShell>
-        <div className="w-full max-w-[960px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="pt-2 pb-16">
-            {/* 顶栏控制条：返回上一级与分享 */}
-            <div className="mb-6 flex items-center justify-between pb-3.5 border-b border-slate-200/60 dark:border-slate-800/60">
-              <Link
-                href="/diaries"
-                className="inline-flex items-center space-x-1.5 text-xs font-mono text-slate-500 hover:text-slate-900 dark:hover:text-slate-100 transition-colors group"
-              >
-                <ChevronLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
-                <span>返回手记列表</span>
-              </Link>
-
-              <button
-                onClick={handleCopyLink}
-                className="inline-flex items-center space-x-1 text-xs font-mono text-slate-500 hover:text-slate-900 dark:hover:text-slate-100 px-2.5 py-1 rounded-md border border-slate-200/70 dark:border-slate-800/70 hover:bg-slate-100/70 dark:hover:bg-slate-800/70 transition-colors"
-              >
-                {copied ? (
-                  <>
-                    <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
-                    <span className="text-emerald-600 dark:text-emerald-400">链接已复制</span>
-                  </>
-                ) : (
-                  <>
-                    <Share2 className="w-3.5 h-3.5" />
-                    <span>分享手记</span>
-                  </>
-                )}
-              </button>
-            </div>
-
+        <Container size="diary">
+          <div className="pt-2 sm:pt-4 pb-16">
             {/* 手记纸张大卡片（单栏居中，温润自然） */}
             <article className="p-4 sm:p-7 md:p-8 paper-sheet-realistic space-y-5 text-slate-800 dark:text-slate-200">
               {/* 头部元数据栏 */}
@@ -206,21 +156,6 @@ export const DiaryDetail: React.FC = () => {
                 <MarkdownRenderer content={cleanContent} />
               </div>
 
-              {/* 互动共鸣区 */}
-              <div className="pt-4 pb-1 flex items-center justify-center">
-                <button
-                  onClick={handleLike}
-                  className={`inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-sm text-xs font-mono transition-all duration-200 border ${
-                    liked
-                      ? 'bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 border-rose-200 dark:border-rose-800/50 shadow-xs'
-                      : 'bg-slate-50 dark:bg-slate-800/60 text-slate-600 dark:text-slate-400 border-slate-200/70 dark:border-slate-700/70 hover:text-rose-600 dark:hover:text-rose-400 hover:border-rose-200'
-                  }`}
-                >
-                  <Heart className={`w-3.5 h-3.5 ${liked ? 'fill-current' : ''}`} />
-                  <span>共鸣留痕 {likeCount > 0 ? `(${likeCount})` : ''}</span>
-                </button>
-              </div>
-
               {/* 底部作者寄语 */}
               <footer className="mt-6 pt-5 border-t border-slate-200/70 dark:border-slate-800/70 space-y-4">
                 <div className="p-3.5 rounded-md bg-slate-50/80 dark:bg-slate-900/50 border border-slate-200/60 dark:border-slate-800/60 flex items-start space-x-2.5 text-xs text-slate-600 dark:text-slate-400">
@@ -238,14 +173,7 @@ export const DiaryDetail: React.FC = () => {
                       href={`/diaries/${prevDiary.slug}`}
                       className="group flex items-center gap-2.5 sm:gap-3 text-left transition-opacity duration-200 hover:opacity-75"
                     >
-                      <svg
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                        className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-slate-400 dark:text-slate-500 group-hover:text-slate-700 dark:group-hover:text-slate-300 shrink-0 transition-transform duration-200 group-hover:-translate-x-1"
-                        aria-hidden="true"
-                      >
-                        <path d="M2.5 12L11 18V6L2.5 12zm10 0L21 18V6L12.5 12z" />
-                      </svg>
+                      <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 text-slate-400 dark:text-slate-500 group-hover:text-slate-700 dark:group-hover:text-slate-300 shrink-0 transition-transform duration-200 group-hover:-translate-x-1" />
                       <div className="min-w-0 flex-1">
                         <div className="text-xs sm:text-sm font-semibold text-slate-800 dark:text-slate-200 line-clamp-1">
                           {prevDiary.title}
@@ -272,14 +200,7 @@ export const DiaryDetail: React.FC = () => {
                           {formatDate(nextDiary.date).replace(/^20(\d{2}年)/, '$1')}
                         </div>
                       </div>
-                      <svg
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                        className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-slate-400 dark:text-slate-500 group-hover:text-slate-700 dark:group-hover:text-slate-300 shrink-0 transition-transform duration-200 group-hover:translate-x-1"
-                        aria-hidden="true"
-                      >
-                        <path d="M3 6v12l8.5-6L3 6zm10 0v12l8.5-6L13 6z" />
-                      </svg>
+                      <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 text-slate-400 dark:text-slate-500 group-hover:text-slate-700 dark:group-hover:text-slate-300 shrink-0 transition-transform duration-200 group-hover:translate-x-1" />
                     </Link>
                   ) : (
                     <div />
@@ -288,7 +209,7 @@ export const DiaryDetail: React.FC = () => {
               </footer>
             </article>
           </div>
-        </div>
+        </Container>
       </PageShell>
     </>
   );

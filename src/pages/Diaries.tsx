@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import { Link } from 'wouter';
 import { PageShell } from '../components/layout/PageShell';
+import { Container } from '../components/layout/Container';
 import { getAllDiaries, siteConfig } from '../content';
 import { formatDate } from '../lib/date';
 import {
@@ -19,7 +20,7 @@ export const Diaries: React.FC = () => {
 
   return (
     <PageShell>
-      <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+      <Container size="wide">
         {/* 顶部标题区 */}
         <div className="mb-4 pb-3 sm:mb-10 sm:pb-6 border-b border-slate-200/70 dark:border-slate-800/70 text-center">
           <div className="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded-xs bg-slate-100 dark:bg-slate-800 text-[11px] font-mono tracking-wider text-slate-600 dark:text-slate-400 mb-2">
@@ -46,31 +47,27 @@ export const Diaries: React.FC = () => {
             >
               <div>
                 {/* 顶部元数据头：天气、心情、时间与地点 */}
-                <div className="flex flex-wrap items-center justify-between gap-1.5 text-xs font-mono text-slate-500 dark:text-slate-400 pb-2.5 border-b border-slate-100/80 dark:border-slate-800/60 mb-2.5">
-                  <div className="flex flex-wrap items-center gap-1.5">
-                    <span className="flex items-center space-x-1 font-semibold text-slate-800 dark:text-slate-200 font-serif">
-                      <Calendar className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400" />
-                      <time dateTime={diary.date}>{formatDate(diary.date)}</time>
-                      {diary.time && <span className="font-mono text-xs opacity-75">{diary.time}</span>}
-                    </span>
+                <div className="flex items-center justify-between gap-2 text-xs font-mono text-slate-500 dark:text-slate-400 pb-2.5 border-b border-slate-100/80 dark:border-slate-800/60 mb-2.5">
+                  <div className="flex items-center space-x-1.5 font-medium text-slate-800 dark:text-slate-200">
+                    <Calendar className="w-3.5 h-3.5 text-sky-600 dark:text-sky-400 shrink-0" />
+                    <time dateTime={diary.date}>{formatDate(diary.date)}</time>
+                    {diary.time && <span className="text-[11px] opacity-75 font-mono">· {diary.time}</span>}
+                  </div>
 
+                  <div className="flex items-center space-x-1.5 text-[10.5px] shrink-0">
                     {diary.weather && (
-                      <span className="px-1.5 py-0.5 rounded-xs bg-slate-100 dark:bg-slate-800 text-[10.5px] font-sans">
+                      <span className="px-1.5 py-0.5 rounded-xs bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400">
                         {diary.weather}
                       </span>
                     )}
-
                     {diary.mood && (
-                      <span className="px-1.5 py-0.5 rounded-xs bg-sky-50 dark:bg-sky-950/30 text-sky-800 dark:text-sky-300 text-[10.5px] font-sans border border-sky-200/40 dark:border-sky-800/30">
+                      <span className="px-1.5 py-0.5 rounded-xs bg-sky-50 dark:bg-sky-950/40 text-sky-700 dark:text-sky-300 border border-sky-200/50 dark:border-sky-800/40">
                         {diary.mood}
                       </span>
                     )}
-                  </div>
-
-                  <div className="flex items-center space-x-1.5 text-[10.5px]">
                     {diary.location && (
-                      <span className="flex items-center space-x-1 text-slate-400">
-                        <MapPin className="w-3 w-3.5 text-slate-400" />
+                      <span className="hidden sm:inline-flex items-center space-x-0.5 text-slate-400">
+                        <MapPin className="w-3 h-3 text-slate-400" />
                         <span>{diary.location}</span>
                       </span>
                     )}
@@ -126,13 +123,13 @@ export const Diaries: React.FC = () => {
               <span>&bull;</span>
               <span>共收录 {allDiaries.length} 篇心境篇章</span>
               <span>&bull;</span>
-              <span className="px-1.5 py-0.2 rounded-sm bg-slate-100 dark:bg-slate-800 text-[10px]">
+              <span className="px-1.5 py-0.5 rounded-sm bg-slate-100 dark:bg-slate-800 text-[10px]">
                 随笔手札
               </span>
             </div>
           </div>
         </div>
-      </div>
+      </Container>
     </PageShell>
   );
 };
