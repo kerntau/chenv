@@ -89,22 +89,25 @@ export const Archives: React.FC = () => {
   return (
     <PageShell>
       <Container size="narrow">
-        {/* 顶部标题与分类过滤区（规范与文稿/手记页高度统一） */}
-        <div className="mb-10 pb-6 border-b border-slate-200/70 dark:border-slate-800/70 font-sans">
-          <div className="flex items-center space-x-2 text-xs font-mono text-slate-500 mb-2">
-            <History className="w-4 h-4 text-slate-600 dark:text-slate-400" />
-            <span>TIMELINE &bull; 时光年谱</span>
+        {/* 顶部标题区 (手记同款居中规范) */}
+        <div className="mb-4 pb-3.5 sm:mb-10 sm:pb-6 border-b border-slate-200/70 dark:border-slate-800/70 font-sans text-center">
+          <div className="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded-sm bg-slate-100 dark:bg-slate-800 text-[11px] font-mono tracking-wider text-slate-600 dark:text-slate-400 mb-2">
+            <History className="w-3 h-3 text-sky-600 dark:text-sky-400" />
+            <span>ARCHIVES</span>
           </div>
 
-          <h1 className="text-3xl sm:text-4xl font-semibold text-slate-900 dark:text-slate-100 tracking-tight">
+          <h1 className="font-sans text-2xl sm:text-4xl font-semibold text-slate-900 dark:text-slate-100 tracking-tight">
             {pageTitle}
           </h1>
-          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1.5">
-            {pageSubtitle}
-          </p>
 
-          {/* 一级内容类型筛选胶囊（温润天蓝微光选中态，规范统一） */}
-          <div className="mt-6 flex flex-wrap items-center gap-2">
+          {pageSubtitle && (
+            <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1.5 sm:mt-2 font-sans max-w-md mx-auto">
+              {pageSubtitle}
+            </p>
+          )}
+
+          {/* 一级内容类型筛选胶囊 */}
+          <div className="mt-3.5 sm:mt-5 flex flex-wrap items-center justify-center gap-2">
             <button
               onClick={() => setActiveType('all')}
               className={`px-3 py-1.5 rounded-sm text-xs font-sans transition-all flex items-center space-x-1.5 ${
@@ -184,30 +187,30 @@ export const Archives: React.FC = () => {
                 </span>
               </div>
 
-              {/* 时间轴树状条目 */}
-              <div className="relative pl-5 sm:pl-7 space-y-1 before:content-[''] before:absolute before:left-1.5 sm:before:left-2 before:top-2 before:bottom-2 before:w-px before:bg-slate-200/80 dark:before:bg-slate-800/80">
+              {/* 时间轴树状条目 (精确轴线与单行流线排版) */}
+              <div className="relative pl-6 sm:pl-7 space-y-0.5 before:content-[''] before:absolute before:left-2 sm:before:left-2.5 before:top-2 before:bottom-2 before:w-px before:bg-slate-200/80 dark:before:bg-slate-800/80">
                 {itemsByYear[year].map((item) => (
                   <div key={item.id} className="relative group">
-                    {/* 时间轴微节点圆点 */}
-                    <div className="absolute -left-5 sm:-left-7 top-2.5 w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-700 group-hover:bg-sky-500 transition-colors" />
+                    {/* 时间轴微节点圆点 (与竖线精确居中同轴) */}
+                    <div className="absolute -left-[19px] sm:-left-[21px] top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-700 group-hover:bg-sky-500 transition-colors" />
 
-                    {/* 单篇归档行卡片 */}
+                    {/* 单篇归档行卡片 (移动端与桌面端均保持单行流线) */}
                     <Link
                       href={item.slug}
-                      className="flex flex-col sm:flex-row sm:items-baseline justify-between py-1.5 px-2 -mx-1.5 rounded-sm hover:bg-slate-100/50 dark:hover:bg-slate-900/50 transition-colors"
+                      className="flex items-center justify-between py-1.5 px-2 -mx-1.5 rounded-sm hover:bg-slate-100/50 dark:hover:bg-slate-900/50 transition-colors group"
                     >
-                      <div className="flex items-baseline space-x-2.5 min-w-0 pr-3">
+                      <div className="flex items-center space-x-2 sm:space-x-2.5 min-w-0 pr-2">
                         {/* 发布日期 (MM-DD) */}
                         <span className="font-mono text-xs text-slate-400 dark:text-slate-500 shrink-0 select-none">
                           {formatDateShort(item.date)}
                         </span>
 
                         {/* 标题 */}
-                        <span className="text-[13px] sm:text-sm text-slate-800 dark:text-slate-200 group-hover:text-sky-600 dark:group-hover:text-sky-400 font-medium transition-colors truncate">
+                        <span className="text-[13px] sm:text-sm text-slate-800 dark:text-slate-200 group-hover:text-slate-950 dark:group-hover:text-white font-medium transition-colors truncate">
                           {item.title}
                         </span>
 
-                        {/* 分类微标签 */}
+                        {/* 分类微标签 (桌面端展示) */}
                         {item.category && (
                           <span className="hidden sm:inline-block text-[10px] font-mono px-1.5 py-0.2 rounded-sm bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 shrink-0">
                             {item.category}
@@ -215,14 +218,12 @@ export const Archives: React.FC = () => {
                         )}
                       </div>
 
-                      {/* 类型标 */}
-                      <div className="flex items-center space-x-1.5 text-[10px] font-mono text-slate-400 dark:text-slate-500 mt-0.5 sm:mt-0 shrink-0">
-                        {item.type === 'diary' && (
-                          <span className="px-1.5 py-0.2 rounded-sm bg-sky-50 dark:bg-sky-950/40 text-sky-600 dark:text-sky-400">
-                            手记
-                          </span>
-                        )}
-                      </div>
+                      {/* 类型标 (手记标签同行右侧展示，避免折行) */}
+                      {item.type === 'diary' && (
+                        <span className="shrink-0 px-1.5 py-0.5 rounded-sm bg-sky-50 dark:bg-sky-950/40 text-sky-600 dark:text-sky-400 text-[10.5px] font-mono leading-none">
+                          手记
+                        </span>
+                      )}
                     </Link>
                   </div>
                 ))}

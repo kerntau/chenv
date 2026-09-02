@@ -21,16 +21,16 @@ export const Diaries: React.FC = () => {
     <PageShell>
       <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* 顶部标题区 */}
-        <div className="mb-10 pb-6 border-b border-slate-200/70 dark:border-slate-800/70 text-center">
-          <div className="inline-flex items-center space-x-1.5 px-2.5 py-1 rounded-sm bg-slate-100 dark:bg-slate-800 text-xs font-mono text-slate-600 dark:text-slate-400 mb-3">
-            <Feather className="w-3.5 h-3.5 text-sky-600 dark:text-sky-400" />
-            <span>DIARIES &bull; 纸上温度 &bull; 心境手记</span>
+        <div className="mb-4 pb-3 sm:mb-10 sm:pb-6 border-b border-slate-200/70 dark:border-slate-800/70 text-center">
+          <div className="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded-xs bg-slate-100 dark:bg-slate-800 text-[11px] font-mono tracking-wider text-slate-600 dark:text-slate-400 mb-2">
+            <Feather className="w-3 h-3 text-sky-600 dark:text-sky-400" />
+            <span>DIARIES</span>
           </div>
-          <h1 className="font-sans text-3xl sm:text-4xl font-semibold text-slate-900 dark:text-slate-100 tracking-tight">
+          <h1 className="font-sans text-2xl sm:text-4xl font-semibold text-slate-900 dark:text-slate-100 tracking-tight">
             {pageTitle}
           </h1>
           {pageSubtitle && (
-            <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-2 font-sans max-w-md mx-auto">
+            <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1.5 sm:mt-2 font-sans max-w-md mx-auto">
               {pageSubtitle}
             </p>
           )}
@@ -42,11 +42,11 @@ export const Diaries: React.FC = () => {
             <Link
               key={diary.slug}
               href={`/diaries/${diary.slug}`}
-              className="p-3.5 sm:p-4 rounded-sm border border-sky-100/60 dark:border-slate-800/60 bg-white/70 dark:bg-slate-900/50 transition-colors duration-200 group flex flex-col justify-between block hover:bg-white/95 dark:hover:bg-slate-900/80"
+              className="p-3.5 sm:p-4 rounded border border-slate-200/70 dark:border-slate-800/70 bg-white/75 dark:bg-slate-900/60 shadow-[0_1px_3px_rgba(15,23,42,0.03),0_4px_12px_-2px_rgba(15,23,42,0.03)] hover:shadow-[0_8px_22px_-4px_rgba(15,23,42,0.08),0_2px_6px_-1px_rgba(15,23,42,0.04)] hover:-translate-y-1 hover:border-sky-200/90 dark:hover:border-sky-800/80 hover:bg-white/95 dark:hover:bg-slate-900/85 transition-all duration-300 ease-out group flex flex-col justify-between block"
             >
               <div>
                 {/* 顶部元数据头：天气、心情、时间与地点 */}
-                <div className="flex flex-wrap items-center justify-between gap-1.5 text-xs font-mono text-slate-500 dark:text-slate-400 pb-2.5 border-b border-slate-200/50 dark:border-slate-800/50 mb-2.5">
+                <div className="flex flex-wrap items-center justify-between gap-1.5 text-xs font-mono text-slate-500 dark:text-slate-400 pb-2.5 border-b border-slate-100/80 dark:border-slate-800/60 mb-2.5">
                   <div className="flex flex-wrap items-center gap-1.5">
                     <span className="flex items-center space-x-1 font-semibold text-slate-800 dark:text-slate-200 font-serif">
                       <Calendar className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400" />
@@ -55,13 +55,13 @@ export const Diaries: React.FC = () => {
                     </span>
 
                     {diary.weather && (
-                      <span className="px-1.5 py-0.5 rounded-sm bg-slate-100 dark:bg-slate-800 text-[10.5px] font-sans">
+                      <span className="px-1.5 py-0.5 rounded-xs bg-slate-100 dark:bg-slate-800 text-[10.5px] font-sans">
                         {diary.weather}
                       </span>
                     )}
 
                     {diary.mood && (
-                      <span className="px-1.5 py-0.5 rounded-sm bg-sky-50 dark:bg-sky-950/30 text-sky-800 dark:text-sky-300 text-[10.5px] font-sans border border-sky-200/40 dark:border-sky-800/30">
+                      <span className="px-1.5 py-0.5 rounded-xs bg-sky-50 dark:bg-sky-950/30 text-sky-800 dark:text-sky-300 text-[10.5px] font-sans border border-sky-200/40 dark:border-sky-800/30">
                         {diary.mood}
                       </span>
                     )}
@@ -79,7 +79,7 @@ export const Diaries: React.FC = () => {
 
                 {/* 标题与摘要导言 */}
                 <div className="space-y-1.5">
-                  <h2 className="font-serif text-base sm:text-[17px] font-semibold text-slate-900 dark:text-slate-100 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors leading-snug line-clamp-2">
+                  <h2 className="font-serif text-base sm:text-[17px] font-semibold text-slate-900 dark:text-slate-100 group-hover:text-slate-950 dark:group-hover:text-white transition-colors leading-snug line-clamp-2">
                     {diary.title}
                   </h2>
                   {diary.summary && (
