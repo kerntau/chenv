@@ -10,7 +10,6 @@ import { getPostBySlug, getAllPosts, siteConfig } from '../content';
 import { formatDate } from '../lib/date';
 import { stripDuplicateHeading } from '../lib/markdown';
 import {
-  Clock,
   Calendar,
   Tag,
   ChevronLeft,
@@ -20,6 +19,8 @@ import {
   ShieldAlert,
   ListOrdered,
   X,
+  AlignLeft,
+  ArrowUp,
 } from 'lucide-react';
 
 export const PostDetail: React.FC = () => {
@@ -102,7 +103,7 @@ export const PostDetail: React.FC = () => {
       <ReadingProgressBar />
 
       <PageShell>
-        <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10 pt-2 pb-16">
+        <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 pt-1 sm:pt-2 pb-10 sm:pb-16">
           
           {/* 核心布局：正文纸张大板 (flex-1 max-w-[960px]) + 宽屏右侧侧栏目录 (w-72 xl:w-80)，紧凑收拢右侧边缘留白 */}
           <div className="flex items-start justify-center gap-6 lg:gap-8 xl:gap-10">
@@ -110,9 +111,9 @@ export const PostDetail: React.FC = () => {
             {/* 1. 高端出版级自然温润纸质大板容器（一体化通顶无缝封面大图） */}
             <main className="w-full flex-1 max-w-[960px] min-w-0 font-sans paper-sheet-realistic overflow-hidden text-slate-800 dark:text-slate-200">
               
-              {/* 顶部全宽一体化通顶大画幅背景图 (Full-Bleed Cover Hero) - 高度与间距微调 */}
+              {/* 顶部全宽一体化通顶大画幅背景图 (Full-Bleed Cover Hero) - 移动端紧凑高度 */}
               {coverUrl ? (
-                <div className="relative w-full h-56 sm:h-64 lg:h-72 overflow-hidden bg-slate-950">
+                <div className="relative w-full h-44 sm:h-64 lg:h-72 overflow-hidden bg-slate-950">
                   <img
                     src={coverUrl}
                     alt={post.title}
@@ -126,9 +127,9 @@ export const PostDetail: React.FC = () => {
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/30 to-slate-950/35 pointer-events-none" />
 
                   {/* 浮于大图底部的文章头衔：分类、日期、主标题 */}
-                  <div className="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6 z-10 text-white space-y-2 pointer-events-none">
-                    <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-white/90">
-                      <span className="px-2 py-0.5 rounded-sm bg-sky-500/85 backdrop-blur-md text-white font-medium shadow-sm">
+                  <div className="absolute bottom-3 left-3 right-3 sm:bottom-6 sm:left-6 sm:right-6 z-10 text-white space-y-1.5 sm:space-y-2 pointer-events-none">
+                    <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 text-[10.5px] sm:text-xs font-mono text-white/90">
+                      <span className="px-1.5 sm:px-2 py-0.5 rounded-sm bg-sky-500/85 backdrop-blur-md text-white font-medium shadow-sm text-[10.5px] sm:text-xs">
                         {post.category}
                       </span>
                       <span>&bull;</span>
@@ -137,26 +138,21 @@ export const PostDetail: React.FC = () => {
                         <time dateTime={post.date}>{formatDate(post.date)}</time>
                       </span>
                       <span>&bull;</span>
-                      <span className="flex items-center space-x-1 text-white/90">
-                        <Clock className="w-3 h-3" />
-                        <span>{post.readingTime}</span>
-                      </span>
-                      <span>&bull;</span>
                       <span className="text-white/90">约 {post.wordCount} 字</span>
                     </div>
 
-                    <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white tracking-tight leading-snug drop-shadow-md">
+                    <h1 className="text-lg sm:text-2xl lg:text-3xl font-bold text-white tracking-tight leading-snug drop-shadow-md line-clamp-2 sm:line-clamp-none">
                       {post.title}
                     </h1>
                   </div>
                 </div>
               ) : (
                 /* 无图片时的纯净头部工具栏 */
-                <div className="p-4 sm:p-6 pb-0">
-                  <div className="mb-4 flex items-center justify-between pb-3 border-b border-slate-200/60 dark:border-slate-800/60">
+                <div className="p-3 sm:p-6 pb-0">
+                  <div className="mb-3 sm:mb-4 flex items-center justify-between pb-2.5 sm:pb-3 border-b border-slate-200/60 dark:border-slate-800/60">
                     <Link
                       href="/posts"
-                      className="inline-flex items-center space-x-1.5 text-xs font-mono text-slate-500 hover:text-slate-900 dark:hover:text-slate-100 transition-colors group"
+                      className="inline-flex items-center space-x-1 text-[11px] sm:text-xs font-mono text-slate-500 hover:text-slate-900 dark:hover:text-slate-100 transition-colors group"
                     >
                       <ChevronLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
                       <span>返回文稿归档</span>
@@ -164,13 +160,13 @@ export const PostDetail: React.FC = () => {
 
                     <button
                       onClick={handleCopyLink}
-                      className="inline-flex items-center space-x-1 text-xs font-mono text-slate-500 hover:text-slate-900 dark:hover:text-slate-100 px-2.5 py-1 rounded-sm border border-slate-200/70 dark:border-slate-800/70 hover:bg-slate-100/70 dark:hover:bg-slate-800/70 transition-colors"
+                      className="inline-flex items-center space-x-1 text-[11px] sm:text-xs font-mono text-slate-500 hover:text-slate-900 dark:hover:text-slate-100 px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-sm border border-slate-200/70 dark:border-slate-800/70 hover:bg-slate-100/70 dark:hover:bg-slate-800/70 transition-colors"
                     >
                       {copied ? (
                         <>
                           <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
                           <span className="text-emerald-600 dark:text-emerald-400">
-                            链接已复制
+                            已复制
                           </span>
                         </>
                       ) : (
@@ -182,9 +178,9 @@ export const PostDetail: React.FC = () => {
                     </button>
                   </div>
 
-                  <header className="mb-4 pb-4 border-b border-slate-200/70 dark:border-slate-800/70">
-                    <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-slate-500 dark:text-slate-400 mb-2.5">
-                      <span className="px-2 py-0.5 rounded-sm bg-sky-50 dark:bg-sky-950/60 text-sky-700 dark:text-sky-300 font-medium border border-sky-200/50 dark:border-sky-800/50">
+                  <header className="mb-3 sm:mb-4 pb-3 sm:pb-4 border-b border-slate-200/70 dark:border-slate-800/70">
+                    <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 text-[10.5px] sm:text-xs font-mono text-slate-500 dark:text-slate-400 mb-2 sm:mb-2.5">
+                      <span className="px-1.5 sm:px-2 py-0.5 rounded-sm bg-sky-50 dark:bg-sky-950/60 text-sky-700 dark:text-sky-300 font-medium border border-sky-200/50 dark:border-sky-800/50">
                         {post.category}
                       </span>
                       <span>&bull;</span>
@@ -193,40 +189,35 @@ export const PostDetail: React.FC = () => {
                         <time dateTime={post.date}>{formatDate(post.date)}</time>
                       </span>
                       <span>&bull;</span>
-                      <span className="flex items-center space-x-1">
-                        <Clock className="w-3 h-3" />
-                        <span>{post.readingTime}</span>
-                      </span>
-                      <span>&bull;</span>
                       <span>约 {post.wordCount} 字</span>
                     </div>
 
-                    <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-950 dark:text-slate-50 tracking-tight leading-snug">
+                    <h1 className="text-xl sm:text-3xl lg:text-4xl font-bold text-slate-950 dark:text-slate-50 tracking-tight leading-snug">
                       {post.title}
                     </h1>
                   </header>
                 </div>
               )}
 
-              {/* 纸张正文核心内容区（紧凑自然的内边距） */}
-              <div className="p-4 sm:p-6 md:p-8 pt-4 sm:pt-4 md:pt-4">
+              {/* 纸张正文核心内容区（统一自然内边距） */}
+              <div className="p-4 sm:p-6 md:p-8 pt-3 sm:pt-4 md:pt-4">
                 
                 {/* 摘要导言 */}
                 {post.summary && (
-                  <div className="mb-5 p-3.5 sm:p-4 rounded-sm bg-slate-100/70 dark:bg-slate-900/50 border-l-2 border-sky-500 text-slate-600 dark:text-slate-300 text-xs sm:text-sm leading-relaxed">
+                  <div className="mb-4 sm:mb-5 p-3 sm:p-4 rounded-sm bg-slate-100/70 dark:bg-slate-900/50 border-l-2 border-sky-500 text-slate-600 dark:text-slate-300 text-xs sm:text-sm leading-relaxed">
                     {post.summary}
                   </div>
                 )}
 
                 {/* 标签微选 */}
                 {post.tags && post.tags.length > 0 && (
-                  <div className="mb-6 flex flex-wrap gap-1.5">
+                  <div className="mb-4 sm:mb-6 flex flex-wrap gap-1 sm:gap-1.5">
                     {post.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="inline-flex items-center space-x-1 px-2 py-0.5 rounded-sm text-xs font-mono bg-slate-100 dark:bg-slate-800/80 text-slate-600 dark:text-slate-400 border border-slate-200/50 dark:border-slate-700/50"
+                        className="inline-flex items-center space-x-1 px-1.5 sm:px-2 py-0.5 rounded-sm text-[11px] sm:text-xs font-mono bg-slate-100 dark:bg-slate-800/80 text-slate-600 dark:text-slate-400 border border-slate-200/50 dark:border-slate-700/50"
                       >
-                        <Tag className="w-3 h-3 opacity-60" />
+                        <Tag className="w-2.5 h-2.5 sm:w-3 sm:h-3 opacity-60" />
                         <span>{tag}</span>
                       </span>
                     ))}
@@ -234,14 +225,14 @@ export const PostDetail: React.FC = () => {
                 )}
 
                 {/* Markdown 正文渲染 (自动去重首行同名大标题) */}
-                <div className="min-h-[400px] leading-relaxed">
+                <div className="min-h-[300px] sm:min-h-[400px] leading-relaxed">
                   <MarkdownRenderer content={cleanContent} />
                 </div>
 
               {/* 底部声明与署名 */}
-              <footer className="mt-10 pt-6 border-t border-slate-200/70 dark:border-slate-800/70 space-y-4">
-                <div className="p-3.5 rounded-sm bg-slate-50/80 dark:bg-slate-900/50 border border-slate-200/60 dark:border-slate-800/60 flex items-start space-x-2.5 text-xs text-slate-600 dark:text-slate-400">
-                  <ShieldAlert className="w-4 h-4 text-sky-600 dark:text-sky-400 shrink-0 mt-0.5" />
+              <footer className="mt-8 sm:mt-10 pt-4 sm:pt-6 border-t border-slate-200/70 dark:border-slate-800/70 space-y-3 sm:space-y-4">
+                <div className="p-2.5 sm:p-3.5 rounded-sm bg-sky-50/30 dark:bg-sky-950/20 border border-sky-100/70 dark:border-slate-800/60 flex items-start space-x-2 text-[11px] sm:text-xs text-slate-600 dark:text-slate-400">
+                  <ShieldAlert className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-sky-600 dark:text-sky-400 shrink-0 mt-0.5" />
                   <div className="leading-relaxed font-sans">
                     <strong>版权与原创声明：</strong>
                     本篇文章由 <strong>{siteConfig.author.name}</strong> 原创撰写，遵循{' '}
@@ -251,17 +242,17 @@ export const PostDetail: React.FC = () => {
                 </div>
 
                 {/* 上一篇 / 下一篇跳转导航 */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3 pt-1">
                   {prevPost ? (
                     <Link
                       href={`/posts/${prevPost.slug}`}
-                      className="group p-3 rounded-sm paper-card block text-left transition-colors hover:border-slate-300 dark:hover:border-slate-700"
+                      className="group p-2.5 sm:p-3 rounded-sm border border-sky-100/70 dark:border-slate-800/60 bg-white/60 dark:bg-slate-900/40 block text-left transition-colors hover:bg-white/95 dark:hover:bg-slate-900/80"
                     >
-                      <span className="text-[10.5px] font-mono text-slate-400 flex items-center space-x-1 mb-1">
+                      <span className="text-[10px] sm:text-[10.5px] font-mono text-slate-400 flex items-center space-x-1 mb-0.5 sm:mb-1">
                         <ChevronLeft className="w-3 h-3 group-hover:-translate-x-0.5 transition-transform" />
                         <span>上一篇</span>
                       </span>
-                      <div className="text-xs font-semibold text-slate-800 dark:text-slate-200 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors line-clamp-1">
+                      <div className="text-[11.5px] sm:text-xs font-semibold text-slate-800 dark:text-slate-200 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors line-clamp-1">
                         {prevPost.title}
                       </div>
                     </Link>
@@ -272,13 +263,13 @@ export const PostDetail: React.FC = () => {
                   {nextPost ? (
                     <Link
                       href={`/posts/${nextPost.slug}`}
-                      className="group p-3 rounded-sm paper-card block text-right sm:ml-auto w-full transition-colors hover:border-slate-300 dark:hover:border-slate-700"
+                      className="group p-2.5 sm:p-3 rounded-sm border border-sky-100/70 dark:border-slate-800/60 bg-white/60 dark:bg-slate-900/40 block text-right sm:ml-auto w-full transition-colors hover:bg-white/95 dark:hover:bg-slate-900/80"
                     >
-                      <span className="text-[10.5px] font-mono text-slate-400 flex items-center justify-end space-x-1 mb-1">
+                      <span className="text-[10px] sm:text-[10.5px] font-mono text-slate-400 flex items-center justify-end space-x-1 mb-0.5 sm:mb-1">
                         <span>下一篇</span>
                         <ChevronRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
                       </span>
-                      <div className="text-xs font-semibold text-slate-800 dark:text-slate-200 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors line-clamp-1">
+                      <div className="text-[11.5px] sm:text-xs font-semibold text-slate-800 dark:text-slate-200 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors line-clamp-1">
                         {nextPost.title}
                       </div>
                     </Link>
@@ -306,7 +297,7 @@ export const PostDetail: React.FC = () => {
           <div className="xl:hidden">
             <button
               onClick={() => setMobileTocOpen(true)}
-              className="fixed right-5 bottom-8 z-40 p-2.5 rounded-sm bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl border border-slate-200/80 dark:border-slate-700/80 shadow-lg text-slate-700 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 transition-transform active:scale-95 flex items-center justify-center"
+              className="fixed right-4 bottom-6 sm:right-5 sm:bottom-8 z-40 p-2 sm:p-2.5 rounded-sm bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl border border-slate-200/80 dark:border-slate-700/80 shadow-lg text-slate-700 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 transition-transform active:scale-95 flex items-center justify-center"
               title="打开文章目录"
             >
               <ListOrdered className="w-4 h-4" />
@@ -321,28 +312,44 @@ export const PostDetail: React.FC = () => {
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     onClick={() => setMobileTocOpen(false)}
-                    className="fixed inset-0 bg-slate-950/40 backdrop-blur-xs z-50"
+                    className="fixed inset-0 bg-black/50 backdrop-blur-[2px] z-50"
                   />
                   <motion.div
                     initial={{ x: '100%' }}
                     animate={{ x: 0 }}
                     exit={{ x: '100%' }}
                     transition={{ type: 'spring', damping: 30, stiffness: 350 }}
-                    className="fixed top-0 right-0 bottom-0 w-[280px] sm:w-[320px] bg-white/98 dark:bg-[#0E1624]/98 backdrop-blur-2xl border-l border-slate-200/80 dark:border-slate-800/80 z-50 p-4 flex flex-col shadow-2xl"
+                    className="fixed top-0 right-0 bottom-0 w-[84vw] max-w-[320px] bg-white dark:bg-[#0c121e] border-l border-slate-200 dark:border-slate-800 z-50 p-4 flex flex-col shadow-2xl"
                   >
-                    <div className="flex items-center justify-between pb-3 border-b border-slate-200/60 dark:border-slate-800/60 mb-3">
-                      <span className="font-semibold text-xs text-slate-800 dark:text-slate-200">
-                        文章目录大纲
-                      </span>
-                      <button
-                        onClick={() => setMobileTocOpen(false)}
-                        className="p-1 rounded-sm hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 transition-colors"
-                      >
-                        <X className="w-4 h-4" />
-                      </button>
+                    <div className="flex items-center justify-between pb-2.5 border-b border-slate-200/60 dark:border-slate-800/60 mb-2.5">
+                      <div className="flex items-center space-x-1.5 font-semibold text-xs text-slate-800 dark:text-slate-200">
+                        <AlignLeft className="w-3.5 h-3.5 text-sky-500" />
+                        <span>文章目录</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                            setMobileTocOpen(false);
+                          }}
+                          className="text-[11px] font-mono text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 flex items-center space-x-0.5 transition-colors cursor-pointer"
+                          title="回到文章顶部"
+                        >
+                          <ArrowUp className="w-3 h-3" />
+                          <span>顶部</span>
+                        </button>
+                        <button
+                          onClick={() => setMobileTocOpen(false)}
+                          className="p-1 rounded-sm hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 transition-colors"
+                          title="关闭目录"
+                        >
+                          <X className="w-4 h-4" />
+                        </button>
+                      </div>
                     </div>
                     <div className="flex-1 overflow-y-auto pr-1">
-                      <TOC toc={post.toc} onItemClick={() => setMobileTocOpen(false)} />
+                      <TOC toc={post.toc} hideHeader onItemClick={() => setMobileTocOpen(false)} />
                     </div>
                   </motion.div>
                 </>

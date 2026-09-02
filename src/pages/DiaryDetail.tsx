@@ -8,7 +8,6 @@ import { formatDate } from '../lib/date';
 import { stripDuplicateHeading } from '../lib/markdown';
 import {
   Calendar,
-  Clock,
   MapPin,
   Tag,
   ChevronLeft,
@@ -167,14 +166,9 @@ export const DiaryDetail: React.FC = () => {
                         <span>{diary.location}</span>
                       </span>
                     )}
-                    <span>&bull;</span>
-                    <span className="flex items-center space-x-1">
-                      <Clock className="w-3 h-3 text-slate-400" />
-                      <span>{diary.readingTime}</span>
-                    </span>
                     {diary.wordCount > 0 && (
                       <>
-                        <span>&bull;</span>
+                        {diary.location && <span>&bull;</span>}
                         <span>约 {diary.wordCount} 字</span>
                       </>
                     )}

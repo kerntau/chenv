@@ -3,7 +3,6 @@ import { Link } from 'wouter';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   ChevronRight,
-  Clock,
   ArrowUpRight,
 } from 'lucide-react';
 import {
@@ -232,10 +231,6 @@ export const NavHoverPopover: React.FC<NavHoverPopoverProps> = ({
                           <div className="mt-1 flex items-center justify-between text-[10px] font-mono text-slate-400 dark:text-slate-500">
                             <span className="truncate max-w-[200px] text-slate-500 dark:text-slate-400 font-sans">
                               {post.summary ? post.summary.slice(0, 24) + '...' : post.category}
-                            </span>
-                            <span className="flex items-center space-x-1 shrink-0">
-                              <Clock className="w-2.5 h-2.5" />
-                              <span>{post.readingTime}</span>
                             </span>
                           </div>
                         </Link>

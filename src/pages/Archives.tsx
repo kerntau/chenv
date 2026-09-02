@@ -5,7 +5,6 @@ import { PageShell } from '../components/layout/PageShell';
 import { getAllPosts, getAllDiaries, siteConfig } from '../content';
 import { formatDateShort, getYear } from '../lib/date';
 import {
-  Clock,
   History,
   FileText,
   Feather,
@@ -195,7 +194,7 @@ export const Archives: React.FC = () => {
                     {/* 单篇归档行卡片 */}
                     <Link
                       href={item.slug}
-                      className="flex flex-col sm:flex-row sm:items-baseline justify-between py-1.5 px-2 -mx-1.5 rounded-sm hover:bg-white/80 dark:hover:bg-slate-900/80 transition-colors border border-transparent hover:border-slate-200/60 dark:hover:border-slate-800/60"
+                      className="flex flex-col sm:flex-row sm:items-baseline justify-between py-1.5 px-2 -mx-1.5 rounded-sm hover:bg-slate-100/50 dark:hover:bg-slate-900/50 transition-colors"
                     >
                       <div className="flex items-baseline space-x-2.5 min-w-0 pr-3">
                         {/* 发布日期 (MM-DD) */}
@@ -216,19 +215,12 @@ export const Archives: React.FC = () => {
                         )}
                       </div>
 
-                      {/* 阅读时间 / 类型标 */}
+                      {/* 类型标 */}
                       <div className="flex items-center space-x-1.5 text-[10px] font-mono text-slate-400 dark:text-slate-500 mt-0.5 sm:mt-0 shrink-0">
-                        {item.type === 'diary' ? (
+                        {item.type === 'diary' && (
                           <span className="px-1.5 py-0.2 rounded-sm bg-sky-50 dark:bg-sky-950/40 text-sky-600 dark:text-sky-400">
                             手记
                           </span>
-                        ) : (
-                          item.readingTime && (
-                            <span className="flex items-center space-x-1">
-                              <Clock className="w-2.5 h-2.5 opacity-60" />
-                              <span>{item.readingTime}</span>
-                            </span>
-                          )
                         )}
                       </div>
                     </Link>
