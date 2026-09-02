@@ -29,17 +29,28 @@ export const Posts: React.FC = () => {
     }
     return 'all';
   });
-  const [selectedTag, setSelectedTag] = useState<string | null>(null);
+  const [selectedTag, setSelectedTag] = useState<string | null>(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const tag = params.get('tag');
+      if (tag) return decodeURIComponent(tag);
+    }
+    return null;
+  });
   const [showAllTags, setShowAllTags] = useState<boolean>(false);
 
-  // 监听 URL Query 参数变化，支持从详情页或外部直接定位分类
+  // 监听 URL Query 参数变化，支持从详情页、归档或站点地图直接定位分类与标签
   useEffect(() => {
     if (typeof window === 'undefined') return;
     const params = new URLSearchParams(window.location.search);
     const cat = params.get('category');
+    const tag = params.get('tag');
     if (cat) {
       setSelectedCategory(decodeURIComponent(cat));
-      setSelectedTag(null);
+      if (!tag) setSelectedTag(null);
+    }
+    if (tag) {
+      setSelectedTag(decodeURIComponent(tag));
     }
   }, []);
 
@@ -204,7 +215,7 @@ export const Posts: React.FC = () => {
               }`}
             >
               <span>全部</span>
-              <span className={`text-[10.5px] font-mono px-1.5 py-0.2 rounded-xs ${
+              <span className={`text-[10.5px] font-mono px-1.5 py-0.5 rounded-xs ${
                 selectedCategory === 'all'
                   ? 'bg-sky-100 dark:bg-sky-900/60 text-sky-700 dark:text-sky-300 font-medium'
                   : 'bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500'
@@ -229,7 +240,7 @@ export const Posts: React.FC = () => {
                   }`}
                 >
                   <span>{cat.name}</span>
-                  <span className={`text-[10.5px] font-mono px-1.5 py-0.2 rounded-xs ${
+                  <span className={`text-[10.5px] font-mono px-1.5 py-0.5 rounded-xs ${
                     isSelected
                       ? 'bg-sky-100 dark:bg-sky-900/60 text-sky-700 dark:text-sky-300 font-medium'
                       : 'bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500'
@@ -288,7 +299,7 @@ export const Posts: React.FC = () => {
           )}
         </div>
 
-        {/* 文章列表（按年分组，4 列响应式相框网格） */}
+        {/* 文章列表（按年分组，响应式相框网格） */}
         {years.length === 0 ? (
           <div className="py-20 text-center text-slate-400 dark:text-slate-500 font-mono text-xs space-y-2">
             <div>未找到符合当前筛选条件的文稿</div>
@@ -313,7 +324,7 @@ export const Posts: React.FC = () => {
                   </span>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
                   {postsByYear[year].map((post) => (
                     <PostCard key={post.slug} post={post} />
                   ))}

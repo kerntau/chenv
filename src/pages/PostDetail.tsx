@@ -13,8 +13,7 @@ import {
   Calendar,
   Tag,
   ChevronLeft,
-  Share2,
-  Check,
+  ChevronRight,
   ShieldAlert,
   ListOrdered,
   AlignLeft,
@@ -25,7 +24,6 @@ export const PostDetail: React.FC = () => {
   const [, params] = useRoute('/posts/:slug');
   const [, setLocation] = useLocation();
   const slug = params?.slug;
-  const [copied, setCopied] = useState(false);
   const [mobileTocOpen, setMobileTocOpen] = useState(false);
 
   // 移动端目录抽屉打开时锁定外部页面滚动与支持 Esc 关闭
@@ -62,16 +60,6 @@ export const PostDetail: React.FC = () => {
       nextPost: currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null,
     };
   }, [allPosts, slug]);
-
-  const handleCopyLink = async () => {
-    try {
-      await navigator.clipboard.writeText(window.location.href);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch (e) {
-      console.error(e);
-    }
-  };
 
   // 过滤掉 Markdown 正文开头与文章大标题重复的首行 # 标题
   const cleanContent = useMemo(() => {
@@ -116,13 +104,13 @@ export const PostDetail: React.FC = () => {
       <ReadingProgressBar />
 
       <PageShell>
-        <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 pt-1 sm:pt-2 pb-10 sm:pb-16">
+        <div className="w-full max-w-4xl lg:max-w-5xl xl:max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-8 pt-1 sm:pt-2 pb-10 sm:pb-16">
           
-          {/* 核心布局：正文纸张大板 (flex-1 max-w-[960px]) + 宽屏右侧侧栏目录 (w-72 xl:w-80)，紧凑收拢右侧边缘留白 */}
+          {/* 核心布局：正文纸张大板 + 宽屏右侧 Sticky 目录，平滑过渡中等视口留白 */}
           <div className="flex items-start justify-center gap-6 lg:gap-8 xl:gap-10">
             
-            {/* 1. 高端出版级自然温润纸质大板容器（一体化通顶无缝封面大图） */}
-            <main className="w-full flex-1 max-w-[960px] min-w-0 font-sans paper-sheet-realistic overflow-hidden text-slate-800 dark:text-slate-200">
+            {/* 1. 出版级温润纸质大板容器 */}
+            <main className="w-full flex-1 max-w-[920px] min-w-0 font-sans paper-sheet-realistic overflow-hidden text-slate-800 dark:text-slate-200">
               
               {/* 顶部全宽一体化通顶大画幅背景图 (Full-Bleed Cover Hero) - 移动端紧凑高度 */}
               {coverUrl ? (
@@ -137,7 +125,7 @@ export const PostDetail: React.FC = () => {
                     }}
                   />
                   {/* 自然的多阶环境光渐变遮罩 */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/30 to-slate-950/35 pointer-events-none" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-slate-950/40 pointer-events-none" />
 
                   {/* 浮于大图底部的文章头衔：分类、日期、主标题 */}
                   <div className="absolute bottom-3 left-3 right-3 sm:bottom-6 sm:left-6 sm:right-6 z-10 text-white space-y-1.5 sm:space-y-2 pointer-events-none">
@@ -169,38 +157,9 @@ export const PostDetail: React.FC = () => {
                   </div>
                 </div>
               ) : (
-                /* 无图片时的纯净头部工具栏 */
-                <div className="p-3 sm:p-6 pb-0">
-                  <div className="mb-3 sm:mb-4 flex items-center justify-between pb-2.5 sm:pb-3 border-b border-slate-200/60 dark:border-slate-800/60">
-                    <Link
-                      href="/posts"
-                      className="inline-flex items-center space-x-1 text-[11px] sm:text-xs font-mono text-slate-500 hover:text-slate-900 dark:hover:text-slate-100 transition-colors group"
-                    >
-                      <ChevronLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
-                      <span>返回文稿归档</span>
-                    </Link>
-
-                    <button
-                      onClick={handleCopyLink}
-                      className="inline-flex items-center space-x-1 text-[11px] sm:text-xs font-mono text-slate-500 hover:text-slate-900 dark:hover:text-slate-100 px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-md border border-slate-200/70 dark:border-slate-800/70 hover:bg-slate-100/70 dark:hover:bg-slate-800/70 transition-colors"
-                    >
-                      {copied ? (
-                        <>
-                          <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
-                          <span className="text-emerald-600 dark:text-emerald-400">
-                            已复制
-                          </span>
-                        </>
-                      ) : (
-                        <>
-                          <Share2 className="w-3.5 h-3.5" />
-                          <span>分享文章</span>
-                        </>
-                      )}
-                    </button>
-                  </div>
-
-                  <header className="mb-3 sm:mb-4 pb-3 sm:pb-4 border-b border-slate-200/70 dark:border-slate-800/70">
+                /* 无图片时的纯净文章头部 */
+                <div className="p-4 sm:p-7 md:p-8 pb-0">
+                  <header className="mb-4 sm:mb-6 pb-4 sm:pb-5 border-b border-slate-200/70 dark:border-slate-800/70">
                     <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 text-[10.5px] sm:text-xs font-mono text-slate-500 dark:text-slate-400 mb-2 sm:mb-2.5">
                       {post.category && (
                         <>
@@ -279,14 +238,7 @@ export const PostDetail: React.FC = () => {
                       href={`/posts/${prevPost.slug}`}
                       className="group flex items-center gap-2.5 sm:gap-3 text-left transition-opacity duration-200 hover:opacity-75"
                     >
-                      <svg
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                        className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-slate-400 dark:text-slate-500 group-hover:text-slate-700 dark:group-hover:text-slate-300 shrink-0 transition-transform duration-200 group-hover:-translate-x-1"
-                        aria-hidden="true"
-                      >
-                        <path d="M2.5 12L11 18V6L2.5 12zm10 0L21 18V6L12.5 12z" />
-                      </svg>
+                      <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 text-slate-400 dark:text-slate-500 group-hover:text-slate-700 dark:group-hover:text-slate-300 shrink-0 transition-transform duration-200 group-hover:-translate-x-1" />
                       <div className="min-w-0 flex-1">
                         <div className="text-xs sm:text-sm font-semibold text-slate-800 dark:text-slate-200 line-clamp-1">
                           {prevPost.title}
@@ -313,14 +265,7 @@ export const PostDetail: React.FC = () => {
                           {formatDate(nextPost.date).replace(/^20(\d{2}年)/, '$1')}
                         </div>
                       </div>
-                      <svg
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                        className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-slate-400 dark:text-slate-500 group-hover:text-slate-700 dark:group-hover:text-slate-300 shrink-0 transition-transform duration-200 group-hover:translate-x-1"
-                        aria-hidden="true"
-                      >
-                        <path d="M3 6v12l8.5-6L3 6zm10 0v12l8.5-6L13 6z" />
-                      </svg>
+                      <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 text-slate-400 dark:text-slate-500 group-hover:text-slate-700 dark:group-hover:text-slate-300 shrink-0 transition-transform duration-200 group-hover:translate-x-1" />
                     </Link>
                   ) : (
                     <div />
@@ -354,7 +299,7 @@ export const PostDetail: React.FC = () => {
               <ListOrdered className="w-4 h-4" />
             </button>
 
-            {/* 移动端自适应底部抽屉（通过 Portal 挂载至 body 顶层，自适应内容高度，彻底消除大面积留白） */}
+            {/* 移动端自适应底部抽屉（通过 Portal 挂载至 body 顶层，自适应内容高度，微倒角一致性） */}
             {typeof document !== 'undefined' &&
               createPortal(
                 <div
@@ -371,9 +316,9 @@ export const PostDetail: React.FC = () => {
                     }`}
                   />
 
-                  {/* 底部自适应抽屉面板（高度随内容伸缩，彻底去除右上角叉叉） */}
+                  {/* 底部自适应抽屉面板（微倒角规范 rounded-t-lg） */}
                   <div
-                    className={`fixed bottom-0 left-0 right-0 max-h-[72vh] w-full max-w-lg mx-auto bg-white dark:bg-[#0c121e] border-t border-slate-200 dark:border-slate-800 rounded-t-2xl z-10 px-4 pt-2.5 pb-6 flex flex-col shadow-2xl transition-transform duration-300 ease-out ${
+                    className={`fixed bottom-0 left-0 right-0 max-h-[72vh] w-full max-w-lg mx-auto bg-white dark:bg-[#0c121e] border-t border-slate-200 dark:border-slate-800 rounded-t-lg z-10 px-4 pt-2.5 pb-6 flex flex-col shadow-2xl transition-transform duration-300 ease-out ${
                       mobileTocOpen ? 'translate-y-0' : 'translate-y-full'
                     }`}
                   >

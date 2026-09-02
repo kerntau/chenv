@@ -33,7 +33,7 @@ export const PostCard: React.FC<PostCardProps> = ({ post }) => {
         <div className="p-3.5 sm:p-4 flex-1 flex flex-col justify-between space-y-2.5">
           <div className="space-y-1.5">
             {/* 标题 */}
-            <h3 className="text-sm sm:text-base font-bold text-slate-900 dark:text-slate-100 group-hover:text-slate-950 dark:group-hover:text-white transition-colors line-clamp-1 leading-snug tracking-tight font-sans">
+            <h3 className="text-sm sm:text-base font-bold text-slate-900 dark:text-slate-100 group-hover:text-slate-950 dark:group-hover:text-white transition-colors line-clamp-2 leading-snug tracking-tight font-sans min-h-[2.5rem]">
               {post.title}
             </h3>
 
