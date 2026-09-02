@@ -44,8 +44,8 @@ export const Footer: React.FC = () => {
   const { theme, setTheme } = useTheme();
 
   return (
-    <footer className="relative z-10 mt-6 border-t border-slate-200/60 dark:border-slate-800/60 pt-6 pb-6 text-xs font-sans text-slate-600 dark:text-slate-400 select-none">
-      <div className="max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+    <footer className="relative z-10 mt-auto border-t border-slate-200/60 dark:border-slate-800/60 pt-5 pb-5 sm:pt-6 sm:pb-6 text-xs font-sans text-slate-600 dark:text-slate-400 select-none">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
         
         {/* 上层: 左侧站名标语与版权，右侧多列导航 */}
         <div className="flex flex-col md:flex-row md:items-start justify-between gap-6 sm:gap-8">

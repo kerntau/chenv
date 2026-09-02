@@ -14,7 +14,7 @@ export const Container: React.FC<ContainerProps> = ({
     narrow: 'max-w-3xl',
     reading: 'max-w-[960px]',
     default: 'max-w-5xl',
-    wide: 'max-w-7xl',
+    wide: 'max-w-[1400px]',
   };
 
   return (
