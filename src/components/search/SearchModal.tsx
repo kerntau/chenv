@@ -131,7 +131,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
                 跳转
               </span>
             </div>
-            <span>Perimsx 静态索引</span>
+            <span>全站静态索引</span>
           </div>
         </Dialog.Content>
       </Dialog.Portal>
