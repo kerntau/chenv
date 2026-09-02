@@ -253,7 +253,7 @@ export const AdminSettings: React.FC = () => {
                     value={configForm.favicon || ''}
                     onChange={(e) => setConfigForm({ ...configForm, favicon: e.target.value })}
                     className="admin-input font-mono"
-                    placeholder="/favicon.svg"
+                    placeholder="/favicon.ico"
                   />
                 </div>
               </div>

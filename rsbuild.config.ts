@@ -13,7 +13,7 @@ export default defineConfig({
       'twitter:image': 'https://chent.co/avatar.webp',
       'twitter:card': 'summary_large_image',
     },
-    favicon: './public/favicon.svg',
+    favicon: './public/favicon.ico',
     tags: [
       {
         tag: 'script',
@@ -46,6 +46,24 @@ export default defineConfig({
         attrs: {
           rel: 'apple-touch-icon',
           href: '/apple-touch-icon.png',
+        },
+      },
+      {
+        tag: 'link',
+        attrs: {
+          rel: 'icon',
+          type: 'image/png',
+          sizes: '32x32',
+          href: '/favicon-32x32.png',
+        },
+      },
+      {
+        tag: 'link',
+        attrs: {
+          rel: 'icon',
+          type: 'image/png',
+          sizes: '16x16',
+          href: '/favicon-16x16.png',
         },
       },
       {
