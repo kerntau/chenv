@@ -11,7 +11,6 @@ import {
   MapPin,
   Tag,
   ChevronLeft,
-  ChevronRight,
   Share2,
   Check,
   Feather,
@@ -118,7 +117,7 @@ export const DiaryDetail: React.FC = () => {
 
               <button
                 onClick={handleCopyLink}
-                className="inline-flex items-center space-x-1 text-xs font-mono text-slate-500 hover:text-slate-900 dark:hover:text-slate-100 px-2.5 py-1 rounded-sm border border-slate-200/70 dark:border-slate-800/70 hover:bg-slate-100/70 dark:hover:bg-slate-800/70 transition-colors"
+                className="inline-flex items-center space-x-1 text-xs font-mono text-slate-500 hover:text-slate-900 dark:hover:text-slate-100 px-2.5 py-1 rounded-md border border-slate-200/70 dark:border-slate-800/70 hover:bg-slate-100/70 dark:hover:bg-slate-800/70 transition-colors"
               >
                 {copied ? (
                   <>
@@ -135,7 +134,7 @@ export const DiaryDetail: React.FC = () => {
             </div>
 
             {/* 手记纸张大卡片（单栏居中，温润自然） */}
-            <article className="p-4 sm:p-7 md:p-8 rounded-sm paper-sheet-realistic space-y-5 text-slate-800 dark:text-slate-200">
+            <article className="p-4 sm:p-7 md:p-8 paper-sheet-realistic space-y-5 text-slate-800 dark:text-slate-200">
               {/* 头部元数据栏 */}
               <header className="pb-4 border-b border-slate-200/70 dark:border-slate-800/70 space-y-3.5">
                 <div className="flex flex-wrap items-center justify-between gap-1.5 text-xs font-mono text-slate-500 dark:text-slate-400">
@@ -147,13 +146,13 @@ export const DiaryDetail: React.FC = () => {
                     </span>
 
                     {diary.weather && (
-                      <span className="px-1.5 py-0.5 rounded-sm bg-slate-100 dark:bg-slate-800 text-[10.5px] font-sans">
+                      <span className="px-1.5 py-0.5 rounded-xs bg-slate-100 dark:bg-slate-800 text-[10.5px] font-sans">
                         {diary.weather}
                       </span>
                     )}
 
                     {diary.mood && (
-                      <span className="px-1.5 py-0.5 rounded-sm bg-sky-50 dark:bg-sky-950/30 text-sky-800 dark:text-sky-300 text-[10.5px] font-sans border border-sky-200/40 dark:border-sky-800/30">
+                      <span className="px-1.5 py-0.5 rounded-xs bg-sky-50 dark:bg-sky-950/30 text-sky-800 dark:text-sky-300 text-[10.5px] font-sans border border-sky-200/40 dark:border-sky-800/30">
                         {diary.mood}
                       </span>
                     )}
@@ -181,7 +180,7 @@ export const DiaryDetail: React.FC = () => {
 
                 {/* 摘要与心境引言 */}
                 {diary.summary && (
-                  <div className="p-3.5 rounded-sm bg-slate-100/60 dark:bg-slate-900/50 border-l-2 border-sky-500 text-slate-600 dark:text-slate-300 text-xs sm:text-sm leading-relaxed font-sans">
+                  <div className="p-3.5 rounded-r-md rounded-l-none bg-slate-100/60 dark:bg-slate-900/50 border-l-2 border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-300 text-xs sm:text-sm leading-relaxed font-sans">
                     {diary.summary}
                   </div>
                 )}
@@ -192,7 +191,7 @@ export const DiaryDetail: React.FC = () => {
                     {diary.tags.map((t) => (
                       <span
                         key={t}
-                        className="inline-flex items-center space-x-0.5 text-[10.5px] font-mono px-1.5 py-0.5 rounded-sm bg-slate-100 dark:bg-slate-800/80 text-slate-600 dark:text-slate-400 border border-slate-200/50 dark:border-slate-700/50"
+                        className="inline-flex items-center space-x-0.5 text-[10.5px] font-mono px-1.5 py-0.5 rounded-xs bg-slate-100 dark:bg-slate-800/80 text-slate-600 dark:text-slate-400 border border-slate-200/50 dark:border-slate-700/50"
                       >
                         <Tag className="w-2.5 h-2.5 opacity-50" />
                         <span>{t}</span>
@@ -224,27 +223,36 @@ export const DiaryDetail: React.FC = () => {
 
               {/* 底部作者寄语 */}
               <footer className="mt-6 pt-5 border-t border-slate-200/70 dark:border-slate-800/70 space-y-4">
-                <div className="p-3.5 rounded-sm bg-slate-50/80 dark:bg-slate-900/50 border border-slate-200/60 dark:border-slate-800/60 flex items-start space-x-2.5 text-xs text-slate-600 dark:text-slate-400">
-                  <Sparkles className="w-3.5 h-3.5 text-sky-600 dark:text-sky-400 shrink-0 mt-0.5" />
+                <div className="p-3.5 rounded-md bg-slate-50/80 dark:bg-slate-900/50 border border-slate-200/60 dark:border-slate-800/60 flex items-start space-x-2.5 text-xs text-slate-600 dark:text-slate-400">
+                  <Sparkles className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500 shrink-0 mt-0.5" />
                   <div className="leading-relaxed font-sans">
                     <strong>落纸为念：</strong>
                     生活由散落的切片构成。撰于 <strong>{siteConfig.author.name}</strong> 的生活手记簿，记录当下真实的心境与思考。
                   </div>
                 </div>
 
-                {/* 上一篇 / 下一篇手记快速跳转 */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                {/* 上一篇 / 下一篇手记极简轻量导航（无框纯净排版） */}
+                <nav aria-label="手记上下篇导航" className="pt-4 sm:pt-5 mt-2 sm:mt-3 border-t border-slate-200/70 dark:border-slate-800/60 grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-6">
                   {prevDiary ? (
                     <Link
                       href={`/diaries/${prevDiary.slug}`}
-                      className="group p-3 rounded-sm paper-card block text-left transition-colors hover:border-slate-300 dark:hover:border-slate-700"
+                      className="group flex items-center gap-2.5 sm:gap-3 text-left transition-opacity duration-200 hover:opacity-75"
                     >
-                      <span className="text-[10.5px] font-mono text-slate-400 flex items-center space-x-1 mb-1">
-                        <ChevronLeft className="w-3 h-3 group-hover:-translate-x-0.5 transition-transform" />
-                        <span>前一篇手记</span>
-                      </span>
-                      <div className="text-xs font-semibold text-slate-800 dark:text-slate-200 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors line-clamp-1">
-                        {prevDiary.title}
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-slate-400 dark:text-slate-500 group-hover:text-slate-700 dark:group-hover:text-slate-300 shrink-0 transition-transform duration-200 group-hover:-translate-x-1"
+                        aria-hidden="true"
+                      >
+                        <path d="M2.5 12L11 18V6L2.5 12zm10 0L21 18V6L12.5 12z" />
+                      </svg>
+                      <div className="min-w-0 flex-1">
+                        <div className="text-xs sm:text-sm font-semibold text-slate-800 dark:text-slate-200 line-clamp-1">
+                          {prevDiary.title}
+                        </div>
+                        <div className="text-[11px] font-mono text-slate-400 dark:text-slate-500 mt-0.5">
+                          {formatDate(prevDiary.date).replace(/^20(\d{2}年)/, '$1')}
+                        </div>
                       </div>
                     </Link>
                   ) : (
@@ -254,20 +262,29 @@ export const DiaryDetail: React.FC = () => {
                   {nextDiary ? (
                     <Link
                       href={`/diaries/${nextDiary.slug}`}
-                      className="group p-3 rounded-sm paper-card block text-right sm:ml-auto w-full transition-colors hover:border-slate-300 dark:hover:border-slate-700"
+                      className="group flex items-center justify-end gap-2.5 sm:gap-3 text-right sm:ml-auto w-full transition-opacity duration-200 hover:opacity-75"
                     >
-                      <span className="text-[10.5px] font-mono text-slate-400 flex items-center justify-end space-x-1 mb-1">
-                        <span>后一篇手记</span>
-                        <ChevronRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
-                      </span>
-                      <div className="text-xs font-semibold text-slate-800 dark:text-slate-200 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors line-clamp-1">
-                        {nextDiary.title}
+                      <div className="min-w-0 flex-1">
+                        <div className="text-xs sm:text-sm font-semibold text-slate-800 dark:text-slate-200 line-clamp-1">
+                          {nextDiary.title}
+                        </div>
+                        <div className="text-[11px] font-mono text-slate-400 dark:text-slate-500 mt-0.5">
+                          {formatDate(nextDiary.date).replace(/^20(\d{2}年)/, '$1')}
+                        </div>
                       </div>
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-slate-400 dark:text-slate-500 group-hover:text-slate-700 dark:group-hover:text-slate-300 shrink-0 transition-transform duration-200 group-hover:translate-x-1"
+                        aria-hidden="true"
+                      >
+                        <path d="M3 6v12l8.5-6L3 6zm10 0v12l8.5-6L13 6z" />
+                      </svg>
                     </Link>
                   ) : (
                     <div />
                   )}
-                </div>
+                </nav>
               </footer>
             </article>
           </div>

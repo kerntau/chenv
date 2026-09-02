@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { Link, useLocation } from 'wouter';
 import {
   Home as HomeIcon,
@@ -43,6 +43,46 @@ const DEFAULT_NAV_LINKS: NavLinkItem[] = [
 export const Header: React.FC = () => {
   const [location] = useLocation();
   const [searchOpen, setSearchOpen] = useState(false);
+
+  // 判断当前页面是否属于文章详情页或手记详情页
+  const isDetailPage = useMemo(() => {
+    return /^\/(posts|diaries|journal|shouji)\/[^/]+$/.test(location);
+  }, [location]);
+
+  // 控制详情页向下滚动时导航栏收起，向上滚动时呼出
+  const [isNavVisible, setIsNavVisible] = useState(true);
+
+  useEffect(() => {
+    if (!isDetailPage) {
+      setIsNavVisible(true);
+      return;
+    }
+
+    let lastScrollY = window.scrollY;
+    let ticking = false;
+
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const currentScrollY = window.scrollY;
+          if (currentScrollY <= 60) {
+            setIsNavVisible(true);
+          } else if (currentScrollY > lastScrollY + 8) {
+            setIsNavVisible(false);
+            setHoveredNav(null);
+          } else if (currentScrollY < lastScrollY - 8) {
+            setIsNavVisible(true);
+          }
+          lastScrollY = currentScrollY;
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [isDetailPage]);
 
   const headerConfig = siteConfig.header;
   const enableMegaMenu = headerConfig?.enableMegaMenu ?? true;
@@ -132,7 +172,13 @@ export const Header: React.FC = () => {
 
   return (
     <>
-      <header className="sticky top-0 z-40 w-full px-4 sm:px-6 pt-3.5 pb-2 pointer-events-none font-sans">
+      <header
+        className={`sticky top-0 z-40 w-full px-4 sm:px-6 pt-2 pb-1 sm:pt-3.5 sm:pb-2 pointer-events-none font-sans transition-all duration-300 ease-in-out ${
+          !isNavVisible && isDetailPage
+            ? '-translate-y-full opacity-0'
+            : 'translate-y-0 opacity-100'
+        }`}
+      >
         {/* 正中心纯粹居中导航栏 */}
         <div className="max-w-4xl mx-auto flex items-center justify-center min-h-[2.4rem]">
           <div
@@ -141,7 +187,7 @@ export const Header: React.FC = () => {
           >
               <nav
                 ref={navRef}
-                className="flex items-center p-1 rounded-sm bg-white/70 dark:bg-slate-900/70 backdrop-blur-md border border-slate-200/65 dark:border-slate-800/65 shadow-[0_2px_10px_-3px_rgba(0,0,0,0.03)] gap-0.5 text-xs max-w-full overflow-x-auto"
+                className="flex items-center p-1 rounded bg-white/75 dark:bg-slate-900/75 backdrop-blur-md border border-slate-200/75 dark:border-slate-800/75 shadow-[0_2px_10px_-2px_rgba(15,23,42,0.06)] gap-0.5 text-xs max-w-full overflow-x-auto"
               >
                 {navLinks.map((link) => {
                   const isExt = link.isExternal || link.href.startsWith('http');
@@ -155,7 +201,7 @@ export const Header: React.FC = () => {
                         href={link.href}
                         target="_blank"
                         rel="noreferrer"
-                        className="relative px-2.5 py-1 rounded-sm transition-colors duration-150 select-none flex items-center justify-center gap-1.5 shrink-0 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100/50 dark:hover:bg-slate-800/40"
+                        className="relative px-2.5 py-1 rounded-sm transition-colors duration-150 select-none flex items-center justify-center gap-1.5 shrink-0 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100/60 dark:hover:bg-slate-800/50"
                       >
                         <span className="leading-none translate-y-[0.5px]">{link.label}</span>
                         <ArrowUpRight className="w-3 h-3 opacity-60 ml-[-2px]" />
@@ -172,7 +218,7 @@ export const Header: React.FC = () => {
                       className={`relative px-2.5 py-1 rounded-sm transition-colors duration-150 select-none flex items-center justify-center gap-1.5 shrink-0 ${
                         active
                           ? 'text-slate-950 dark:text-slate-50 font-medium'
-                          : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100/50 dark:hover:bg-slate-800/40'
+                          : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100/60 dark:hover:bg-slate-800/50'
                       }`}
                     >
                       {/* 静态的选中项小矩形卡片 */}

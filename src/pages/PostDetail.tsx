@@ -1,7 +1,6 @@
 import React, { useMemo, useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { useRoute, Link, useLocation } from 'wouter';
-import gsap from 'gsap';
-import { useGSAP } from '@gsap/react';
 import { Container } from '../components/layout/Container';
 import { PageShell } from '../components/layout/PageShell';
 import { MarkdownRenderer } from '../components/markdown/MarkdownRenderer';
@@ -14,12 +13,10 @@ import {
   Calendar,
   Tag,
   ChevronLeft,
-  ChevronRight,
   Share2,
   Check,
   ShieldAlert,
   ListOrdered,
-  X,
   AlignLeft,
   ArrowUp,
 } from 'lucide-react';
@@ -30,23 +27,21 @@ export const PostDetail: React.FC = () => {
   const slug = params?.slug;
   const [copied, setCopied] = useState(false);
   const [mobileTocOpen, setMobileTocOpen] = useState(false);
-  const [mobileTocRendered, setMobileTocRendered] = useState(false);
-  const drawerBackdropRef = React.useRef<HTMLDivElement>(null);
-  const drawerPanelRef = React.useRef<HTMLDivElement>(null);
 
+  // 移动端目录抽屉打开时锁定外部页面滚动与支持 Esc 关闭
   useEffect(() => {
-    if (mobileTocOpen) setMobileTocRendered(true);
+    if (!mobileTocOpen) return;
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setMobileTocOpen(false);
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      window.removeEventListener('keydown', handleKeyDown);
+    };
   }, [mobileTocOpen]);
-
-  useGSAP(() => {
-    if (mobileTocOpen && mobileTocRendered) {
-      gsap.fromTo(drawerBackdropRef.current, { opacity: 0 }, { opacity: 1, duration: 0.2 });
-      gsap.fromTo(drawerPanelRef.current, { x: '100%' }, { x: '0%', duration: 0.4, ease: 'power3.out' });
-    } else if (!mobileTocOpen && mobileTocRendered) {
-      gsap.to(drawerBackdropRef.current, { opacity: 0, duration: 0.2 });
-      gsap.to(drawerPanelRef.current, { x: '100%', duration: 0.3, ease: 'power3.in', onComplete: () => setMobileTocRendered(false) });
-    }
-  }, [mobileTocOpen, mobileTocRendered]);
 
   const allPosts = useMemo(() => getAllPosts(), []);
   const post = useMemo(() => (slug ? getPostBySlug(slug) : null), [slug]);
@@ -147,10 +142,19 @@ export const PostDetail: React.FC = () => {
                   {/* 浮于大图底部的文章头衔：分类、日期、主标题 */}
                   <div className="absolute bottom-3 left-3 right-3 sm:bottom-6 sm:left-6 sm:right-6 z-10 text-white space-y-1.5 sm:space-y-2 pointer-events-none">
                     <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 text-[10.5px] sm:text-xs font-mono text-white/90">
-                      <span className="px-1.5 sm:px-2 py-0.5 rounded-sm bg-sky-500/85 backdrop-blur-md text-white font-medium shadow-sm text-[10.5px] sm:text-xs">
-                        {post.category}
-                      </span>
-                      <span>&bull;</span>
+                      {post.category && (
+                        <>
+                          <Link
+                            href={`/posts?category=${encodeURIComponent(post.category)}`}
+                            className="group/cat pointer-events-auto inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-slate-950/60 hover:bg-slate-900/85 backdrop-blur-md border border-white/15 hover:border-sky-400/50 text-white/90 hover:text-white transition-all duration-200 shadow-sm"
+                            title={`查看「${post.category}」分类文章`}
+                          >
+                            <span className="w-1.5 h-1.5 rounded-full bg-sky-400 shadow-[0_0_6px_rgba(56,189,248,0.85)] group-hover/cat:bg-sky-300 group-hover/cat:scale-110 transition-all" />
+                            <span className="font-medium text-[11px] sm:text-xs tracking-tight">{post.category}</span>
+                          </Link>
+                          <span>&bull;</span>
+                        </>
+                      )}
                       <span className="flex items-center space-x-1 text-white/90">
                         <Calendar className="w-3 h-3" />
                         <time dateTime={post.date}>{formatDate(post.date)}</time>
@@ -178,7 +182,7 @@ export const PostDetail: React.FC = () => {
 
                     <button
                       onClick={handleCopyLink}
-                      className="inline-flex items-center space-x-1 text-[11px] sm:text-xs font-mono text-slate-500 hover:text-slate-900 dark:hover:text-slate-100 px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-sm border border-slate-200/70 dark:border-slate-800/70 hover:bg-slate-100/70 dark:hover:bg-slate-800/70 transition-colors"
+                      className="inline-flex items-center space-x-1 text-[11px] sm:text-xs font-mono text-slate-500 hover:text-slate-900 dark:hover:text-slate-100 px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-md border border-slate-200/70 dark:border-slate-800/70 hover:bg-slate-100/70 dark:hover:bg-slate-800/70 transition-colors"
                     >
                       {copied ? (
                         <>
@@ -198,10 +202,19 @@ export const PostDetail: React.FC = () => {
 
                   <header className="mb-3 sm:mb-4 pb-3 sm:pb-4 border-b border-slate-200/70 dark:border-slate-800/70">
                     <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 text-[10.5px] sm:text-xs font-mono text-slate-500 dark:text-slate-400 mb-2 sm:mb-2.5">
-                      <span className="px-1.5 sm:px-2 py-0.5 rounded-sm bg-sky-50 dark:bg-sky-950/60 text-sky-700 dark:text-sky-300 font-medium border border-sky-200/50 dark:border-sky-800/50">
-                        {post.category}
-                      </span>
-                      <span>&bull;</span>
+                      {post.category && (
+                        <>
+                          <Link
+                            href={`/posts?category=${encodeURIComponent(post.category)}`}
+                            className="group/cat inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-sky-500/10 hover:bg-sky-500/15 dark:bg-sky-400/10 dark:hover:bg-sky-400/15 border border-sky-500/20 hover:border-sky-500/40 dark:border-sky-400/25 dark:hover:border-sky-400/50 text-sky-700 dark:text-sky-300 transition-all duration-200 shadow-2xs"
+                            title={`查看「${post.category}」分类文章`}
+                          >
+                            <span className="w-1.5 h-1.5 rounded-full bg-sky-500 dark:bg-sky-400 shadow-[0_0_5px_rgba(14,165,233,0.5)] group-hover/cat:scale-110 transition-transform" />
+                            <span className="font-medium text-[11px] sm:text-xs tracking-tight">{post.category}</span>
+                          </Link>
+                          <span>&bull;</span>
+                        </>
+                      )}
                       <span className="flex items-center space-x-1">
                         <Calendar className="w-3 h-3" />
                         <time dateTime={post.date}>{formatDate(post.date)}</time>
@@ -222,7 +235,7 @@ export const PostDetail: React.FC = () => {
                 
                 {/* 摘要导言 */}
                 {post.summary && (
-                  <div className="mb-4 sm:mb-5 p-3 sm:p-4 rounded-sm bg-slate-100/70 dark:bg-slate-900/50 border-l-2 border-sky-500 text-slate-600 dark:text-slate-300 text-xs sm:text-sm leading-relaxed">
+                  <div className="mb-4 sm:mb-5 p-3 sm:p-4 rounded-r-md rounded-l-none bg-slate-100/70 dark:bg-slate-900/50 border-l-2 border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-300 text-xs sm:text-sm leading-relaxed">
                     {post.summary}
                   </div>
                 )}
@@ -233,7 +246,7 @@ export const PostDetail: React.FC = () => {
                     {post.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="inline-flex items-center space-x-1 px-1.5 sm:px-2 py-0.5 rounded-sm text-[11px] sm:text-xs font-mono bg-slate-100 dark:bg-slate-800/80 text-slate-600 dark:text-slate-400 border border-slate-200/50 dark:border-slate-700/50"
+                        className="inline-flex items-center space-x-1 px-1.5 sm:px-2 py-0.5 rounded-xs text-[11px] sm:text-xs font-mono bg-slate-100 dark:bg-slate-800/80 text-slate-600 dark:text-slate-400 border border-slate-200/50 dark:border-slate-700/50"
                       >
                         <Tag className="w-2.5 h-2.5 sm:w-3 sm:h-3 opacity-60" />
                         <span>{tag}</span>
@@ -249,8 +262,8 @@ export const PostDetail: React.FC = () => {
 
               {/* 底部声明与署名 */}
               <footer className="mt-8 sm:mt-10 pt-4 sm:pt-6 border-t border-slate-200/70 dark:border-slate-800/70 space-y-3 sm:space-y-4">
-                <div className="p-2.5 sm:p-3.5 rounded-sm bg-sky-50/30 dark:bg-sky-950/20 border border-sky-100/70 dark:border-slate-800/60 flex items-start space-x-2 text-[11px] sm:text-xs text-slate-600 dark:text-slate-400">
-                  <ShieldAlert className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-sky-600 dark:text-sky-400 shrink-0 mt-0.5" />
+                <div className="p-2.5 sm:p-3.5 rounded-md bg-slate-100/60 dark:bg-slate-900/50 border border-slate-200/70 dark:border-slate-800/60 flex items-start space-x-2 text-[11px] sm:text-xs text-slate-600 dark:text-slate-400">
+                  <ShieldAlert className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-500 dark:text-slate-400 shrink-0 mt-0.5" />
                   <div className="leading-relaxed font-sans">
                     <strong>版权与原创声明：</strong>
                     本篇文章由 <strong>{siteConfig.author.name}</strong> 原创撰写，遵循{' '}
@@ -259,19 +272,28 @@ export const PostDetail: React.FC = () => {
                   </div>
                 </div>
 
-                {/* 上一篇 / 下一篇跳转导航 */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3 pt-1">
+                {/* 上一篇 / 下一篇极简轻量导航（无框纯净排版） */}
+                <nav aria-label="文章上下篇导航" className="pt-4 sm:pt-5 mt-2 sm:mt-3 border-t border-slate-200/70 dark:border-slate-800/60 grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-6">
                   {prevPost ? (
                     <Link
                       href={`/posts/${prevPost.slug}`}
-                      className="group p-2.5 sm:p-3 rounded-sm border border-sky-100/70 dark:border-slate-800/60 bg-white/60 dark:bg-slate-900/40 block text-left transition-colors hover:bg-white/95 dark:hover:bg-slate-900/80"
+                      className="group flex items-center gap-2.5 sm:gap-3 text-left transition-opacity duration-200 hover:opacity-75"
                     >
-                      <span className="text-[10px] sm:text-[10.5px] font-mono text-slate-400 flex items-center space-x-1 mb-0.5 sm:mb-1">
-                        <ChevronLeft className="w-3 h-3 group-hover:-translate-x-0.5 transition-transform" />
-                        <span>上一篇</span>
-                      </span>
-                      <div className="text-[11.5px] sm:text-xs font-semibold text-slate-800 dark:text-slate-200 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors line-clamp-1">
-                        {prevPost.title}
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-slate-400 dark:text-slate-500 group-hover:text-slate-700 dark:group-hover:text-slate-300 shrink-0 transition-transform duration-200 group-hover:-translate-x-1"
+                        aria-hidden="true"
+                      >
+                        <path d="M2.5 12L11 18V6L2.5 12zm10 0L21 18V6L12.5 12z" />
+                      </svg>
+                      <div className="min-w-0 flex-1">
+                        <div className="text-xs sm:text-sm font-semibold text-slate-800 dark:text-slate-200 line-clamp-1">
+                          {prevPost.title}
+                        </div>
+                        <div className="text-[11px] font-mono text-slate-400 dark:text-slate-500 mt-0.5">
+                          {formatDate(prevPost.date).replace(/^20(\d{2}年)/, '$1')}
+                        </div>
                       </div>
                     </Link>
                   ) : (
@@ -281,20 +303,29 @@ export const PostDetail: React.FC = () => {
                   {nextPost ? (
                     <Link
                       href={`/posts/${nextPost.slug}`}
-                      className="group p-2.5 sm:p-3 rounded-sm border border-sky-100/70 dark:border-slate-800/60 bg-white/60 dark:bg-slate-900/40 block text-right sm:ml-auto w-full transition-colors hover:bg-white/95 dark:hover:bg-slate-900/80"
+                      className="group flex items-center justify-end gap-2.5 sm:gap-3 text-right sm:ml-auto w-full transition-opacity duration-200 hover:opacity-75"
                     >
-                      <span className="text-[10px] sm:text-[10.5px] font-mono text-slate-400 flex items-center justify-end space-x-1 mb-0.5 sm:mb-1">
-                        <span>下一篇</span>
-                        <ChevronRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
-                      </span>
-                      <div className="text-[11.5px] sm:text-xs font-semibold text-slate-800 dark:text-slate-200 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors line-clamp-1">
-                        {nextPost.title}
+                      <div className="min-w-0 flex-1">
+                        <div className="text-xs sm:text-sm font-semibold text-slate-800 dark:text-slate-200 line-clamp-1">
+                          {nextPost.title}
+                        </div>
+                        <div className="text-[11px] font-mono text-slate-400 dark:text-slate-500 mt-0.5">
+                          {formatDate(nextPost.date).replace(/^20(\d{2}年)/, '$1')}
+                        </div>
                       </div>
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-slate-400 dark:text-slate-500 group-hover:text-slate-700 dark:group-hover:text-slate-300 shrink-0 transition-transform duration-200 group-hover:translate-x-1"
+                        aria-hidden="true"
+                      >
+                        <path d="M3 6v12l8.5-6L3 6zm10 0v12l8.5-6L13 6z" />
+                      </svg>
                     </Link>
                   ) : (
                     <div />
                   )}
-                </div>
+                </nav>
               </footer>
             </div>
           </main>
@@ -314,57 +345,66 @@ export const PostDetail: React.FC = () => {
         {hasToc && (
           <div className="xl:hidden">
             <button
+              type="button"
               onClick={() => setMobileTocOpen(true)}
-              className="fixed right-4 bottom-6 sm:right-5 sm:bottom-8 z-40 p-2 sm:p-2.5 rounded-sm bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl border border-slate-200/80 dark:border-slate-700/80 shadow-lg text-slate-700 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 transition-transform active:scale-95 flex items-center justify-center"
+              className="fixed right-4 bottom-6 sm:right-5 sm:bottom-8 z-40 p-2.5 rounded-md bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border border-slate-200/90 dark:border-slate-700/90 shadow-lg text-slate-700 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 active:scale-95 flex items-center justify-center cursor-pointer pointer-events-auto"
               title="打开文章目录"
+              aria-label="打开文章目录"
             >
               <ListOrdered className="w-4 h-4" />
             </button>
 
-            {/* 移动端侧滑抽屉 */}
-            {mobileTocRendered && (
-                <>
+            {/* 移动端自适应底部抽屉（通过 Portal 挂载至 body 顶层，自适应内容高度，彻底消除大面积留白） */}
+            {typeof document !== 'undefined' &&
+              createPortal(
+                <div
+                  className={`fixed inset-0 z-50 transition-visibility duration-300 ${
+                    mobileTocOpen ? 'pointer-events-auto' : 'pointer-events-none invisible'
+                  }`}
+                  aria-hidden={!mobileTocOpen}
+                >
+                  {/* 背景遮罩，点击即关闭 */}
                   <div
-                    ref={drawerBackdropRef}
                     onClick={() => setMobileTocOpen(false)}
-                    className="fixed inset-0 bg-black/50 backdrop-blur-[2px] z-50 opacity-0"
+                    className={`fixed inset-0 bg-black/60 backdrop-blur-xs transition-opacity duration-300 ${
+                      mobileTocOpen ? 'opacity-100' : 'opacity-0'
+                    }`}
                   />
+
+                  {/* 底部自适应抽屉面板（高度随内容伸缩，彻底去除右上角叉叉） */}
                   <div
-                    ref={drawerPanelRef}
-                    className="fixed top-0 right-0 bottom-0 w-[84vw] max-w-[320px] bg-white dark:bg-[#0c121e] border-l border-slate-200 dark:border-slate-800 z-50 p-4 flex flex-col shadow-2xl translate-x-full"
+                    className={`fixed bottom-0 left-0 right-0 max-h-[72vh] w-full max-w-lg mx-auto bg-white dark:bg-[#0c121e] border-t border-slate-200 dark:border-slate-800 rounded-t-2xl z-10 px-4 pt-2.5 pb-6 flex flex-col shadow-2xl transition-transform duration-300 ease-out ${
+                      mobileTocOpen ? 'translate-y-0' : 'translate-y-full'
+                    }`}
                   >
-                    <div className="flex items-center justify-between pb-2.5 border-b border-slate-200/60 dark:border-slate-800/60 mb-2.5">
+                    {/* 顶部指示条 */}
+                    <div className="w-9 h-1 rounded-full bg-slate-300 dark:bg-slate-700 mx-auto mb-2 shrink-0" />
+
+                    <div className="flex items-center justify-between pb-2 border-b border-slate-200/60 dark:border-slate-800/60 mb-2 px-1 shrink-0">
                       <div className="flex items-center space-x-1.5 font-semibold text-xs text-slate-800 dark:text-slate-200">
                         <AlignLeft className="w-3.5 h-3.5 text-sky-500" />
                         <span>文章目录</span>
                       </div>
-                      <div className="flex items-center space-x-2">
-                        <button
-                          type="button"
-                          onClick={() => {
-                            window.scrollTo({ top: 0, behavior: 'smooth' });
-                            setMobileTocOpen(false);
-                          }}
-                          className="text-[11px] font-mono text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 flex items-center space-x-0.5 transition-colors cursor-pointer"
-                          title="回到文章顶部"
-                        >
-                          <ArrowUp className="w-3 h-3" />
-                          <span>顶部</span>
-                        </button>
-                        <button
-                          onClick={() => setMobileTocOpen(false)}
-                          className="p-1 rounded-sm hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 transition-colors"
-                          title="关闭目录"
-                        >
-                          <X className="w-4 h-4" />
-                        </button>
-                      </div>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
+                          setMobileTocOpen(false);
+                        }}
+                        className="text-[11px] font-mono text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 flex items-center space-x-0.5 transition-colors cursor-pointer"
+                        title="回到文章顶部"
+                      >
+                        <ArrowUp className="w-3 h-3" />
+                        <span>顶部</span>
+                      </button>
                     </div>
-                    <div className="flex-1 overflow-y-auto pr-1">
+
+                    <div className="flex-1 overflow-y-auto px-1">
                       <TOC toc={post.toc} hideHeader onItemClick={() => setMobileTocOpen(false)} />
                     </div>
                   </div>
-                </>
+                </div>,
+                document.body
               )}
           </div>
         )}

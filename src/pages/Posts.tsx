@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Link } from 'wouter';
 import { Container } from '../components/layout/Container';
 import { PageShell } from '../components/layout/PageShell';
@@ -21,9 +21,27 @@ export const Posts: React.FC = () => {
   const categories = useMemo(() => getAllCategories(), []);
 
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [selectedCategory, setSelectedCategory] = useState<string>(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const cat = params.get('category');
+      if (cat) return decodeURIComponent(cat);
+    }
+    return 'all';
+  });
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
   const [showAllTags, setShowAllTags] = useState<boolean>(false);
+
+  // 监听 URL Query 参数变化，支持从详情页或外部直接定位分类
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const params = new URLSearchParams(window.location.search);
+    const cat = params.get('category');
+    if (cat) {
+      setSelectedCategory(decodeURIComponent(cat));
+      setSelectedTag(null);
+    }
+  }, []);
 
   // 根据当前所选分类动态联动计算可用标签及频次
   const availableTags = useMemo(() => {
@@ -44,7 +62,7 @@ export const Posts: React.FC = () => {
       .sort((a, b) => b.count - a.count);
   }, [allPosts, selectedCategory]);
 
-  const DEFAULT_TAG_LIMIT = 14;
+  const DEFAULT_TAG_LIMIT = 6;
 
   const displayTags = useMemo(() => {
     if (showAllTags || availableTags.length <= DEFAULT_TAG_LIMIT) {
@@ -112,52 +130,33 @@ export const Posts: React.FC = () => {
   return (
     <PageShell>
       <Container size="wide">
-        {/* 页面顶栏：标题与筛选控制面板 */}
-        <div className="mb-10 pb-6 border-b border-slate-200/70 dark:border-slate-800/70">
-          <div className="flex flex-wrap items-center justify-between gap-4 mb-2">
-            <div className="flex items-center space-x-2 text-xs font-mono text-slate-500">
-              <FileText className="w-4 h-4 text-slate-600 dark:text-slate-400" />
-              <span>POSTS &bull; 深度文稿</span>
-            </div>
-
-            <div className="flex items-center space-x-2">
-              <Link
-                href="/archives"
-                className="inline-flex items-center space-x-1.5 px-2.5 py-1 rounded-sm text-xs font-mono text-slate-600 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 bg-white/80 dark:bg-slate-900/80 hover:bg-slate-100 dark:hover:bg-slate-800/80 border border-slate-200/70 dark:border-slate-800/70 transition-colors shadow-2xs"
-                title="切换至垂直时间轴归档"
-              >
-                <History className="w-3.5 h-3.5" />
-                <span>时光归档年谱</span>
-              </Link>
-
-              {/* 筛选状态与重置按钮 */}
-              {hasFilterActive && (
-                <button
-                  onClick={handleResetFilter}
-                  className="inline-flex items-center space-x-1 px-2.5 py-1 rounded-sm text-xs font-mono text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 bg-slate-100 dark:bg-slate-800/80 hover:bg-slate-200/70 dark:hover:bg-slate-700/80 transition-colors"
-                  title="重置所有筛选"
-                >
-                  <RotateCcw className="w-3 h-3" />
-                  <span>重置筛选 ({filteredPosts.length})</span>
-                </button>
-              )}
-            </div>
+        {/* 页面顶栏：标题与筛选控制面板 (手记同款居中规范) */}
+        <div className="mb-4 pb-3.5 sm:mb-10 sm:pb-6 border-b border-slate-200/70 dark:border-slate-800/70 text-center">
+          <div className="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded-xs bg-slate-100 dark:bg-slate-800 text-[11px] font-mono tracking-wider text-slate-600 dark:text-slate-400 mb-2">
+            <FileText className="w-3 h-3 text-sky-600 dark:text-sky-400" />
+            <span>POSTS</span>
           </div>
 
-          <div className="flex flex-wrap items-center gap-3 sm:gap-4">
-            <h1 className="font-sans text-3xl sm:text-4xl font-semibold text-slate-900 dark:text-slate-100 tracking-tight">
-              {pageTitle}
-            </h1>
+          <h1 className="font-sans text-2xl sm:text-4xl font-semibold text-slate-900 dark:text-slate-100 tracking-tight">
+            {pageTitle}
+          </h1>
 
-            {/* 实时搜索过滤 (并排大标题右侧) */}
-            <div className="relative w-64 sm:w-72">
+          {postsPage?.subtitle && (
+            <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1.5 sm:mt-2 font-sans max-w-lg mx-auto">
+              {postsPage.subtitle}
+            </p>
+          )}
+
+          {/* 居中搜索与操作栏 */}
+          <div className="mt-4 sm:mt-5 max-w-md mx-auto flex items-center gap-2">
+            <div className="relative flex-1">
               <Search className="w-3.5 h-3.5 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="搜索文稿标题、摘要或标签..."
-                className="w-full pl-9 pr-8 py-1.5 rounded-sm text-xs bg-slate-100/80 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/80 text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:border-sky-400/80 dark:focus:border-sky-400/80 focus:bg-white dark:focus:bg-slate-900 focus:shadow-[0_0_0_1px_rgba(56,189,248,0.3)] transition-all outline-none"
+                className="w-full pl-9 pr-8 py-2 rounded-md text-xs bg-slate-100/80 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/80 text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:border-sky-400/80 dark:focus:border-sky-400/80 focus:bg-white dark:focus:bg-slate-900 focus:shadow-[0_0_0_1px_rgba(56,189,248,0.3)] transition-all outline-none"
               />
               {searchQuery && (
                 <button
@@ -169,27 +168,43 @@ export const Posts: React.FC = () => {
                 </button>
               )}
             </div>
+
+            <Link
+              href="/archives"
+              className="hidden sm:inline-flex items-center space-x-1.5 px-2.5 py-2 rounded-md text-xs font-mono text-slate-600 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 bg-white/80 dark:bg-slate-900/80 hover:bg-slate-100 dark:hover:bg-slate-800/80 border border-slate-200/70 dark:border-slate-800/70 transition-colors shadow-2xs shrink-0"
+              title="切换至垂直时间轴归档"
+            >
+              <History className="w-3.5 h-3.5" />
+              <span>时光归档</span>
+            </Link>
+
+            {hasFilterActive && (
+              <button
+                onClick={handleResetFilter}
+                className="inline-flex items-center space-x-1 px-2.5 py-2 rounded-md text-xs font-mono text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 bg-slate-100 dark:bg-slate-800/80 hover:bg-slate-200/70 dark:hover:bg-slate-700/80 transition-colors shrink-0"
+                title="重置所有筛选"
+              >
+                <RotateCcw className="w-3 h-3" />
+                <span className="text-[11px]">重置</span>
+              </button>
+            )}
           </div>
 
-          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1.5 font-sans">
-            共收录 {allPosts.length} 篇技术与研究文稿，以严谨的逻辑与质感排版呈现。
-          </p>
-
-          {/* 一级分类过滤器 */}
-          <div className="mt-5 flex flex-wrap items-center gap-2">
+          {/* 一级分类过滤器 (移动端横向顺滑滚动，桌面端自动换行居中) */}
+          <div className="mt-3.5 sm:mt-5 flex items-center gap-1.5 sm:gap-2 overflow-x-auto no-scrollbar py-1 -mx-4 px-4 sm:mx-0 sm:px-0 sm:flex-wrap sm:justify-center">
             <button
               onClick={() => {
                 setSelectedCategory('all');
                 setSelectedTag(null);
               }}
-              className={`px-3 py-1.5 rounded-sm text-xs font-sans transition-all flex items-center space-x-1.5 ${
+              className={`px-3 py-1.5 rounded-md text-xs font-sans transition-all flex items-center space-x-1.5 shrink-0 ${
                 selectedCategory === 'all'
                   ? 'bg-sky-50 dark:bg-sky-950/60 text-sky-700 dark:text-sky-300 font-semibold border border-sky-300/80 dark:border-sky-700/80 shadow-2xs'
                   : 'bg-white/80 dark:bg-slate-900/80 text-slate-600 dark:text-slate-400 border border-slate-200/70 dark:border-slate-800/70 hover:bg-slate-100/70 dark:hover:bg-slate-800/70'
               }`}
             >
               <span>全部</span>
-              <span className={`text-[10.5px] font-mono px-1.5 py-0.2 rounded-sm ${
+              <span className={`text-[10.5px] font-mono px-1.5 py-0.2 rounded-xs ${
                 selectedCategory === 'all'
                   ? 'bg-sky-100 dark:bg-sky-900/60 text-sky-700 dark:text-sky-300 font-medium'
                   : 'bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500'
@@ -207,14 +222,14 @@ export const Posts: React.FC = () => {
                     setSelectedCategory(isSelected ? 'all' : cat.name);
                     setSelectedTag(null);
                   }}
-                  className={`px-3 py-1.5 rounded-sm text-xs font-sans transition-all flex items-center space-x-1.5 ${
+                  className={`px-3 py-1.5 rounded-md text-xs font-sans transition-all flex items-center space-x-1.5 shrink-0 ${
                     isSelected
                       ? 'bg-sky-50 dark:bg-sky-950/60 text-sky-700 dark:text-sky-300 font-semibold border border-sky-300/80 dark:border-sky-700/80 shadow-2xs'
                       : 'bg-white/80 dark:bg-slate-900/80 text-slate-600 dark:text-slate-400 border border-slate-200/70 dark:border-slate-800/70 hover:bg-slate-100/70 dark:hover:bg-slate-800/70'
                   }`}
                 >
                   <span>{cat.name}</span>
-                  <span className={`text-[10.5px] font-mono px-1.5 py-0.2 rounded-sm ${
+                  <span className={`text-[10.5px] font-mono px-1.5 py-0.2 rounded-xs ${
                     isSelected
                       ? 'bg-sky-100 dark:bg-sky-900/60 text-sky-700 dark:text-sky-300 font-medium'
                       : 'bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500'
@@ -239,7 +254,7 @@ export const Posts: React.FC = () => {
                   <button
                     key={tag.name}
                     onClick={() => setSelectedTag(active ? null : tag.name)}
-                    className={`inline-flex items-center space-x-1 px-2 py-0.5 rounded-sm font-mono text-[11px] transition-colors ${
+                    className={`inline-flex items-center space-x-1 px-2 py-0.5 rounded-xs font-mono text-[11px] transition-colors ${
                       active
                         ? 'bg-sky-50 dark:bg-sky-950/60 text-sky-700 dark:text-sky-300 border border-sky-300 dark:border-sky-700 font-medium shadow-2xs'
                         : 'bg-slate-100/80 dark:bg-slate-800/60 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-200/70 dark:hover:bg-slate-700/60 border border-transparent'
@@ -259,7 +274,7 @@ export const Posts: React.FC = () => {
               {availableTags.length > DEFAULT_TAG_LIMIT && (
                 <button
                   onClick={() => setShowAllTags(!showAllTags)}
-                  className="inline-flex items-center space-x-0.5 px-2 py-0.5 rounded-sm text-[11px] font-mono text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 hover:bg-slate-100 dark:hover:bg-slate-800/60 transition-colors ml-1"
+                  className="inline-flex items-center space-x-0.5 px-2 py-0.5 rounded-xs text-[11px] font-mono text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 hover:bg-slate-100 dark:hover:bg-slate-800/60 transition-colors ml-1"
                 >
                   <span>{showAllTags ? '收起' : `更多 (${availableTags.length})`}</span>
                   {showAllTags ? (
