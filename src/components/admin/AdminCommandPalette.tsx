@@ -13,6 +13,7 @@ import {
   ExternalLink,
   ArrowRight,
   Sparkles,
+  Trash2,
   type LucideIcon,
 } from 'lucide-react';
 import { useAdminStore } from '../../hooks/useAdminStore';
@@ -33,6 +34,7 @@ interface AdminCommandPaletteProps {
   onNavigate: (view: AdminViewType) => void;
   onOpenEditor: (type: 'post' | 'diary', slug?: string) => void;
   onToggleTheme: () => void;
+  onOpenTrash?: () => void;
 }
 
 export const AdminCommandPalette: React.FC<AdminCommandPaletteProps> = ({
@@ -41,6 +43,7 @@ export const AdminCommandPalette: React.FC<AdminCommandPaletteProps> = ({
   onNavigate,
   onOpenEditor,
   onToggleTheme,
+  onOpenTrash,
 }) => {
   const [query, setQuery] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -109,16 +112,16 @@ export const AdminCommandPalette: React.FC<AdminCommandPaletteProps> = ({
       {
         id: 'nav-settings',
         group: '页面导航',
-        title: '全页面定制中心 (Page Customizer)',
-        subtitle: '可视化配置全站信息、首页Hero、关于页、友链、导航与页脚',
+        title: '全站与页面配置中心 (Site Settings)',
+        subtitle: '可视化配置全站信息、首页 Hero、关于页、友链、导航与页脚',
         icon: Settings2,
         action: () => { onNavigate('settings'); onClose(); },
       },
       {
         id: 'nav-fileEditor',
         group: '页面导航',
-        title: '直接动文件中心 (Direct File Hub)',
-        subtitle: '在线查看、校验与编辑 site.config.json 等源码并下载同步',
+        title: '底层数据文件中心 (Data & Source Center)',
+        subtitle: '在线查看、校验与编辑 site.config.json 等配置文件并导出同步',
         icon: FileText,
         action: () => { onNavigate('fileEditor'); onClose(); },
       },
@@ -171,6 +174,17 @@ export const AdminCommandPalette: React.FC<AdminCommandPaletteProps> = ({
         subtitle: '打开前台博客主页',
         icon: ExternalLink,
         action: () => { window.open('/', '_blank'); onClose(); },
+      },
+      {
+        id: 'act-open-trash',
+        group: '快捷操作',
+        title: '打开数据回收站 (Trash Bin)',
+        subtitle: '查看、还原或彻底清除已删除的内容快照',
+        icon: Trash2,
+        action: () => {
+          onClose();
+          if (onOpenTrash) onOpenTrash();
+        },
       },
     ];
 

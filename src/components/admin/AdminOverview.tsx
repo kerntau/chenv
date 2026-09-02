@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import {
   FileText,
   BookOpen,
@@ -16,6 +16,7 @@ import {
   CheckCircle2,
   Layers,
   ChevronRight,
+  Trash2,
 } from 'lucide-react';
 import { useAdminStore } from '../../hooks/useAdminStore';
 import type { AdminViewType } from './AdminLayout';
@@ -29,7 +30,9 @@ export const AdminOverview: React.FC<AdminOverviewProps> = ({
   onNavigate,
   onOpenEditor,
 }) => {
-  const { posts, diaries, records, friends, categories, tags, logs, siteConfig, storageUsage } = useAdminStore();
+  const { posts, diaries, records, friends, categories, tags, logs, siteConfig, storageUsage, clearLogs } = useAdminStore();
+  const [showAllLogs, setShowAllLogs] = useState(false);
+  const [confirmClearLogsOpen, setConfirmClearLogsOpen] = useState(false);
 
   const publishedCount = useMemo(() => posts.filter((p) => !p.draft).length, [posts]);
   const draftCount = useMemo(() => posts.filter((p) => p.draft).length, [posts]);
@@ -49,10 +52,10 @@ export const AdminOverview: React.FC<AdminOverviewProps> = ({
     return [...posts].slice(0, 5);
   }, [posts]);
 
-  // 最近动态 (5条)
-  const recentLogs = useMemo(() => {
-    return logs.slice(0, 6);
-  }, [logs]);
+  // 最近动态
+  const displayedLogs = useMemo(() => {
+    return showAllLogs ? logs.slice(0, 30) : logs.slice(0, 6);
+  }, [logs, showAllLogs]);
 
   return (
     <div className="admin-page-body space-y-6">
@@ -88,7 +91,7 @@ export const AdminOverview: React.FC<AdminOverviewProps> = ({
         </div>
       </div>
 
-      {/* 快捷定制与动文件入口横幅 */}
+      {/* 全局配置与底层数据快捷入口 */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div
           onClick={() => onNavigate('settings')}
@@ -100,9 +103,9 @@ export const AdminOverview: React.FC<AdminOverviewProps> = ({
             </div>
             <div>
               <h3 className="font-semibold text-xs sm:text-sm text-slate-900 dark:text-slate-100 flex items-center gap-1.5">
-                <span>全页面高度定制中心</span>
-                <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-sky-100 dark:bg-sky-950 text-sky-700 dark:text-sky-300">
-                  8 大 Tab
+                <span>全站与页面配置中心</span>
+                <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-sky-100 dark:bg-sky-950 text-sky-700 dark:text-sky-300">
+                  8 大模块
                 </span>
               </h3>
               <p className="text-[11px] text-slate-500 mt-0.5">
@@ -123,13 +126,13 @@ export const AdminOverview: React.FC<AdminOverviewProps> = ({
             </div>
             <div>
               <h3 className="font-semibold text-xs sm:text-sm text-slate-900 dark:text-slate-100 flex items-center gap-1.5">
-                <span>直接动文件源码中心</span>
-                <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300">
-                  JSON 源码
+                <span>底层数据与源码中心</span>
+                <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300">
+                  源码热重载
                 </span>
               </h3>
               <p className="text-[11px] text-slate-500 mt-0.5">
-                直接编辑 site.config.json 等原始文件，支持实时校验与下载同步
+                在线维护 site.config.json 等底层配置文件，支持语法校验与增量导出同步
               </p>
             </div>
           </div>
@@ -391,42 +394,110 @@ export const AdminOverview: React.FC<AdminOverviewProps> = ({
         </div>
 
         {/* 操作动态日志 */}
-        <div className="lg:col-span-2 admin-card">
-          <div className="admin-card-header">
-            <h3>
-              <Clock className="w-4 h-4 text-amber-500" />
-              <span>操作动态日志</span>
-            </h3>
-            <span className="text-[11px] font-mono text-slate-400">
-              最近 {recentLogs.length} 条记录
-            </span>
+        <div className="lg:col-span-2 admin-card flex flex-col justify-between">
+          <div>
+            <div className="admin-card-header">
+              <h3>
+                <Clock className="w-4 h-4 text-amber-500" />
+                <span>操作审计日志</span>
+              </h3>
+              <div className="flex items-center gap-2">
+                <span className="text-[11px] font-mono text-slate-400">
+                  共 {logs.length} 条记录
+                </span>
+                {logs.length > 0 && (
+                  <button
+                    onClick={() => setConfirmClearLogsOpen(true)}
+                    className="p-1 rounded text-slate-400 hover:text-red-500"
+                    title="清空日志"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                  </button>
+                )}
+              </div>
+            </div>
+
+            <div className="p-4 space-y-3">
+              {displayedLogs.length === 0 ? (
+                <div className="py-6 text-center text-xs font-mono text-slate-400">
+                  暂无操作日志记录
+                </div>
+              ) : (
+                displayedLogs.map((log) => (
+                  <div
+                    key={log.id}
+                    className="flex items-start gap-3 text-xs pb-2.5 border-b border-slate-100 dark:border-slate-800/60 last:border-0 last:pb-0"
+                  >
+                    <div className="w-2 h-2 rounded-full bg-sky-500 mt-1.5 shrink-0" />
+                    <div className="flex-1 min-w-0 space-y-0.5">
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="font-medium text-slate-800 dark:text-slate-200">
+                          {log.title}
+                        </span>
+                        <span className="text-[10px] font-mono text-slate-400 shrink-0">
+                          {new Date(log.timestamp).toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
+                        </span>
+                      </div>
+                      <p className="text-slate-500 dark:text-slate-400 truncate">
+                        {log.description}
+                      </p>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
           </div>
 
-          <div className="p-4 space-y-3">
-            {recentLogs.map((log) => (
-              <div
-                key={log.id}
-                className="flex items-start gap-3 text-xs pb-2.5 border-b border-slate-100 dark:border-slate-800/60 last:border-0 last:pb-0"
+          {logs.length > 6 && (
+            <div className="p-3 border-t border-slate-100 dark:border-slate-800 text-center">
+              <button
+                onClick={() => setShowAllLogs(!showAllLogs)}
+                className="text-xs text-sky-600 hover:underline font-medium"
               >
-                <div className="w-2 h-2 rounded-full bg-sky-500 mt-1.5 shrink-0" />
-                <div className="flex-1 min-w-0 space-y-0.5">
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="font-medium text-slate-800 dark:text-slate-200">
-                      {log.title}
-                    </span>
-                    <span className="text-[10px] font-mono text-slate-400 shrink-0">
-                      {new Date(log.timestamp).toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' })}
-                    </span>
-                  </div>
-                  <p className="text-slate-500 dark:text-slate-400 truncate">
-                    {log.description}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
+                {showAllLogs ? '收起至 6 条' : `查看更多记录 (共 ${logs.length} 条)`}
+              </button>
+            </div>
+          )}
         </div>
       </div>
+
+      {/* 清空日志确认模态框 */}
+      {confirmClearLogsOpen && (
+        <div className="admin-modal-overlay" onClick={() => setConfirmClearLogsOpen(false)}>
+          <div
+            className="admin-modal-dialog p-6 space-y-4 max-w-sm"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="space-y-1.5">
+              <h3 className="text-base font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
+                <Trash2 className="w-4 h-4 text-red-500" />
+                <span>清空操作审计日志</span>
+              </h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                确定清空所有本地保存的 <strong>{logs.length}</strong> 条操作日志吗？此操作不可撤销。
+              </p>
+            </div>
+
+            <div className="flex items-center justify-end gap-2.5 pt-2">
+              <button
+                onClick={() => setConfirmClearLogsOpen(false)}
+                className="admin-btn admin-btn-secondary admin-btn-sm"
+              >
+                取消
+              </button>
+              <button
+                onClick={() => {
+                  clearLogs();
+                  setConfirmClearLogsOpen(false);
+                }}
+                className="admin-btn admin-btn-danger admin-btn-sm"
+              >
+                确认清空
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -163,10 +163,10 @@ export const AdminFileEditor: React.FC = () => {
         <div className="admin-page-title-group">
           <h1>
             <FileCode2 className="w-6 h-6 text-sky-500" />
-            <span>直接动文件中心 (Direct File Hub)</span>
+            <span>底层数据文件中心 (Data & Source Center)</span>
           </h1>
           <p>
-            直接查看、校验与在线编辑全站核心配置文件源码。修改后一键热更新全站渲染，并支持一键下载同步至本地项目目录。
+            集中查看、校验并在线维护全站核心底层数据与配置文件。修改后支持实时热重载，并可导出同步至本地项目仓库。
           </p>
         </div>
       </div>
@@ -335,7 +335,7 @@ export const AdminFileEditor: React.FC = () => {
           <HelpCircle className="w-4 h-4 text-sky-500 shrink-0 mt-0.5" />
           <div className="space-y-1 leading-relaxed">
             <p>
-              <strong>使用提示：</strong>在直接动文件中心，点击『<strong>保存并实时生效</strong>』后，全站所有页面将立即应用更新；点击『<strong>下载该文件</strong>』可将下载的最新文件替换项目本地目录（例如 <code className="px-1 py-0.2 rounded bg-slate-200 dark:bg-slate-800 text-[11px]">{currentDesc.targetPath}</code>），实现源码与在线控制台完全一致。
+              <strong>使用提示：</strong>在底层数据中心，点击『<strong>保存并实时生效</strong>』后，系统将校验语法并使全局页面热更新；点击『<strong>下载该文件</strong>』可将修改后的配置文件导出覆盖至本地仓库目录（例如 <code className="px-1 py-0.5 rounded bg-slate-200 dark:bg-slate-800 text-[11px]">{currentDesc.targetPath}</code>），保持代码仓库与本地存储同步。
             </p>
           </div>
         </div>

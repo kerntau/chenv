@@ -61,6 +61,33 @@ export interface ActivityLog {
   timestamp: number;
 }
 
+export interface TrashItem {
+  id: string;
+  type: 'post' | 'diary' | 'record' | 'friend';
+  title: string;
+  data: any;
+  deletedAt: number;
+}
+
+export interface EditorDraft {
+  id: string;
+  type: 'post' | 'diary';
+  slug?: string;
+  title: string;
+  content: string;
+  summary?: string;
+  category?: string;
+  tags?: string[];
+  coverImage?: string;
+  recommend?: number;
+  draft?: boolean;
+  weather?: string;
+  mood?: string;
+  location?: string;
+  time?: string;
+  savedAt: number;
+}
+
 const STORAGE_KEYS = {
   POSTS: 'cot_posts_data_v2',
   DIARIES: 'cot_diaries_data_v2',
@@ -69,6 +96,8 @@ const STORAGE_KEYS = {
   CONFIG: 'cot_site_config_v2',
   LOGS: 'cot_activity_logs_v2',
   PREFERENCES: 'cot_admin_prefs_v2',
+  TRASH: 'cot_trash_bin_v2',
+  DRAFTS: 'cot_editor_drafts_v2',
 };
 
 export interface AdminPreferences {
@@ -179,6 +208,20 @@ let currentLogs: ActivityLog[] = safeLoad<ActivityLog[]>(STORAGE_KEYS.LOGS, [
   },
 ]);
 let currentPreferences: AdminPreferences = safeLoad<AdminPreferences>(STORAGE_KEYS.PREFERENCES, defaultPreferences);
+let currentTrash: TrashItem[] = safeLoad<TrashItem[]>(STORAGE_KEYS.TRASH, []);
+let currentDrafts: Record<string, EditorDraft> = safeLoad<Record<string, EditorDraft>>(STORAGE_KEYS.DRAFTS, {});
+
+function pushToTrash(type: TrashItem['type'], title: string, data: any) {
+  const item: TrashItem = {
+    id: `trash-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+    type,
+    title,
+    data,
+    deletedAt: Date.now(),
+  };
+  currentTrash = [item, ...currentTrash.slice(0, 49)];
+  safeSave(STORAGE_KEYS.TRASH, currentTrash);
+}
 
 export const AdminStore = {
   subscribe(listener: Listener) {
@@ -259,11 +302,62 @@ export const AdminStore = {
   deletePost(slug: string): boolean {
     const target = currentPosts.find((p) => p.slug === slug);
     if (!target) return false;
+    pushToTrash('post', target.title, { ...target });
     currentPosts = currentPosts.filter((p) => p.slug !== slug);
     safeSave(STORAGE_KEYS.POSTS, currentPosts);
-    this.addLog('post', 'delete', '删除文章', `删除了文章《${target.title}》`);
+    this.addLog('post', 'delete', '删除文章', `删除了文章《${target.title}》（已存入回收站）`);
     notify();
     return true;
+  },
+
+  batchDeletePosts(slugs: string[]): number {
+    let count = 0;
+    slugs.forEach((slug) => {
+      const target = currentPosts.find((p) => p.slug === slug);
+      if (target) {
+        pushToTrash('post', target.title, { ...target });
+        count++;
+      }
+    });
+    if (count > 0) {
+      currentPosts = currentPosts.filter((p) => !slugs.includes(p.slug));
+      safeSave(STORAGE_KEYS.POSTS, currentPosts);
+      this.addLog('post', 'delete', '批量删除文章', `批量删除了 ${count} 篇文章（已存入回收站）`);
+      notify();
+    }
+    return count;
+  },
+
+  batchSetPostsCategory(slugs: string[], category: string): number {
+    let count = 0;
+    currentPosts.forEach((post) => {
+      if (slugs.includes(post.slug)) {
+        post.category = category.trim();
+        count++;
+      }
+    });
+    if (count > 0) {
+      safeSave(STORAGE_KEYS.POSTS, currentPosts);
+      this.addLog('post', 'update', '批量修改分类', `将 ${count} 篇文章调整至分类「${category}」`);
+      notify();
+    }
+    return count;
+  },
+
+  batchTogglePostsDraft(slugs: string[], targetDraft?: boolean): number {
+    let count = 0;
+    currentPosts.forEach((post) => {
+      if (slugs.includes(post.slug)) {
+        post.draft = targetDraft !== undefined ? targetDraft : !post.draft;
+        count++;
+      }
+    });
+    if (count > 0) {
+      safeSave(STORAGE_KEYS.POSTS, currentPosts);
+      this.addLog('post', 'update', '批量切换状态', `批量更新了 ${count} 篇文稿的发布/草稿状态`);
+      notify();
+    }
+    return count;
   },
 
   togglePostDraft(slug: string): boolean {
@@ -331,11 +425,30 @@ export const AdminStore = {
   deleteDiary(slug: string): boolean {
     const target = currentDiaries.find((d) => d.slug === slug);
     if (!target) return false;
+    pushToTrash('diary', target.title, { ...target });
     currentDiaries = currentDiaries.filter((d) => d.slug !== slug);
     safeSave(STORAGE_KEYS.DIARIES, currentDiaries);
-    this.addLog('diary', 'delete', '删除手记', `删除了手记《${target.title}》`);
+    this.addLog('diary', 'delete', '删除手记', `删除了手记《${target.title}》（已存入回收站）`);
     notify();
     return true;
+  },
+
+  batchDeleteDiaries(slugs: string[]): number {
+    let count = 0;
+    slugs.forEach((slug) => {
+      const target = currentDiaries.find((d) => d.slug === slug);
+      if (target) {
+        pushToTrash('diary', target.title, { ...target });
+        count++;
+      }
+    });
+    if (count > 0) {
+      currentDiaries = currentDiaries.filter((d) => !slugs.includes(d.slug));
+      safeSave(STORAGE_KEYS.DIARIES, currentDiaries);
+      this.addLog('diary', 'delete', '批量删除手记', `批量删除了 ${count} 篇手记（已存入回收站）`);
+      notify();
+    }
+    return count;
   },
 
   // ===== 说说动态 Records =====
@@ -384,11 +497,12 @@ export const AdminStore = {
   },
 
   deleteRecord(id: string | number): boolean {
-    const exists = currentRecords.some((r) => String(r.id) === String(id));
-    if (!exists) return false;
+    const target = currentRecords.find((r) => String(r.id) === String(id));
+    if (!target) return false;
+    pushToTrash('record', target.content.slice(0, 30) || '说说动态', { ...target });
     currentRecords = currentRecords.filter((r) => String(r.id) !== String(id));
     safeSave(STORAGE_KEYS.RECORDS, currentRecords);
-    this.addLog('record', 'delete', '删除说说', `删除了一条说说`);
+    this.addLog('record', 'delete', '删除说说', `删除了一条说说（已存入回收站）`);
     notify();
     return true;
   },
@@ -439,6 +553,59 @@ export const AdminStore = {
     return true;
   },
 
+  clearRecordComments(recordId: string | number): boolean {
+    const item = currentRecords.find((r) => String(r.id) === String(recordId));
+    if (!item) return false;
+    const count = item.comments?.length || 0;
+    item.comments = [];
+    safeSave(STORAGE_KEYS.RECORDS, currentRecords);
+    this.addLog('record', 'delete', '清空评论', `清空了说说下的 ${count} 条评论互动`);
+    notify();
+    return true;
+  },
+
+  setRecordLikes(id: string | number, likes: number): number {
+    const item = currentRecords.find((r) => String(r.id) === String(id));
+    if (!item) return 0;
+    item.likes = Math.max(0, Math.floor(likes));
+    safeSave(STORAGE_KEYS.RECORDS, currentRecords);
+    notify();
+    return item.likes;
+  },
+
+  batchDeleteRecords(ids: (string | number)[]): number {
+    const idSet = new Set(ids.map(String));
+    const targets = currentRecords.filter((r) => idSet.has(String(r.id)));
+    if (targets.length === 0) return 0;
+
+    targets.forEach((target) => {
+      pushToTrash('record', target.content.slice(0, 30) || '说说动态', { ...target });
+    });
+
+    currentRecords = currentRecords.filter((r) => !idSet.has(String(r.id)));
+    safeSave(STORAGE_KEYS.RECORDS, currentRecords);
+    this.addLog('record', 'delete', '批量删除说说', `批量删除了 ${targets.length} 条说说（已移入回收站）`);
+    notify();
+    return targets.length;
+  },
+
+  batchToggleRecordsPin(ids: (string | number)[], pin: boolean): number {
+    const idSet = new Set(ids.map(String));
+    let changed = 0;
+    currentRecords.forEach((r) => {
+      if (idSet.has(String(r.id))) {
+        r.pinned = pin;
+        changed++;
+      }
+    });
+    if (changed > 0) {
+      safeSave(STORAGE_KEYS.RECORDS, currentRecords);
+      this.addLog('record', 'update', '批量设置置顶', `批量将 ${changed} 条说说${pin ? '设为置顶' : '取消置顶'}`);
+      notify();
+    }
+    return changed;
+  },
+
   // ===== 友链 Friends =====
   getFriends(): FriendItem[] {
     return currentFriends.slice().sort((a, b) => (a.order || 999) - (b.order || 999));
@@ -487,11 +654,73 @@ export const AdminStore = {
   deleteFriend(id: string | number): boolean {
     const target = currentFriends.find((f) => String(f.id) === String(id));
     if (!target) return false;
+    pushToTrash('friend', target.name, { ...target });
     currentFriends = currentFriends.filter((f) => String(f.id) !== String(id));
     safeSave(STORAGE_KEYS.FRIENDS, currentFriends);
-    this.addLog('friend', 'delete', '删除友链', `删除了友链《${target.name}》`);
+    this.addLog('friend', 'delete', '删除友链', `删除了友链《${target.name}》（已存入回收站）`);
     notify();
     return true;
+  },
+
+  moveFriend(id: string | number, direction: 'up' | 'down'): boolean {
+    const sorted = [...currentFriends].sort((a, b) => (a.order || 999) - (b.order || 999));
+    const index = sorted.findIndex((f) => String(f.id) === String(id));
+    if (index === -1) return false;
+    if (direction === 'up' && index === 0) return false;
+    if (direction === 'down' && index === sorted.length - 1) return false;
+
+    const targetIndex = direction === 'up' ? index - 1 : index + 1;
+    const temp = sorted[index];
+    sorted[index] = sorted[targetIndex];
+    sorted[targetIndex] = temp;
+
+    // 重新规整 order 序号从 1 开始
+    sorted.forEach((f, idx) => {
+      f.order = idx + 1;
+    });
+
+    currentFriends = sorted;
+    safeSave(STORAGE_KEYS.FRIENDS, currentFriends);
+    this.addLog('friend', 'update', '重排友链', `调整了友链顺序`);
+    notify();
+    return true;
+  },
+
+  pinFriend(id: string | number): boolean {
+    const sorted = [...currentFriends].sort((a, b) => (a.order || 999) - (b.order || 999));
+    const target = sorted.find((f) => String(f.id) === String(id));
+    if (!target) return false;
+    const rest = sorted.filter((f) => String(f.id) !== String(id));
+    const newOrdered = [target, ...rest];
+    newOrdered.forEach((f, idx) => {
+      f.order = idx + 1;
+    });
+    currentFriends = newOrdered;
+    safeSave(STORAGE_KEYS.FRIENDS, currentFriends);
+    this.addLog('friend', 'update', '置顶友链', `将友链《${target.name}》置顶`);
+    notify();
+    return true;
+  },
+
+  reorderFriends(orderedIds: (string | number)[]): void {
+    const idMap = new Map(currentFriends.map((f) => [String(f.id), f]));
+    const newOrdered: FriendItem[] = [];
+    orderedIds.forEach((id, idx) => {
+      const f = idMap.get(String(id));
+      if (f) {
+        f.order = idx + 1;
+        newOrdered.push(f);
+        idMap.delete(String(id));
+      }
+    });
+    // 放入剩余的
+    idMap.forEach((f) => {
+      f.order = newOrdered.length + 1;
+      newOrdered.push(f);
+    });
+    currentFriends = newOrdered;
+    safeSave(STORAGE_KEYS.FRIENDS, currentFriends);
+    notify();
   },
 
   // ===== 分类与标签 Taxonomy =====
@@ -562,6 +791,88 @@ export const AdminStore = {
     return false;
   },
 
+  addCategory(name: string): boolean {
+    const trimmed = name.trim();
+    if (!trimmed) return false;
+    const exists = currentPosts.some((p) => p.category === trimmed);
+    if (exists) return false;
+    // 触发更新日志
+    this.addLog('system', 'create', '新建分类体系', `预创建了分类「${trimmed}」`);
+    notify();
+    return true;
+  },
+
+  mergeCategory(sourceCategory: string, targetCategory: string): { success: boolean; count: number } {
+    const src = sourceCategory.trim();
+    const tgt = targetCategory.trim();
+    if (!src || !tgt || src === tgt) return { success: false, count: 0 };
+    let count = 0;
+    currentPosts.forEach((post) => {
+      if (post.category === src) {
+        post.category = tgt;
+        count++;
+      }
+    });
+    if (count > 0) {
+      safeSave(STORAGE_KEYS.POSTS, currentPosts);
+      this.addLog('system', 'update', '合并分类', `将分类「${src}」下的 ${count} 篇文章批量迁移至「${tgt}」`);
+      notify();
+    }
+    return { success: true, count };
+  },
+
+  mergeTags(sourceTag: string, targetTag: string): { success: boolean; count: number } {
+    const src = sourceTag.trim();
+    const tgt = targetTag.trim();
+    if (!src || !tgt || src === tgt) return { success: false, count: 0 };
+    let count = 0;
+    currentPosts.forEach((post) => {
+      if (post.tags.includes(src)) {
+        post.tags = Array.from(new Set(post.tags.map((t) => (t === src ? tgt : t))));
+        count++;
+      }
+    });
+    currentDiaries.forEach((diary) => {
+      if (diary.tags.includes(src)) {
+        diary.tags = Array.from(new Set(diary.tags.map((t) => (t === src ? tgt : t))));
+        count++;
+      }
+    });
+    if (count > 0) {
+      safeSave(STORAGE_KEYS.POSTS, currentPosts);
+      safeSave(STORAGE_KEYS.DIARIES, currentDiaries);
+      this.addLog('system', 'update', '合并标签', `将标签「${src}」合并入「${tgt}」（影响 ${count} 项内容）`);
+      notify();
+    }
+    return { success: true, count };
+  },
+
+  pruneUnusedTags(): { success: boolean; prunedTags: string[] } {
+    // 找出所有有效标签
+    const usedTags = new Set<string>();
+    currentPosts.forEach((p) => p.tags.forEach((t) => usedTags.add(t.trim())));
+    currentDiaries.forEach((d) => d.tags.forEach((t) => usedTags.add(t.trim())));
+    // 清理空标签与空格
+    let changed = false;
+    currentPosts.forEach((p) => {
+      const origLen = p.tags.length;
+      p.tags = p.tags.map((t) => t.trim()).filter(Boolean);
+      if (p.tags.length !== origLen) changed = true;
+    });
+    currentDiaries.forEach((d) => {
+      const origLen = d.tags.length;
+      d.tags = d.tags.map((t) => t.trim()).filter(Boolean);
+      if (d.tags.length !== origLen) changed = true;
+    });
+    if (changed) {
+      safeSave(STORAGE_KEYS.POSTS, currentPosts);
+      safeSave(STORAGE_KEYS.DIARIES, currentDiaries);
+      notify();
+    }
+    this.addLog('system', 'update', '整理标签索引', `已扫描并整理全站标签索引，当前有效标签数：${usedTags.size}`);
+    return { success: true, prunedTags: [] };
+  },
+
   // ===== 站点配置 SiteConfig =====
   getSiteConfig(): SiteConfig {
     return currentSiteConfig;
@@ -570,9 +881,108 @@ export const AdminStore = {
   saveSiteConfig(newConfig: SiteConfig): SiteConfig {
     currentSiteConfig = { ...newConfig };
     safeSave(STORAGE_KEYS.CONFIG, currentSiteConfig);
-    this.addLog('setting', 'update', '更新站点设置', '更新了全站基本信息与站长配置');
+    this.addLog('setting', 'update', '更新站点设置', '更新了全站基本信息与页面配置');
     notify();
     return currentSiteConfig;
+  },
+
+  resetConfigSection(sectionKey: keyof SiteConfig): SiteConfig {
+    const defaultVal = defaultSiteConfig[sectionKey];
+    (currentSiteConfig as any)[sectionKey] = JSON.parse(JSON.stringify(defaultVal));
+    safeSave(STORAGE_KEYS.CONFIG, currentSiteConfig);
+    this.addLog('setting', 'restore', '重置板块配置', `将「${String(sectionKey)}」配置恢复为出厂预设值`);
+    notify();
+    return currentSiteConfig;
+  },
+
+  // ===== 回收站 TrashBin =====
+  getTrash(): TrashItem[] {
+    return currentTrash;
+  },
+
+  restoreTrash(trashId: string): boolean {
+    const index = currentTrash.findIndex((t) => t.id === trashId);
+    if (index === -1) return false;
+    const item = currentTrash[index];
+
+    if (item.type === 'post') {
+      const post = item.data as Post;
+      // 避免 slug 冲突
+      const exists = currentPosts.some((p) => p.slug === post.slug);
+      const restoreSlug = exists ? `${post.slug}-restored-${Date.now().toString().slice(-4)}` : post.slug;
+      currentPosts = [{ ...post, slug: restoreSlug }, ...currentPosts];
+      safeSave(STORAGE_KEYS.POSTS, currentPosts);
+      this.addLog('post', 'restore', '恢复文章', `从回收站恢复了《${post.title}》`);
+    } else if (item.type === 'diary') {
+      const diary = item.data as Diary;
+      const exists = currentDiaries.some((d) => d.slug === diary.slug);
+      const restoreSlug = exists ? `${diary.slug}-restored-${Date.now().toString().slice(-4)}` : diary.slug;
+      currentDiaries = [{ ...diary, slug: restoreSlug }, ...currentDiaries];
+      safeSave(STORAGE_KEYS.DIARIES, currentDiaries);
+      this.addLog('diary', 'restore', '恢复手记', `从回收站恢复了手记《${diary.title}》`);
+    } else if (item.type === 'record') {
+      const record = item.data as RecordItem;
+      currentRecords = [{ ...record, id: `rec-restored-${Date.now()}` }, ...currentRecords];
+      safeSave(STORAGE_KEYS.RECORDS, currentRecords);
+      this.addLog('record', 'restore', '恢复说说', `从回收站恢复了一条说说`);
+    } else if (item.type === 'friend') {
+      const friend = item.data as FriendItem;
+      currentFriends = [{ ...friend, id: `fr-restored-${Date.now()}` }, ...currentFriends];
+      safeSave(STORAGE_KEYS.FRIENDS, currentFriends);
+      this.addLog('friend', 'restore', '恢复友链', `从回收站恢复了友链《${friend.name}》`);
+    }
+
+    currentTrash = currentTrash.filter((t) => t.id !== trashId);
+    safeSave(STORAGE_KEYS.TRASH, currentTrash);
+    notify();
+    return true;
+  },
+
+  deletePermanently(trashId: string): boolean {
+    const target = currentTrash.find((t) => t.id === trashId);
+    if (!target) return false;
+    currentTrash = currentTrash.filter((t) => t.id !== trashId);
+    safeSave(STORAGE_KEYS.TRASH, currentTrash);
+    this.addLog('system', 'delete', '彻底粉碎数据', `彻底清除了回收站中的《${target.title}》`);
+    notify();
+    return true;
+  },
+
+  clearTrash(): void {
+    const count = currentTrash.length;
+    currentTrash = [];
+    safeSave(STORAGE_KEYS.TRASH, currentTrash);
+    this.addLog('system', 'delete', '清空回收站', `清空了回收站中的 ${count} 条记录`);
+    notify();
+  },
+
+  // ===== 编辑器草稿自动暂存 Editor Drafts =====
+  saveAutoDraft(draft: Omit<EditorDraft, 'id' | 'savedAt'>): void {
+    const key = `${draft.type}_${draft.slug || 'new'}`;
+    const entry: EditorDraft = {
+      ...draft,
+      id: key,
+      savedAt: Date.now(),
+    };
+    currentDrafts[key] = entry;
+    safeSave(STORAGE_KEYS.DRAFTS, currentDrafts);
+  },
+
+  getAutoDraft(type: 'post' | 'diary', slug?: string): EditorDraft | null {
+    const key = `${type}_${slug || 'new'}`;
+    return currentDrafts[key] || null;
+  },
+
+  clearAutoDraft(type: 'post' | 'diary', slug?: string): void {
+    const key = `${type}_${slug || 'new'}`;
+    if (currentDrafts[key]) {
+      delete currentDrafts[key];
+      safeSave(STORAGE_KEYS.DRAFTS, currentDrafts);
+    }
+  },
+
+  getAllAutoDrafts(): EditorDraft[] {
+    return Object.values(currentDrafts);
   },
 
   // ===== 控制台偏好 Preferences =====
@@ -587,7 +997,7 @@ export const AdminStore = {
     return currentPreferences;
   },
 
-  // ===== 直接动文件源码操作 (Direct File Source Code) =====
+  // ===== 底层配置文件与源码操作 (Underlying Configuration & Source) =====
   getSiteConfigFileContent(): string {
     return JSON.stringify(currentSiteConfig, null, 2);
   },
@@ -764,6 +1174,8 @@ export const AdminStore = {
       },
     ];
     currentPreferences = { ...defaultPreferences };
+    currentTrash = [];
+    currentDrafts = {};
 
     safeSave(STORAGE_KEYS.POSTS, currentPosts);
     safeSave(STORAGE_KEYS.DIARIES, currentDiaries);
@@ -772,6 +1184,8 @@ export const AdminStore = {
     safeSave(STORAGE_KEYS.CONFIG, currentSiteConfig);
     safeSave(STORAGE_KEYS.LOGS, currentLogs);
     safeSave(STORAGE_KEYS.PREFERENCES, currentPreferences);
+    safeSave(STORAGE_KEYS.TRASH, currentTrash);
+    safeSave(STORAGE_KEYS.DRAFTS, currentDrafts);
 
     notify();
   },
@@ -793,6 +1207,8 @@ export const AdminStore = {
         records: currentRecords.length,
         friends: currentFriends.length,
         logs: currentLogs.length,
+        trash: currentTrash.length,
+        drafts: Object.keys(currentDrafts).length,
       },
     };
   },

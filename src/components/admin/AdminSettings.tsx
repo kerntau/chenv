@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useMemo, useEffect } from 'react';
 import {
   Settings2,
   Save,
@@ -64,6 +64,23 @@ export const AdminSettings: React.FC = () => {
   // 备份与重置
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [resetConfirmOpen, setResetConfirmOpen] = useState(false);
+
+  // 未保存变更检测
+  const isDirty = useMemo(() => {
+    return JSON.stringify(configForm) !== JSON.stringify(siteConfig);
+  }, [configForm, siteConfig]);
+
+  // 离开防误触拦截
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (isDirty) {
+        e.preventDefault();
+        e.returnValue = '';
+      }
+    };
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+  }, [isDirty]);
 
   // 保存站点配置
   const handleSaveAllConfig = (e?: React.FormEvent) => {
@@ -144,10 +161,10 @@ export const AdminSettings: React.FC = () => {
         <div className="admin-page-title-group">
           <h1>
             <Settings2 className="w-6 h-6 text-sky-500" />
-            <span>全页面高度可定制中心</span>
+            <span>全站与页面配置中心</span>
           </h1>
           <p>
-            统一更改站点基础信息、站长档案、首页 Hero 标语、关于页技术栈、友链指南模板、导航菜单与页脚信息。
+            集中配置站点基础元数据、SEO、站长名片、首页 Hero 视觉、关于页技能拓扑、友链页申请指南、导航拓扑与页脚信息。
           </p>
         </div>
 
@@ -2187,6 +2204,23 @@ export const AdminSettings: React.FC = () => {
               </button>
             </div>
           </div>
+        </div>
+      )}
+
+      {/* 浮动未保存保存栏 */}
+      {isDirty && (
+        <div className="fixed bottom-6 right-6 z-40 bg-sky-600 text-white px-5 py-2.5 rounded-2xl shadow-2xl border border-sky-400 flex items-center gap-4 text-xs animate-in fade-in slide-in-from-bottom-2">
+          <div className="flex items-center gap-2 font-medium">
+            <span className="w-2 h-2 rounded-full bg-amber-300 animate-ping" />
+            <span>检测到有尚未保存的配置更改</span>
+          </div>
+          <button
+            onClick={() => handleSaveAllConfig()}
+            className="px-3.5 py-1.5 rounded-lg bg-white text-sky-700 hover:bg-sky-50 font-semibold transition-colors flex items-center gap-1.5 shadow-sm"
+          >
+            <Save className="w-3.5 h-3.5" />
+            <span>立即保存</span>
+          </button>
         </div>
       )}
     </div>

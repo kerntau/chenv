@@ -12,6 +12,10 @@ import {
   RotateCcw,
   LayoutGrid,
   List,
+  Star,
+  FolderInput,
+  ArrowUpDown,
+  Archive,
 } from 'lucide-react';
 import { useAdminStore } from '../../hooks/useAdminStore';
 import { useToast } from './AdminToast';
@@ -22,22 +26,36 @@ interface AdminPostsProps {
 }
 
 export const AdminPosts: React.FC<AdminPostsProps> = ({ onOpenEditor }) => {
-  const { posts, categories, tags, togglePostDraft, deletePost } = useAdminStore();
+  const {
+    posts,
+    categories,
+    tags,
+    togglePostDraft,
+    deletePost,
+    batchDeletePosts,
+    batchSetPostsCategory,
+    batchTogglePostsDraft,
+    setPostRecommend,
+  } = useAdminStore();
   const { success } = useToast();
 
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedStatus, setSelectedStatus] = useState<'all' | 'published' | 'draft'>('all');
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
+  const [sortBy, setSortBy] = useState<'date-desc' | 'date-asc' | 'words-desc'>('date-desc');
   const [viewMode, setViewMode] = useState<'table' | 'grid'>('table');
   const [selectedSlugs, setSelectedSlugs] = useState<string[]>([]);
   const [deleteTarget, setDeleteTarget] = useState<Post | null>(null);
+  const [batchDeleteConfirmOpen, setBatchDeleteConfirmOpen] = useState(false);
+  const [batchCategoryModal, setBatchCategoryModal] = useState(false);
+  const [targetBatchCategory, setTargetBatchCategory] = useState('');
 
-  // 过滤后的文章
+  // 过滤与排序后的文章
   const filteredPosts = useMemo(() => {
     const q = searchQuery.trim().toLowerCase();
 
-    return posts.filter((post) => {
+    const result = posts.filter((post) => {
       if (selectedCategory !== 'all' && post.category !== selectedCategory) return false;
       if (selectedStatus === 'published' && post.draft) return false;
       if (selectedStatus === 'draft' && !post.draft) return false;
@@ -52,7 +70,20 @@ export const AdminPosts: React.FC<AdminPostsProps> = ({ onOpenEditor }) => {
         post.tags.some((t) => t.toLowerCase().includes(q))
       );
     });
-  }, [posts, searchQuery, selectedCategory, selectedStatus, selectedTag]);
+
+    return result.sort((a, b) => {
+      if (sortBy === 'date-desc') {
+        return new Date(b.date).getTime() - new Date(a.date).getTime();
+      }
+      if (sortBy === 'date-asc') {
+        return new Date(a.date).getTime() - new Date(b.date).getTime();
+      }
+      if (sortBy === 'words-desc') {
+        return b.wordCount - a.wordCount;
+      }
+      return 0;
+    });
+  }, [posts, searchQuery, selectedCategory, selectedStatus, selectedTag, sortBy]);
 
   // 全选/反选
   const handleSelectAll = () => {
@@ -71,25 +102,47 @@ export const AdminPosts: React.FC<AdminPostsProps> = ({ onOpenEditor }) => {
     }
   };
 
-  // 复制链接
+  // 复制前台链接
   const handleCopyLink = (slug: string) => {
     const url = `${window.location.origin}/posts/${slug}`;
     navigator.clipboard.writeText(url);
     success('文章前台访问链接已复制到剪贴板！');
   };
 
-  // 批量转为草稿
-  const handleBatchToggleDraft = () => {
-    selectedSlugs.forEach((slug) => togglePostDraft(slug));
-    success(`已批量调整 ${selectedSlugs.length} 篇文章状态`);
+  // 批量发布/设为草稿
+  const handleBatchPublish = (targetDraft: boolean) => {
+    const count = batchTogglePostsDraft(selectedSlugs, targetDraft);
+    success(`已批量将 ${count} 篇文章设为${targetDraft ? '草稿' : '已发布'}`);
     setSelectedSlugs([]);
   };
 
-  // 确认删除
+  // 批量删除（存入回收站）
+  const handleBatchDelete = () => {
+    if (selectedSlugs.length === 0) return;
+    setBatchDeleteConfirmOpen(true);
+  };
+
+  const handleConfirmBatchDelete = () => {
+    const count = batchDeletePosts(selectedSlugs);
+    success(`已将 ${count} 篇文章移入回收站（可随时在顶栏回收站撤销恢复）`);
+    setSelectedSlugs([]);
+    setBatchDeleteConfirmOpen(false);
+  };
+
+  // 批量更改分类
+  const handleConfirmBatchCategory = () => {
+    if (!targetBatchCategory) return;
+    const count = batchSetPostsCategory(selectedSlugs, targetBatchCategory);
+    success(`已将 ${count} 篇文章分类批量修改为「${targetBatchCategory}」`);
+    setSelectedSlugs([]);
+    setBatchCategoryModal(false);
+  };
+
+  // 单篇确认删除
   const handleConfirmDelete = () => {
     if (!deleteTarget) return;
     deletePost(deleteTarget.slug);
-    success(`文章《${deleteTarget.title}》已删除`);
+    success(`文章《${deleteTarget.title}》已移入回收站`);
     setDeleteTarget(null);
   };
 
@@ -103,7 +156,7 @@ export const AdminPosts: React.FC<AdminPostsProps> = ({ onOpenEditor }) => {
             <span>文章管理</span>
           </h1>
           <p>
-            共收录 {posts.length} 篇文稿，支持检索、分类筛选、双栏 Markdown 编写与草稿控制。
+            共收录 {posts.length} 篇文稿，已发布 {posts.filter((p) => !p.draft).length} 篇，草稿 {posts.filter((p) => p.draft).length} 篇。支持批量治理、推荐标记与回收站保护。
           </p>
         </div>
 
@@ -132,8 +185,21 @@ export const AdminPosts: React.FC<AdminPostsProps> = ({ onOpenEditor }) => {
               />
             </div>
 
-            {/* 视图切换 + 重置 */}
+            {/* 视图切换 + 排序 + 重置 */}
             <div className="flex items-center gap-2 shrink-0">
+              <div className="flex items-center gap-1.5 text-xs text-slate-500">
+                <ArrowUpDown className="w-3.5 h-3.5" />
+                <select
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value as any)}
+                  className="admin-select !w-auto !py-1 !text-xs"
+                >
+                  <option value="date-desc">最新日期优先</option>
+                  <option value="date-asc">最早日期优先</option>
+                  <option value="words-desc">字数最多优先</option>
+                </select>
+              </div>
+
               {(searchQuery || selectedCategory !== 'all' || selectedStatus !== 'all' || selectedTag) && (
                 <button
                   onClick={() => {
@@ -145,7 +211,7 @@ export const AdminPosts: React.FC<AdminPostsProps> = ({ onOpenEditor }) => {
                   className="admin-btn admin-btn-secondary admin-btn-sm text-xs"
                 >
                   <RotateCcw className="w-3.5 h-3.5" />
-                  <span>重置筛选</span>
+                  <span>重置</span>
                 </button>
               )}
 
@@ -229,7 +295,7 @@ export const AdminPosts: React.FC<AdminPostsProps> = ({ onOpenEditor }) => {
             </select>
 
             {/* 热门标签筛选 */}
-            {tags.slice(0, 5).map((t) => {
+            {tags.slice(0, 6).map((t) => {
               const active = selectedTag === t.name;
               return (
                 <button
@@ -250,22 +316,46 @@ export const AdminPosts: React.FC<AdminPostsProps> = ({ onOpenEditor }) => {
 
         {/* 批量操作条 (当有选中项时) */}
         {selectedSlugs.length > 0 && (
-          <div className="p-2.5 px-4 bg-sky-50 dark:bg-sky-950/80 border-t border-sky-200 dark:border-sky-800/80 flex items-center justify-between text-xs text-sky-900 dark:text-sky-100">
-            <span className="font-medium">
-              已选中 {selectedSlugs.length} 篇文章
+          <div className="p-3 px-4 bg-sky-50 dark:bg-sky-950/80 border-t border-sky-200 dark:border-sky-800/80 flex flex-wrap items-center justify-between gap-2 text-xs text-sky-950 dark:text-sky-100 animate-in fade-in">
+            <span className="font-semibold flex items-center gap-1.5">
+              <CheckSquare className="w-4 h-4 text-sky-600" />
+              已选择 {selectedSlugs.length} 篇文章
             </span>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               <button
-                onClick={handleBatchToggleDraft}
-                className="admin-btn admin-btn-secondary admin-btn-sm text-xs"
+                onClick={() => handleBatchPublish(false)}
+                className="admin-btn admin-btn-secondary admin-btn-sm !text-xs"
               >
-                切换草稿/发布状态
+                批量发布
+              </button>
+              <button
+                onClick={() => handleBatchPublish(true)}
+                className="admin-btn admin-btn-secondary admin-btn-sm !text-xs"
+              >
+                批量转草稿
+              </button>
+              <button
+                onClick={() => {
+                  setTargetBatchCategory(categories[0]?.name || '');
+                  setBatchCategoryModal(true);
+                }}
+                className="admin-btn admin-btn-secondary admin-btn-sm !text-xs flex items-center gap-1"
+              >
+                <FolderInput className="w-3.5 h-3.5" />
+                <span>批量修改分类</span>
+              </button>
+              <button
+                onClick={handleBatchDelete}
+                className="admin-btn admin-btn-danger admin-btn-sm !text-xs flex items-center gap-1"
+              >
+                <Archive className="w-3.5 h-3.5" />
+                <span>批量存入回收站</span>
               </button>
               <button
                 onClick={() => setSelectedSlugs([])}
                 className="text-xs text-slate-500 hover:underline px-2"
               >
-                取消选择
+                取消
               </button>
             </div>
           </div>
@@ -298,6 +388,7 @@ export const AdminPosts: React.FC<AdminPostsProps> = ({ onOpenEditor }) => {
                     </button>
                   </th>
                   <th>文章标题 & 标识</th>
+                  <th>推荐</th>
                   <th>分类</th>
                   <th>标签</th>
                   <th>字数 & 时长</th>
@@ -309,6 +400,8 @@ export const AdminPosts: React.FC<AdminPostsProps> = ({ onOpenEditor }) => {
               <tbody>
                 {filteredPosts.map((post) => {
                   const isSelected = selectedSlugs.includes(post.slug);
+                  const isRecommended = Boolean(post.recommend && post.recommend > 0);
+
                   return (
                     <tr key={post.slug} className={isSelected ? 'bg-sky-50/50 dark:bg-sky-950/40' : ''}>
                       <td className="text-center">
@@ -335,6 +428,23 @@ export const AdminPosts: React.FC<AdminPostsProps> = ({ onOpenEditor }) => {
                             /{post.slug}
                           </div>
                         </div>
+                      </td>
+                      <td>
+                        <button
+                          onClick={() => {
+                            const next = isRecommended ? 0 : 1;
+                            setPostRecommend(post.slug, next);
+                            success(`已${next ? '推荐' : '取消推荐'}文章《${post.title}》`);
+                          }}
+                          className={`p-1 rounded transition-colors ${
+                            isRecommended
+                              ? 'text-amber-500 hover:text-amber-600'
+                              : 'text-slate-300 dark:text-slate-700 hover:text-slate-400'
+                          }`}
+                          title={isRecommended ? '点击取消首页推荐' : '点击设为首页推荐文章'}
+                        >
+                          <Star className={`w-4 h-4 ${isRecommended ? 'fill-amber-500' : ''}`} />
+                        </button>
                       </td>
                       <td>
                         <span className="text-xs font-medium text-slate-700 dark:text-slate-300">
@@ -391,7 +501,7 @@ export const AdminPosts: React.FC<AdminPostsProps> = ({ onOpenEditor }) => {
                           <button
                             onClick={() => setDeleteTarget(post)}
                             className="admin-icon-btn !w-7 !h-7 text-red-500 hover:bg-red-50"
-                            title="删除文章"
+                            title="删除文章（存入回收站）"
                           >
                             <Trash2 className="w-3.5 h-3.5" />
                           </button>
@@ -406,58 +516,109 @@ export const AdminPosts: React.FC<AdminPostsProps> = ({ onOpenEditor }) => {
         ) : (
           /* 网格卡片视图 */
           <div className="p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {filteredPosts.map((post) => (
-              <div
-                key={post.slug}
-                className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 bg-white dark:bg-slate-900 transition-colors flex flex-col justify-between space-y-3"
-              >
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="text-[11px] font-mono text-sky-600 dark:text-sky-400 bg-sky-50 dark:bg-sky-950/60 px-2 py-0.5 rounded">
-                      {post.category}
-                    </span>
-                    <button
-                      onClick={() => togglePostDraft(post.slug)}
-                      className={`admin-badge ${post.draft ? 'draft' : 'published'}`}
-                    >
-                      {post.draft ? '草稿' : '已发布'}
-                    </button>
-                  </div>
+            {filteredPosts.map((post) => {
+              const isRecommended = Boolean(post.recommend && post.recommend > 0);
 
-                  <h3
-                    onClick={() => onOpenEditor('post', post.slug)}
-                    className="font-bold text-sm text-slate-900 dark:text-slate-100 hover:text-sky-600 cursor-pointer line-clamp-2"
-                  >
-                    {post.title}
-                  </h3>
+              return (
+                <div
+                  key={post.slug}
+                  className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 bg-white dark:bg-slate-900 transition-colors flex flex-col justify-between space-y-3"
+                >
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-[11px] font-mono text-sky-600 dark:text-sky-400 bg-sky-50 dark:bg-sky-950/60 px-2 py-0.5 rounded">
+                        {post.category}
+                      </span>
+                      <div className="flex items-center gap-1">
+                        {isRecommended && (
+                          <Star className="w-3.5 h-3.5 fill-amber-500 text-amber-500" />
+                        )}
+                        <button
+                          onClick={() => togglePostDraft(post.slug)}
+                          className={`admin-badge ${post.draft ? 'draft' : 'published'}`}
+                        >
+                          {post.draft ? '草稿' : '已发布'}
+                        </button>
+                      </div>
+                    </div>
 
-                  <p className="text-xs text-slate-500 dark:text-slate-400 line-clamp-2 leading-relaxed">
-                    {post.summary}
-                  </p>
-                </div>
-
-                <div className="pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-[11px] text-slate-400 font-mono">
-                  <span>{post.date}</span>
-                  <div className="flex items-center gap-1">
-                    <button
+                    <h3
                       onClick={() => onOpenEditor('post', post.slug)}
-                      className="admin-icon-btn !w-7 !h-7 text-sky-600"
+                      className="font-bold text-sm text-slate-900 dark:text-slate-100 hover:text-sky-600 cursor-pointer line-clamp-2"
                     >
-                      <Edit2 className="w-3.5 h-3.5" />
-                    </button>
-                    <button
-                      onClick={() => setDeleteTarget(post)}
-                      className="admin-icon-btn !w-7 !h-7 text-red-500"
-                    >
-                      <Trash2 className="w-3.5 h-3.5" />
-                    </button>
+                      {post.title}
+                    </h3>
+
+                    <p className="text-xs text-slate-500 dark:text-slate-400 line-clamp-2 leading-relaxed">
+                      {post.summary}
+                    </p>
+                  </div>
+
+                  <div className="pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-[11px] text-slate-400 font-mono">
+                    <span>{post.date}</span>
+                    <div className="flex items-center gap-1">
+                      <button
+                        onClick={() => onOpenEditor('post', post.slug)}
+                        className="admin-icon-btn !w-7 !h-7 text-sky-600"
+                      >
+                        <Edit2 className="w-3.5 h-3.5" />
+                      </button>
+                      <button
+                        onClick={() => setDeleteTarget(post)}
+                        className="admin-icon-btn !w-7 !h-7 text-red-500"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
       </div>
+
+      {/* 批量修改分类模态框 */}
+      {batchCategoryModal && (
+        <div className="admin-modal-overlay" onClick={() => setBatchCategoryModal(false)}>
+          <div
+            className="admin-modal-dialog p-5 space-y-4 max-w-sm"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100">
+              批量修改 {selectedSlugs.length} 篇文章分类
+            </h3>
+            <div className="space-y-2">
+              <label className="text-xs text-slate-500">选择目标分类：</label>
+              <select
+                value={targetBatchCategory}
+                onChange={(e) => setTargetBatchCategory(e.target.value)}
+                className="admin-select"
+              >
+                {categories.map((c) => (
+                  <option key={c.name} value={c.name}>
+                    {c.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="flex items-center justify-end gap-2 pt-2">
+              <button
+                onClick={() => setBatchCategoryModal(false)}
+                className="admin-btn admin-btn-secondary admin-btn-sm"
+              >
+                取消
+              </button>
+              <button
+                onClick={handleConfirmBatchCategory}
+                className="admin-btn admin-btn-primary admin-btn-sm"
+              >
+                确认应用
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* 删除二次确认模态框 */}
       {deleteTarget && (
@@ -468,10 +629,10 @@ export const AdminPosts: React.FC<AdminPostsProps> = ({ onOpenEditor }) => {
           >
             <div className="space-y-1.5">
               <h3 className="text-base font-bold text-slate-900 dark:text-slate-100">
-                确认删除文稿
+                移入回收站确认
               </h3>
               <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-                你确定要删除《<strong>{deleteTarget.title}</strong>》吗？此操作将从本地存储中移除该文稿。
+                你确定要删除《<strong>{deleteTarget.title}</strong>》吗？该文章将被移入<strong>回收站</strong>，你可以在顶栏回收站随时一键找回或彻底清除。
               </p>
             </div>
 
@@ -486,7 +647,42 @@ export const AdminPosts: React.FC<AdminPostsProps> = ({ onOpenEditor }) => {
                 onClick={handleConfirmDelete}
                 className="admin-btn admin-btn-danger admin-btn-sm"
               >
-                确认删除
+                移入回收站
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 批量移入回收站二次确认模态框 */}
+      {batchDeleteConfirmOpen && (
+        <div className="admin-modal-overlay" onClick={() => setBatchDeleteConfirmOpen(false)}>
+          <div
+            className="admin-modal-dialog p-6 space-y-4 max-w-sm"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="space-y-1.5">
+              <h3 className="text-base font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
+                <Trash2 className="w-4 h-4 text-red-500" />
+                <span>批量移入回收站</span>
+              </h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                确定将选中的 <strong>{selectedSlugs.length}</strong> 篇文章移入回收站吗？你可以随时在顶栏回收站中一键恢复或彻底粉碎。
+              </p>
+            </div>
+
+            <div className="flex items-center justify-end gap-2.5 pt-2">
+              <button
+                onClick={() => setBatchDeleteConfirmOpen(false)}
+                className="admin-btn admin-btn-secondary admin-btn-sm"
+              >
+                取消
+              </button>
+              <button
+                onClick={handleConfirmBatchDelete}
+                className="admin-btn admin-btn-danger admin-btn-sm"
+              >
+                确认移入回收站
               </button>
             </div>
           </div>

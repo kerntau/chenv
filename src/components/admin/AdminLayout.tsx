@@ -18,6 +18,9 @@ import {
   Moon,
   Database,
   FileCode2,
+  Trash2,
+  RotateCcw,
+  ShieldCheck,
 } from 'lucide-react';
 import { useAdminStore } from '../../hooks/useAdminStore';
 import { AdminCommandPalette } from './AdminCommandPalette';
@@ -46,11 +49,28 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
   onOpenEditor,
   children,
 }) => {
-  const { posts, diaries, records, friends, categories, siteConfig, preferences, savePreferences, storageUsage } = useAdminStore();
+  const {
+    posts,
+    diaries,
+    records,
+    friends,
+    categories,
+    siteConfig,
+    preferences,
+    savePreferences,
+    storageUsage,
+    trash,
+    restoreTrash,
+    deletePermanently,
+    clearTrash,
+  } = useAdminStore();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(preferences.sidebarCollapsed || false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
   const [quickCreateOpen, setQuickCreateOpen] = useState(false);
+  const [trashDrawerOpen, setTrashDrawerOpen] = useState(false);
+  const [confirmClearTrashOpen, setConfirmClearTrashOpen] = useState(false);
+  const [permanentDeleteTarget, setPermanentDeleteTarget] = useState<{ id: string; title: string } | null>(null);
   const [isDark, setIsDark] = useState(false);
 
   // 主题与暗黑模式同步
@@ -93,23 +113,23 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
     {
       title: '内容创作',
       items: [
-        { id: 'posts' as const, label: '文章文稿', icon: FileText, badge: posts.length },
+        { id: 'posts' as const, label: '文章管理', icon: FileText, badge: posts.length },
         { id: 'diaries' as const, label: '手记随笔', icon: BookOpen, badge: diaries.length },
         { id: 'records' as const, label: '说说动态', icon: Activity, badge: records.length },
       ],
     },
     {
-      title: '分类与网络',
+      title: '分类网络',
       items: [
         { id: 'taxonomy' as const, label: '分类与标签', icon: Tag, badge: categories.length },
-        { id: 'friends' as const, label: '友链伙伴', icon: Link2, badge: friends.length },
+        { id: 'friends' as const, label: '友情链接', icon: Link2, badge: friends.length },
       ],
     },
     {
-      title: '全页面与文件定制',
+      title: '系统配置',
       items: [
-        { id: 'settings' as const, label: '全页面定制中心', icon: Settings2, badge: null },
-        { id: 'fileEditor' as const, label: '直接动文件中心', icon: FileCode2, badge: null },
+        { id: 'settings' as const, label: '全站与页面配置', icon: Settings2, badge: null },
+        { id: 'fileEditor' as const, label: '底层数据中心', icon: FileCode2, badge: null },
       ],
     },
   ];
@@ -119,10 +139,10 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
     posts: '文章管理',
     diaries: '手记随笔',
     records: '说说动态',
-    friends: '友链伙伴',
+    friends: '友情链接',
     taxonomy: '分类与标签',
-    settings: '全页面高度定制中心',
-    fileEditor: '直接动文件源码中心',
+    settings: '全站与页面配置中心',
+    fileEditor: '底层数据与源码中心',
     editor: '内容编辑器',
   };
 
@@ -272,8 +292,17 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
             </div>
           </div>
 
-          {/* 右侧：全局搜索、新建操作、前台预览、主题切换 */}
+          {/* 右侧：状态指示灯、全局搜索、新建操作、回收站、主题切换 */}
           <div className="admin-topbar-actions">
+            {/* 本地状态呼吸胶囊 */}
+            <div
+              className="hidden md:flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-mono bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/60"
+              title="本地数据已安全保存在浏览器 LocalStorage"
+            >
+              <span className="admin-pulse-dot bg-emerald-500" />
+              <span>本地已就绪</span>
+            </div>
+
             {/* Ctrl+K 搜索按钮 */}
             <button
               onClick={() => setCommandPaletteOpen(true)}
@@ -347,6 +376,20 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
               )}
             </div>
 
+            {/* 回收站按钮 */}
+            <button
+              onClick={() => setTrashDrawerOpen(true)}
+              className="admin-icon-btn relative"
+              title="回收站（可恢复最近删除的内容）"
+            >
+              <Trash2 className="w-4 h-4 text-slate-500" />
+              {trash.length > 0 && (
+                <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-amber-500 text-white text-[10px] font-bold flex items-center justify-center">
+                  {trash.length > 9 ? '9+' : trash.length}
+                </span>
+              )}
+            </button>
+
             {/* 暗黑/明亮主题切换 */}
             <button
               onClick={toggleTheme}
@@ -383,7 +426,190 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
         onNavigate={onNavigate}
         onOpenEditor={onOpenEditor}
         onToggleTheme={toggleTheme}
+        onOpenTrash={() => setTrashDrawerOpen(true)}
       />
+
+      {/* 回收站抽屉模态框 */}
+      {trashDrawerOpen && (
+        <div className="admin-modal-overlay" onClick={() => setTrashDrawerOpen(false)}>
+          <div
+            className="admin-modal-dialog max-w-xl max-h-[85vh] flex flex-col"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="p-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Trash2 className="w-5 h-5 text-amber-500" />
+                <h3 className="text-sm font-bold text-slate-800 dark:text-slate-100">
+                  数据回收站 ({trash.length})
+                </h3>
+              </div>
+              <div className="flex items-center gap-2">
+                {trash.length > 0 && (
+                  <button
+                    onClick={() => setConfirmClearTrashOpen(true)}
+                    className="text-xs text-red-500 hover:text-red-600 px-2 py-1 rounded hover:bg-red-50 dark:hover:bg-red-950/50"
+                  >
+                    清空回收站
+                  </button>
+                )}
+                <button
+                  onClick={() => setTrashDrawerOpen(false)}
+                  className="p-1 rounded text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+
+            <div className="flex-1 overflow-y-auto p-4 space-y-2.5 max-h-[480px]">
+              {trash.length === 0 ? (
+                <div className="py-12 text-center text-slate-400">
+                  <ShieldCheck className="w-10 h-10 mx-auto text-slate-300 dark:text-slate-700 mb-2" />
+                  <p className="text-xs">回收站空空如也，暂无已删除内容</p>
+                </div>
+              ) : (
+                trash.map((item) => {
+                  const typeLabel = {
+                    post: '文章',
+                    diary: '手记',
+                    record: '说说',
+                    friend: '友链',
+                  }[item.type];
+
+                  return (
+                    <div
+                      key={item.id}
+                      className="p-3 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/40 flex items-center justify-between gap-3"
+                    >
+                      <div className="min-w-0 flex-1">
+                        <div className="flex items-center gap-2">
+                          <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-amber-100 dark:bg-amber-950/70 text-amber-700 dark:text-amber-300">
+                            {typeLabel}
+                          </span>
+                          <span className="text-xs font-semibold text-slate-800 dark:text-slate-200 truncate">
+                            {item.title}
+                          </span>
+                        </div>
+                        <div className="text-[10px] text-slate-400 mt-1">
+                          删除时间：{new Date(item.deletedAt).toLocaleString('zh-CN', { hour12: false })}
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-1.5 shrink-0">
+                        <button
+                          onClick={() => {
+                            restoreTrash(item.id);
+                          }}
+                          className="flex items-center gap-1 px-2 py-1 rounded text-xs text-sky-600 hover:bg-sky-50 dark:hover:bg-sky-950/50 font-medium"
+                          title="一键撤销并恢复"
+                        >
+                          <RotateCcw className="w-3.5 h-3.5" />
+                          <span>恢复</span>
+                        </button>
+                        <button
+                          onClick={() => {
+                            setPermanentDeleteTarget({ id: item.id, title: item.title });
+                          }}
+                          className="p-1 rounded text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/50"
+                          title="彻底清除"
+                        >
+                          <X className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })
+              )}
+            </div>
+
+            <div className="p-3 bg-slate-50 dark:bg-slate-900/60 border-t border-slate-200 dark:border-slate-800 text-[11px] text-slate-400 flex items-center justify-between">
+              <span>回收站自动保留最近 50 条删除快照</span>
+              <button
+                onClick={() => setTrashDrawerOpen(false)}
+                className="admin-btn admin-btn-secondary admin-btn-sm !py-1 text-xs"
+              >
+                关闭
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 清空回收站确认模态框 */}
+      {confirmClearTrashOpen && (
+        <div className="admin-modal-overlay" onClick={() => setConfirmClearTrashOpen(false)}>
+          <div
+            className="admin-modal-dialog p-6 space-y-4 max-w-sm"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="space-y-2">
+              <h3 className="text-base font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
+                <Trash2 className="w-4 h-4 text-red-500" />
+                <span>确认清空整个回收站？</span>
+              </h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                当前回收站共有 <strong>{trash.length}</strong> 条历史记录。清空后将彻底永久删除，无法再次还原，请确认是否继续？
+              </p>
+            </div>
+
+            <div className="flex items-center justify-end gap-2.5 pt-2">
+              <button
+                onClick={() => setConfirmClearTrashOpen(false)}
+                className="admin-btn admin-btn-secondary admin-btn-sm"
+              >
+                取消
+              </button>
+              <button
+                onClick={() => {
+                  clearTrash();
+                  setConfirmClearTrashOpen(false);
+                }}
+                className="admin-btn admin-btn-danger admin-btn-sm"
+              >
+                确认彻底清空
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 彻底粉碎单条记录模态框 */}
+      {permanentDeleteTarget && (
+        <div className="admin-modal-overlay" onClick={() => setPermanentDeleteTarget(null)}>
+          <div
+            className="admin-modal-dialog p-6 space-y-4 max-w-sm"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="space-y-2">
+              <h3 className="text-base font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
+                <Trash2 className="w-4 h-4 text-red-500" />
+                <span>确认彻底粉碎删除？</span>
+              </h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                确认从底层彻底永久删除《{permanentDeleteTarget.title}》？此操作不可逆！
+              </p>
+            </div>
+
+            <div className="flex items-center justify-end gap-2.5 pt-2">
+              <button
+                onClick={() => setPermanentDeleteTarget(null)}
+                className="admin-btn admin-btn-secondary admin-btn-sm"
+              >
+                取消
+              </button>
+              <button
+                onClick={() => {
+                  deletePermanently(permanentDeleteTarget.id);
+                  setPermanentDeleteTarget(null);
+                }}
+                className="admin-btn admin-btn-danger admin-btn-sm"
+              >
+                彻底删除
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

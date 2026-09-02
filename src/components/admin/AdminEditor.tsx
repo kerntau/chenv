@@ -29,6 +29,11 @@ import {
   Smile,
   Clock,
   MapPin,
+  Maximize2,
+  Minimize2,
+  ListTree,
+  AlertCircle,
+  ShieldAlert,
 } from 'lucide-react';
 import { MarkdownRenderer } from '../markdown/MarkdownRenderer';
 import { useAdminStore } from '../../hooks/useAdminStore';
@@ -41,12 +46,27 @@ interface AdminEditorProps {
   onBack: () => void;
 }
 
+interface TocItem {
+  level: number;
+  text: string;
+  line: number;
+}
+
 export const AdminEditor: React.FC<AdminEditorProps> = ({
   type,
   slug,
   onBack,
 }) => {
-  const { categories, savePost, saveDiary, getPostBySlug, getDiaryBySlug } = useAdminStore();
+  const {
+    categories,
+    savePost,
+    saveDiary,
+    getPostBySlug,
+    getDiaryBySlug,
+    saveAutoDraft,
+    getAutoDraft,
+    clearAutoDraft,
+  } = useAdminStore();
   const { success, error, warning } = useToast();
 
   const isNew = !slug;
@@ -71,10 +91,69 @@ export const AdminEditor: React.FC<AdminEditorProps> = ({
   const [location, setLocation] = useState(existingDiary?.location || '书房');
   const [time, setTime] = useState(existingDiary?.time || new Date().toTimeString().slice(0, 5));
 
-  // 编辑器状态：'split' (双栏分屏) | 'edit' (纯编辑) | 'preview' (纯预览)
+  // 编辑器交互状态
   const [mode, setMode] = useState<'split' | 'edit' | 'preview'>('split');
+  const [zenMode, setZenMode] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [tocOpen, setTocOpen] = useState(false);
+  const [calloutMenuOpen, setCalloutMenuOpen] = useState(false);
+  const [dirtyExitConfirm, setDirtyExitConfirm] = useState(false);
+  const [hasAutoDraftBanner, setHasAutoDraftBanner] = useState(false);
+  const [pendingDraftData, setPendingDraftData] = useState<any>(null);
+
+  const initialContentRef = useRef(existingPost?.content || existingDiary?.content || '');
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+
+  // 检查脏数据状态
+  const isDirty = useMemo(() => {
+    return content !== initialContentRef.current || title !== (existingPost?.title || existingDiary?.title || '');
+  }, [content, title, existingPost, existingDiary]);
+
+  // 检查是否有未保存的本地自动草稿
+  useEffect(() => {
+    const savedDraft = getAutoDraft(type, slug);
+    if (savedDraft && savedDraft.content && savedDraft.content !== content) {
+      setPendingDraftData(savedDraft);
+      setHasAutoDraftBanner(true);
+    }
+  }, [type, slug]);
+
+  // 自动暂存草稿 (防抖 1.5s)
+  useEffect(() => {
+    if (!isDirty || !content) return;
+    const timer = setTimeout(() => {
+      saveAutoDraft({
+        type,
+        slug,
+        title,
+        content,
+        category,
+        tags: tagsInput.split(',').map((t) => t.trim()).filter(Boolean),
+        summary,
+        draft,
+        coverImage,
+        recommend,
+        weather,
+        mood,
+        location,
+        time,
+      });
+    }, 1500);
+
+    return () => clearTimeout(timer);
+  }, [content, title, category, tagsInput, summary, draft, coverImage, recommend, date, weather, mood, location, time, isDirty]);
+
+  // 离开页面防误关
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (isDirty) {
+        e.preventDefault();
+        e.returnValue = '';
+      }
+    };
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+  }, [isDirty]);
 
   // 自动从标题生成 slug（仅在新建时）
   useEffect(() => {
@@ -91,6 +170,23 @@ export const AdminEditor: React.FC<AdminEditorProps> = ({
   // 实时字数与阅读时间
   const { readingTime, wordCount } = useMemo(() => {
     return calculateReadingTime(content);
+  }, [content]);
+
+  // 实时提取 TOC 目录大纲
+  const tocList: TocItem[] = useMemo(() => {
+    const lines = content.split('\n');
+    const list: TocItem[] = [];
+    lines.forEach((line, index) => {
+      const match = line.match(/^(#{1,6})\s+(.+)$/);
+      if (match) {
+        list.push({
+          level: match[1].length,
+          text: match[2].trim(),
+          line: index + 1,
+        });
+      }
+    });
+    return list;
   }, [content]);
 
   // 工具栏辅助插入文本
@@ -112,6 +208,29 @@ export const AdminEditor: React.FC<AdminEditorProps> = ({
         start + before.length + selectedText.length
       );
     }, 0);
+  };
+
+  // 恢复草稿
+  const handleRestoreDraft = () => {
+    if (!pendingDraftData) return;
+    setTitle(pendingDraftData.title || title);
+    setContent(pendingDraftData.content || content);
+    if (pendingDraftData.data) {
+      if (pendingDraftData.data.category) setCategory(pendingDraftData.data.category);
+      if (pendingDraftData.data.tagsInput) setTagsInput(pendingDraftData.data.tagsInput);
+      if (pendingDraftData.data.summary) setSummary(pendingDraftData.data.summary);
+      if (pendingDraftData.data.weather) setWeather(pendingDraftData.data.weather);
+      if (pendingDraftData.data.mood) setMood(pendingDraftData.data.mood);
+    }
+    setHasAutoDraftBanner(false);
+    success('已成功恢复本地自动暂存草稿！');
+  };
+
+  // 丢弃草稿
+  const handleDiscardDraft = () => {
+    clearAutoDraft(type, slug);
+    setHasAutoDraftBanner(false);
+    setPendingDraftData(null);
   };
 
   // 快捷提取摘要
@@ -168,14 +287,30 @@ export const AdminEditor: React.FC<AdminEditorProps> = ({
       });
       success(`手记《${title}》已成功保存！`);
     }
+
+    // 更新基准并清除暂存
+    initialContentRef.current = content;
+    clearAutoDraft(type, slug);
   };
 
-  // 快捷键 Ctrl+S 保存
+  // 拦截返回按钮
+  const handleBackIntercept = () => {
+    if (isDirty) {
+      setDirtyExitConfirm(true);
+    } else {
+      onBack();
+    }
+  };
+
+  // 快捷键 Ctrl+S 保存 & ESC 退出 Zen 模式
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === 's') {
         e.preventDefault();
         handleSave();
+      }
+      if (e.key === 'Escape' && zenMode) {
+        setZenMode(false);
       }
     };
     window.addEventListener('keydown', handleKeyDown);
@@ -200,30 +335,131 @@ export const AdminEditor: React.FC<AdminEditorProps> = ({
   };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-var(--admin-topbar-h))] bg-slate-50 dark:bg-slate-950 overflow-hidden">
+    <div
+      className={`flex flex-col h-[calc(100vh-var(--admin-topbar-h))] bg-slate-50 dark:bg-slate-950 overflow-hidden ${
+        zenMode ? 'admin-zen-mode' : ''
+      }`}
+    >
+      {/* 自动草稿检测提醒横幅 */}
+      {hasAutoDraftBanner && (
+        <div className="bg-amber-500/10 border-b border-amber-500/25 px-4 py-2 flex items-center justify-between text-xs text-amber-700 dark:text-amber-300 z-30 animate-in fade-in">
+          <div className="flex items-center gap-2">
+            <AlertCircle className="w-4 h-4 text-amber-500 shrink-0" />
+            <span>
+              检测到您在{' '}
+              {pendingDraftData?.savedAt
+                ? new Date(pendingDraftData.savedAt).toLocaleTimeString('zh-CN', { hour12: false })
+                : '近期'}{' '}
+              有未保存的本地编辑草稿。
+            </span>
+          </div>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={handleRestoreDraft}
+              className="px-2.5 py-0.5 rounded font-semibold bg-amber-500 text-white hover:bg-amber-600 transition-colors"
+            >
+              一键恢复草稿
+            </button>
+            <button
+              onClick={handleDiscardDraft}
+              className="text-xs text-slate-500 hover:underline"
+            >
+              放弃
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* 顶部操作条 */}
       <div className="h-14 px-4 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between gap-4 shrink-0 z-20">
         {/* 左侧：返回 + 标题输入 */}
         <div className="flex items-center gap-3 flex-1 min-w-0">
           <button
-            onClick={onBack}
+            onClick={handleBackIntercept}
             className="p-1.5 rounded-lg text-slate-500 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
             title="返回列表"
           >
             <ArrowLeft className="w-5 h-5" />
           </button>
 
-          <input
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder={type === 'post' ? '输入文稿标题...' : '输入手记标题...'}
-            className="text-base sm:text-lg font-bold bg-transparent border-0 text-slate-900 dark:text-slate-100 placeholder-slate-400 outline-none w-full max-w-xl truncate"
-          />
+          <div className="relative flex-1 max-w-xl flex items-center">
+            <input
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder={type === 'post' ? '输入文稿标题...' : '输入手记标题...'}
+              className="text-base sm:text-lg font-bold bg-transparent border-0 text-slate-900 dark:text-slate-100 placeholder-slate-400 outline-none w-full truncate pr-4"
+            />
+            {isDirty && (
+              <span
+                className="inline-block w-2 h-2 rounded-full bg-amber-500 shrink-0 ml-1"
+                title="存在未保存改动"
+              />
+            )}
+          </div>
         </div>
 
-        {/* 右侧：模式切换 + 字数 + 属性抽屉开关 + 保存 */}
+        {/* 右侧：目录大纲 + 模式切换 + 字数 + 沉浸模式 + 属性抽屉开关 + 保存 */}
         <div className="flex items-center gap-2 shrink-0">
+          {/* 目录大纲浮动面板开关 */}
+          <div className="relative">
+            <button
+              onClick={() => setTocOpen(!tocOpen)}
+              className={`admin-icon-btn !w-8 !h-8 ${tocOpen ? '!bg-sky-50 dark:!bg-sky-950 !text-sky-600 !border-sky-500' : ''}`}
+              title="文档大纲结构目录"
+            >
+              <ListTree className="w-4 h-4" />
+            </button>
+
+            {tocOpen && (
+              <>
+                <div className="fixed inset-0 z-20" onClick={() => setTocOpen(false)} />
+                <div className="admin-toc-panel">
+                  <div className="flex items-center justify-between pb-2 mb-2 border-b border-slate-200 dark:border-slate-800">
+                    <span className="text-xs font-bold text-slate-800 dark:text-slate-200">
+                      文档大纲 ({tocList.length})
+                    </span>
+                    <button
+                      onClick={() => setTocOpen(false)}
+                      className="text-slate-400 hover:text-slate-600"
+                    >
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                  {tocList.length === 0 ? (
+                    <div className="text-xs text-slate-400 py-6 text-center">暂无标题大纲</div>
+                  ) : (
+                    <div className="space-y-1">
+                      {tocList.map((item, i) => (
+                        <div
+                          key={i}
+                          style={{ paddingLeft: `${(item.level - 1) * 0.75}rem` }}
+                          className="text-xs text-slate-600 dark:text-slate-300 hover:text-sky-600 cursor-pointer truncate py-1 hover:bg-slate-50 dark:hover:bg-slate-800 rounded px-1"
+                          onClick={() => {
+                            setTocOpen(false);
+                            // 滚动定位
+                            if (textareaRef.current) {
+                              const lines = content.split('\n');
+                              let pos = 0;
+                              for (let j = 0; j < item.line - 1; j++) {
+                                pos += lines[j].length + 1;
+                              }
+                              textareaRef.current.focus();
+                              textareaRef.current.setSelectionRange(pos, pos);
+                            }
+                          }}
+                        >
+                          <span className="text-slate-400 font-mono mr-1">H{item.level}</span>
+                          {item.text}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </>
+            )}
+          </div>
+
           {/* 模式选择按钮组 */}
           <div className="hidden sm:flex items-center bg-slate-100 dark:bg-slate-800 p-1 rounded-lg border border-slate-200 dark:border-slate-700">
             <button
@@ -264,6 +500,15 @@ export const AdminEditor: React.FC<AdminEditorProps> = ({
             </button>
           </div>
 
+          {/* Zen 沉浸专注模式切换 */}
+          <button
+            onClick={() => setZenMode(!zenMode)}
+            className={`admin-icon-btn !w-8 !h-8 ${zenMode ? '!bg-indigo-50 dark:!bg-indigo-950 !text-indigo-600' : ''}`}
+            title={zenMode ? '退出沉浸模式 (ESC)' : '进入全屏纯净沉浸专注模式'}
+          >
+            {zenMode ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
+          </button>
+
           <span className="hidden md:inline text-xs font-mono text-slate-400">
             {wordCount} 字 &bull; {readingTime}
           </span>
@@ -300,7 +545,7 @@ export const AdminEditor: React.FC<AdminEditorProps> = ({
           <button
             onClick={() => insertText('**', '**', '加粗文本')}
             className="p-1.5 rounded hover:bg-slate-200/70 dark:hover:bg-slate-800 transition-colors"
-            title="加粗 (Ctrl+B)"
+            title="加粗"
           >
             <Bold className="w-3.5 h-3.5" />
           </button>
@@ -417,13 +662,71 @@ export const AdminEditor: React.FC<AdminEditorProps> = ({
           >
             <GitGraph className="w-3.5 h-3.5" />
           </button>
-          <button
-            onClick={() => insertText('> [!NOTE]\n> 这是一个提示框内容。\n')}
-            className="p-1.5 rounded hover:bg-slate-200/70 dark:hover:bg-slate-800 transition-colors"
-            title="Callout 提示框"
-          >
-            <Info className="w-3.5 h-3.5" />
-          </button>
+
+          {/* Callout 辅助菜单 */}
+          <div className="relative">
+            <button
+              onClick={() => setCalloutMenuOpen(!calloutMenuOpen)}
+              className="p-1.5 rounded hover:bg-slate-200/70 dark:hover:bg-slate-800 transition-colors flex items-center gap-1"
+              title="GitHub 风格 Callout 提示块"
+            >
+              <Info className="w-3.5 h-3.5 text-sky-500" />
+              <span className="text-[11px]">Callout</span>
+            </button>
+
+            {calloutMenuOpen && (
+              <>
+                <div className="fixed inset-0 z-20" onClick={() => setCalloutMenuOpen(false)} />
+                <div className="absolute left-0 top-full mt-1 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg shadow-xl p-1 z-30 flex flex-col min-w-[130px] animate-in fade-in zoom-in-95">
+                  <button
+                    onClick={() => {
+                      insertText('> [!NOTE]\n> 这里是说明内容。\n');
+                      setCalloutMenuOpen(false);
+                    }}
+                    className="px-2.5 py-1 text-left text-xs text-sky-600 hover:bg-sky-50 dark:hover:bg-sky-950/60 rounded"
+                  >
+                    Note (提示)
+                  </button>
+                  <button
+                    onClick={() => {
+                      insertText('> [!TIP]\n> 这里是技巧与优化建议。\n');
+                      setCalloutMenuOpen(false);
+                    }}
+                    className="px-2.5 py-1 text-left text-xs text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-950/60 rounded"
+                  >
+                    Tip (建议)
+                  </button>
+                  <button
+                    onClick={() => {
+                      insertText('> [!IMPORTANT]\n> 这里是重要须知。\n');
+                      setCalloutMenuOpen(false);
+                    }}
+                    className="px-2.5 py-1 text-left text-xs text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-950/60 rounded"
+                  >
+                    Important (重要)
+                  </button>
+                  <button
+                    onClick={() => {
+                      insertText('> [!WARNING]\n> 这里是警告风险事项。\n');
+                      setCalloutMenuOpen(false);
+                    }}
+                    className="px-2.5 py-1 text-left text-xs text-amber-600 hover:bg-amber-50 dark:hover:bg-amber-950/60 rounded"
+                  >
+                    Warning (警告)
+                  </button>
+                  <button
+                    onClick={() => {
+                      insertText('> [!CAUTION]\n> 这里是高危操作提醒。\n');
+                      setCalloutMenuOpen(false);
+                    }}
+                    className="px-2.5 py-1 text-left text-xs text-red-600 hover:bg-red-50 dark:hover:bg-red-950/60 rounded"
+                  >
+                    Caution (高危)
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
         </div>
       )}
 
@@ -683,7 +986,7 @@ export const AdminEditor: React.FC<AdminEditorProps> = ({
                     onClick={handleAutoSummary}
                     className="text-[11px] text-sky-600 dark:text-sky-400 hover:underline flex items-center gap-0.5"
                   >
-                    <Sparkles className="w-3 h-3" />
+                    <Sparkles className="w-3.5 h-3.5" />
                     <span>自动提取</span>
                   </button>
                 </div>
@@ -719,6 +1022,43 @@ export const AdminEditor: React.FC<AdminEditorProps> = ({
           </div>
         )}
       </div>
+
+      {/* 脏数据离开确认弹窗 */}
+      {dirtyExitConfirm && (
+        <div className="admin-modal-overlay" onClick={() => setDirtyExitConfirm(false)}>
+          <div
+            className="admin-modal-dialog p-6 space-y-4 max-w-md"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center gap-3">
+              <ShieldAlert className="w-6 h-6 text-amber-500 shrink-0" />
+              <h3 className="text-base font-bold text-slate-900 dark:text-slate-100">
+                未保存的改动提醒
+              </h3>
+            </div>
+            <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+              您当前编辑的内容尚未保存。离开后可能丢失最新改动（但系统已在本地为您记录自动暂存快照）。是否确认退出？
+            </p>
+            <div className="flex items-center justify-end gap-2.5 pt-2">
+              <button
+                onClick={() => setDirtyExitConfirm(false)}
+                className="admin-btn admin-btn-secondary admin-btn-sm"
+              >
+                继续编辑
+              </button>
+              <button
+                onClick={() => {
+                  setDirtyExitConfirm(false);
+                  onBack();
+                }}
+                className="admin-btn admin-btn-danger admin-btn-sm"
+              >
+                直接离开
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
