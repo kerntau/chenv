@@ -19,21 +19,20 @@ export const Says: React.FC = () => {
   return (
     <PageShell>
       <Container size="narrow">
-        <div className="mb-6 border-b border-slate-200/70 pb-5 dark:border-slate-800/70">
-          <div className="mb-1.5 flex items-center gap-2 font-mono text-xs text-slate-500">
-            <MessageSquareQuote className="h-4 w-4 text-sky-600 dark:text-sky-400" />
-            <span>THOUGHTS &bull; 动态 ({records.length})</span>
+        {/* 顶部标题区 */}
+        <div className="mb-4 pb-3 sm:mb-10 sm:pb-6 border-b border-slate-200/70 dark:border-slate-800/70 text-center">
+          <div className="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded-sm bg-slate-100 dark:bg-slate-800 text-[11px] font-mono tracking-wider text-slate-600 dark:text-slate-400 mb-2">
+            <MessageSquareQuote className="w-3 h-3 text-sky-600 dark:text-sky-400" />
+            <span>THOUGHTS</span>
           </div>
-          <div>
-            <h1 className="text-2xl font-semibold tracking-tight text-slate-900 dark:text-slate-100 sm:text-3xl">
-              {title}
-            </h1>
-            {subtitle && (
-              <p className="mt-1.5 text-xs text-slate-500 dark:text-slate-400 sm:text-sm">
-                {subtitle}
-              </p>
-            )}
-          </div>
+          <h1 className="font-sans text-2xl sm:text-4xl font-semibold text-slate-900 dark:text-slate-100 tracking-tight">
+            {title}
+          </h1>
+          {subtitle && (
+            <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1.5 sm:mt-2 font-sans max-w-md mx-auto">
+              {subtitle}
+            </p>
+          )}
         </div>
         <div className="space-y-3.5">
           {visibleRecords.map((record) => (
