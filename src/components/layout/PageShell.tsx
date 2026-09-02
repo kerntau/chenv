@@ -1,5 +1,6 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useRef } from 'react';
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
 
 interface PageShellProps {
   children: React.ReactNode;
@@ -7,15 +8,21 @@ interface PageShellProps {
 }
 
 export const PageShell: React.FC<PageShellProps> = ({ children, className }) => {
+  const shellRef = useRef<HTMLElement>(null);
+
+  useGSAP(() => {
+    gsap.fromTo(shellRef.current, 
+      { opacity: 0, y: 6 },
+      { opacity: 1, y: 0, duration: 0.35, ease: 'power3.out' }
+    );
+  }, []);
+
   return (
-    <motion.main
-      initial={{ opacity: 0, y: 6 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -4 }}
-      transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+    <main
+      ref={shellRef}
       className={`min-h-[calc(100vh-14rem)] pt-3 pb-1 sm:pt-5 sm:pb-2 ${className || ''}`}
     >
       {children}
-    </motion.main>
+    </main>
   );
 };

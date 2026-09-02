@@ -1,6 +1,7 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import { useRoute, Link, useLocation } from 'wouter';
-import { motion, AnimatePresence } from 'framer-motion';
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
 import { Container } from '../components/layout/Container';
 import { PageShell } from '../components/layout/PageShell';
 import { MarkdownRenderer } from '../components/markdown/MarkdownRenderer';
@@ -29,6 +30,23 @@ export const PostDetail: React.FC = () => {
   const slug = params?.slug;
   const [copied, setCopied] = useState(false);
   const [mobileTocOpen, setMobileTocOpen] = useState(false);
+  const [mobileTocRendered, setMobileTocRendered] = useState(false);
+  const drawerBackdropRef = React.useRef<HTMLDivElement>(null);
+  const drawerPanelRef = React.useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (mobileTocOpen) setMobileTocRendered(true);
+  }, [mobileTocOpen]);
+
+  useGSAP(() => {
+    if (mobileTocOpen && mobileTocRendered) {
+      gsap.fromTo(drawerBackdropRef.current, { opacity: 0 }, { opacity: 1, duration: 0.2 });
+      gsap.fromTo(drawerPanelRef.current, { x: '100%' }, { x: '0%', duration: 0.4, ease: 'power3.out' });
+    } else if (!mobileTocOpen && mobileTocRendered) {
+      gsap.to(drawerBackdropRef.current, { opacity: 0, duration: 0.2 });
+      gsap.to(drawerPanelRef.current, { x: '100%', duration: 0.3, ease: 'power3.in', onComplete: () => setMobileTocRendered(false) });
+    }
+  }, [mobileTocOpen, mobileTocRendered]);
 
   const allPosts = useMemo(() => getAllPosts(), []);
   const post = useMemo(() => (slug ? getPostBySlug(slug) : null), [slug]);
@@ -304,22 +322,16 @@ export const PostDetail: React.FC = () => {
             </button>
 
             {/* 移动端侧滑抽屉 */}
-            <AnimatePresence>
-              {mobileTocOpen && (
+            {mobileTocRendered && (
                 <>
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
+                  <div
+                    ref={drawerBackdropRef}
                     onClick={() => setMobileTocOpen(false)}
-                    className="fixed inset-0 bg-black/50 backdrop-blur-[2px] z-50"
+                    className="fixed inset-0 bg-black/50 backdrop-blur-[2px] z-50 opacity-0"
                   />
-                  <motion.div
-                    initial={{ x: '100%' }}
-                    animate={{ x: 0 }}
-                    exit={{ x: '100%' }}
-                    transition={{ type: 'spring', damping: 30, stiffness: 350 }}
-                    className="fixed top-0 right-0 bottom-0 w-[84vw] max-w-[320px] bg-white dark:bg-[#0c121e] border-l border-slate-200 dark:border-slate-800 z-50 p-4 flex flex-col shadow-2xl"
+                  <div
+                    ref={drawerPanelRef}
+                    className="fixed top-0 right-0 bottom-0 w-[84vw] max-w-[320px] bg-white dark:bg-[#0c121e] border-l border-slate-200 dark:border-slate-800 z-50 p-4 flex flex-col shadow-2xl translate-x-full"
                   >
                     <div className="flex items-center justify-between pb-2.5 border-b border-slate-200/60 dark:border-slate-800/60 mb-2.5">
                       <div className="flex items-center space-x-1.5 font-semibold text-xs text-slate-800 dark:text-slate-200">
@@ -351,10 +363,9 @@ export const PostDetail: React.FC = () => {
                     <div className="flex-1 overflow-y-auto pr-1">
                       <TOC toc={post.toc} hideHeader onItemClick={() => setMobileTocOpen(false)} />
                     </div>
-                  </motion.div>
+                  </div>
                 </>
               )}
-            </AnimatePresence>
           </div>
         )}
       </PageShell>
