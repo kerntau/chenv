@@ -36,16 +36,16 @@ coverImage: /covers/clickhouse-columnar-database-realtime-analytics.svg
 
 ```mermaid
 graph TD
-    subgraph Row_Oriented [传统行式存储: MySQL / OLTP]
-        R1["Row 1: [ID, User, Age, Action, IP, Time"]"]
-        R2["Row 2: [ID, User, Age, Action, IP, Time"]"]
+    subgraph Row_Oriented ["传统行式存储: MySQL / OLTP"]
+        R1["Row 1: ID, User, Age, Action, IP, Time"]
+        R2["Row 2: ID, User, Age, Action, IP, Time"]
         NoteRow["查询 'SELECT AVG(Age)' 必须将包含 User/Action/IP 等无关字段的整行全部从磁盘读取 -> IO 严重浪费!"]
     end
 
-    subgraph Column_Oriented [ClickHouse 列式存储: OLAP 引擎]
-        C_ID["ID 列文件: [1, 2, ..."]"]
-        C_Age["Age 列文件: [25, 30, ..."]"]
-        C_Time["Time 列文件: [1710000, 1710001, ..."]"]
+    subgraph Column_Oriented ["ClickHouse 列式存储: OLAP 引擎"]
+        C_ID["ID 列文件: 1, 2, ..."]
+        C_Age["Age 列文件: 25, 30, ..."]
+        C_Time["Time 列文件: 1710000, 1710001, ..."]
         NoteCol["仅精准加载 Age 单列物理文件! 相同类型数据连续存放，压缩比高达 10:1 !"]
     end
 ```

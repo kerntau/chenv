@@ -40,12 +40,12 @@ graph TD
     AppClient["应用客户端驱动 (Node/Java/Go)"] --> Mongos1[Mongos 路由器 1]
     AppClient --> Mongos2["Mongos 路由器 2 (无状态水平扩展)"]
 
-    Mongos1 <--> ConfigServer["(Config Server 副本集: 存储路由表与 Chunk 分布元数据)"]
+    Mongos1 <--> ConfigServer["Config Server 副本集: 存储路由表与 Chunk 分布元数据"]
     Mongos2 <--> ConfigServer
 
-    Mongos1 --> Shard1["(Shard 1: 副本集 [Primary + 2 Secondary"])]
-    Mongos1 --> Shard2["(Shard 2: 副本集 [Primary + 2 Secondary"])]
-    Mongos1 --> Shard3["(Shard 3: 副本集 [Primary + 2 Secondary"])]
+    Mongos1 --> Shard1["Shard 1: 副本集 (Primary + 2 Secondary)"]
+    Mongos1 --> Shard2["Shard 2: 副本集 (Primary + 2 Secondary)"]
+    Mongos1 --> Shard3["Shard 3: 副本集 (Primary + 2 Secondary)"]
 ```
 
 | 集群组件 | 核心权责 | 高可用与扩展机制 |

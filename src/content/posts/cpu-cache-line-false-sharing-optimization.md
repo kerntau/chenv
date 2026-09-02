@@ -46,12 +46,12 @@ coverImage: /covers/cpu-cache-line-false-sharing-optimization.svg
 
 ```mermaid
 graph TD
-    subgraph Core0_Domain [CPU 核心 0 (Core 0)]
-        Thread0["线程 0: 频繁写入 varA"] --> L1_0["L1 缓存: 包含 [varA, varB"] 64B 行"]
+    subgraph Core0_Domain ["CPU 核心 0 (Core 0)"]
+        Thread0["线程 0: 频繁写入 varA"] --> L1_0["L1 缓存: 包含 varA, varB 64B 行"]
     end
 
-    subgraph Core1_Domain [CPU 核心 1 (Core 1)]
-        Thread1["线程 1: 频繁写入 varB"] --> L1_1["L1 缓存: 也包含 [varA, varB"] 64B 行"]
+    subgraph Core1_Domain ["CPU 核心 1 (Core 1)"]
+        Thread1["线程 1: 频繁写入 varB"] --> L1_1["L1 缓存: 也包含 varA, varB 64B 行"]
     end
 
     L1_0 <==>|总线嗅探与 MESI 协议: 反复将对方缓存行置为 Invalid 导致缓存颠簸!| L1_1

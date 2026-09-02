@@ -35,21 +35,21 @@ coverImage: /covers/multi-tenancy-saas-architecture-data-isolation.svg
 
 ```mermaid
 graph TD
-    subgraph Mode1 [1. 独立数据库 (Database-per-Tenant)]
+    subgraph Mode1 ["1. 独立数据库 (Database-per-Tenant)"]
         App1[SaaS 业务网关] --> DB_TenantA["(租户 A 独立专属 DB)"]
         App1 --> DB_TenantB["(租户 B 独立专属 DB)"]
     end
 
-    subgraph Mode2 [2. 独立 Schema (Schema-per-Tenant)]
+    subgraph Mode2 ["2. 独立 Schema (Schema-per-Tenant)"]
         App2[SaaS 业务网关] --> SharedDB["(单一数据库实例)"]
         SharedDB --> SchemaA["Schema: tenant_a_db"]
         SharedDB --> SchemaB["Schema: tenant_b_db"]
     end
 
-    subgraph Mode3 [3. 共享数据表 (Shared-Schema + Tenant_ID)]
+    subgraph Mode3 ["3. 共享数据表 (Shared-Schema + Tenant_ID)"]
         App3[SaaS 业务网关] --> SingleTable["(单一公共表: orders)"]
-        SingleTable --> Row1["Row: [id=1, tenant_id='corp_a', ..."]]
-        SingleTable --> Row2["Row: [id=2, tenant_id='corp_b', ..."]]
+        SingleTable --> Row1["Row: id=1, tenant_id='corp_a', ..."]
+        SingleTable --> Row2["Row: id=2, tenant_id='corp_b', ..."]
     end
 ```
 

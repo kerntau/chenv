@@ -37,14 +37,14 @@ coverImage: /covers/elasticsearch-vector-search-rag-llm.svg
 
 ```mermaid
 graph TD
-    subgraph Offline_Indexing [离线知识入库流程]
+    subgraph Offline_Indexing ["离线知识入库流程"]
         Docs[企业私有文档 PDF / Markdown] --> ChunkSplit["文本智能切片 (Chunking: 500 Tokens)"]
         ChunkSplit --> EmbedModel["Embedding 嵌入模型 (如 text-embedding-3-small)"]
-        EmbedModel --> ESIndex["(Elasticsearch: 存储 [文本 + 1536维向量"] 并构建 HNSW 图索引)]
+        EmbedModel --> ESIndex["Elasticsearch: 存储 文本 + 1536维向量 并构建 HNSW 图索引"]
     end
 
-    subgraph Online_RAG_Query [在线混合检索与生成流程]
-        UserQ["用户提问: '如何配置微服务的熔断阈值?'"] --> QEmbed[生成 Query 向量]
+    subgraph Online_RAG_Query ["在线混合检索与生成流程"]
+        UserQ["用户提问: 如何配置微服务的熔断阈值?"] --> QEmbed[生成 Query 向量]
         QEmbed --> HybridSearch["ES 混合检索: BM25 关键字 + Dense Vector 语义"]
         HybridSearch --> RRF["RRF 倒数排名融合算法 -> 召回 Top-3 最优文档片段"]
         RRF --> PromptAugment["构建增强 Prompt: 上下文 Context + 原始提问"]
