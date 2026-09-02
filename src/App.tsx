@@ -12,6 +12,7 @@ import { Diaries } from './pages/Diaries';
 import { DiaryDetail } from './pages/DiaryDetail';
 import { Says } from './pages/Says';
 import { Friends } from './pages/Friends';
+import { Sitemap } from './pages/Sitemap';
 import { NotFound } from './pages/NotFound';
 import { Admin } from './pages/Admin';
 import { ExternalLinkModal } from './components/ui/ExternalLinkModal';
@@ -30,6 +31,7 @@ const SECTIONS: Section[] = [
   { label: '手记', paths: ['/diaries', '/journal', '/shouji'], list: Diaries, detail: DiaryDetail },
   { label: '说说', paths: ['/says', '/record'], list: Says },
   { label: '友链', paths: ['/friends', '/friend'], list: Friends },
+  { label: '站点地图', paths: ['/sitemap'], list: Sitemap },
 ];
 
 
@@ -44,7 +46,15 @@ export const App: React.FC = () => {
   const [externalUrl, setExternalUrl] = React.useState<string | null>(null);
   const [isExternalModalOpen, setIsExternalModalOpen] = React.useState(false);
 
-  const isAdminRoute = location === '/admin' || location.startsWith('/admin/');
+  // 本地环境安全守卫：仅允许本地开发调试（localhost / 127.0.0.1 / 0.0.0.0）激活后台，线上生产环境直接回退 404
+  const isLocalEnv =
+    typeof window !== 'undefined' &&
+    (window.location.hostname === 'localhost' ||
+      window.location.hostname === '127.0.0.1' ||
+      window.location.hostname === '[::1]' ||
+      window.location.hostname === '0.0.0.0');
+
+  const isAdminRoute = (location === '/admin' || location.startsWith('/admin/')) && isLocalEnv;
 
   // 路由跳转时平滑回滚至顶部并动态更新浏览器标签标题
   useEffect(() => {
@@ -63,7 +73,8 @@ export const App: React.FC = () => {
             '归档': siteConfig.archivesPage?.subtitle || `${siteConfig.title} 全站文稿与手记的时间脉络与足迹索引。`,
             '手记': siteConfig.diariesPage?.subtitle || siteConfig.description,
             '说说': siteConfig.saysPage?.subtitle || '把灵感、日常与正在发生的事情，留在时间线上。',
-            '友链': siteConfig.friendsPage?.subtitle || '在浩瀚的互联网海洋里，感谢每一次思想的交汇与灵感的共振。',
+            '友链': siteConfig.friendsPage?.subtitle || '山海相逢，灵感共振。',
+            '站点地图': '聚合全站核心频道结构、技术文稿分类树、生活随笔手记与全局标签图谱。',
             '关于': `关于 ${siteConfig.author?.name || 'kerntau'} - ${siteConfig.author?.description || '全栈工程师与开源爱好者'}。${siteConfig.about?.quote || siteConfig.description}`,
           };
           metaDesc.setAttribute('content', sectionDescMap[section.label] || siteConfig.description);
