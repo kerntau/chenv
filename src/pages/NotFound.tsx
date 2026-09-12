@@ -2,11 +2,11 @@ import React from 'react';
 import { Container } from '../components/layout/Container';
 import { PageShell } from '../components/layout/PageShell';
 import { Link } from 'wouter';
-import { Compass, Home, FileText, Map, ArrowRight } from 'lucide-react';
-import { getAllPosts } from '../content';
+import { Compass, Home, Feather, Map, ArrowRight } from 'lucide-react';
+import { getAllDiaries } from '../content';
 
 export const NotFound: React.FC = () => {
-  const recentPosts = getAllPosts().slice(0, 3);
+  const recentDiaries = getAllDiaries().slice(0, 3);
 
   return (
     <PageShell>
@@ -37,11 +37,11 @@ export const NotFound: React.FC = () => {
               <span>返回首页</span>
             </Link>
             <Link
-              href="/posts"
+              href="/diaries"
               className="inline-flex items-center space-x-1.5 px-3.5 py-1.5 rounded-md border border-slate-200/80 dark:border-slate-800 bg-white/80 dark:bg-slate-900/60 text-slate-700 dark:text-slate-300 text-xs font-medium hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors shadow-2xs"
             >
-              <FileText className="w-3.5 h-3.5 text-sky-500" />
-              <span>文稿库</span>
+              <Feather className="w-3.5 h-3.5 text-sky-500" />
+              <span>手记随笔</span>
             </Link>
             <Link
               href="/sitemap"
@@ -52,21 +52,21 @@ export const NotFound: React.FC = () => {
             </Link>
           </div>
 
-          {/* 推荐最新文稿 */}
-          {recentPosts.length > 0 && (
+          {/* 推荐最新手记 */}
+          {recentDiaries.length > 0 && (
             <div className="pt-6 border-t border-slate-200/60 dark:border-slate-800/60 text-left space-y-2">
               <span className="text-[11px] font-mono text-slate-400 dark:text-slate-500 uppercase tracking-wider block text-center mb-3">
-                或许您想阅读这些篇章：
+                或许您想阅读这些随笔手记：
               </span>
               <div className="space-y-1.5">
-                {recentPosts.map((p) => (
+                {recentDiaries.map((d) => (
                   <Link
-                    key={p.slug}
-                    href={`/posts/${p.slug}`}
+                    key={d.slug}
+                    href={`/diaries/${d.slug}`}
                     className="flex items-center justify-between p-2.5 rounded-md border border-slate-200/60 dark:border-slate-800/60 hover:bg-slate-100/60 dark:hover:bg-slate-850/60 transition-colors group"
                   >
                     <span className="font-serif text-xs text-slate-800 dark:text-slate-200 group-hover:text-sky-600 dark:group-hover:text-sky-400 truncate pr-2">
-                      {p.title}
+                      {d.title}
                     </span>
                     <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:translate-x-0.5 transition-transform shrink-0" />
                   </Link>

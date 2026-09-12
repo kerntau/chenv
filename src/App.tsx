@@ -8,8 +8,6 @@ import { Home } from './pages/Home';
 import { ExternalLinkModal } from './components/ui/ExternalLinkModal';
 
 // 路由级代码分割：非首屏页面与本地后台不进入主包
-const Posts = lazy(() => import('./pages/Posts').then((m) => ({ default: m.Posts })));
-const PostDetail = lazy(() => import('./pages/PostDetail').then((m) => ({ default: m.PostDetail })));
 const Archives = lazy(() => import('./pages/Archives').then((m) => ({ default: m.Archives })));
 const Diaries = lazy(() => import('./pages/Diaries').then((m) => ({ default: m.Diaries })));
 const DiaryDetail = lazy(() => import('./pages/DiaryDetail').then((m) => ({ default: m.DiaryDetail })));
@@ -29,7 +27,6 @@ interface Section {
 }
 
 const SECTIONS: Section[] = [
-  { label: '文章', paths: ['/posts', '/article'], list: Posts, detail: PostDetail },
   { label: '归档', paths: ['/archives', '/timeline', '/archive'], list: Archives },
   { label: '手记', paths: ['/diaries', '/journal', '/shouji'], list: Diaries, detail: DiaryDetail },
   { label: '说说', paths: ['/says', '/record'], list: Says },
@@ -78,13 +75,12 @@ export const App: React.FC = () => {
         const metaDesc = document.querySelector('meta[name="description"]');
         if (metaDesc) {
           const sectionDescMap: Record<string, string> = {
-            '文章': siteConfig.postsPage?.subtitle || siteConfig.description,
-            '归档': siteConfig.archivesPage?.subtitle || `${siteConfig.title} 全站文稿与手记的时间脉络与足迹索引。`,
+            '归档': siteConfig.archivesPage?.subtitle || `${siteConfig.title} 全站随笔与手记的时间脉络与足迹索引。`,
             '手记': siteConfig.diariesPage?.subtitle || siteConfig.description,
             '说说': siteConfig.saysPage?.subtitle || '把灵感、日常与正在发生的事情，留在时间线上。',
             '友链': siteConfig.friendsPage?.subtitle || '山海相逢，灵感共振。',
-            '站点地图': '聚合全站核心频道结构、技术文稿分类树、生活随笔手记与全局标签图谱。',
-            '关于': `关于 ${siteConfig.author?.name || 'kerntau'} - ${siteConfig.author?.description || '全栈工程师与开源爱好者'}。${siteConfig.about?.quote || siteConfig.description}`,
+            '站点地图': '聚合全站核心频道结构、生活随笔手记与全局标签图谱。',
+            '关于': `关于 ${siteConfig.author?.name || 'chent'} - ${siteConfig.author?.description || ''}。${siteConfig.about?.quote || siteConfig.description}`,
           };
           metaDesc.setAttribute('content', sectionDescMap[section.label] || siteConfig.description);
         }

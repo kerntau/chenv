@@ -33,7 +33,6 @@ const ICON_MAP: Record<string, React.FC<{ className?: string }>> = {
 
 const DEFAULT_NAV_LINKS: NavLinkItem[] = [
   { id: 'nav-home', href: '/', label: '首页', icon: 'HomeIcon', enabled: true },
-  { id: 'nav-posts', href: '/posts', label: '文稿', icon: 'FileText', enabled: true },
   { id: 'nav-archives', href: '/archives', label: '归档', icon: 'History', enabled: true },
   { id: 'nav-diaries', href: '/diaries', label: '手记', icon: 'Feather', enabled: true },
   { id: 'nav-says', href: '/says', label: '动态', icon: 'MessageSquareQuote', enabled: true },
@@ -44,9 +43,9 @@ export const Header: React.FC = () => {
   const [location] = useLocation();
   const [searchOpen, setSearchOpen] = useState(false);
 
-  // 判断当前页面是否属于文章详情页或手记详情页
+  // 判断当前页面是否属于手记详情页
   const isDetailPage = useMemo(() => {
-    return /^\/(posts|diaries|journal|shouji)\/[^/]+$/.test(location);
+    return /^\/(diaries|journal|shouji)\/[^/]+$/.test(location);
   }, [location]);
 
   // 控制详情页向下滚动时导航栏收起，向上滚动时呼出

@@ -63,17 +63,6 @@ export function getAllCategories(): { name: string; count: number }[] {
 }
 
 export function getSearchIndex(): SearchItem[] {
-  const posts = AdminStore.getPosts(false).map((p: Post) => ({
-    id: `post-${p.slug}`,
-    title: p.title,
-    summary: p.summary,
-    category: p.category,
-    tags: p.tags,
-    slug: `/posts/${p.slug}`,
-    type: 'post' as const,
-    date: p.date,
-  }));
-
   const diaries = AdminStore.getDiaries().map((d: Diary) => ({
     id: `diary-${d.slug}`,
     title: d.title,
@@ -85,5 +74,5 @@ export function getSearchIndex(): SearchItem[] {
     date: d.date,
   }));
 
-  return [...posts, ...diaries];
+  return diaries;
 }

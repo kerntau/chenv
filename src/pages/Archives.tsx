@@ -1,14 +1,12 @@
-import React, { useState, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { Link } from 'wouter';
 import { Container } from '../components/layout/Container';
 import { PageShell } from '../components/layout/PageShell';
-import { getAllPosts, getAllDiaries, siteConfig } from '../content';
+import { getAllDiaries, siteConfig } from '../content';
 import { formatDateShort, getYear } from '../lib/date';
 import {
   History,
-  FileText,
   Feather,
-  LayoutGrid,
 } from 'lucide-react';
 
 interface TimelineItem {
@@ -16,32 +14,18 @@ interface TimelineItem {
   slug: string;
   title: string;
   date: string;
-  type: 'post' | 'diary';
+  type: 'diary';
   category?: string;
   readingTime?: string;
   summary?: string;
 }
 
 export const Archives: React.FC = () => {
-  const allPosts = useMemo(() => getAllPosts(), []);
   const allDiaries = useMemo(() => getAllDiaries(), []);
 
-  const [activeType, setActiveType] = useState<'all' | 'post' | 'diary'>('all');
-
-  // 聚合所有内容为统一时间轴数据源
+  // 聚合手记内容为统一时间轴数据源
   const timelineItems: TimelineItem[] = useMemo(() => {
-    const postItems: TimelineItem[] = allPosts.map((p) => ({
-      id: `post-${p.slug}`,
-      slug: `/posts/${p.slug}`,
-      title: p.title,
-      date: p.date,
-      type: 'post' as const,
-      category: p.category,
-      readingTime: p.readingTime,
-      summary: p.summary,
-    }));
-
-    const diaryItems: TimelineItem[] = allDiaries.map((d) => ({
+    return allDiaries.map((d) => ({
       id: `diary-${d.slug}`,
       slug: `/diaries/${d.slug}`,
       title: d.title,
@@ -50,28 +34,15 @@ export const Archives: React.FC = () => {
       category: '手记随笔',
       readingTime: '2 min',
       summary: d.summary,
-    }));
-
-    return [...postItems, ...diaryItems].sort(
+    })).sort(
       (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
     );
-  }, [allPosts, allDiaries]);
-
-  // 根据类型过滤
-  const filteredItems = useMemo(() => {
-    if (activeType === 'post') {
-      return timelineItems.filter((item) => item.type === 'post');
-    }
-    if (activeType === 'diary') {
-      return timelineItems.filter((item) => item.type === 'diary');
-    }
-    return timelineItems;
-  }, [timelineItems, activeType]);
+  }, [allDiaries]);
 
   // 按年份分组
   const itemsByYear = useMemo(() => {
     const grouped: Record<string, TimelineItem[]> = {};
-    filteredItems.forEach((item) => {
+    timelineItems.forEach((item) => {
       const year = getYear(item.date);
       if (!grouped[year]) {
         grouped[year] = [];
@@ -79,13 +50,13 @@ export const Archives: React.FC = () => {
       grouped[year].push(item);
     });
     return grouped;
-  }, [filteredItems]);
+  }, [timelineItems]);
 
   const years = Object.keys(itemsByYear).sort((a, b) => Number(b) - Number(a));
 
   const archivesPage = siteConfig.archivesPage;
   const pageTitle = archivesPage?.title || '时光归档';
-  const pageSubtitle = archivesPage?.subtitle || `共收录 ${timelineItems.length} 篇文稿与散落手记，依时间轨迹沉淀与梳理。`;
+  const pageSubtitle = archivesPage?.subtitle || `共收录 ${timelineItems.length} 篇生活随笔与手记，依时间轨迹沉淀与梳理。`;
 
   return (
     <PageShell>
@@ -107,79 +78,15 @@ export const Archives: React.FC = () => {
             </p>
           )}
 
-          {/* 一级内容类型筛选胶囊与视图切换 */}
-          <div className="mt-3.5 sm:mt-5 flex flex-wrap items-center justify-center gap-2">
-            <button
-              onClick={() => setActiveType('all')}
-              className={`px-3 py-1.5 rounded-sm text-xs font-sans transition-all flex items-center space-x-1.5 ${
-                activeType === 'all'
-                  ? 'bg-sky-50 dark:bg-sky-950/60 text-sky-700 dark:text-sky-300 font-semibold border border-sky-300/80 dark:border-sky-700/80 shadow-2xs'
-                  : 'bg-white/80 dark:bg-slate-900/80 text-slate-600 dark:text-slate-400 border border-slate-200/70 dark:border-slate-800/70 hover:bg-slate-100/70 dark:hover:bg-slate-800/70'
-              }`}
-            >
-              <span>全部</span>
-              <span
-                className={`text-[10.5px] font-mono px-1.5 py-0.5 rounded-sm ${
-                  activeType === 'all'
-                    ? 'bg-sky-100 dark:bg-sky-900/60 text-sky-700 dark:text-sky-300 font-medium'
-                    : 'bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500'
-                }`}
-              >
-                {timelineItems.length}
-              </span>
-            </button>
-
-            <button
-              onClick={() => setActiveType('post')}
-              className={`px-3 py-1.5 rounded-sm text-xs font-sans transition-all flex items-center space-x-1.5 ${
-                activeType === 'post'
-                  ? 'bg-sky-50 dark:bg-sky-950/60 text-sky-700 dark:text-sky-300 font-semibold border border-sky-300/80 dark:border-sky-700/80 shadow-2xs'
-                  : 'bg-white/80 dark:bg-slate-900/80 text-slate-600 dark:text-slate-400 border border-slate-200/70 dark:border-slate-800/70 hover:bg-slate-100/70 dark:hover:bg-slate-800/70'
-              }`}
-            >
-              <FileText className="w-3 h-3" />
-              <span>文稿</span>
-              <span
-                className={`text-[10.5px] font-mono px-1.5 py-0.5 rounded-sm ${
-                  activeType === 'post'
-                    ? 'bg-sky-100 dark:bg-sky-900/60 text-sky-700 dark:text-sky-300 font-medium'
-                    : 'bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500'
-                }`}
-              >
-                {allPosts.length}
-              </span>
-            </button>
-
-            <button
-              onClick={() => setActiveType('diary')}
-              className={`px-3 py-1.5 rounded-sm text-xs font-sans transition-all flex items-center space-x-1.5 ${
-                activeType === 'diary'
-                  ? 'bg-sky-50 dark:bg-sky-950/60 text-sky-700 dark:text-sky-300 font-semibold border border-sky-300/80 dark:border-sky-700/80 shadow-2xs'
-                  : 'bg-white/80 dark:bg-slate-900/80 text-slate-600 dark:text-slate-400 border border-slate-200/70 dark:border-slate-800/70 hover:bg-slate-100/70 dark:hover:bg-slate-800/70'
-              }`}
-            >
+          {/* 状态指示胶囊 */}
+          <div className="mt-3.5 sm:mt-5 flex items-center justify-center gap-2">
+            <div className="px-3 py-1.5 rounded-sm text-xs font-sans flex items-center space-x-1.5 bg-sky-50 dark:bg-sky-950/60 text-sky-700 dark:text-sky-300 font-semibold border border-sky-300/80 dark:border-sky-700/80 shadow-2xs">
               <Feather className="w-3 h-3" />
-              <span>手记</span>
-              <span
-                className={`text-[10.5px] font-mono px-1.5 py-0.5 rounded-sm ${
-                  activeType === 'diary'
-                    ? 'bg-sky-100 dark:bg-sky-900/60 text-sky-700 dark:text-sky-300 font-medium'
-                    : 'bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500'
-                }`}
-              >
-                {allDiaries.length}
+              <span>手记随笔</span>
+              <span className="text-[10.5px] font-mono px-1.5 py-0.5 rounded-sm bg-sky-100 dark:bg-sky-900/60 text-sky-700 dark:text-sky-300 font-medium">
+                {timelineItems.length} 篇
               </span>
-            </button>
-
-            {/* 切换至文稿相册网格模式 */}
-            <Link
-              href="/posts"
-              className="inline-flex items-center space-x-1 px-2.5 py-1.5 rounded-sm text-xs font-mono text-slate-500 hover:text-sky-600 dark:hover:text-sky-400 bg-white/80 dark:bg-slate-900/80 hover:bg-slate-100 dark:hover:bg-slate-800/80 border border-slate-200/70 dark:border-slate-800/70 transition-colors shadow-2xs shrink-0 ml-1"
-              title="切换至相框卡片视图"
-            >
-              <LayoutGrid className="w-3 h-3" />
-              <span>卡片相册</span>
-            </Link>
+            </div>
           </div>
         </div>
 
