@@ -1,4 +1,4 @@
-import { createHighlighter, type Highlighter } from 'shiki';
+import type { Highlighter } from 'shiki';
 
 let highlighterPromise: Promise<Highlighter> | null = null;
 
@@ -26,10 +26,12 @@ const THEMES = ['vitesse-light', 'vitesse-dark'];
 
 export async function getHighlighterInstance(): Promise<Highlighter> {
   if (!highlighterPromise) {
-    highlighterPromise = createHighlighter({
-      themes: THEMES,
-      langs: SUPPORTED_LANGS,
-    });
+    highlighterPromise = import('shiki').then(({ createHighlighter }) =>
+      createHighlighter({
+        themes: THEMES,
+        langs: SUPPORTED_LANGS,
+      })
+    );
   }
   return highlighterPromise;
 }

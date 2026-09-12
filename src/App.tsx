@@ -1,29 +1,31 @@
-import React, { useEffect } from 'react';
+import React, { Suspense, lazy, useEffect } from 'react';
 import { Route, Switch, useLocation } from 'wouter';
 import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
 import { AmbientBackground } from './components/layout/AmbientBackground';
 import { siteConfig } from './content';
 import { Home } from './pages/Home';
-import { Posts } from './pages/Posts';
-import { PostDetail } from './pages/PostDetail';
-import { Archives } from './pages/Archives';
-import { Diaries } from './pages/Diaries';
-import { DiaryDetail } from './pages/DiaryDetail';
-import { Says } from './pages/Says';
-import { Friends } from './pages/Friends';
-import { Sitemap } from './pages/Sitemap';
-import { NotFound } from './pages/NotFound';
-import { Admin } from './pages/Admin';
-import { About } from './pages/About';
 import { ExternalLinkModal } from './components/ui/ExternalLinkModal';
+
+// 路由级代码分割：非首屏页面与本地后台不进入主包
+const Posts = lazy(() => import('./pages/Posts').then((m) => ({ default: m.Posts })));
+const PostDetail = lazy(() => import('./pages/PostDetail').then((m) => ({ default: m.PostDetail })));
+const Archives = lazy(() => import('./pages/Archives').then((m) => ({ default: m.Archives })));
+const Diaries = lazy(() => import('./pages/Diaries').then((m) => ({ default: m.Diaries })));
+const DiaryDetail = lazy(() => import('./pages/DiaryDetail').then((m) => ({ default: m.DiaryDetail })));
+const Says = lazy(() => import('./pages/Says').then((m) => ({ default: m.Says })));
+const Friends = lazy(() => import('./pages/Friends').then((m) => ({ default: m.Friends })));
+const Sitemap = lazy(() => import('./pages/Sitemap').then((m) => ({ default: m.Sitemap })));
+const About = lazy(() => import('./pages/About').then((m) => ({ default: m.About })));
+const NotFound = lazy(() => import('./pages/NotFound').then((m) => ({ default: m.NotFound })));
+const Admin = lazy(() => import('./pages/Admin').then((m) => ({ default: m.Admin })));
 
 // 栏目路由定义（含旧路径别名），同时驱动 <Switch> 与浏览器标签标题
 interface Section {
   label: string;
   paths: string[];
-  list: React.FC;
-  detail?: React.FC;
+  list: React.LazyExoticComponent<React.FC>;
+  detail?: React.LazyExoticComponent<React.FC>;
 }
 
 const SECTIONS: Section[] = [
@@ -36,12 +38,17 @@ const SECTIONS: Section[] = [
   { label: '关于', paths: ['/about'], list: About },
 ];
 
-
 function findSection(pathname: string) {
   return SECTIONS.find((s) =>
     s.paths.some((p) => pathname === p || pathname.startsWith(`${p}/`))
   );
 }
+
+const RouteFallback: React.FC = () => (
+  <div className="flex-1 flex items-center justify-center min-h-[40vh]">
+    <div className="text-sm text-slate-500 dark:text-slate-400 animate-pulse font-mono">加载中…</div>
+  </div>
+);
 
 export const App: React.FC = () => {
   const [location] = useLocation();
@@ -94,10 +101,12 @@ export const App: React.FC = () => {
   // 后台独立路由体系：完全脱离前台 Header、Footer 与背景特效
   if (isAdminRoute) {
     return (
-      <Switch>
-        <Route path="/admin" component={Admin} />
-        <Route path="/admin/:rest*" component={Admin} />
-      </Switch>
+      <Suspense fallback={<RouteFallback />}>
+        <Switch>
+          <Route path="/admin" component={Admin} />
+          <Route path="/admin/:rest*" component={Admin} />
+        </Switch>
+      </Suspense>
     );
   }
 
@@ -105,7 +114,7 @@ export const App: React.FC = () => {
   const handleGlobalClick = (e: React.MouseEvent) => {
     // 忽略在后台路由发生的点击，只处理前台
     if (isAdminRoute) return;
-    
+
     // 寻找冒泡路径中最近的 a 标签
     const target = (e.target as Element).closest('a');
     if (!target) return;
@@ -126,7 +135,7 @@ export const App: React.FC = () => {
         if (window && urlObj.hostname === window.location.hostname) {
           return;
         }
-        
+
         // 拦截并弹窗
         e.preventDefault();
         setExternalUrl(href);
@@ -139,34 +148,36 @@ export const App: React.FC = () => {
 
   // 前台博客浏览体系
   return (
-    <div 
+    <div
       className="min-h-screen flex flex-col relative selection:bg-sky-200 selection:text-sky-900 dark:selection:bg-sky-900/60 dark:selection:text-sky-100 transition-colors duration-300"
       onClick={handleGlobalClick}
     >
       <AmbientBackground />
       <Header />
       <div className={`flex-1 flex flex-col ${location === '/' ? 'justify-center' : ''}`}>
-        <Switch>
-          <Route path="/" component={Home} />
-          {SECTIONS.map((section) => (
-            <React.Fragment key={section.label}>
-              {section.paths.map((path) => (
-                <React.Fragment key={path}>
-                  <Route path={path} component={section.list} />
-                  {section.detail && (
-                    <Route path={`${path}/:slug`} component={section.detail} />
-                  )}
-                </React.Fragment>
-              ))}
-            </React.Fragment>
-          ))}
-          <Route component={NotFound} />
-        </Switch>
+        <Suspense fallback={<RouteFallback />}>
+          <Switch>
+            <Route path="/" component={Home} />
+            {SECTIONS.map((section) => (
+              <React.Fragment key={section.label}>
+                {section.paths.map((path) => (
+                  <React.Fragment key={path}>
+                    <Route path={path} component={section.list} />
+                    {section.detail && (
+                      <Route path={`${path}/:slug`} component={section.detail} />
+                    )}
+                  </React.Fragment>
+                ))}
+              </React.Fragment>
+            ))}
+            <Route component={NotFound} />
+          </Switch>
+        </Suspense>
       </div>
       <Footer />
-      
+
       {/* 外部链接二次确认弹窗 */}
-      <ExternalLinkModal 
+      <ExternalLinkModal
         isOpen={isExternalModalOpen}
         url={externalUrl}
         onClose={() => setIsExternalModalOpen(false)}
