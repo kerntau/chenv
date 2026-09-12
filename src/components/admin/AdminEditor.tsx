@@ -63,6 +63,8 @@ export const AdminEditor: React.FC<AdminEditorProps> = ({
     saveDiary,
     getPostBySlug,
     getDiaryBySlug,
+    loadPostContent,
+    loadDiaryContent,
     saveAutoDraft,
     getAutoDraft,
     clearAutoDraft,
@@ -90,6 +92,46 @@ export const AdminEditor: React.FC<AdminEditorProps> = ({
   const [mood, setMood] = useState(existingDiary?.mood || '平静');
   const [location, setLocation] = useState(existingDiary?.location || '书房');
   const [time, setTime] = useState(existingDiary?.time || new Date().toTimeString().slice(0, 5));
+
+  // 编辑器打开时按需拉取正文（构建产物默认只有元数据）
+  const [editorReady, setEditorReady] = useState(
+    isNew || Boolean(existingPost?.content || existingDiary?.content)
+  );
+  useEffect(() => {
+    if (editorReady || !slug) return;
+    let cancelled = false;
+    const load = type === 'post' ? loadPostContent(slug) : loadDiaryContent(slug);
+    load
+      .then((full) => {
+        if (cancelled || !full) {
+          if (!cancelled) setEditorReady(true);
+          return;
+        }
+        setContent(full.content || '');
+        if (full.title) setTitle(full.title);
+        if (type === 'post' && 'category' in full && full.category) setCategory(full.category);
+        if (full.summary) setSummary(full.summary);
+        if (full.tags) setTagsInput(full.tags.join(', '));
+        if ('coverImage' in full && full.coverImage) setCoverImage(full.coverImage);
+        if ('recommend' in full && typeof full.recommend === 'number') setRecommend(full.recommend);
+        if ('draft' in full && typeof full.draft === 'boolean') setDraft(full.draft);
+        if (full.date) setDate(full.date);
+        if (type === 'diary') {
+          const d = full as { weather?: string; mood?: string; location?: string; time?: string };
+          if (d.weather) setWeather(d.weather);
+          if (d.mood) setMood(d.mood);
+          if (d.location) setLocation(d.location);
+          if (d.time) setTime(d.time);
+        }
+        setEditorReady(true);
+      })
+      .catch(() => {
+        if (!cancelled) setEditorReady(true);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [slug, type, editorReady, isNew, loadPostContent, loadDiaryContent]);
 
   // 编辑器交互状态
   const [mode, setMode] = useState<'split' | 'edit' | 'preview'>('split');
@@ -333,6 +375,14 @@ export const AdminEditor: React.FC<AdminEditorProps> = ({
     URL.revokeObjectURL(url);
     success('已导出 Markdown 文件');
   };
+
+  if (!editorReady) {
+    return (
+      <div className="flex items-center justify-center h-[calc(100vh-var(--admin-topbar-h))] bg-slate-50 dark:bg-slate-950">
+        <div className="text-sm text-slate-500 dark:text-slate-400 animate-pulse">正在加载正文…</div>
+      </div>
+    );
+  }
 
   return (
     <div
