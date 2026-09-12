@@ -42,7 +42,6 @@ function generateSitemap() {
 
   const urls = [
     { loc: `${baseUrl}/`, priority: '1.0', changefreq: 'daily', lastmod: today },
-    { loc: `${baseUrl}/posts`, priority: '0.9', changefreq: 'daily', lastmod: today },
     { loc: `${baseUrl}/archives`, priority: '0.8', changefreq: 'weekly', lastmod: today },
     { loc: `${baseUrl}/diaries`, priority: '0.8', changefreq: 'daily', lastmod: today },
     { loc: `${baseUrl}/says`, priority: '0.7', changefreq: 'daily', lastmod: today },
@@ -50,30 +49,7 @@ function generateSitemap() {
     { loc: `${baseUrl}/sitemap`, priority: '0.8', changefreq: 'weekly', lastmod: today },
   ];
 
-  // 1. 提取所有公开文稿
-  if (fs.existsSync(POSTS_DIR)) {
-    const postFiles = fs.readdirSync(POSTS_DIR).filter((f) => f.endsWith('.md'));
-    for (const file of postFiles) {
-      const filePath = path.join(POSTS_DIR, file);
-      const fileStat = fs.statSync(filePath);
-      const fileContent = fs.readFileSync(filePath, 'utf-8');
-      const { data } = matter(fileContent);
-
-      if (data.draft === true) continue;
-
-      const slug = data.slug || file.replace(/\.md$/, '');
-      const lastmod = formatDate(data.date, fileStat.mtime);
-
-      urls.push({
-        loc: `${baseUrl}/posts/${slug}`,
-        priority: '0.8',
-        changefreq: 'monthly',
-        lastmod,
-      });
-    }
-  }
-
-  // 2. 提取所有公开手记
+  // 1. 提取所有公开手记
   if (fs.existsSync(DIARIES_DIR)) {
     const diaryFiles = fs.readdirSync(DIARIES_DIR).filter((f) => f.endsWith('.md'));
     for (const file of diaryFiles) {

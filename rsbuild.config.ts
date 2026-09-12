@@ -4,13 +4,13 @@ import { pluginReact } from '@rsbuild/plugin-react';
 export default defineConfig({
   plugins: [pluginReact()],
   html: {
-    title: '序栈',
+    title: 'chent',
     meta: {
-      description: '心中有景，花香满径。',
+      description: 'Chent 的个人网站，记录随笔、日记、项目与生活，分享个人的思考、经历与正在做的事情，也保存那些值得留下来的时刻。',
       viewport: 'width=device-width, initial-scale=1.0',
-      'og:image': 'https://chent.co/avatar.webp',
+      'og:image': 'https://chent.co/avatar.jpg',
       'og:type': 'website',
-      'twitter:image': 'https://chent.co/avatar.webp',
+      'twitter:image': 'https://chent.co/avatar.jpg',
       'twitter:card': 'summary_large_image',
     },
     favicon: './public/favicon.ico',
@@ -69,6 +69,13 @@ export default defineConfig({
       {
         tag: 'link',
         attrs: {
+          rel: 'manifest',
+          href: '/site.webmanifest',
+        },
+      },
+      {
+        tag: 'link',
+        attrs: {
           rel: 'preconnect',
           href: 'https://cdn.jsdelivr.net',
           crossorigin: true,
@@ -95,7 +102,7 @@ export default defineConfig({
         attrs: {
           rel: 'alternate',
           type: 'application/rss+xml',
-          title: '序栈 - RSS 订阅源',
+          title: 'chent - RSS 订阅源',
           href: '/feed.xml',
         },
       },

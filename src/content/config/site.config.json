@@ -1,7 +1,7 @@
 {
-  "title": "序栈",
+  "title": "chent",
   "subtitle": "",
-  "description": "心中有景，花香满径。",
+  "description": "Chent 的个人网站，记录随笔、日记、项目与生活，分享个人的思考、经历与正在做的事情，也保存那些值得留下来的时刻。",
   "url": "https://chent.co",
   "favicon": "/favicon.ico",
   "keywords": [
@@ -20,7 +20,7 @@
   },
   "author": {
     "name": "kerntau",
-    "avatar": "/avatar.webp",
+    "avatar": "/avatar.jpg",
     "description": "全栈工程师与开源爱好者",
     "email": "hi@chent.co",
     "github": "https://github.com/kerntau",
@@ -139,7 +139,7 @@
   },
   "archivesPage": {
     "title": "时光归档",
-    "subtitle": "全站文稿与手记的时间脉络与足迹索引。"
+    "subtitle": "全站随笔与手记的时间脉络与足迹索引。"
   },
   "friendsPage": {
     "title": "志同道合的朋友",
@@ -147,16 +147,15 @@
     "guideTitle": "交换友链",
     "guideText": "如果您也拥有自己的个人独立博客，欢迎在您的站点添加本站后通过邮件（hi@chent.co）联系交换。",
     "template": {
-      "name": "序栈",
-      "desc": "心中有景，花香满径 | 全栈开发与云原生知识库",
+      "name": "chent",
+      "desc": "Chent 的个人网站，记录随笔、日记、项目与生活，分享个人的思考、经历与正在做的事情，也保存那些值得留下来的时刻。",
       "url": "https://chent.co",
-      "avatar": "/avatar.webp"
+      "avatar": "/avatar.jpg"
     }
   },
   "header": {
     "navLinks": [
       { "id": "nav-home", "label": "首页", "href": "/", "icon": "HomeIcon", "enabled": true },
-      { "id": "nav-posts", "label": "文稿", "href": "/posts", "icon": "FileText", "enabled": true },
       { "id": "nav-archives", "label": "归档", "href": "/archives", "icon": "History", "enabled": true },
       { "id": "nav-diaries", "label": "手记", "href": "/diaries", "icon": "Feather", "enabled": true },
       { "id": "nav-says", "label": "动态", "href": "/says", "icon": "MessageSquareQuote", "enabled": true },

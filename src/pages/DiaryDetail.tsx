@@ -64,7 +64,7 @@ export const DiaryDetail: React.FC = () => {
 
   React.useEffect(() => {
     if (diary?.title) {
-      document.title = `${diary.title} · 序栈`;
+      document.title = `${diary.title} · ${siteConfig.title}`;
     }
   }, [diary?.title]);
 

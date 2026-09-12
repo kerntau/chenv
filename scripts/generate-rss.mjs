@@ -3,15 +3,16 @@ import path from 'node:path';
 import matter from 'gray-matter';
 
 const SITE_CONFIG_PATH = path.resolve('src/content/config/site.config.json');
-const POSTS_DIR = path.resolve('src/content/posts');
+const DIARIES_DIR = path.resolve('src/content/diaries');
 const PUBLIC_DIR = path.resolve('public');
 const DIST_DIR = path.resolve('dist');
 
 function getSiteInfo() {
-  let title = '序栈';
-  let description = '心中有景，花香满径。';
+  let title = 'chent';
+  let description =
+    'Chent 的个人网站，记录随笔、日记、项目与生活，分享个人的思考、经历与正在做的事情，也保存那些值得留下来的时刻。';
   let baseUrl = 'https://chent.co';
-  let authorName = 'kerntau';
+  let authorName = 'chent';
 
   if (fs.existsSync(SITE_CONFIG_PATH)) {
     try {
@@ -44,11 +45,11 @@ function generateRss() {
 
   const items = [];
 
-  if (fs.existsSync(POSTS_DIR)) {
-    const postFiles = fs.readdirSync(POSTS_DIR).filter((f) => f.endsWith('.md'));
+  if (fs.existsSync(DIARIES_DIR)) {
+    const diaryFiles = fs.readdirSync(DIARIES_DIR).filter((f) => f.endsWith('.md'));
 
-    for (const file of postFiles) {
-      const filePath = path.join(POSTS_DIR, file);
+    for (const file of diaryFiles) {
+      const filePath = path.join(DIARIES_DIR, file);
       const fileStat = fs.statSync(filePath);
       const fileContent = fs.readFileSync(filePath, 'utf-8');
       const { data, content } = matter(fileContent);
@@ -56,19 +57,19 @@ function generateRss() {
       if (data.draft === true) continue;
 
       const slug = data.slug || file.replace(/\.md$/, '');
-      const postTitle = data.title || slug;
-      const postSummary = data.summary || content.slice(0, 200).replace(/[#*`\n]/g, ' ').trim();
-      const postDate = data.date ? new Date(data.date).toUTCString() : fileStat.mtime.toUTCString();
-      const postCategory = data.category || '技术文稿';
-      const link = `${baseUrl}/posts/${slug}`;
+      const diaryTitle = data.title || slug;
+      const diarySummary = data.summary || content.slice(0, 200).replace(/[#*`\n]/g, ' ').trim();
+      const diaryDate = data.date ? new Date(data.date).toUTCString() : fileStat.mtime.toUTCString();
+      const diaryCategory = data.category || '手记随笔';
+      const link = `${baseUrl}/diaries/${slug}`;
 
       items.push({
-        title: postTitle,
+        title: diaryTitle,
         link,
         guid: link,
-        pubDate: postDate,
-        description: postSummary,
-        category: postCategory,
+        pubDate: diaryDate,
+        description: diarySummary,
+        category: diaryCategory,
         timestamp: new Date(data.date || fileStat.mtime).getTime(),
       });
     }
