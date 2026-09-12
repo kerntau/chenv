@@ -127,12 +127,38 @@ export const App: React.FC = () => {
     if (href.startsWith('http://') || href.startsWith('https://')) {
       try {
         const urlObj = new URL(href);
-        // 如果是本站域名，放行
-        if (window && urlObj.hostname === window.location.hostname) {
+        const hostname = urlObj.hostname.toLowerCase();
+
+        // 1. 本地调试与当前同源主机直接放行
+        if (
+          (typeof window !== 'undefined' && hostname === window.location.hostname) ||
+          hostname === 'localhost' ||
+          hostname === '127.0.0.1' ||
+          hostname === '0.0.0.0'
+        ) {
           return;
         }
 
-        // 拦截并弹窗
+        // 2. 站长自身生态域名及所有子域放行 (*.chent.co, chent.co)
+        if (hostname === 'chent.co' || hostname.endsWith('.chent.co')) {
+          return;
+        }
+
+        // 3. 站长自身 GitHub 主页与名下项目仓库放行 (github.com/kerntau/*)
+        if (
+          (hostname === 'github.com' || hostname === 'www.github.com') &&
+          urlObj.pathname.toLowerCase().startsWith('/kerntau')
+        ) {
+          return;
+        }
+
+        // 4. 站长自身配置的官方社交媒体主页放行
+        const trustedSocialUrls = (siteConfig.author?.socials || []).map((s) => s.url);
+        if (trustedSocialUrls.some((tUrl) => tUrl && href.startsWith(tUrl))) {
+          return;
+        }
+
+        // 非授信外部链接：拦截并弹窗
         e.preventDefault();
         setExternalUrl(href);
         setIsExternalModalOpen(true);
@@ -145,12 +171,14 @@ export const App: React.FC = () => {
   // 前台博客浏览体系
   return (
     <div
-      className="min-h-screen flex flex-col relative selection:bg-sky-200 selection:text-sky-900 dark:selection:bg-sky-900/60 dark:selection:text-sky-100 transition-colors duration-300"
+      className={`min-h-screen flex flex-col relative selection:bg-sky-200 selection:text-sky-900 dark:selection:bg-sky-900/60 dark:selection:text-sky-100 transition-colors duration-300 ${
+        location === '/' ? 'lg:h-screen lg:overflow-hidden' : ''
+      }`}
       onClick={handleGlobalClick}
     >
       <AmbientBackground />
       <Header />
-      <div className={`flex-1 flex flex-col ${location === '/' ? 'justify-center' : ''}`}>
+      <div className={`flex-1 flex flex-col min-h-0 ${location === '/' ? 'justify-center overflow-hidden' : ''}`}>
         <Suspense fallback={<RouteFallback />}>
           <Switch>
             <Route path="/" component={Home} />

@@ -172,7 +172,7 @@ export const Header: React.FC = () => {
   return (
     <>
       <header
-        className={`sticky top-0 z-40 w-full px-4 sm:px-6 pt-2 pb-1 sm:pt-3.5 sm:pb-2 pointer-events-none font-sans transition-all duration-300 ease-in-out ${
+        className={`sticky top-0 z-40 w-full px-4 sm:px-6 pt-2 pb-1 sm:pt-3 sm:pb-1.5 lg:pt-2.5 lg:pb-1 pointer-events-none font-sans transition-all duration-300 ease-in-out ${
           !isNavVisible && isDetailPage
             ? '-translate-y-full opacity-0'
             : 'translate-y-0 opacity-100'

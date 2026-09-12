@@ -5,8 +5,8 @@ import { HomeHero } from '../components/home/HomeHero';
 
 export const Home: React.FC = () => {
   return (
-    <PageShell className="!min-h-0 flex flex-col items-center justify-center pt-2 sm:pt-6 pb-2">
-      <Container size="default">
+    <PageShell className="!min-h-0 flex-1 flex flex-col items-center justify-center !pt-0 !pb-0 my-auto w-full">
+      <Container size="default" className="w-full">
         <HomeHero />
       </Container>
     </PageShell>

@@ -9,8 +9,8 @@ const DEFAULT_NAV_COLUMNS = [
     title: '关于',
     links: [
       { label: '关于此项目', href: 'https://github.com/kerntau/chent', isExternal: true },
-      { label: 'wiki.chent.co', href: 'https://wiki.chent.co', isExternal: true },
-      { label: 'cv.chent.co', href: 'https://cv.chent.co', isExternal: true },
+      { label: '知识库', href: 'https://wiki.chent.co', isExternal: true },
+      { label: '简历', href: 'https://cv.chent.co', isExternal: true },
     ],
   },
   {
@@ -44,13 +44,16 @@ export const Footer: React.FC = () => {
   const { theme, setTheme } = useTheme();
 
   return (
-    <footer className="relative z-10 mt-auto border-t border-slate-200/60 dark:border-slate-800/60 pt-5 pb-5 sm:pt-6 sm:pb-6 text-xs font-sans text-slate-600 dark:text-slate-400 select-none">
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+    <footer
+      data-external-bypass="true"
+      className="relative z-10 mt-auto border-t border-slate-200/60 dark:border-slate-800/60 pt-3 pb-3 sm:pt-4 sm:pb-4 lg:pt-3.5 lg:pb-3.5 text-xs font-sans text-slate-600 dark:text-slate-400 select-none shrink-0"
+    >
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 space-y-3 sm:space-y-3.5">
         
         {/* 上层: 左侧站名标语与版权，右侧多列导航 */}
-        <div className="flex flex-col md:flex-row md:items-start justify-between gap-6 sm:gap-8">
+        <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 sm:gap-6 md:gap-8">
           {/* 左侧区域 */}
-          <div className="space-y-1.5 max-w-sm">
+          <div className="space-y-1 max-w-sm">
             <h3 className="font-sans font-bold text-base sm:text-lg text-slate-900 dark:text-slate-100 tracking-tight">
               {siteConfig.author.name || siteConfig.title}
             </h3>
@@ -83,13 +86,13 @@ export const Footer: React.FC = () => {
           </div>
 
           {/* 右侧导航列：移动端与大屏保持 3 列对齐 */}
-          <div className="grid grid-cols-3 gap-3 sm:gap-8 md:gap-12 pt-0.5">
+          <div className="grid grid-cols-3 gap-3 sm:gap-6 md:gap-10 pt-0.5">
             {navColumns.map((col, idx) => (
-              <div key={col.title || idx} className="space-y-2">
+              <div key={col.title || idx} className="space-y-1.5">
                 <div className="font-mono text-[11px] font-medium text-slate-400 dark:text-slate-500 uppercase tracking-wider">
                   {col.title}
                 </div>
-                <ul className="space-y-1.5 text-xs">
+                <ul className="space-y-1 text-xs">
                   {col.links.map((link, lIdx) => {
                     const isExt = link.isExternal || link.href.startsWith('http') || link.href.startsWith('mailto:');
                     return (
@@ -122,7 +125,7 @@ export const Footer: React.FC = () => {
         </div>
 
         {/* 下层: 底部信息与操作栏 */}
-        <div className="pt-4 border-t border-slate-200/50 dark:border-slate-800/50 flex flex-col md:flex-row items-center justify-between gap-2.5 text-[11px] font-mono text-slate-400 dark:text-slate-500 text-center sm:text-left">
+        <div className="pt-2.5 sm:pt-3 border-t border-slate-200/50 dark:border-slate-800/50 flex flex-col md:flex-row items-center justify-between gap-2 text-[11px] font-mono text-slate-400 dark:text-slate-500 text-center sm:text-left">
           {/* 左侧: RSS 订阅 · 站点地图 · 主题切换器 */}
           <div className="flex flex-wrap items-center justify-center sm:justify-start gap-x-2 gap-y-1">
             {showRss && (

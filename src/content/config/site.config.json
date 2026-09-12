@@ -177,8 +177,8 @@
         "title": "关于",
         "links": [
           { "label": "关于此项目", "href": "https://github.com/kerntau/chent", "isExternal": true },
-          { "label": "wiki.chent.co", "href": "https://wiki.chent.co", "isExternal": true },
-          { "label": "cv.chent.co", "href": "https://cv.chent.co", "isExternal": true }
+          { "label": "知识库", "href": "https://wiki.chent.co", "isExternal": true },
+          { "label": "简历", "href": "https://cv.chent.co", "isExternal": true }
         ]
       },
       {
