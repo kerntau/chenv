@@ -35,7 +35,7 @@ export const About: React.FC = () => {
               {/* 大头像 */}
               <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-full p-1 bg-gradient-to-tr from-sky-200 to-blue-300/40 dark:from-slate-800 dark:to-sky-900/60 shadow-md shrink-0">
                 <img
-                  src={author.avatar || '/avatar.webp'}
+                  src={author.avatar || '/avatar.jpg'}
                   alt={author.name}
                   className="w-full h-full rounded-full object-cover shadow-[inset_0_0_0_1px_rgba(0,0,0,0.06)]"
                 />

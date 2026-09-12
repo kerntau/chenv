@@ -5,7 +5,7 @@ import { Link } from 'wouter';
 import { Megaphone, ChevronRight } from 'lucide-react';
 import type { SocialLink } from '../../types';
 import { GithubIcon, XTwitterIcon, MailIcon, BilibiliIcon } from '../ui/Icons';
-import { siteConfig, getAllPosts } from '../../content';
+import { siteConfig, getAllDiaries } from '../../content';
 
 const SOCIAL_ICONS: Record<SocialLink['icon'], React.FC<React.SVGProps<SVGSVGElement>>> = {
   github: GithubIcon,
@@ -27,10 +27,8 @@ export const HomeHero: React.FC = () => {
       .fromTo('.gsap-hero-socials', { opacity: 0, y: 10 }, { opacity: 1, y: 0 }, 0.4)
       .fromTo('.gsap-hero-announcement', { opacity: 0, y: 8 }, { opacity: 1, y: 0 }, 0.45);
   }, { scope: containerRef });
-  const posts = getAllPosts();
-  const totalPosts = posts.length;
-  const totalWords = posts.reduce((acc, cur) => acc + (cur.wordCount || 0), 0);
-  const totalWordsText = totalWords > 10000 ? `${(totalWords / 10000).toFixed(1)} 万字` : `${totalWords} 字`;
+  const diaries = getAllDiaries();
+  const totalDiaries = diaries.length;
 
   const sinceDateStr =
     siteConfig.footer?.sinceDate ||
@@ -67,7 +65,7 @@ export const HomeHero: React.FC = () => {
       <div className="gsap-hero-avatar opacity-0 mb-6 relative group">
         <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-full p-1 bg-gradient-to-tr from-sky-200 to-blue-300/40 dark:from-slate-800 dark:to-sky-900/60 shadow-md">
           <img
-            src={siteConfig.author.avatar || '/avatar.webp'}
+            src={siteConfig.author.avatar || '/avatar.jpg'}
             alt={siteConfig.author.name}
             className="w-full h-full rounded-full object-cover shadow-[inset_0_0_0_1px_rgba(0,0,0,0.06)] dark:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08)]"
           />
@@ -121,9 +119,7 @@ export const HomeHero: React.FC = () => {
         )}
         {showMetrics && (
           <div className="mt-3 flex items-center justify-center gap-3 text-[11px] font-mono text-slate-400 dark:text-slate-500">
-            <span>{totalPosts} 篇文稿</span>
-            <span>&bull;</span>
-            <span>{totalWordsText}</span>
+            <span>{totalDiaries} 篇手记</span>
             <span>&bull;</span>
             <span>运行 {runningDays} 天</span>
           </div>
