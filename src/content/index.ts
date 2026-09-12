@@ -30,12 +30,20 @@ export function getPostBySlug(slug: string): Post | null {
   return AdminStore.getPostBySlug(slug);
 }
 
+export function loadPostContent(slug: string): Promise<Post | null> {
+  return AdminStore.loadPostContent(slug);
+}
+
 export function getAllDiaries(): Diary[] {
   return AdminStore.getDiaries();
 }
 
 export function getDiaryBySlug(slug: string): Diary | null {
   return AdminStore.getDiaryBySlug(slug);
+}
+
+export function loadDiaryContent(slug: string): Promise<Diary | null> {
+  return AdminStore.loadDiaryContent(slug);
 }
 
 export function getAllFriends(): FriendItem[] {

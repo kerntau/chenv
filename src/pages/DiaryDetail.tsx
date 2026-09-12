@@ -4,7 +4,7 @@ import { PageShell } from '../components/layout/PageShell';
 import { Container } from '../components/layout/Container';
 import { MarkdownRenderer } from '../components/markdown/MarkdownRenderer';
 import { ReadingProgressBar } from '../components/post/ReadingProgressBar';
-import { getDiaryBySlug, getAllDiaries, siteConfig } from '../content';
+import { getDiaryBySlug, getAllDiaries, loadDiaryContent, siteConfig } from '../content';
 import { formatDate } from '../lib/date';
 import { stripDuplicateHeading } from '../lib/markdown';
 import {
@@ -26,7 +26,41 @@ export const DiaryDetail: React.FC = () => {
   const slug = params?.slug || journalParams?.slug || shoujiParams?.slug;
 
   const allDiaries = useMemo(() => getAllDiaries(), []);
-  const diary = useMemo(() => (slug ? getDiaryBySlug(slug) : null), [slug]);
+  const diaryMeta = useMemo(() => (slug ? getDiaryBySlug(slug) : null), [slug]);
+  const [diary, setDiary] = React.useState(() => diaryMeta);
+  const [contentLoading, setContentLoading] = React.useState(false);
+
+  React.useEffect(() => {
+    if (!slug) {
+      setDiary(null);
+      return;
+    }
+    let cancelled = false;
+    const meta = getDiaryBySlug(slug);
+    if (!meta) {
+      setDiary(null);
+      return;
+    }
+    setDiary(meta);
+    if (meta.content && meta.content.trim().length > 0) {
+      setContentLoading(false);
+      return;
+    }
+    setContentLoading(true);
+    loadDiaryContent(slug)
+      .then((full) => {
+        if (!cancelled) {
+          setDiary(full ?? meta);
+          setContentLoading(false);
+        }
+      })
+      .catch(() => {
+        if (!cancelled) setContentLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [slug]);
 
   React.useEffect(() => {
     if (diary?.title) {
@@ -153,7 +187,15 @@ export const DiaryDetail: React.FC = () => {
 
               {/* 手记正文渲染 */}
               <div className="min-h-[260px] leading-relaxed font-sans text-sm sm:text-base">
-                <MarkdownRenderer content={cleanContent} />
+                {contentLoading && !cleanContent ? (
+                  <div className="space-y-3 animate-pulse" aria-busy="true" aria-label="正文加载中">
+                    <div className="h-3 bg-slate-200 dark:bg-slate-800 rounded w-11/12" />
+                    <div className="h-3 bg-slate-200 dark:bg-slate-800 rounded w-full" />
+                    <div className="h-3 bg-slate-200 dark:bg-slate-800 rounded w-9/12" />
+                  </div>
+                ) : (
+                  <MarkdownRenderer content={cleanContent} />
+                )}
               </div>
 
               {/* 底部作者寄语 */}

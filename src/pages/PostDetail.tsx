@@ -6,7 +6,7 @@ import { PageShell } from '../components/layout/PageShell';
 import { MarkdownRenderer } from '../components/markdown/MarkdownRenderer';
 import { TOC } from '../components/post/TOC';
 import { ReadingProgressBar } from '../components/post/ReadingProgressBar';
-import { getPostBySlug, getAllPosts, siteConfig } from '../content';
+import { getPostBySlug, getAllPosts, loadPostContent, siteConfig } from '../content';
 import { formatDate } from '../lib/date';
 import { stripDuplicateHeading } from '../lib/markdown';
 import {
@@ -42,13 +42,82 @@ export const PostDetail: React.FC = () => {
   }, [mobileTocOpen]);
 
   const allPosts = useMemo(() => getAllPosts(), []);
-  const post = useMemo(() => (slug ? getPostBySlug(slug) : null), [slug]);
+  const postMeta = useMemo(() => (slug ? getPostBySlug(slug) : null), [slug]);
+  const [post, setPost] = useState(() => postMeta);
+  const [contentLoading, setContentLoading] = useState(false);
+
+  // 正文按需加载：列表索引仅有元数据，进入详情再拉 Markdown chunk
+  useEffect(() => {
+    if (!slug) {
+      setPost(null);
+      return;
+    }
+    let cancelled = false;
+    const meta = getPostBySlug(slug);
+    if (!meta) {
+      setPost(null);
+      return;
+    }
+    setPost(meta);
+    if (meta.content && meta.content.trim().length > 0) {
+      setContentLoading(false);
+      return;
+    }
+    setContentLoading(true);
+    loadPostContent(slug)
+      .then((full) => {
+        if (!cancelled) {
+          setPost(full ?? meta);
+          setContentLoading(false);
+        }
+      })
+      .catch(() => {
+        if (!cancelled) setContentLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [slug]);
 
   useEffect(() => {
     if (post?.title) {
       document.title = `${post.title} · 序栈`;
     }
   }, [post?.title]);
+
+  // JSON-LD 结构化数据，利于搜索引擎理解文章
+  useEffect(() => {
+    if (!post?.title || contentLoading) return;
+    const siteUrl = siteConfig.url || 'https://chent.co';
+    const elId = 'post-jsonld';
+    document.getElementById(elId)?.remove();
+    const script = document.createElement('script');
+    script.id = elId;
+    script.type = 'application/ld+json';
+    script.textContent = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'BlogPosting',
+      headline: post.title,
+      description: post.summary,
+      datePublished: post.date,
+      author: {
+        '@type': 'Person',
+        name: siteConfig.author?.name || 'kerntau',
+        url: siteConfig.author?.github || siteUrl,
+      },
+      publisher: {
+        '@type': 'Person',
+        name: siteConfig.author?.name || 'kerntau',
+      },
+      mainEntityOfPage: `${siteUrl}/posts/${post.slug}`,
+      keywords: (post.tags || []).join(','),
+      wordCount: post.wordCount,
+    });
+    document.head.appendChild(script);
+    return () => {
+      document.getElementById(elId)?.remove();
+    };
+  }, [post?.title, post?.slug, post?.summary, post?.date, post?.wordCount, post?.tags, contentLoading]);
 
   // 上一篇与下一篇导航计算
   const { prevPost, nextPost } = useMemo(() => {
@@ -216,7 +285,18 @@ export const PostDetail: React.FC = () => {
 
                 {/* Markdown 正文渲染 (自动去重首行同名大标题) */}
                 <div className="min-h-[300px] sm:min-h-[400px] leading-relaxed">
-                  <MarkdownRenderer content={cleanContent} />
+                  {contentLoading && !cleanContent ? (
+                    <div className="space-y-3 animate-pulse" aria-busy="true" aria-label="正文加载中">
+                      <div className="h-3 bg-slate-200 dark:bg-slate-800 rounded w-11/12" />
+                      <div className="h-3 bg-slate-200 dark:bg-slate-800 rounded w-full" />
+                      <div className="h-3 bg-slate-200 dark:bg-slate-800 rounded w-10/12" />
+                      <div className="h-3 bg-slate-200 dark:bg-slate-800 rounded w-9/12" />
+                      <div className="h-3 bg-slate-200 dark:bg-slate-800 rounded w-full" />
+                      <div className="h-3 bg-slate-200 dark:bg-slate-800 rounded w-8/12" />
+                    </div>
+                  ) : (
+                    <MarkdownRenderer content={cleanContent} />
+                  )}
                 </div>
 
               {/* 底部声明与署名 */}

@@ -1,41 +1,77 @@
-import type { Diary, FriendItem, Post, RecordComment, RecordItem, SiteConfig } from '../types';
+import type { Diary, FriendItem, Post, RecordComment, RecordItem, SiteConfig, TOCItem } from '../types';
 import siteConfigInitial from '../content/config/site.config.json';
 import friendsInitial from '../content/pages/friends.json';
 import recordsInitial from '../content/records/records.json';
+import contentIndex from '../content/generated/content-index.json';
+import { postLoaders, diaryLoaders } from '../content/generated/content-loaders';
 import { calculateReadingTime, extractTOC, parseDiaryFile, parseMarkdownFile } from './markdown';
 
-// 静态 Markdown 打包上下文读取
-const postsContext = require.context('../content/posts', false, /\.md$/);
-const initialPostsMap: Record<string, string> = {};
-postsContext.keys().forEach((key: string) => {
-  const slug = key.replace(/^\.\//, '').replace(/\.md$/, '');
-  const mod = postsContext(key);
-  initialPostsMap[slug] = typeof mod === 'string'
-    ? mod
-    : typeof mod === 'object' && mod !== null && 'default' in mod && typeof mod.default === 'string'
-      ? mod.default
-      : '';
-});
+interface PostMeta {
+  slug: string;
+  title: string;
+  date: string;
+  summary: string;
+  tags: string[];
+  category: string;
+  readingTime: string;
+  wordCount: number;
+  toc: TOCItem[];
+  draft: boolean;
+  coverImage?: string;
+  recommend: number;
+}
 
-const diariesContext = require.context('../content/diaries', false, /\.md$/);
-const initialDiariesMap: Record<string, string> = {};
-diariesContext.keys().forEach((key: string) => {
-  const slug = key.replace(/^\.\//, '').replace(/\.md$/, '');
-  const mod = diariesContext(key);
-  initialDiariesMap[slug] = typeof mod === 'string'
-    ? mod
-    : typeof mod === 'object' && mod !== null && 'default' in mod && typeof mod.default === 'string'
-      ? mod.default
-      : '';
-});
+interface DiaryMeta {
+  slug: string;
+  title: string;
+  date: string;
+  time?: string;
+  weather?: string;
+  mood?: string;
+  location?: string;
+  tags: string[];
+  summary: string;
+  readingTime: string;
+  wordCount: number;
+}
 
-const defaultPosts: Post[] = Object.entries(initialPostsMap)
-  .map(([slug, raw]) => parseMarkdownFile(slug, raw))
-  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+// 构建期元数据索引：正文按需动态 import，避免全量 Markdown 打进主包
+const defaultPosts: Post[] = (contentIndex.posts as PostMeta[]).map((meta) => ({
+  slug: meta.slug,
+  title: meta.title,
+  date: meta.date,
+  summary: meta.summary,
+  tags: meta.tags,
+  category: meta.category,
+  readingTime: meta.readingTime,
+  wordCount: meta.wordCount,
+  toc: meta.toc,
+  content: '',
+  draft: meta.draft,
+  coverImage: meta.coverImage,
+  recommend: meta.recommend,
+}));
 
-const defaultDiaries: Diary[] = Object.entries(initialDiariesMap)
-  .map(([slug, raw]) => parseDiaryFile(slug, raw))
-  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+const defaultDiaries: Diary[] = (contentIndex.diaries as DiaryMeta[]).map((meta) => ({
+  slug: meta.slug,
+  title: meta.title,
+  date: meta.date,
+  time: meta.time || '',
+  weather: meta.weather || '晴',
+  mood: meta.mood || '平静',
+  location: meta.location || '书房',
+  tags: meta.tags,
+  summary: meta.summary,
+  content: '',
+  readingTime: meta.readingTime,
+  wordCount: meta.wordCount,
+}));
+
+const contentLoadPromises = new Map<string, Promise<void>>();
+
+function hasFullContent(content: string | undefined): boolean {
+  return typeof content === 'string' && content.trim().length > 0;
+}
 
 const defaultFriends: FriendItem[] = (friendsInitial as unknown[]).map((item: any) => ({
   id: item.id || Math.random().toString(36).slice(2, 9),
@@ -264,6 +300,47 @@ export const AdminStore = {
     return currentPosts.find((p) => p.slug === slug) ?? null;
   },
 
+  /** 按需加载文章正文（列表页仅有元数据时使用） */
+  async loadPostContent(slug: string): Promise<Post | null> {
+    const index = currentPosts.findIndex((p) => p.slug === slug);
+    if (index === -1) return null;
+    const post = currentPosts[index];
+    if (hasFullContent(post.content)) return post;
+
+    const existing = contentLoadPromises.get(`post:${slug}`);
+    if (existing) {
+      await existing;
+      return currentPosts.find((p) => p.slug === slug) ?? null;
+    }
+
+    const loader = postLoaders[slug];
+    if (!loader) return post;
+
+    const promise = (async () => {
+      const raw = await loader();
+      const parsed = parseMarkdownFile(slug, raw);
+      const idx = currentPosts.findIndex((p) => p.slug === slug);
+      if (idx === -1) return;
+      currentPosts[idx] = {
+        ...currentPosts[idx],
+        content: parsed.content,
+        toc: parsed.toc,
+        readingTime: parsed.readingTime,
+        wordCount: parsed.wordCount,
+      };
+      // 正文不写回 localStorage，避免把全量内容再次塞满存储
+      notify();
+    })();
+
+    contentLoadPromises.set(`post:${slug}`, promise);
+    try {
+      await promise;
+    } finally {
+      contentLoadPromises.delete(`post:${slug}`);
+    }
+    return currentPosts.find((p) => p.slug === slug) ?? null;
+  },
+
   savePost(postData: Partial<Post> & { title: string; slug: string; content: string }): Post {
     const { readingTime, wordCount } = calculateReadingTime(postData.content);
     const toc = extractTOC(postData.content);
@@ -386,6 +463,44 @@ export const AdminStore = {
   },
 
   getDiaryBySlug(slug: string): Diary | null {
+    return currentDiaries.find((d) => d.slug === slug) ?? null;
+  },
+
+  /** 按需加载手记正文 */
+  async loadDiaryContent(slug: string): Promise<Diary | null> {
+    const diary = currentDiaries.find((d) => d.slug === slug);
+    if (!diary) return null;
+    if (hasFullContent(diary.content)) return diary;
+
+    const existing = contentLoadPromises.get(`diary:${slug}`);
+    if (existing) {
+      await existing;
+      return currentDiaries.find((d) => d.slug === slug) ?? null;
+    }
+
+    const loader = diaryLoaders[slug];
+    if (!loader) return diary;
+
+    const promise = (async () => {
+      const raw = await loader();
+      const parsed = parseDiaryFile(slug, raw);
+      const idx = currentDiaries.findIndex((d) => d.slug === slug);
+      if (idx === -1) return;
+      currentDiaries[idx] = {
+        ...currentDiaries[idx],
+        content: parsed.content,
+        readingTime: parsed.readingTime,
+        wordCount: parsed.wordCount,
+      };
+      notify();
+    })();
+
+    contentLoadPromises.set(`diary:${slug}`, promise);
+    try {
+      await promise;
+    } finally {
+      contentLoadPromises.delete(`diary:${slug}`);
+    }
     return currentDiaries.find((d) => d.slug === slug) ?? null;
   },
 

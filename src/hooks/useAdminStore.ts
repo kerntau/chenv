@@ -39,12 +39,14 @@ export function useAdminStore() {
     togglePostDraft: (slug: string) => AdminStore.togglePostDraft(slug),
     setPostRecommend: (slug: string, recommend: number) => AdminStore.setPostRecommend(slug, recommend),
     getPostBySlug: (slug: string) => AdminStore.getPostBySlug(slug),
+    loadPostContent: (slug: string) => AdminStore.loadPostContent(slug),
 
     // 手记操作方法
     saveDiary: (data: Parameters<typeof AdminStore.saveDiary>[0]) => AdminStore.saveDiary(data),
     deleteDiary: (slug: string) => AdminStore.deleteDiary(slug),
     batchDeleteDiaries: (slugs: string[]) => AdminStore.batchDeleteDiaries(slugs),
     getDiaryBySlug: (slug: string) => AdminStore.getDiaryBySlug(slug),
+    loadDiaryContent: (slug: string) => AdminStore.loadDiaryContent(slug),
 
     // 说说操作方法
     saveRecord: (record: Parameters<typeof AdminStore.saveRecord>[0]) => AdminStore.saveRecord(record),
