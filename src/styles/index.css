@@ -117,7 +117,7 @@
     background-color: var(--card-paper-hover);
     transform: translateY(-1.5px);
     box-shadow: 0 4px 18px -4px rgba(15, 23, 42, 0.07), 0 2px 6px -1px rgba(15, 23, 42, 0.04);
-    border-color: rgba(148, 163, 184, 0.5);
+    border-color: rgba(56, 189, 248, 0.45);
   }
 
   .dark .paper-card {
@@ -127,7 +127,7 @@
   .dark .paper-card-interactive:hover,
   .dark a.paper-card:hover {
     box-shadow: 0 4px 18px -4px rgba(0, 0, 0, 0.5), 0 2px 6px -1px rgba(0, 0, 0, 0.35);
-    border-color: rgba(71, 85, 105, 0.55);
+    border-color: rgba(56, 189, 248, 0.4);
   }
 
   /* 高端出版级自然温润纸质大板 (Natural Muted Editorial Paper Sheet) */
