@@ -8,7 +8,7 @@ const DEFAULT_NAV_COLUMNS = [
   {
     title: '关于',
     links: [
-      { label: '关于此项目', href: 'https://github.com/kerntau', isExternal: true },
+      { label: '关于此项目', href: 'https://github.com/kerntau/blog', isExternal: true },
     ],
   },
   {
