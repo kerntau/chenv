@@ -69,9 +69,26 @@ export default defineConfig({
       {
         tag: 'link',
         attrs: {
+          rel: 'preconnect',
+          href: 'https://cdn.jsdelivr.net',
+          crossorigin: true,
+        },
+      },
+      {
+        tag: 'link',
+        attrs: {
           rel: 'stylesheet',
           href: 'https://cdn.jsdelivr.net/npm/misans-webfont/misans-style.css',
+          // 非阻塞加载，避免字体 CSS 卡住首屏
+          media: 'print',
+          onload: "this.media='all'",
         },
+      },
+      {
+        tag: 'noscript',
+        children:
+          '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/misans-webfont/misans-style.css">',
+        append: true,
       },
       {
         tag: 'link',

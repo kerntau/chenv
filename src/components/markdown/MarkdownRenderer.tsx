@@ -1,5 +1,4 @@
-import React, { useMemo, useState } from 'react';
-import katex from 'katex';
+import React, { useEffect, useMemo, useState } from 'react';
 import { CodeBlock } from './CodeBlock';
 import { MermaidBlock } from './MermaidBlock';
 import { AbcjsBlock } from './AbcjsBlock';
@@ -7,6 +6,25 @@ import { Callout } from './Callout';
 import { generateHeadingId } from '../../lib/markdown';
 import { CheckSquare, Square, ImageIcon } from 'lucide-react';
 import { MediaLightbox } from '../says/MediaLightbox';
+
+type KatexModule = typeof import('katex');
+type KatexInstance = KatexModule['default'] | KatexModule;
+let katexMod: KatexInstance | null = null;
+let katexPromise: Promise<KatexInstance> | null = null;
+let katexCssPromise: Promise<unknown> | null = null;
+
+function ensureKatex(): Promise<KatexInstance> {
+  if (!katexPromise) {
+    katexPromise = import('katex').then((m) => {
+      katexMod = m.default ?? m;
+      return katexMod;
+    });
+  }
+  if (!katexCssPromise) {
+    katexCssPromise = import('katex/dist/katex.min.css').catch(() => undefined);
+  }
+  return katexPromise;
+}
 
 interface MarkdownRendererProps {
   content: string;
@@ -21,8 +39,12 @@ type BlockToken =
   | { type: 'markdown'; content: string };
 
 function renderKatexMath(math: string, displayMode: boolean = false): string {
+  if (!katexMod) {
+    ensureKatex();
+    return displayMode ? `$$${math}$$` : `$${math}$`;
+  }
   try {
-    return katex.renderToString(math.trim(), {
+    return katexMod.renderToString(math.trim(), {
       displayMode,
       throwOnError: false,
     });
@@ -82,6 +104,24 @@ const MarkdownImage: React.FC<{ src: string; alt?: string; title?: string }> = (
 };
 
 export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) => {
+  const needsKatex = useMemo(() => content.includes('$'), [content]);
+  const [katexReady, setKatexReady] = useState(() => !needsKatex || katexMod !== null);
+
+  useEffect(() => {
+    if (!needsKatex || katexReady) return;
+    let cancelled = false;
+    ensureKatex()
+      .then(() => {
+        if (!cancelled) setKatexReady(true);
+      })
+      .catch(() => {
+        if (!cancelled) setKatexReady(true);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [needsKatex, katexReady]);
+
   const blocks = useMemo(() => {
     const lines = content.split('\n');
     const result: BlockToken[] = [];
@@ -211,7 +251,7 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) =
 
     flushMd();
     return result;
-  }, [content]);
+  }, [content, katexReady]);
 
   // 行内富文本解析器（支持嵌套解析：图片、公式、行内代码、加粗、斜体、删除线、高亮、链接）
   const renderInlineMarkdown = (text: string): React.ReactNode => {
