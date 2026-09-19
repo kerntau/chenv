@@ -38,7 +38,7 @@ export const Diaries: React.FC = () => {
             <Link
               key={diary.slug}
               href={`/diaries/${diary.slug}`}
-              className="p-3.5 sm:p-4 rounded-md paper-card hover:-translate-y-0.5 hover:bg-white/90 transition-all duration-250 ease-out group flex flex-col justify-between block"
+              className="p-3.5 sm:p-4 rounded-md paper-card hover:-translate-y-0.5 hover:bg-white/90 dark:hover:bg-white/[0.06] hover:border-slate-300/80 dark:hover:border-white/15 transition-all duration-250 ease-out group flex flex-col justify-between block"
             >
               <div>
                 {/* 顶部元数据头：天气、心情、时间与地点 */}
@@ -91,35 +91,28 @@ export const Diaries: React.FC = () => {
           </div>
         )}
 
-        {/* 底部手札卷尾 · 纸上印记与感言 */}
-        <div className="mt-14 relative overflow-hidden p-5 sm:p-6 rounded-md border border-white/80 dark:border-white/[0.08] bg-white/70 dark:bg-[#0B101B]/60 backdrop-blur-2xl shadow-[0_10px_30px_-4px_rgba(15,23,42,0.05),inset_0_1px_0_0_rgba(255,255,255,0.9)] dark:shadow-[0_12px_36px_-4px_rgba(0,0,0,0.4),inset_0_1px_0_0_rgba(255,255,255,0.12)]">
-          {/* 背景轻柔艺术双引号水印 */}
-          <div className="absolute right-4 -bottom-4 text-slate-200/40 dark:text-slate-800/30 select-none pointer-events-none font-serif text-8xl leading-none">
-            &rdquo;
-          </div>
+        {/* 底部手札卷尾 · 极简文学感言 */}
+        <div className="mt-16 mb-6 pt-10 relative flex flex-col items-center text-center">
+          {/* 顶端两端渐隐微光分割线 */}
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-md h-px bg-gradient-to-r from-transparent via-slate-200/80 dark:via-white/10 to-transparent" />
 
-          <div className="relative z-10 flex flex-col items-center text-center space-y-3.5 max-w-xl mx-auto">
-            {/* 顶栏徽标 */}
-            <div className="inline-flex items-center space-x-1.5 px-2.5 py-1 rounded-sm bg-sky-50 dark:bg-sky-950/40 text-[11px] font-mono text-sky-700 dark:text-sky-300 border border-sky-200/50 dark:border-sky-800/40">
-              <Sparkles className="w-3 h-3 text-sky-600 dark:text-sky-400" />
-              <span>落纸为念 &bull; 纸上温度</span>
-            </div>
-
-            {/* 核心金句排版 */}
-            <blockquote className="font-serif text-sm sm:text-base text-slate-700 dark:text-slate-200 leading-relaxed font-normal italic">
+          <div className="max-w-xl mx-auto space-y-3 px-4">
+            {/* 核心金句 */}
+            <blockquote className="font-serif text-sm sm:text-[15px] text-slate-600 dark:text-slate-300 leading-relaxed font-normal tracking-wide">
               &ldquo;日记是自己写给自己最好的情书，也是时间长河里唯一的停靠桩。&rdquo;
             </blockquote>
 
-            {/* 底部签名与手记统计 */}
-            <div className="pt-2 flex flex-wrap items-center justify-center gap-3 text-xs font-mono text-slate-400 dark:text-slate-500 border-t border-slate-200/50 dark:border-slate-800/50 w-full">
-              <span className="font-medium text-slate-600 dark:text-slate-400">
+            {/* 卷尾元数据落款 */}
+            <div className="flex items-center justify-center gap-2.5 text-xs font-mono text-slate-400 dark:text-slate-500">
+              <span className="font-medium text-slate-500 dark:text-slate-400">
                 &mdash; {siteConfig.author.name}
               </span>
-              <span>&bull;</span>
+              <span className="text-slate-300 dark:text-slate-700">&bull;</span>
               <span>共收录 {allDiaries.length} 篇心境篇章</span>
-              <span>&bull;</span>
-              <span className="px-1.5 py-0.5 rounded-sm bg-slate-100 dark:bg-slate-800 text-[10px]">
-                随笔手札
+              <span className="text-slate-300 dark:text-slate-700">&bull;</span>
+              <span className="inline-flex items-center gap-1 text-[11px] text-sky-600/90 dark:text-sky-400/90 font-sans">
+                <Sparkles className="w-3 h-3" />
+                <span>纸上温度</span>
               </span>
             </div>
           </div>

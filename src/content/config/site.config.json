@@ -198,7 +198,6 @@
         "title": "联系",
         "links": [
           { "label": "发邮件", "href": "mailto:hi@chenv.cn", "isExternal": true },
-          { "label": "Telegram", "href": "https://t.me/Kerntau", "isExternal": true },
           { "label": "GitHub", "href": "https://github.com/kerntau", "isExternal": true },
           { "label": "日常说说", "href": "/says" }
         ]
