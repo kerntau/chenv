@@ -86,40 +86,40 @@ export const Archives: React.FC = () => {
               </div>
 
               {/* 时间轴树状条目 (精确轴线与单行流线排版) */}
-              <div className="relative pl-6 sm:pl-7 space-y-0.5 before:content-[''] before:absolute before:left-2 sm:before:left-2.5 before:top-2 before:bottom-2 before:w-px before:bg-slate-200/80 dark:before:bg-slate-800/80">
+              <div className="relative pl-5 sm:pl-7 space-y-0.5 before:content-[''] before:absolute before:left-2 sm:before:left-2.5 before:top-2 before:bottom-2 before:w-px before:bg-slate-200/80 dark:before:bg-slate-800/80">
                 {itemsByYear[year].map((item) => (
                   <div key={item.id} className="relative group">
-                    {/* 时间轴微节点圆点 (移动端对准首行文字，桌面端居中) */}
-                    <div className="absolute -left-[19px] sm:-left-[21px] top-3 sm:top-1/2 sm:-translate-y-1/2 w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-700 group-hover:bg-sky-500 transition-colors" />
+                    {/* 时间轴微节点圆点 (严格垂直居中对齐轴线) */}
+                    <div className="absolute -left-[15px] sm:-left-[21px] top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-700 group-hover:bg-sky-500 transition-colors" />
 
-                    {/* 归档行卡片 (桌面端优雅单行，移动端自适应展示完整标题) */}
+                    {/* 归档行卡片 (单行双端通栏对齐，消除移动端非必要折行与空白) */}
                     <Link
                       href={item.slug}
-                      className="flex flex-col sm:flex-row sm:items-center justify-between py-2 sm:py-1.5 px-2 -mx-1.5 rounded-sm hover:bg-slate-100/50 dark:hover:bg-slate-900/50 transition-colors group gap-1 sm:gap-2"
+                      className="flex items-center justify-between py-2 sm:py-1.5 px-2 -mx-1.5 rounded-sm hover:bg-slate-100/60 dark:hover:bg-slate-800/50 transition-colors group gap-2.5"
                     >
-                      <div className="flex items-start sm:items-center space-x-2 sm:space-x-2.5 min-w-0 pr-1 sm:pr-2">
+                      <div className="flex items-center space-x-2 sm:space-x-2.5 min-w-0 pr-1 sm:pr-2">
                         {/* 发布日期 (MM-DD) */}
-                        <span className="font-mono text-xs text-slate-400 dark:text-slate-500 shrink-0 select-none mt-0.5 sm:mt-0">
+                        <span className="font-mono text-xs text-slate-400 dark:text-slate-500 shrink-0 select-none">
                           {formatDateShort(item.date)}
                         </span>
 
                         {/* 标题 */}
-                        <span className="text-[13px] sm:text-sm text-slate-800 dark:text-slate-200 group-hover:text-sky-600 dark:group-hover:text-sky-400 font-medium transition-colors sm:truncate leading-snug">
+                        <span className="text-[13px] sm:text-sm text-slate-800 dark:text-slate-200 group-hover:text-sky-600 dark:group-hover:text-sky-400 font-medium transition-colors truncate leading-snug">
                           {item.title}
                         </span>
 
                         {/* 分类微标签 (桌面端展示) */}
                         {item.category && (
-                          <span className="hidden sm:inline-block text-[10px] font-mono px-1.5 py-0.5 rounded-sm bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 shrink-0">
+                          <span className="hidden sm:inline-block text-[10px] font-sans px-1.5 py-0.5 rounded-sm bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 shrink-0">
                             {item.category}
                           </span>
                         )}
                       </div>
 
-                      {/* 类型标 (手记标签) */}
+                      {/* 类型标 (手记标签 - 靠右对齐) */}
                       {item.type === 'diary' && (
-                        <div className="flex items-center pl-10 sm:pl-0 shrink-0">
-                          <span className="px-1.5 py-0.5 rounded-sm bg-sky-50 dark:bg-sky-950/40 text-sky-600 dark:text-sky-400 text-[10.5px] font-mono leading-none">
+                        <div className="flex items-center shrink-0">
+                          <span className="px-1.5 py-0.5 rounded-sm bg-sky-50 dark:bg-sky-950/40 text-sky-600 dark:text-sky-400 text-[10.5px] font-sans font-medium leading-none border border-sky-200/50 dark:border-sky-800/40">
                             手记
                           </span>
                         </div>

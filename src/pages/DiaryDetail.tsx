@@ -10,7 +10,6 @@ import { stripDuplicateHeading } from '../lib/markdown';
 import {
   Calendar,
   MapPin,
-  Tag,
   ChevronLeft,
   ChevronRight,
   Feather,
@@ -166,21 +165,6 @@ export const DiaryDetail: React.FC = () => {
                 {diary.summary && (
                   <div className="p-3.5 rounded-r-md rounded-l-none bg-slate-100/60 dark:bg-white/[0.04] border-l-2 border-slate-300 dark:border-sky-400/50 text-slate-600 dark:text-slate-300 text-xs sm:text-sm leading-relaxed font-sans">
                     {diary.summary}
-                  </div>
-                )}
-
-                {/* 标签 */}
-                {diary.tags && diary.tags.length > 0 && (
-                  <div className="flex flex-wrap gap-1.5 pt-0.5">
-                    {diary.tags.map((t) => (
-                      <span
-                        key={t}
-                        className="inline-flex items-center space-x-0.5 text-[10.5px] font-mono px-1.5 py-0.5 rounded-xs bg-slate-100 dark:bg-[#101622] text-slate-600 dark:text-slate-400 border border-slate-200/50 dark:border-white/5"
-                      >
-                        <Tag className="w-2.5 h-2.5 opacity-50" />
-                        <span>{t}</span>
-                      </span>
-                    ))}
                   </div>
                 )}
               </header>

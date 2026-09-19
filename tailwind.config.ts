@@ -61,7 +61,9 @@ const config: Config = {
           'Menlo',
           'Monaco',
           'Consolas',
-          'monospace',
+          '"PingFang SC"',
+          '"Microsoft YaHei"',
+          'sans-serif',
         ],
       },
       typography: () => ({

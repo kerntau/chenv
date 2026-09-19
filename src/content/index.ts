@@ -5,6 +5,7 @@ import friendsJson from './pages/friends.json';
 import recordsJson from './records/records.json';
 import contentIndex from './generated/content-index.json';
 import { postLoaders, diaryLoaders } from './generated/content-loaders';
+import { stripFrontmatter } from '../lib/markdown';
 
 export const siteConfig: SiteConfig = siteConfigJson as SiteConfig;
 
@@ -37,7 +38,7 @@ export async function loadPostContent(slug: string): Promise<Post | null> {
   if (!loader) return post;
   try {
     const raw = await loader();
-    return { ...post, content: raw };
+    return { ...post, content: stripFrontmatter(raw) };
   } catch (err) {
     console.error(`[loadPostContent] Failed to load markdown for ${slug}:`, err);
     return post;
@@ -60,7 +61,7 @@ export async function loadDiaryContent(slug: string): Promise<Diary | null> {
   if (!loader) return diary;
   try {
     const raw = await loader();
-    return { ...diary, content: raw };
+    return { ...diary, content: stripFrontmatter(raw) };
   } catch (err) {
     console.error(`[loadDiaryContent] Failed to load markdown for ${slug}:`, err);
     return diary;

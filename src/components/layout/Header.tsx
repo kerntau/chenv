@@ -223,7 +223,7 @@ export const Header: React.FC = () => {
                       {/* 静态的选中项水晶胶囊薄片 */}
                       {active && (
                         <span
-                          className="absolute inset-0 rounded-sm bg-white/90 dark:bg-gradient-to-b dark:from-white/[0.14] dark:to-white/[0.04] backdrop-blur-xl border border-white dark:border-white/20 shadow-[0_1px_3px_rgba(0,0,0,0.05),inset_0_1px_0_0_rgba(255,255,255,0.95)] dark:shadow-[0_2px_8px_rgba(0,0,0,0.35),inset_0_1px_0_0_rgba(255,255,255,0.26)] pointer-events-none -z-10 transition-all duration-300"
+                          className="absolute inset-0 rounded-sm bg-white/90 dark:bg-transparent dark:bg-gradient-to-b dark:from-white/[0.14] dark:to-white/[0.04] backdrop-blur-xl border border-white dark:border-white/20 shadow-[0_1px_3px_rgba(0,0,0,0.05),inset_0_1px_0_0_rgba(255,255,255,0.95)] dark:shadow-[0_2px_8px_rgba(0,0,0,0.35),inset_0_1px_0_0_rgba(255,255,255,0.26)] pointer-events-none -z-10 transition-all duration-300"
                         />
                       )}
                       {/* 选中项专属图标 */}

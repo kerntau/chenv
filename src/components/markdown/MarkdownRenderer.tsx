@@ -3,7 +3,7 @@ import { CodeBlock } from './CodeBlock';
 import { MermaidBlock } from './MermaidBlock';
 import { AbcjsBlock } from './AbcjsBlock';
 import { Callout } from './Callout';
-import { generateHeadingId } from '../../lib/markdown';
+import { generateHeadingId, stripFrontmatter } from '../../lib/markdown';
 import { CheckSquare, Square, ImageIcon } from 'lucide-react';
 import { MediaLightbox } from '../says/MediaLightbox';
 
@@ -104,7 +104,8 @@ const MarkdownImage: React.FC<{ src: string; alt?: string; title?: string }> = (
 };
 
 export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) => {
-  const needsKatex = useMemo(() => content.includes('$'), [content]);
+  const sanitizedContent = useMemo(() => stripFrontmatter(content), [content]);
+  const needsKatex = useMemo(() => sanitizedContent.includes('$'), [sanitizedContent]);
   const [katexReady, setKatexReady] = useState(() => !needsKatex || katexMod !== null);
 
   useEffect(() => {
@@ -123,7 +124,7 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) =
   }, [needsKatex, katexReady]);
 
   const blocks = useMemo(() => {
-    const lines = content.split('\n');
+    const lines = sanitizedContent.split('\n');
     const result: BlockToken[] = [];
     let currentMd: string[] = [];
 

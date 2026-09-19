@@ -11,7 +11,7 @@ export const Container: React.FC<ContainerProps> = ({
   ...props
 }) => {
   const sizeClasses = {
-    diary: 'max-w-[720px]',
+    diary: 'max-w-[860px]',
     narrow: 'max-w-3xl',
     reading: 'max-w-[800px]',
     default: 'max-w-5xl',
