@@ -54,9 +54,9 @@ export const Footer: React.FC = () => {
         <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 sm:gap-6 md:gap-8">
           {/* 左侧区域 */}
           <div className="space-y-1 max-w-sm">
-            <h3 className="font-sans font-bold text-base sm:text-lg text-slate-900 dark:text-slate-100 tracking-tight">
+            <div className="font-sans font-bold text-base sm:text-lg text-slate-900 dark:text-slate-100 tracking-tight">
               {siteConfig.author.name || siteConfig.title}
-            </h3>
+            </div>
             {motto && (
               <p className="italic text-xs text-slate-500 dark:text-slate-400 font-serif leading-relaxed">
                 {motto}
@@ -92,7 +92,7 @@ export const Footer: React.FC = () => {
                 <div className="font-mono text-[11px] font-medium text-slate-400 dark:text-slate-500 uppercase tracking-wider">
                   {col.title}
                 </div>
-                <ul className="space-y-1 text-xs">
+                <ul className="space-y-0.5 sm:space-y-1 text-xs">
                   {col.links.map((link, lIdx) => {
                     const isExt = link.isExternal || link.href.startsWith('http') || link.href.startsWith('mailto:');
                     return (
@@ -102,7 +102,7 @@ export const Footer: React.FC = () => {
                             href={link.href}
                             target="_blank"
                             rel="noreferrer"
-                            className="group inline-flex items-center hover:text-slate-900 dark:hover:text-slate-100 transition-colors"
+                            className="group inline-flex items-center py-1.5 sm:py-0.5 hover:text-slate-900 dark:hover:text-slate-100 transition-colors"
                           >
                             <span>{link.label}</span>
                             <ArrowUpRight className="w-3 h-3 ml-0.5 text-slate-400 group-hover:text-slate-700 dark:group-hover:text-slate-300 transition-colors" />
@@ -110,7 +110,7 @@ export const Footer: React.FC = () => {
                         ) : (
                           <Link
                             href={link.href}
-                            className="hover:text-slate-900 dark:hover:text-slate-100 transition-colors"
+                            className="inline-flex items-center py-1.5 sm:py-0.5 hover:text-slate-900 dark:hover:text-slate-100 transition-colors"
                           >
                             {link.label}
                           </Link>
@@ -133,7 +133,7 @@ export const Footer: React.FC = () => {
                 href="/feed.xml"
                 target="_blank"
                 rel="noreferrer"
-                className="hover:text-slate-700 dark:hover:text-slate-300 transition-colors"
+                className="hover:text-slate-700 dark:hover:text-slate-300 transition-colors py-1.5 sm:py-0.5 inline-flex items-center"
                 title="RSS 2.0 订阅源 (可直接导入阅读器)"
               >
                 RSS 订阅
@@ -145,7 +145,7 @@ export const Footer: React.FC = () => {
             {showSitemap && (
               <Link
                 href="/sitemap"
-                className="hover:text-slate-700 dark:hover:text-slate-300 transition-colors"
+                className="hover:text-slate-700 dark:hover:text-slate-300 transition-colors py-1.5 sm:py-0.5 inline-flex items-center"
                 onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
               >
                 站点地图
@@ -161,7 +161,7 @@ export const Footer: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setTheme('light')}
-                  className={`hover:text-slate-900 dark:hover:text-slate-100 transition-colors cursor-pointer ${
+                  className={`hover:text-slate-900 dark:hover:text-slate-100 transition-colors cursor-pointer py-1.5 sm:py-0.5 px-1 ${
                     theme === 'light'
                       ? 'font-semibold text-slate-800 dark:text-slate-200 underline underline-offset-4 decoration-sky-500'
                       : 'text-slate-400 dark:text-slate-500'
@@ -173,7 +173,7 @@ export const Footer: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setTheme('system')}
-                  className={`hover:text-slate-900 dark:hover:text-slate-100 transition-colors cursor-pointer ${
+                  className={`hover:text-slate-900 dark:hover:text-slate-100 transition-colors cursor-pointer py-1.5 sm:py-0.5 px-1 ${
                     theme === 'system'
                       ? 'font-semibold text-slate-800 dark:text-slate-200 underline underline-offset-4 decoration-sky-500'
                       : 'text-slate-400 dark:text-slate-500'
@@ -185,7 +185,7 @@ export const Footer: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setTheme('dark')}
-                  className={`hover:text-slate-900 dark:hover:text-slate-100 transition-colors cursor-pointer ${
+                  className={`hover:text-slate-900 dark:hover:text-slate-100 transition-colors cursor-pointer py-1.5 sm:py-0.5 px-1 ${
                     theme === 'dark'
                       ? 'font-semibold text-slate-800 dark:text-slate-200 underline underline-offset-4 decoration-sky-500'
                       : 'text-slate-400 dark:text-slate-500'
@@ -210,7 +210,7 @@ export const Footer: React.FC = () => {
                 href={icpUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="hover:text-slate-700 dark:hover:text-slate-300 hover:underline underline-offset-2 transition-colors"
+                className="hover:text-slate-700 dark:hover:text-slate-300 hover:underline underline-offset-2 transition-colors py-1.5 sm:py-0.5 inline-flex items-center"
               >
                 {footer.icp}
               </a>
