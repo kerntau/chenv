@@ -75,3 +75,16 @@ export const BilibiliIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => 
   </svg>
 );
 
+export const TelegramIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
+  <svg
+    viewBox="0 0 24 24"
+    width="18"
+    height="18"
+    fill="currentColor"
+    {...props}
+  >
+    <path d="M20.665 3.717l-17.73 6.837c-1.21.486-1.203 1.161-.222 1.462l4.552 1.42 10.532-6.645c.498-.303.953-.14.579.192l-8.533 7.701h-.002l-.313 4.674c.459 0 .661-.21.916-.459l2.199-2.138 4.574 3.379c.843.464 1.448.225 1.658-.783l2.997-14.125c.307-1.232-.472-1.79-1.282-1.433z" />
+  </svg>
+);
+
+

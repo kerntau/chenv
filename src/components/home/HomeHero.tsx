@@ -4,7 +4,7 @@ import { useGSAP } from '@gsap/react';
 import { Link } from 'wouter';
 import { Megaphone, ChevronRight } from 'lucide-react';
 import type { SocialLink } from '../../types';
-import { GithubIcon, XTwitterIcon, MailIcon, BilibiliIcon } from '../ui/Icons';
+import { GithubIcon, XTwitterIcon, MailIcon, BilibiliIcon, TelegramIcon } from '../ui/Icons';
 import { siteConfig, getAllDiaries } from '../../content';
 
 const SOCIAL_ICONS: Record<SocialLink['icon'], React.FC<React.SVGProps<SVGSVGElement>>> = {
@@ -12,6 +12,7 @@ const SOCIAL_ICONS: Record<SocialLink['icon'], React.FC<React.SVGProps<SVGSVGEle
   bilibili: BilibiliIcon,
   x: XTwitterIcon,
   email: MailIcon,
+  telegram: TelegramIcon,
 };
 
 export const HomeHero: React.FC = () => {
@@ -65,8 +66,17 @@ export const HomeHero: React.FC = () => {
       <div className="gsap-hero-avatar opacity-0 mb-3 sm:mb-4 lg:mb-3 relative group">
         <div className="relative w-16 h-16 sm:w-20 sm:h-20 lg:w-[4.85rem] lg:h-[4.85rem] rounded-full p-0.5 sm:p-1 bg-gradient-to-tr from-sky-200 to-blue-300/40 dark:from-slate-800 dark:to-sky-900/60 shadow-md">
           <img
-            src={siteConfig.author.avatar || '/avatar.jpg'}
+            src={siteConfig.author.avatar || 'https://q1.qlogo.cn/g?b=qq&nk=1722288011&s=640'}
             alt={siteConfig.author.name}
+            width={78}
+            height={78}
+            decoding="async"
+            fetchPriority="high"
+            onError={(e) => {
+              if (typeof window !== 'undefined' && e.currentTarget.src !== window.location.origin + '/avatar.jpg') {
+                e.currentTarget.src = '/avatar.jpg';
+              }
+            }}
             className="w-full h-full rounded-full object-cover shadow-[inset_0_0_0_1px_rgba(0,0,0,0.06)] dark:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08)]"
           />
           {/* 在线状态点与 Tooltip */}

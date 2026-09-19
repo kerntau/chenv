@@ -10,13 +10,14 @@ import {
   MapPin,
   Mail,
 } from 'lucide-react';
-import { GithubIcon, XTwitterIcon, MailIcon, BilibiliIcon } from '../components/ui/Icons';
+import { GithubIcon, XTwitterIcon, MailIcon, BilibiliIcon, TelegramIcon } from '../components/ui/Icons';
 
 const SOCIAL_ICONS: Record<string, React.FC<React.SVGProps<SVGSVGElement>>> = {
   github: GithubIcon,
   bilibili: BilibiliIcon,
   x: XTwitterIcon,
   email: MailIcon,
+  telegram: TelegramIcon,
 };
 
 export const About: React.FC = () => {
