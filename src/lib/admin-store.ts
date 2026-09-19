@@ -128,7 +128,7 @@ const STORAGE_KEYS = {
   POSTS: 'cot_posts_data_v2',
   DIARIES: 'cot_diaries_data_v2',
   RECORDS: 'cot_records_data_v2',
-  FRIENDS: 'cot_friends_data_v2',
+  FRIENDS: 'cot_friends_data_v3',
   CONFIG: 'cot_site_config_v2',
   LOGS: 'cot_activity_logs_v2',
   PREFERENCES: 'cot_admin_prefs_v2',
