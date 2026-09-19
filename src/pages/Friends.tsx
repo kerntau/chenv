@@ -34,7 +34,7 @@ export const Friends: React.FC = () => {
   const templateUrl = friendsPage?.template?.url || siteConfig.url;
   const templateAvatar = friendsPage?.template?.avatar || `${siteConfig.url}${siteConfig.author.avatar}`;
 
-  const email = siteConfig.author.email || 'hi@chent.co';
+  const email = siteConfig.author.email || 'hi@chenv.cn';
 
   const handleCopyEmail = (e: React.MouseEvent) => {
     e.preventDefault();

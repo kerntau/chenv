@@ -80,7 +80,7 @@ export const App: React.FC = () => {
             '说说': siteConfig.saysPage?.subtitle || '把灵感、日常与正在发生的事情，留在时间线上。',
             '友链': siteConfig.friendsPage?.subtitle || '山海相逢，灵感共振。',
             '站点地图': '聚合全站核心频道结构、生活随笔手记与全局标签图谱。',
-            '关于': `关于 ${siteConfig.author?.name || 'chent'} - ${siteConfig.author?.description || ''}。${siteConfig.about?.quote || siteConfig.description}`,
+            '关于': `关于 ${siteConfig.author?.name || 'chenv'} - ${siteConfig.author?.description || ''}。${siteConfig.about?.quote || siteConfig.description}`,
           };
           metaDesc.setAttribute('content', sectionDescMap[section.label] || siteConfig.description);
         }
@@ -139,8 +139,8 @@ export const App: React.FC = () => {
           return;
         }
 
-        // 2. 站长自身生态域名及所有子域放行 (*.chent.co, chent.co)
-        if (hostname === 'chent.co' || hostname.endsWith('.chent.co')) {
+        // 2. 站长自身生态域名及所有子域放行 (*.chenv.cn, chenv.cn)
+        if (hostname === 'chenv.cn' || hostname.endsWith('.chenv.cn')) {
           return;
         }
 

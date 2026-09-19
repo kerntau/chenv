@@ -1,14 +1,14 @@
-# chent
+# chenv
 
 个人网站与数字花园，记录随笔、日记、项目与生活，分享个人的思考、经历与正在做的事情，也保存那些值得留下来的时刻。
 
-线上地址：[https://chent.co](https://chent.co)
+线上地址：[https://chenv.cn](https://chenv.cn)
 
 ## 关联生态
 
-- **主站**：[https://chent.co](https://chent.co)
-- **知识库**：[https://wiki.chent.co](https://wiki.chent.co)
-- **简历**：[https://cv.chent.co](https://cv.chent.co)
+- **主站**：[https://chenv.cn](https://chenv.cn)
+- **知识库**：[https://wiki.chenv.cn](https://wiki.chenv.cn)
+- **简历**：[https://cv.chenv.cn](https://cv.chenv.cn)
 
 ## 技术栈
 

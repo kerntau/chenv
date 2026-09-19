@@ -259,7 +259,7 @@ export const AdminSettings: React.FC = () => {
                     value={configForm.url}
                     onChange={(e) => setConfigForm({ ...configForm, url: e.target.value })}
                     className="admin-input font-mono"
-                    placeholder="https://chent.co"
+                    placeholder="https://chenv.cn"
                   />
                 </div>
 

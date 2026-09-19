@@ -88,7 +88,7 @@ export const PostDetail: React.FC = () => {
   // JSON-LD 结构化数据，利于搜索引擎理解文章
   useEffect(() => {
     if (!post?.title || contentLoading) return;
-    const siteUrl = siteConfig.url || 'https://chent.co';
+    const siteUrl = siteConfig.url || 'https://chenv.cn';
     const elId = 'post-jsonld';
     document.getElementById(elId)?.remove();
     const script = document.createElement('script');

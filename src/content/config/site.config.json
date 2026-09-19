@@ -1,8 +1,8 @@
 {
-  "title": "chent",
+  "title": "chenv",
   "subtitle": "",
-  "description": "Chent 的个人网站，记录随笔、日记、项目与生活，分享个人的思考、经历与正在做的事情，也保存那些值得留下来的时刻。",
-  "url": "https://chent.co",
+  "description": "Chenv 的个人网站，记录随笔、日记、项目与生活，分享个人的思考、经历与正在做的事情，也保存那些值得留下来的时刻。",
+  "url": "https://chenv.cn",
   "favicon": "/favicon.ico",
   "keywords": [
     "全栈开发",
@@ -22,7 +22,7 @@
     "name": "kerntau",
     "avatar": "/avatar.jpg",
     "description": "全栈工程师与开源爱好者",
-    "email": "hi@chent.co",
+    "email": "hi@chenv.cn",
     "github": "https://github.com/kerntau",
     "location": "浙江 · 宁波",
     "statusBadge": "专注全栈系统架构中",
@@ -45,7 +45,7 @@
       {
         "name": "Email",
         "icon": "email",
-        "url": "mailto:hi@chent.co"
+        "url": "mailto:hi@chenv.cn"
       }
     ]
   },
@@ -145,11 +145,11 @@
     "title": "志同道合的朋友",
     "subtitle": "山海相逢，灵感共振。",
     "guideTitle": "交换友链",
-    "guideText": "如果您也拥有自己的个人独立博客，欢迎在您的站点添加本站后通过邮件（hi@chent.co）联系交换。",
+    "guideText": "如果您也拥有自己的个人独立博客，欢迎在您的站点添加本站后通过邮件（hi@chenv.cn）联系交换。",
     "template": {
-      "name": "chent",
-      "desc": "Chent 的个人网站，记录随笔、日记、项目与生活，分享个人的思考、经历与正在做的事情，也保存那些值得留下来的时刻。",
-      "url": "https://chent.co",
+      "name": "chenv",
+      "desc": "Chenv 的个人网站，记录随笔、日记、项目与生活，分享个人的思考、经历与正在做的事情，也保存那些值得留下来的时刻。",
+      "url": "https://chenv.cn",
       "avatar": "/avatar.jpg"
     }
   },
@@ -176,9 +176,9 @@
       {
         "title": "关于",
         "links": [
-          { "label": "关于此项目", "href": "https://github.com/kerntau/chent", "isExternal": true },
-          { "label": "知识库", "href": "https://wiki.chent.co", "isExternal": true },
-          { "label": "简历", "href": "https://cv.chent.co", "isExternal": true }
+          { "label": "关于此项目", "href": "https://github.com/kerntau/chenv", "isExternal": true },
+          { "label": "知识库", "href": "https://wiki.chenv.cn", "isExternal": true },
+          { "label": "简历", "href": "https://cv.chenv.cn", "isExternal": true }
         ]
       },
       {
@@ -192,7 +192,7 @@
       {
         "title": "联系",
         "links": [
-          { "label": "发邮件", "href": "mailto:hi@chent.co", "isExternal": true },
+          { "label": "发邮件", "href": "mailto:hi@chenv.cn", "isExternal": true },
           { "label": "GitHub", "href": "https://github.com/kerntau", "isExternal": true },
           { "label": "日常说说", "href": "/says" }
         ]

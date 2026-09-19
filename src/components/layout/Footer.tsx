@@ -8,9 +8,9 @@ const DEFAULT_NAV_COLUMNS = [
   {
     title: '关于',
     links: [
-      { label: '关于此项目', href: 'https://github.com/kerntau/chent', isExternal: true },
-      { label: '知识库', href: 'https://wiki.chent.co', isExternal: true },
-      { label: '简历', href: 'https://cv.chent.co', isExternal: true },
+      { label: '关于此项目', href: 'https://github.com/kerntau/chenv', isExternal: true },
+      { label: '知识库', href: 'https://wiki.chenv.cn', isExternal: true },
+      { label: '简历', href: 'https://cv.chenv.cn', isExternal: true },
     ],
   },
   {
@@ -24,7 +24,7 @@ const DEFAULT_NAV_COLUMNS = [
   {
     title: '联系',
     links: [
-      { label: '发邮件', href: 'mailto:hi@chent.co', isExternal: true },
+      { label: '发邮件', href: 'mailto:hi@chenv.cn', isExternal: true },
       { label: 'GitHub', href: 'https://github.com/kerntau', isExternal: true },
       { label: '日常说说', href: '/says' },
     ],
