@@ -6,7 +6,6 @@ import { PostCard } from '../components/post/PostCard';
 import { getAllPosts, getAllCategories, siteConfig } from '../content';
 import { getYear } from '../lib/date';
 import {
-  FileText,
   Tag as TagIcon,
   X,
   ChevronDown,
@@ -141,25 +140,20 @@ export const Posts: React.FC = () => {
   return (
     <PageShell>
       <Container size="wide">
-        {/* 页面顶栏：标题与筛选控制面板 (手记同款居中规范) */}
-        <div className="mb-4 pb-3.5 sm:mb-10 sm:pb-6 border-b border-slate-200/70 dark:border-slate-800/70 text-center">
-          <div className="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded-xs bg-slate-100 dark:bg-slate-800 text-[11px] font-mono tracking-wider text-slate-600 dark:text-slate-400 mb-2">
-            <FileText className="w-3 h-3 text-sky-600 dark:text-sky-400" />
-            <span>POSTS</span>
-          </div>
-
-          <h1 className="font-sans text-2xl sm:text-4xl font-semibold text-slate-900 dark:text-slate-100 tracking-tight">
+        {/* 精简居中顶栏 */}
+        <div className="mb-4 pb-3 sm:mb-6 sm:pb-4 border-b border-slate-200/70 dark:border-slate-800/70 text-center">
+          <h1 className="font-sans text-xl sm:text-2xl font-semibold text-slate-900 dark:text-slate-100 tracking-tight">
             {pageTitle}
           </h1>
 
           {postsPage?.subtitle && (
-            <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1.5 sm:mt-2 font-sans max-w-lg mx-auto">
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 sm:mt-1.5 font-sans max-w-lg mx-auto">
               {postsPage.subtitle}
             </p>
           )}
 
           {/* 居中搜索与操作栏 */}
-          <div className="mt-4 sm:mt-5 max-w-md mx-auto flex items-center gap-2">
+          <div className="mt-3.5 sm:mt-4 max-w-md mx-auto flex items-center gap-2">
             <div className="relative flex-1">
               <Search className="w-3.5 h-3.5 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
               <input

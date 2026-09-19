@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { Container } from '../components/layout/Container';
 import { PageShell } from '../components/layout/PageShell';
-import { Users, Sparkles, Search, X, Mail, Check, Copy } from 'lucide-react';
+import { Sparkles, Search, X, Mail, Check, Copy } from 'lucide-react';
 import { getAllFriends, siteConfig } from '../content';
 import type { FriendItem } from '../types';
 
@@ -32,7 +32,10 @@ export const Friends: React.FC = () => {
   const templateName = friendsPage?.template?.name || siteConfig.title;
   const templateDesc = friendsPage?.template?.desc || siteConfig.description;
   const templateUrl = friendsPage?.template?.url || siteConfig.url;
-  const templateAvatar = friendsPage?.template?.avatar || `${siteConfig.url}${siteConfig.author.avatar}`;
+  const rawAvatar = friendsPage?.template?.avatar || siteConfig.author?.avatar || '/avatar.jpg';
+  const templateAvatar = rawAvatar.startsWith('http://') || rawAvatar.startsWith('https://')
+    ? rawAvatar
+    : `${siteConfig.url.replace(/\/+$/, '')}/${rawAvatar.replace(/^\/+/, '')}`;
 
   const email = siteConfig.author.email || 'hi@chenv.cn';
 
@@ -54,25 +57,20 @@ export const Friends: React.FC = () => {
   return (
     <PageShell>
       <Container size="wide">
-        {/* 顶部标题区 (手记同款居中规范) */}
-        <div className="mb-4 pb-3.5 sm:mb-10 sm:pb-6 border-b border-slate-200/70 dark:border-slate-800/70 text-center">
-          <div className="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded-xs bg-slate-100 dark:bg-slate-800 text-[11px] font-mono tracking-wider text-slate-600 dark:text-slate-400 mb-2">
-            <Users className="w-3 h-3 text-sky-600 dark:text-sky-400" />
-            <span>FRIENDS</span>
-          </div>
-
-          <h1 className="font-sans text-2xl sm:text-4xl font-semibold text-slate-900 dark:text-slate-100 tracking-tight">
+        {/* 精简居中顶栏 */}
+        <div className="mb-4 pb-3 sm:mb-6 sm:pb-4 border-b border-slate-200/70 dark:border-slate-800/70 text-center">
+          <h1 className="font-sans text-xl sm:text-2xl font-semibold text-slate-900 dark:text-slate-100 tracking-tight">
             {pageTitle}
           </h1>
 
           {pageSubtitle && (
-            <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1.5 sm:mt-2 font-sans max-w-md mx-auto">
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 sm:mt-1.5 font-sans max-w-md mx-auto">
               {pageSubtitle}
             </p>
           )}
 
           {/* 实时搜索过滤 (居中摆放) */}
-          <div className="mt-4 sm:mt-5 max-w-md mx-auto relative">
+          <div className="mt-3.5 sm:mt-4 max-w-md mx-auto relative">
             <Search className="w-3.5 h-3.5 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
             <input
               type="text"

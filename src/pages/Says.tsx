@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { MessageSquareQuote, RefreshCw } from 'lucide-react';
+import { RefreshCw } from 'lucide-react';
 import { Container } from '../components/layout/Container';
 import { PageShell } from '../components/layout/PageShell';
 import { RecordCard } from '../components/says/RecordCard';
@@ -19,17 +19,13 @@ export const Says: React.FC = () => {
   return (
     <PageShell>
       <Container size="narrow">
-        {/* 顶部标题区 */}
-        <div className="mb-4 pb-3 sm:mb-10 sm:pb-6 border-b border-slate-200/70 dark:border-slate-800/70 text-center">
-          <div className="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded-sm bg-slate-100 dark:bg-slate-800 text-[11px] font-mono tracking-wider text-slate-600 dark:text-slate-400 mb-2">
-            <MessageSquareQuote className="w-3 h-3 text-sky-600 dark:text-sky-400" />
-            <span>THOUGHTS</span>
-          </div>
-          <h1 className="font-sans text-2xl sm:text-4xl font-semibold text-slate-900 dark:text-slate-100 tracking-tight">
+        {/* 精简居中顶栏 */}
+        <div className="mb-4 pb-3 sm:mb-6 sm:pb-4 border-b border-slate-200/70 dark:border-slate-800/70 text-center">
+          <h1 className="font-sans text-xl sm:text-2xl font-semibold text-slate-900 dark:text-slate-100 tracking-tight">
             {title}
           </h1>
           {subtitle && (
-            <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1.5 sm:mt-2 font-sans max-w-md mx-auto">
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 sm:mt-1.5 font-sans max-w-md mx-auto">
               {subtitle}
             </p>
           )}

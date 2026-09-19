@@ -6,7 +6,6 @@ import { getAllDiaries, getAllFriends, getAllRecords } from '../content';
 import { formatDateShort } from '../lib/date';
 import {
   ExternalLink,
-  BookOpen,
   Sparkles,
 } from 'lucide-react';
 
@@ -17,7 +16,7 @@ export const Sitemap: React.FC = () => {
 
   // 核心主册目次
   const sections = [
-    { name: '首页', nameEn: 'Home', path: '/', desc: 'Chenv 个人主页、简介与动态', count: '1 页面' },
+    { name: '首页', nameEn: 'Home', path: '/', desc: '序栈个人主页、简介与动态', count: '1 页面' },
     { name: '时光归档', nameEn: 'Archives', path: '/archives', desc: '按年份逆序沉淀的全站时光时间轴脉络', count: `${allDiaries.length} 条` },
     { name: '动态手记', nameEn: 'Diaries', path: '/diaries', desc: '生活随笔、日暮微风与真实生活切片', count: `${allDiaries.length} 篇` },
     { name: '日常说说', nameEn: 'Says', path: '/says', desc: '碎片化的即时灵感、微型日志与正在发生的事情', count: `${allRecords.length} 则` },
@@ -30,23 +29,18 @@ export const Sitemap: React.FC = () => {
         {/* 出版级温润纸板大单（宽版心大气舒展） */}
         <article className="paper-sheet-realistic p-6 sm:p-10 md:p-12 font-sans space-y-10 my-4 sm:my-8 text-slate-800 dark:text-slate-200">
 
-          {/* 卷首题头 (Editorial Front Matter) */}
-          <header className="text-center pb-8 border-b border-slate-200/70 dark:border-slate-800/70 space-y-3">
-            <div className="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded-xs bg-slate-100 dark:bg-slate-800 text-[11px] font-mono tracking-wider text-slate-600 dark:text-slate-400">
-              <BookOpen className="w-3 h-3 text-sky-600 dark:text-sky-400" />
-              <span>TOPOGRAPHY &amp; COLOPHON</span>
-            </div>
-
-            <h1 className="font-serif text-2xl sm:text-4xl font-bold text-slate-950 dark:text-slate-50 tracking-tight">
+          {/* 卷首题头 */}
+          <header className="text-center pb-5 sm:pb-6 border-b border-slate-200/70 dark:border-slate-800/70 space-y-2">
+            <h1 className="font-serif text-xl sm:text-2xl font-bold text-slate-950 dark:text-slate-50 tracking-tight">
               全站索隐与架构导览
             </h1>
 
-            <p className="font-serif italic text-xs sm:text-sm text-slate-500 dark:text-slate-400 max-w-xl mx-auto leading-relaxed">
-              &ldquo;Chenv 的个人网站，记录随笔、日记、项目与生活，分享个人的思考、经历与正在做的事情。&rdquo;
+            <p className="font-serif italic text-xs text-slate-500 dark:text-slate-400 max-w-xl mx-auto leading-relaxed">
+              &ldquo;用理性梳理日常，用技术温柔时光&rdquo;
             </p>
 
             {/* 出版元数据摘要条 */}
-            <div className="pt-2 flex items-center justify-center space-x-4 text-[11.5px] font-mono text-slate-400 dark:text-slate-500">
+            <div className="pt-1 flex items-center justify-center space-x-3 text-[11px] font-mono text-slate-400 dark:text-slate-500">
               <span>手记 {allDiaries.length} 篇</span>
               <span>&bull;</span>
               <span>说说 {allRecords.length} 则</span>

@@ -4,10 +4,6 @@ import { Container } from '../components/layout/Container';
 import { PageShell } from '../components/layout/PageShell';
 import { getAllDiaries, siteConfig } from '../content';
 import { formatDateShort, getYear } from '../lib/date';
-import {
-  History,
-  Feather,
-} from 'lucide-react';
 
 interface TimelineItem {
   id: string;
@@ -56,38 +52,22 @@ export const Archives: React.FC = () => {
 
   const archivesPage = siteConfig.archivesPage;
   const pageTitle = archivesPage?.title || '时光归档';
-  const pageSubtitle = archivesPage?.subtitle || `共收录 ${timelineItems.length} 篇生活随笔与手记，依时间轨迹沉淀与梳理。`;
+  const pageSubtitle = archivesPage?.subtitle || `共收录 ${timelineItems.length} 篇随笔与手记。`;
 
   return (
     <PageShell>
       <Container size="narrow">
-        {/* 顶部标题区 (手记同款居中规范) */}
-        <div className="mb-4 pb-3.5 sm:mb-10 sm:pb-6 border-b border-slate-200/70 dark:border-slate-800/70 font-sans text-center">
-          <div className="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded-sm bg-slate-100 dark:bg-slate-800 text-[11px] font-mono tracking-wider text-slate-600 dark:text-slate-400 mb-2">
-            <History className="w-3 h-3 text-sky-600 dark:text-sky-400" />
-            <span>ARCHIVES</span>
-          </div>
-
-          <h1 className="font-sans text-2xl sm:text-4xl font-semibold text-slate-900 dark:text-slate-100 tracking-tight">
+        {/* 精简居中顶栏 */}
+        <div className="mb-4 pb-3 sm:mb-6 sm:pb-4 border-b border-slate-200/70 dark:border-slate-800/70 font-sans text-center">
+          <h1 className="font-sans text-xl sm:text-2xl font-semibold text-slate-900 dark:text-slate-100 tracking-tight">
             {pageTitle}
           </h1>
 
           {pageSubtitle && (
-            <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1.5 sm:mt-2 font-sans max-w-md mx-auto">
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 sm:mt-1.5 font-sans max-w-md mx-auto">
               {pageSubtitle}
             </p>
           )}
-
-          {/* 状态指示胶囊 */}
-          <div className="mt-3.5 sm:mt-5 flex items-center justify-center gap-2">
-            <div className="px-3 py-1.5 rounded-sm text-xs font-sans flex items-center space-x-1.5 bg-sky-50 dark:bg-sky-950/60 text-sky-700 dark:text-sky-300 font-semibold border border-sky-300/80 dark:border-sky-700/80 shadow-2xs">
-              <Feather className="w-3 h-3" />
-              <span>手记随笔</span>
-              <span className="text-[10.5px] font-mono px-1.5 py-0.5 rounded-sm bg-sky-100 dark:bg-sky-900/60 text-sky-700 dark:text-sky-300 font-medium">
-                {timelineItems.length} 篇
-              </span>
-            </div>
-          </div>
         </div>
 
         {/* 垂直时间轴内容流（紧凑年谱排版） */}
