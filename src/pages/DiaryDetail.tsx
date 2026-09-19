@@ -120,7 +120,7 @@ export const DiaryDetail: React.FC = () => {
             {/* 手记纸张大卡片（单栏居中，温润自然） */}
             <article className="p-4 sm:p-7 md:p-8 paper-sheet-realistic space-y-5 text-slate-800 dark:text-slate-200">
               {/* 头部元数据栏 */}
-              <header className="pb-4 border-b border-slate-200/70 dark:border-slate-800/70 space-y-3.5">
+              <header className="pb-4 border-b border-slate-200/70 dark:border-white/5 space-y-3.5">
                 <div className="flex flex-wrap items-center justify-between gap-1.5 text-xs font-mono text-slate-500 dark:text-slate-400">
                   <div className="flex flex-wrap items-center gap-1.5">
                     <span className="flex items-center space-x-1 font-semibold text-slate-800 dark:text-slate-200 font-serif">
@@ -130,7 +130,7 @@ export const DiaryDetail: React.FC = () => {
                     </span>
 
                     {diary.weather && (
-                      <span className="px-1.5 py-0.5 rounded-xs bg-slate-100 dark:bg-slate-800 text-[10.5px] font-sans">
+                      <span className="px-1.5 py-0.5 rounded-xs bg-slate-100 dark:bg-slate-800/80 text-[10.5px] font-sans">
                         {diary.weather}
                       </span>
                     )}
@@ -158,13 +158,13 @@ export const DiaryDetail: React.FC = () => {
                   </div>
                 </div>
 
-                <h1 className="font-serif text-2xl sm:text-3xl font-bold text-slate-950 dark:text-slate-50 tracking-tight leading-snug">
+                <h1 className="font-serif text-2xl sm:text-3xl font-bold text-slate-950 dark:text-slate-200 tracking-tight leading-snug">
                   {diary.title}
                 </h1>
 
                 {/* 摘要与心境引言 */}
                 {diary.summary && (
-                  <div className="p-3.5 rounded-r-md rounded-l-none bg-slate-100/60 dark:bg-slate-900/50 border-l-2 border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-300 text-xs sm:text-sm leading-relaxed font-sans">
+                  <div className="p-3.5 rounded-r-md rounded-l-none bg-slate-100/60 dark:bg-white/[0.04] border-l-2 border-slate-300 dark:border-sky-400/50 text-slate-600 dark:text-slate-300 text-xs sm:text-sm leading-relaxed font-sans">
                     {diary.summary}
                   </div>
                 )}
@@ -175,7 +175,7 @@ export const DiaryDetail: React.FC = () => {
                     {diary.tags.map((t) => (
                       <span
                         key={t}
-                        className="inline-flex items-center space-x-0.5 text-[10.5px] font-mono px-1.5 py-0.5 rounded-xs bg-slate-100 dark:bg-slate-800/80 text-slate-600 dark:text-slate-400 border border-slate-200/50 dark:border-slate-700/50"
+                        className="inline-flex items-center space-x-0.5 text-[10.5px] font-mono px-1.5 py-0.5 rounded-xs bg-slate-100 dark:bg-[#101622] text-slate-600 dark:text-slate-400 border border-slate-200/50 dark:border-white/5"
                       >
                         <Tag className="w-2.5 h-2.5 opacity-50" />
                         <span>{t}</span>
@@ -199,9 +199,9 @@ export const DiaryDetail: React.FC = () => {
               </div>
 
               {/* 底部作者寄语 */}
-              <footer className="mt-6 pt-5 border-t border-slate-200/70 dark:border-slate-800/70 space-y-4">
-                <div className="p-3.5 rounded-md bg-slate-50/80 dark:bg-slate-900/50 border border-slate-200/60 dark:border-slate-800/60 flex items-start space-x-2.5 text-xs text-slate-600 dark:text-slate-400">
-                  <Sparkles className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500 shrink-0 mt-0.5" />
+              <footer className="mt-6 pt-5 border-t border-slate-200/70 dark:border-white/5 space-y-4">
+                <div className="p-3.5 rounded-md bg-slate-50/80 dark:bg-[#101622] border border-slate-200/60 dark:border-white/5 flex items-start space-x-2.5 text-xs text-slate-600 dark:text-slate-400">
+                  <Sparkles className="w-3.5 h-3.5 text-slate-400 dark:text-slate-400 shrink-0 mt-0.5" />
                   <div className="leading-relaxed font-sans">
                     <strong>落纸为念：</strong>
                     生活由散落的切片构成。撰于 <strong>{siteConfig.author.name}</strong> 的生活手记簿，记录当下真实的心境与思考。
@@ -209,7 +209,7 @@ export const DiaryDetail: React.FC = () => {
                 </div>
 
                 {/* 上一篇 / 下一篇手记极简轻量导航（无框纯净排版） */}
-                <nav aria-label="手记上下篇导航" className="pt-4 sm:pt-5 mt-2 sm:mt-3 border-t border-slate-200/70 dark:border-slate-800/60 grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-6">
+                <nav aria-label="手记上下篇导航" className="pt-4 sm:pt-5 mt-2 sm:mt-3 border-t border-slate-200/70 dark:border-white/5 grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-6">
                   {prevDiary ? (
                     <Link
                       href={`/diaries/${prevDiary.slug}`}

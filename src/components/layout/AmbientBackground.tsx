@@ -144,8 +144,8 @@ export const AmbientBackground: React.FC = () => {
         // 使用线性渐变模拟真实下落尾迹（头部亮，尾部暗）
         const grad = ctx.createLinearGradient(startX, startY, endX, endY);
         if (isDark) {
-          grad.addColorStop(0, `rgba(186, 230, 253, ${drop.alpha})`);
-          grad.addColorStop(1, `rgba(186, 230, 253, 0)`);
+          grad.addColorStop(0, `rgba(147, 197, 253, ${drop.alpha * 0.72})`);
+          grad.addColorStop(1, `rgba(147, 197, 253, 0)`);
         } else {
           // 亮色模式使用更深的天蓝色并加重不透明度以提高可见度
           grad.addColorStop(0, `rgba(2, 132, 199, ${Math.min(1, drop.alpha * 2.8)})`);
@@ -156,7 +156,7 @@ export const AmbientBackground: React.FC = () => {
         ctx.moveTo(startX, startY);
         ctx.lineTo(endX, endY);
         ctx.strokeStyle = grad;
-        ctx.lineWidth = Math.max(0.4, 1.5 * drop.z);
+        ctx.lineWidth = Math.max(0.4, (isDark ? 1.3 : 1.5) * drop.z);
         ctx.stroke();
 
         // 推进雨滴位置
@@ -174,7 +174,7 @@ export const AmbientBackground: React.FC = () => {
                 y: drop.splashY,
                 radius: 1,
                 maxRadius: (8 + Math.random() * 10) * drop.z,
-                alpha: (isDark ? 0.2 : 0.45) * drop.z,
+                alpha: (isDark ? 0.16 : 0.45) * drop.z,
                 isClick: false,
               });
             }
@@ -188,7 +188,7 @@ export const AmbientBackground: React.FC = () => {
                   vx: (Math.random() - 0.5) * 2,
                   vy: -(Math.random() * 2 + 1) * drop.z,
                   radius: (Math.random() * 0.8 + 0.4) * drop.z,
-                  alpha: (isDark ? 0.4 : 0.6) * drop.z,
+                  alpha: (isDark ? 0.3 : 0.6) * drop.z,
                   life: 0,
                   maxLife: 20 + Math.random() * 15,
                 });
@@ -214,7 +214,7 @@ export const AmbientBackground: React.FC = () => {
       const particles = splashParticlesRef.current;
       
       if (particles.length > 0) {
-        ctx.fillStyle = isDark ? 'rgba(186, 230, 253, 0.8)' : 'rgba(2, 132, 199, 0.8)';
+        ctx.fillStyle = isDark ? 'rgba(147, 197, 253, 0.55)' : 'rgba(2, 132, 199, 0.8)';
         ctx.beginPath();
         for (let i = 0; i < particles.length; i++) {
           const p = particles[i];
@@ -253,8 +253,8 @@ export const AmbientBackground: React.FC = () => {
           ctx.ellipse(r.x, r.y, r.radius, r.radius * 0.45, 0, 0, Math.PI * 2);
 
           if (isDark) {
-            ctx.strokeStyle = `rgba(186, 230, 253, ${r.alpha * 0.8})`;
-            ctx.fillStyle = `rgba(56, 189, 248, ${r.alpha * 0.04})`;
+            ctx.strokeStyle = `rgba(147, 197, 253, ${r.alpha * 0.65})`;
+            ctx.fillStyle = `rgba(56, 189, 248, ${r.alpha * 0.035})`;
           } else {
             // 亮色模式使用深蓝并加重 alpha
             ctx.strokeStyle = `rgba(2, 132, 199, ${r.alpha * 1.5})`;
@@ -338,12 +338,12 @@ export const AmbientBackground: React.FC = () => {
       aria-hidden="true"
       className="fixed inset-0 pointer-events-none -z-20 overflow-hidden select-none transition-colors duration-500"
     >
-      {/* 柔和淡天蓝纯净基底渐变 */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#EDF5FD] via-[#F4F8FC] to-[#F7F9FC] dark:from-[#0B121D] dark:via-[#090F18] dark:to-[#070B12]" />
+      {/* 柔和淡天蓝与深海微蓝纯净基底渐变 */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#EDF5FD] via-[#F4F8FC] to-[#F7F9FC] dark:from-[#0E1420] dark:via-[#0C121D] dark:to-[#0A0E18]" />
 
-      {/* 顶部微蓝柔光穹顶：居中大尺寸高斯漫射微光，超舒缓 22s 呼吸阻尼 */}
+      {/* 亮色专属顶部微蓝柔光穹顶 */}
       <div
-        className="absolute -top-[12%] left-1/2 w-[460px] sm:w-[840px] lg:w-[1040px] h-[380px] sm:h-[540px] lg:h-[660px] rounded-[100%] opacity-80 dark:opacity-35 blur-[110px] sm:blur-[150px] transition-all duration-1000"
+        className="dark:hidden absolute -top-[12%] left-1/2 w-[460px] sm:w-[840px] lg:w-[1040px] h-[380px] sm:h-[540px] lg:h-[660px] rounded-[100%] opacity-80 blur-[110px] sm:blur-[150px] transition-all duration-1000"
         style={{
           background:
             'radial-gradient(ellipse at center, rgba(160, 218, 255, 0.42) 0%, rgba(186, 230, 253, 0.2) 45%, rgba(224, 242, 254, 0.08) 70%, transparent 80%)',
@@ -352,19 +352,19 @@ export const AmbientBackground: React.FC = () => {
         }}
       />
 
-      {/* 暗色模式专属深海柔蓝微光漫射（极低对比度，消除刺眼光感） */}
+      {/* 暗色模式极度柔和广域天际微晖（超大直径漫射，彻底消除局部硬光斑，温润如夜空薄雾） */}
       <div
-        className="hidden dark:block absolute -top-[8%] left-1/2 w-[740px] lg:w-[960px] h-[500px] rounded-[100%] opacity-35 blur-[140px]"
+        className="hidden dark:block absolute -top-[14%] left-1/2 w-[900px] lg:w-[1280px] h-[640px] rounded-[100%] opacity-20 blur-[180px] sm:blur-[220px]"
         style={{
           background:
-            'radial-gradient(ellipse at center, rgba(56, 130, 210, 0.32) 0%, rgba(30, 64, 115, 0.16) 50%, transparent 75%)',
-          animation: 'ambientBreathGlow 24s ease-in-out infinite reverse',
+            'radial-gradient(ellipse at center, rgba(56, 130, 210, 0.16) 0%, rgba(24, 52, 96, 0.08) 50%, transparent 75%)',
+          animation: 'ambientBreathGlow 28s ease-in-out infinite',
           willChange: 'transform',
         }}
       />
 
-      {/* 极细腻微点网格遮罩，赋予纸张触感 */}
-      <div className="absolute inset-0 bg-paper-texture opacity-40 dark:opacity-20" />
+      {/* 亮色细腻微点网格遮罩，暗色完全隐藏以保画面纯净清透 */}
+      <div className="absolute inset-0 bg-paper-texture opacity-40 dark:hidden" />
 
       {/* 60FPS 极轻量微雨丝与沉浸水波 Canvas */}
       <canvas

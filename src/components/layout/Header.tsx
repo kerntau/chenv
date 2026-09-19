@@ -186,7 +186,7 @@ export const Header: React.FC = () => {
           >
               <nav
                 ref={navRef}
-                className="flex items-center p-1 rounded-md bg-white/70 dark:bg-slate-900/65 backdrop-blur-xl border border-white/80 dark:border-white/10 shadow-[0_4px_20px_-2px_rgba(15,23,42,0.06),inset_0_1px_0_0_rgba(255,255,255,0.9)] dark:shadow-[0_4px_24px_-2px_rgba(0,0,0,0.45),inset_0_1px_0_0_rgba(255,255,255,0.08)] gap-0.5 text-xs max-w-full overflow-x-auto transition-colors"
+                className="flex items-center p-1 rounded-md bg-white/70 dark:bg-[#0B101B]/60 backdrop-blur-2xl border border-white/80 dark:border-white/[0.09] shadow-[0_4px_20px_-2px_rgba(15,23,42,0.06),inset_0_1px_0_0_rgba(255,255,255,0.9)] dark:shadow-[0_8px_32px_-4px_rgba(0,0,0,0.5),inset_0_1px_0_0_rgba(255,255,255,0.12)] gap-0.5 text-xs max-w-full overflow-x-auto transition-colors"
               >
                 {navLinks.map((link) => {
                   const isExt = link.isExternal || link.href.startsWith('http');
@@ -200,7 +200,7 @@ export const Header: React.FC = () => {
                         href={link.href}
                         target="_blank"
                         rel="noreferrer"
-                        className="relative px-2.5 py-1 rounded-sm transition-all duration-150 select-none flex items-center justify-center gap-1.5 shrink-0 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-white/60 dark:hover:bg-white/10"
+                        className="relative px-2.5 py-1 rounded-sm transition-all duration-150 select-none flex items-center justify-center gap-1.5 shrink-0 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-white/60 dark:hover:bg-white/[0.08]"
                       >
                         <span className="leading-none translate-y-[0.5px]">{link.label}</span>
                         <ArrowUpRight className="w-3 h-3 opacity-60 ml-[-2px]" />
@@ -216,19 +216,19 @@ export const Header: React.FC = () => {
                       onClick={handleItemClick}
                       className={`relative px-2.5 py-1 rounded-sm transition-all duration-150 select-none flex items-center justify-center gap-1.5 shrink-0 ${
                         active
-                          ? 'text-slate-950 dark:text-slate-50 font-medium'
-                          : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-white/60 dark:hover:bg-white/10'
+                          ? 'text-slate-950 dark:text-white font-medium'
+                          : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-white/60 dark:hover:bg-white/[0.08]'
                       }`}
                     >
-                      {/* 静态的选中项小矩形卡片 */}
+                      {/* 静态的选中项水晶胶囊薄片 */}
                       {active && (
                         <span
-                          className="absolute inset-0 rounded-sm bg-white/90 dark:bg-slate-800/90 backdrop-blur-md border border-white dark:border-slate-700/70 shadow-[0_1px_3px_rgba(0,0,0,0.05),inset_0_1px_0_0_rgba(255,255,255,0.95)] dark:shadow-[0_1px_4px_rgba(0,0,0,0.4),inset_0_1px_0_0_rgba(255,255,255,0.1)] pointer-events-none -z-10 transition-all duration-300"
+                          className="absolute inset-0 rounded-sm bg-white/90 dark:bg-gradient-to-b dark:from-white/[0.14] dark:to-white/[0.04] backdrop-blur-xl border border-white dark:border-white/20 shadow-[0_1px_3px_rgba(0,0,0,0.05),inset_0_1px_0_0_rgba(255,255,255,0.95)] dark:shadow-[0_2px_8px_rgba(0,0,0,0.35),inset_0_1px_0_0_rgba(255,255,255,0.26)] pointer-events-none -z-10 transition-all duration-300"
                         />
                       )}
                       {/* 选中项专属图标 */}
                       {active && (
-                        <IconComponent className="w-3.5 h-3.5 opacity-90 text-slate-800 dark:text-slate-200 flex-shrink-0" />
+                        <IconComponent className="w-3.5 h-3.5 opacity-90 text-slate-800 dark:text-white flex-shrink-0" />
                       )}
                       <span className="leading-none translate-y-[0.5px]">{link.label}</span>
                     </Link>

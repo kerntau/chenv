@@ -139,11 +139,11 @@ export const NavHoverPopover: React.FC<NavHoverPopoverProps> = ({
           {/* 顶部指示微型三角箭头 (跟随激活项平滑滑动) */}
           <div
             ref={arrowRef}
-            className="absolute -top-1.5 w-3 h-3 rotate-45 bg-white/80 dark:bg-[#0E1624]/85 border-t border-l border-white/80 dark:border-white/10 backdrop-blur-2xl -translate-x-1/2 z-10 pointer-events-none shadow-[-2px_-2px_4px_rgba(0,0,0,0.02)]"
+            className="absolute -top-1.5 w-3 h-3 rotate-45 bg-white/80 dark:bg-[#0B101B]/90 border-t border-l border-white/80 dark:border-white/[0.09] backdrop-blur-2xl -translate-x-1/2 z-10 pointer-events-none shadow-[-2px_-2px_4px_rgba(0,0,0,0.02)]"
           />
 
           {/* 弹窗核心卡片容器 */}
-          <div className="w-full rounded-md bg-white/80 dark:bg-[#0E1624]/85 backdrop-blur-2xl border border-white/80 dark:border-white/10 shadow-[0_20px_50px_-8px_rgba(15,23,42,0.15),0_6px_20px_-3px_rgba(15,23,42,0.06),inset_0_1px_0_0_rgba(255,255,255,0.9)] dark:shadow-[0_20px_50px_-8px_rgba(0,0,0,0.65),inset_0_1px_0_0_rgba(255,255,255,0.1)] overflow-hidden text-slate-800 dark:text-slate-200">
+          <div className="w-full rounded-md bg-white/80 dark:bg-[#0B101B]/90 backdrop-blur-2xl border border-white/80 dark:border-white/[0.09] shadow-[0_20px_50px_-8px_rgba(15,23,42,0.15),0_6px_20px_-3px_rgba(15,23,42,0.06),inset_0_1px_0_0_rgba(255,255,255,0.9)] dark:shadow-[0_24px_50px_-10px_rgba(0,0,0,0.7),inset_0_1px_0_0_rgba(255,255,255,0.12)] overflow-hidden text-slate-800 dark:text-slate-200">
             
             {/* 1. 归档 (Archives) 悬浮面板 */}
             {activeKey === '/archives' && (
@@ -161,7 +161,7 @@ export const NavHoverPopover: React.FC<NavHoverPopoverProps> = ({
                         key={diary.slug}
                         href={`/diaries/${diary.slug}`}
                         onClick={onItemClick}
-                        className="group flex items-center justify-between p-2.5 rounded-md border border-white/60 dark:border-white/5 hover:border-sky-300/80 dark:hover:border-sky-700/80 hover:bg-white/70 dark:hover:bg-white/10 shadow-2xs transition-all"
+                        className="group flex items-center justify-between p-2.5 rounded-md border border-white/60 dark:border-white/[0.06] hover:border-sky-300/80 dark:hover:border-white/20 hover:bg-white/70 dark:hover:bg-white/[0.06] shadow-2xs transition-all"
                       >
                         <div className="flex items-center space-x-2.5 min-w-0 pr-2">
                           <span className="text-[10px] font-mono text-slate-400 shrink-0">
@@ -171,7 +171,7 @@ export const NavHoverPopover: React.FC<NavHoverPopoverProps> = ({
                             {diary.title}
                           </span>
                         </div>
-                        <span className="text-[9.5px] font-mono px-1.5 py-0.5 rounded-xs bg-slate-100 dark:bg-slate-800 text-slate-400 shrink-0">
+                        <span className="text-[9.5px] font-mono px-1.5 py-0.5 rounded-xs bg-slate-100 dark:bg-white/[0.06] text-slate-400 shrink-0">
                           手记随笔
                         </span>
                       </Link>
@@ -179,7 +179,7 @@ export const NavHoverPopover: React.FC<NavHoverPopoverProps> = ({
                   </div>
                 </div>
 
-                <div className="px-4 py-2.5 bg-white/50 dark:bg-black/25 backdrop-blur-md border-t border-slate-200/50 dark:border-white/5 flex items-center justify-between text-xs">
+                <div className="px-4 py-2.5 bg-white/50 dark:bg-white/[0.03] backdrop-blur-md border-t border-slate-200/50 dark:border-white/[0.06] flex items-center justify-between text-xs">
                   <Link
                     href="/archives"
                     onClick={onItemClick}
@@ -209,7 +209,7 @@ export const NavHoverPopover: React.FC<NavHoverPopoverProps> = ({
                         key={diary.slug}
                         href={`/diaries/${diary.slug}`}
                         onClick={onItemClick}
-                        className="block p-3 rounded-md border border-white/60 dark:border-white/5 hover:border-sky-300/80 dark:hover:border-sky-700/80 hover:bg-white/70 dark:hover:bg-white/10 shadow-2xs transition-all group"
+                        className="block p-3 rounded-md border border-white/60 dark:border-white/[0.06] hover:border-sky-300/80 dark:hover:border-white/20 hover:bg-white/70 dark:hover:bg-white/[0.06] shadow-2xs transition-all group"
                       >
                         <div className="flex items-center justify-between text-[10px] font-mono text-slate-400 mb-1">
                           <span>{formatDateShort(diary.date)}</span>
@@ -232,7 +232,7 @@ export const NavHoverPopover: React.FC<NavHoverPopoverProps> = ({
                   </div>
                 </div>
 
-                <div className="px-4 py-2.5 bg-white/50 dark:bg-black/25 backdrop-blur-md border-t border-slate-200/50 dark:border-white/5 flex items-center justify-between text-xs">
+                <div className="px-4 py-2.5 bg-white/50 dark:bg-white/[0.03] backdrop-blur-md border-t border-slate-200/50 dark:border-white/[0.06] flex items-center justify-between text-xs">
                   <Link
                     href="/diaries"
                     onClick={onItemClick}
@@ -262,7 +262,7 @@ export const NavHoverPopover: React.FC<NavHoverPopoverProps> = ({
                         key={record.id}
                         href="/says"
                         onClick={onItemClick}
-                        className="block p-3 rounded-md border border-white/60 dark:border-white/5 hover:border-sky-300/80 dark:hover:border-sky-700/80 hover:bg-white/70 dark:hover:bg-white/10 shadow-2xs transition-all group"
+                        className="block p-3 rounded-md border border-white/60 dark:border-white/[0.06] hover:border-sky-300/80 dark:hover:border-white/20 hover:bg-white/70 dark:hover:bg-white/[0.06] shadow-2xs transition-all group"
                       >
                         <p className="text-xs text-slate-700 dark:text-slate-300 line-clamp-2 leading-relaxed">
                           {record.content}
@@ -280,7 +280,7 @@ export const NavHoverPopover: React.FC<NavHoverPopoverProps> = ({
                   </div>
                 </div>
 
-                <div className="px-4 py-2.5 bg-white/50 dark:bg-black/25 backdrop-blur-md border-t border-slate-200/50 dark:border-white/5 flex items-center justify-between text-xs">
+                <div className="px-4 py-2.5 bg-white/50 dark:bg-white/[0.03] backdrop-blur-md border-t border-slate-200/50 dark:border-white/[0.06] flex items-center justify-between text-xs">
                   <Link
                     href="/says"
                     onClick={onItemClick}
@@ -311,9 +311,9 @@ export const NavHoverPopover: React.FC<NavHoverPopoverProps> = ({
                         href={friend.link}
                         target="_blank"
                         rel="noreferrer"
-                        className="p-2.5 rounded-md border border-white/60 dark:border-white/5 hover:border-sky-300/80 dark:hover:border-sky-700/80 hover:bg-white/70 dark:hover:bg-white/10 shadow-2xs transition-all group flex items-start space-x-2.5"
+                        className="p-2.5 rounded-md border border-white/60 dark:border-white/[0.06] hover:border-sky-300/80 dark:hover:border-white/20 hover:bg-white/70 dark:hover:bg-white/[0.06] shadow-2xs transition-all group flex items-start space-x-2.5"
                       >
-                        <div className="w-7 h-7 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 flex items-center justify-center font-bold text-xs shrink-0 overflow-hidden border border-slate-200/50 dark:border-slate-700/50">
+                        <div className="w-7 h-7 rounded-md bg-slate-100 dark:bg-white/[0.06] text-slate-800 dark:text-slate-200 flex items-center justify-center font-bold text-xs shrink-0 overflow-hidden border border-slate-200/50 dark:border-white/[0.08]">
                           {friend.avatar ? (
                             <img src={friend.avatar} alt={friend.name} className="w-full h-full object-cover" />
                           ) : (
@@ -338,7 +338,7 @@ export const NavHoverPopover: React.FC<NavHoverPopoverProps> = ({
                   </div>
                 </div>
 
-                <div className="px-4 py-2.5 bg-white/50 dark:bg-black/25 backdrop-blur-md border-t border-slate-200/50 dark:border-white/5 flex items-center justify-between text-xs">
+                <div className="px-4 py-2.5 bg-white/50 dark:bg-white/[0.03] backdrop-blur-md border-t border-slate-200/50 dark:border-white/[0.06] flex items-center justify-between text-xs">
                   <Link
                     href="/friends"
                     onClick={onItemClick}

@@ -21,8 +21,8 @@ export const Diaries: React.FC = () => {
     <PageShell>
       <Container size="wide">
         {/* 精简居中顶栏 */}
-        <div className="mb-4 pb-3 sm:mb-6 sm:pb-4 border-b border-slate-200/70 dark:border-slate-800/70 text-center">
-          <h1 className="font-sans text-xl sm:text-2xl font-semibold text-slate-900 dark:text-slate-100 tracking-tight">
+        <div className="mb-4 pb-3 sm:mb-6 sm:pb-4 border-b border-slate-200/70 dark:border-white/5 text-center">
+          <h1 className="font-sans text-xl sm:text-2xl font-semibold text-slate-900 dark:text-slate-200 tracking-tight">
             {pageTitle}
           </h1>
           {pageSubtitle && (
@@ -38,7 +38,7 @@ export const Diaries: React.FC = () => {
             <Link
               key={diary.slug}
               href={`/diaries/${diary.slug}`}
-              className="p-3.5 sm:p-4 rounded-md glass-card hover:-translate-y-1.5 hover:!border-sky-300/80 dark:hover:!border-sky-600/50 hover:bg-white/90 dark:hover:bg-slate-900/80 hover:shadow-[0_12px_28px_-4px_rgba(15,23,42,0.08),inset_0_1px_0_0_rgba(255,255,255,0.95)] dark:hover:shadow-[0_12px_32px_-4px_rgba(0,0,0,0.5),inset_0_1px_0_0_rgba(255,255,255,0.12)] transition-all duration-300 ease-out group flex flex-col justify-between block"
+              className="p-3.5 sm:p-4 rounded-md paper-card hover:-translate-y-0.5 hover:bg-white/90 transition-all duration-250 ease-out group flex flex-col justify-between block"
             >
               <div>
                 {/* 顶部元数据头：天气、心情、时间与地点 */}
@@ -51,7 +51,7 @@ export const Diaries: React.FC = () => {
 
                   <div className="flex items-center space-x-1.5 text-[10.5px] shrink-0">
                     {diary.weather && (
-                      <span className="px-1.5 py-0.5 rounded-xs bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400">
+                      <span className="px-1.5 py-0.5 rounded-xs bg-slate-100 dark:bg-slate-800/80 text-slate-600 dark:text-slate-400">
                         {diary.weather}
                       </span>
                     )}
@@ -71,7 +71,7 @@ export const Diaries: React.FC = () => {
 
                 {/* 标题与摘要导言 */}
                 <div className="space-y-1.5">
-                  <h2 className="font-serif text-base sm:text-[17px] font-semibold text-slate-900 dark:text-slate-100 group-hover:text-slate-950 dark:group-hover:text-white transition-colors leading-snug line-clamp-2">
+                  <h2 className="font-serif text-base sm:text-[17px] font-semibold text-slate-900 dark:text-slate-200 group-hover:text-slate-950 dark:group-hover:text-sky-200 transition-colors leading-snug line-clamp-2">
                     {diary.title}
                   </h2>
                   {diary.summary && (
@@ -92,7 +92,7 @@ export const Diaries: React.FC = () => {
         )}
 
         {/* 底部手札卷尾 · 纸上印记与感言 */}
-        <div className="mt-14 relative overflow-hidden p-5 sm:p-6 rounded-md border border-white/80 dark:border-white/10 bg-white/70 dark:bg-slate-900/65 backdrop-blur-xl shadow-[0_10px_30px_-4px_rgba(15,23,42,0.05),inset_0_1px_0_0_rgba(255,255,255,0.9)] dark:shadow-[0_12px_32px_-4px_rgba(0,0,0,0.4),inset_0_1px_0_0_rgba(255,255,255,0.08)]">
+        <div className="mt-14 relative overflow-hidden p-5 sm:p-6 rounded-md border border-white/80 dark:border-white/[0.08] bg-white/70 dark:bg-[#0B101B]/60 backdrop-blur-2xl shadow-[0_10px_30px_-4px_rgba(15,23,42,0.05),inset_0_1px_0_0_rgba(255,255,255,0.9)] dark:shadow-[0_12px_36px_-4px_rgba(0,0,0,0.4),inset_0_1px_0_0_rgba(255,255,255,0.12)]">
           {/* 背景轻柔艺术双引号水印 */}
           <div className="absolute right-4 -bottom-4 text-slate-200/40 dark:text-slate-800/30 select-none pointer-events-none font-serif text-8xl leading-none">
             &rdquo;
