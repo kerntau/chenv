@@ -1,29 +1,31 @@
-export function formatDate(dateString: string): string {
+export function formatDate(dateInput: number | string): string {
   try {
-    const date = new Date(dateString);
+    const num = Number(dateInput);
+    const date = new Date(!isNaN(num) && num > 0 ? num : dateInput);
     if (isNaN(date.getTime())) {
-      return dateString;
+      return String(dateInput);
     }
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
     return `${year}年${month}月${day}日`;
   } catch {
-    return dateString;
+    return String(dateInput);
   }
 }
 
-export function formatDateShort(dateString: string): string {
+export function formatDateShort(dateInput: number | string): string {
   try {
-    const date = new Date(dateString);
+    const num = Number(dateInput);
+    const date = new Date(!isNaN(num) && num > 0 ? num : dateInput);
     if (isNaN(date.getTime())) {
-      return dateString;
+      return String(dateInput);
     }
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
     return `${month}-${day}`;
   } catch {
-    return dateString;
+    return String(dateInput);
   }
 }
 
@@ -39,14 +41,18 @@ export function getYear(dateString: string): string {
   }
 }
 
-export function formatRelativeTime(dateString: string): string {
+export function formatRelativeTime(dateInput: number | string): string {
   try {
-    const date = new Date(dateString);
+    const num = Number(dateInput);
+    const date = new Date(!isNaN(num) && num > 0 ? num : dateInput);
     if (isNaN(date.getTime())) {
-      return dateString;
+      return String(dateInput);
     }
     const now = new Date();
     const diffMs = now.getTime() - date.getTime();
+    if (diffMs < 0) {
+      return formatDate(dateInput);
+    }
     const diffSec = Math.floor(diffMs / 1000);
     const diffMin = Math.floor(diffSec / 60);
     const diffHour = Math.floor(diffMin / 60);
@@ -65,9 +71,9 @@ export function formatRelativeTime(dateString: string): string {
       const months = Math.floor(diffDay / 30);
       return `${months} 个月前`;
     }
-    return formatDate(dateString);
+    return formatDate(dateInput);
   } catch {
-    return dateString;
+    return String(dateInput);
   }
 }
 

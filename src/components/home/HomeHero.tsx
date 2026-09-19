@@ -112,7 +112,7 @@ export const HomeHero: React.FC = () => {
         {skillsPills && (
           <div className="mt-2 sm:mt-2.5 flex items-center justify-center gap-1.5 flex-wrap">
             <span className="font-light opacity-75 text-xs sm:text-sm">with</span>
-            <code className="inline-flex items-center font-sans text-xs sm:text-[12.5px] font-medium px-2.5 py-0.5 rounded-md text-slate-700 dark:text-slate-200 border border-sky-200/60 dark:border-sky-900/40 bg-sky-50/50 dark:bg-sky-950/30">
+            <code className="inline-flex items-center font-sans text-xs sm:text-[12.5px] font-medium px-2.5 py-0.5 rounded-md text-slate-700 dark:text-slate-200 border border-white/80 dark:border-white/10 bg-white/60 dark:bg-white/5 backdrop-blur-md shadow-2xs">
               {skillsPills}
             </code>
             <span className="inline-block w-[2px] h-3 bg-sky-500/80 dark:bg-sky-400/80 rounded-full animate-[blink_1.2s_linear_infinite]" />
@@ -148,7 +148,7 @@ export const HomeHero: React.FC = () => {
                 target={social.url.startsWith('http') ? '_blank' : '_self'}
                 rel="noreferrer"
                 aria-label={social.name}
-                className="group/social relative flex items-center justify-center w-8 h-8 sm:w-8.5 sm:h-8.5 rounded-full text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/60 dark:hover:bg-slate-800 transition-all duration-200 focus-visible:outline-none"
+                className="group/social relative flex items-center justify-center w-8 h-8 sm:w-8.5 sm:h-8.5 rounded-full text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-white/80 dark:hover:bg-white/10 hover:shadow-2xs transition-all duration-200 focus-visible:outline-none"
               >
                 <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                 {/* 悬浮 Tooltip */}
@@ -165,7 +165,7 @@ export const HomeHero: React.FC = () => {
       {/* 建站初期演示公告条 */}
       {siteConfig.announcement?.enabled && (
         <div className="gsap-hero-announcement opacity-0 mt-3 sm:mt-4 lg:mt-3 max-w-lg mx-auto w-full px-2">
-          <div className="flex items-center justify-between gap-3 px-3 py-1.5 rounded-lg bg-white/75 dark:bg-slate-900/60 border border-slate-200/70 dark:border-slate-800/60 text-xs font-sans text-slate-700 dark:text-slate-200 shadow-2xs">
+          <div className="flex items-center justify-between gap-3 px-3.5 py-1.5 rounded-lg bg-white/70 dark:bg-slate-900/65 backdrop-blur-xl border border-white/80 dark:border-white/10 text-xs font-sans text-slate-700 dark:text-slate-200 shadow-[0_4px_16px_-2px_rgba(15,23,42,0.05),inset_0_1px_0_0_rgba(255,255,255,0.9)] dark:shadow-[0_4px_16px_-2px_rgba(0,0,0,0.35),inset_0_1px_0_0_rgba(255,255,255,0.08)]">
             <div className="flex items-center gap-2 min-w-0 text-left">
               <span className="shrink-0 inline-flex items-center gap-1 px-1.5 py-0.5 rounded-xs text-[10.5px] font-mono font-medium bg-sky-50 dark:bg-sky-950/40 text-sky-700 dark:text-sky-300 border border-sky-200/50 dark:border-sky-800/40">
                 <Megaphone className="w-3 h-3 text-sky-600 dark:text-sky-400" />

@@ -65,7 +65,7 @@ export const Sitemap: React.FC = () => {
                 <Link
                   key={sec.path}
                   href={sec.path}
-                  className="group block p-4 rounded bg-slate-50/70 dark:bg-slate-900/40 border border-slate-200/60 dark:border-slate-800/60 hover:border-sky-300/80 dark:hover:border-sky-800/80 transition-all shadow-2xs hover:shadow-sm"
+                  className="group block p-4 rounded-md bg-white/60 dark:bg-black/25 backdrop-blur-md border border-white/80 dark:border-white/10 hover:border-sky-300/80 dark:hover:border-sky-600/50 hover:bg-white/80 dark:hover:bg-black/40 transition-all shadow-2xs hover:shadow-sm"
                 >
                   <div className="flex items-baseline justify-between">
                     <div className="flex items-baseline space-x-2">
@@ -76,7 +76,7 @@ export const Sitemap: React.FC = () => {
                         {sec.nameEn}
                       </span>
                     </div>
-                    <span className="font-mono text-[11px] px-1.5 py-0.5 rounded-xs bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400 border border-slate-200/50 dark:border-slate-700/50">
+                    <span className="font-mono text-[11px] px-1.5 py-0.5 rounded-xs bg-white/80 dark:bg-slate-800 text-slate-500 dark:text-slate-400 border border-slate-200/50 dark:border-slate-700/50">
                       {sec.count}
                     </span>
                   </div>
@@ -125,7 +125,7 @@ export const Sitemap: React.FC = () => {
 
           {/* 卷末附录：机器索引与订阅声明 (Colophon & Feeds) */}
           <footer className="pt-6 border-t border-slate-200/70 dark:border-slate-800/70 space-y-3">
-            <div className="p-4 rounded-xs bg-slate-50/70 dark:bg-slate-900/40 border border-slate-200/60 dark:border-slate-800/60 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
+            <div className="p-4 rounded-md bg-white/60 dark:bg-black/25 backdrop-blur-md border border-white/80 dark:border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs shadow-2xs">
               <div className="space-y-0.5">
                 <div className="font-semibold text-slate-900 dark:text-slate-100 flex items-center gap-1.5">
                   <Sparkles className="w-3.5 h-3.5 text-sky-600 dark:text-sky-400" />

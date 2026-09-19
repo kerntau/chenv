@@ -44,7 +44,7 @@ export const Says: React.FC = () => {
           <button
             type="button"
             onClick={() => setPage((value) => value + 1)}
-            className="mx-auto mt-7 flex min-h-9 items-center gap-2 rounded-md bg-white/80 dark:bg-slate-900/80 border border-slate-200/80 dark:border-slate-800 px-4 py-2 text-xs font-mono text-slate-600 hover:text-sky-600 dark:text-slate-300 dark:hover:text-sky-400 hover:bg-slate-50 dark:hover:bg-slate-850 shadow-2xs transition-all cursor-pointer"
+            className="mx-auto mt-7 flex min-h-9 items-center gap-2 rounded-md bg-white/70 dark:bg-slate-900/65 backdrop-blur-md border border-white/80 dark:border-white/10 px-4 py-2 text-xs font-mono text-slate-600 hover:text-sky-600 dark:text-slate-300 dark:hover:text-sky-400 hover:bg-white/90 dark:hover:bg-slate-800/80 shadow-2xs transition-all cursor-pointer"
           >
             <RefreshCw className="h-3.5 w-3.5" /> 加载更多动态
           </button>

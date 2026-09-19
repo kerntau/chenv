@@ -68,9 +68,9 @@ export const ExternalLinkModal: React.FC<ExternalLinkModalProps> = ({
   return (
     <Dialog.Root open={isOpen} onOpenChange={(open) => !open && handleCancel()}>
       <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 bg-slate-900/40 dark:bg-black/60 backdrop-blur-sm z-[100] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" />
+        <Dialog.Overlay className="fixed inset-0 bg-slate-900/40 dark:bg-black/60 backdrop-blur-md z-[100] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" />
         
-        <Dialog.Content className="fixed left-[50%] top-[50%] z-[100] w-[90%] max-w-[400px] translate-x-[-50%] translate-y-[-50%] rounded bg-white/95 dark:bg-[#0E1624]/95 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 shadow-[0_20px_50px_-10px_rgba(0,0,0,0.15),0_0_1px_rgba(0,0,0,0.1)] overflow-hidden font-sans outline-none duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]">
+        <Dialog.Content className="fixed left-[50%] top-[50%] z-[100] w-[90%] max-w-[400px] translate-x-[-50%] translate-y-[-50%] rounded-md bg-white/80 dark:bg-[#0E1624]/85 backdrop-blur-2xl border border-white/80 dark:border-white/10 shadow-[0_20px_50px_-10px_rgba(15,23,42,0.2),inset_0_1px_0_0_rgba(255,255,255,0.9)] dark:shadow-[0_20px_50px_-10px_rgba(0,0,0,0.65),inset_0_1px_0_0_rgba(255,255,255,0.1)] overflow-hidden font-sans outline-none duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]">
           
           <div className="p-5 space-y-4">
             {/* 头部：精致盾牌与标题 */}
@@ -91,7 +91,7 @@ export const ExternalLinkModal: React.FC<ExternalLinkModalProps> = ({
             </div>
 
             {/* 目标链接干净展示框 */}
-            <div className="rounded-sm bg-slate-50 dark:bg-slate-900/50 border border-slate-200/60 dark:border-slate-800/70 p-3 space-y-1">
+            <div className="rounded-md bg-white/50 dark:bg-black/30 backdrop-blur-md border border-white/70 dark:border-white/5 p-3 space-y-1 shadow-2xs">
               <div className="flex items-center justify-between gap-2 text-[10.5px] font-mono text-slate-400 dark:text-slate-500">
                 <span>目标域名</span>
                 {parsedUrl && (

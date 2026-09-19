@@ -38,11 +38,11 @@ export const Diaries: React.FC = () => {
             <Link
               key={diary.slug}
               href={`/diaries/${diary.slug}`}
-              className="p-3.5 sm:p-4 rounded border border-slate-200/70 dark:border-slate-800/70 bg-white/75 dark:bg-slate-900/60 shadow-[0_1px_3px_rgba(15,23,42,0.03),0_4px_12px_-2px_rgba(15,23,42,0.03)] hover:shadow-[0_8px_22px_-4px_rgba(15,23,42,0.08),0_2px_6px_-1px_rgba(15,23,42,0.04)] hover:-translate-y-1 hover:border-sky-200/90 dark:hover:border-sky-800/80 hover:bg-white/95 dark:hover:bg-slate-900/85 transition-all duration-300 ease-out group flex flex-col justify-between block"
+              className="p-3.5 sm:p-4 rounded-md glass-card hover:-translate-y-1.5 hover:!border-sky-300/80 dark:hover:!border-sky-600/50 hover:bg-white/90 dark:hover:bg-slate-900/80 hover:shadow-[0_12px_28px_-4px_rgba(15,23,42,0.08),inset_0_1px_0_0_rgba(255,255,255,0.95)] dark:hover:shadow-[0_12px_32px_-4px_rgba(0,0,0,0.5),inset_0_1px_0_0_rgba(255,255,255,0.12)] transition-all duration-300 ease-out group flex flex-col justify-between block"
             >
               <div>
                 {/* 顶部元数据头：天气、心情、时间与地点 */}
-                <div className="flex items-center justify-between gap-2 text-xs font-mono text-slate-500 dark:text-slate-400 pb-2.5 border-b border-slate-100/80 dark:border-slate-800/60 mb-2.5">
+                <div className="flex items-center justify-between gap-2 text-xs font-mono text-slate-500 dark:text-slate-400 pb-2.5 border-b border-slate-200/50 dark:border-white/5 mb-2.5">
                   <div className="flex items-center space-x-1.5 font-medium text-slate-800 dark:text-slate-200">
                     <Calendar className="w-3.5 h-3.5 text-sky-600 dark:text-sky-400 shrink-0" />
                     <time dateTime={diary.date}>{formatDate(diary.date)}</time>
@@ -92,7 +92,7 @@ export const Diaries: React.FC = () => {
         )}
 
         {/* 底部手札卷尾 · 纸上印记与感言 */}
-        <div className="mt-14 relative overflow-hidden p-5 sm:p-6 rounded-sm border border-slate-200/70 dark:border-slate-800/70 bg-gradient-to-b from-white/90 via-slate-50/70 to-slate-100/40 dark:from-[#18181A]/95 dark:via-[#151518]/90 dark:to-[#101012]/80 shadow-xs">
+        <div className="mt-14 relative overflow-hidden p-5 sm:p-6 rounded-md border border-white/80 dark:border-white/10 bg-white/70 dark:bg-slate-900/65 backdrop-blur-xl shadow-[0_10px_30px_-4px_rgba(15,23,42,0.05),inset_0_1px_0_0_rgba(255,255,255,0.9)] dark:shadow-[0_12px_32px_-4px_rgba(0,0,0,0.4),inset_0_1px_0_0_rgba(255,255,255,0.08)]">
           {/* 背景轻柔艺术双引号水印 */}
           <div className="absolute right-4 -bottom-4 text-slate-200/40 dark:text-slate-800/30 select-none pointer-events-none font-serif text-8xl leading-none">
             &rdquo;

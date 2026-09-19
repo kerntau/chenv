@@ -9,12 +9,18 @@ const config: Config = {
       colors: {
         paper: {
           light: '#F3F7FC',
-          card: 'rgba(255, 255, 255, 0.88)',
+          card: 'rgba(255, 255, 255, 0.76)',
           dark: '#0B111A',
-          'dark-card': 'rgba(18, 27, 44, 0.82)',
-          border: 'rgba(203, 219, 235, 0.75)',
-          'dark-border': 'rgba(56, 78, 108, 0.6)',
+          'dark-card': 'rgba(15, 23, 42, 0.72)',
+          border: 'rgba(255, 255, 255, 0.65)',
+          'dark-border': 'rgba(255, 255, 255, 0.09)',
         },
+      },
+      boxShadow: {
+        glass: '0 4px 20px -2px rgba(15, 23, 42, 0.04), 0 10px 30px -4px rgba(15, 23, 42, 0.03), inset 0 1px 0 0 rgba(255, 255, 255, 0.85)',
+        'glass-hover': '0 8px 30px -4px rgba(15, 23, 42, 0.08), 0 4px 12px -2px rgba(15, 23, 42, 0.04), inset 0 1px 0 0 rgba(255, 255, 255, 0.95)',
+        'glass-dark': '0 4px 24px -2px rgba(0, 0, 0, 0.35), 0 12px 36px -6px rgba(0, 0, 0, 0.45), inset 0 1px 0 0 rgba(255, 255, 255, 0.08)',
+        'glass-dark-hover': '0 8px 32px -4px rgba(0, 0, 0, 0.5), 0 4px 16px -2px rgba(0, 0, 0, 0.35), inset 0 1px 0 0 rgba(255, 255, 255, 0.14)',
       },
       borderRadius: {
         none: '0',

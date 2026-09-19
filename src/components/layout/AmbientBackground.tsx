@@ -339,14 +339,14 @@ export const AmbientBackground: React.FC = () => {
       className="fixed inset-0 pointer-events-none -z-20 overflow-hidden select-none transition-colors duration-500"
     >
       {/* 柔和淡天蓝纯净基底渐变 */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#EDF5FD] via-[#F4F8FC] to-[#F7F9FC] dark:from-[#0B121D] dark:via-[#080D15] dark:to-[#070B12]" />
+      <div className="absolute inset-0 bg-gradient-to-b from-[#EDF5FD] via-[#F4F8FC] to-[#F7F9FC] dark:from-[#0B121D] dark:via-[#090F18] dark:to-[#070B12]" />
 
       {/* 顶部微蓝柔光穹顶：居中大尺寸高斯漫射微光，超舒缓 22s 呼吸阻尼 */}
       <div
-        className="absolute -top-[10%] left-1/2 w-[420px] sm:w-[780px] lg:w-[980px] h-[360px] sm:h-[520px] lg:h-[620px] rounded-[100%] opacity-70 dark:opacity-30 blur-[100px] sm:blur-[140px] transition-all duration-1000"
+        className="absolute -top-[12%] left-1/2 w-[460px] sm:w-[840px] lg:w-[1040px] h-[380px] sm:h-[540px] lg:h-[660px] rounded-[100%] opacity-80 dark:opacity-35 blur-[110px] sm:blur-[150px] transition-all duration-1000"
         style={{
           background:
-            'radial-gradient(ellipse at center, rgba(160, 215, 255, 0.38) 0%, rgba(186, 230, 253, 0.16) 45%, rgba(224, 242, 254, 0.05) 70%, transparent 80%)',
+            'radial-gradient(ellipse at center, rgba(160, 218, 255, 0.42) 0%, rgba(186, 230, 253, 0.2) 45%, rgba(224, 242, 254, 0.08) 70%, transparent 80%)',
           animation: 'ambientBreathGlow 22s ease-in-out infinite',
           willChange: 'transform, opacity',
         }}
@@ -354,10 +354,10 @@ export const AmbientBackground: React.FC = () => {
 
       {/* 暗色模式专属深海柔蓝微光漫射（极低对比度，消除刺眼光感） */}
       <div
-        className="hidden dark:block absolute -top-[8%] left-1/2 w-[700px] lg:w-[900px] h-[480px] rounded-[100%] opacity-25 blur-[130px]"
+        className="hidden dark:block absolute -top-[8%] left-1/2 w-[740px] lg:w-[960px] h-[500px] rounded-[100%] opacity-35 blur-[140px]"
         style={{
           background:
-            'radial-gradient(ellipse at center, rgba(56, 130, 210, 0.28) 0%, rgba(30, 64, 115, 0.14) 50%, transparent 75%)',
+            'radial-gradient(ellipse at center, rgba(56, 130, 210, 0.32) 0%, rgba(30, 64, 115, 0.16) 50%, transparent 75%)',
           animation: 'ambientBreathGlow 24s ease-in-out infinite reverse',
           willChange: 'transform',
         }}

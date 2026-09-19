@@ -1,23 +1,22 @@
 import '../lib/buffer-polyfill';
-import { AdminStore } from '../lib/admin-store';
 import type { Diary, FriendItem, Post, RecordItem, SearchItem, SiteConfig } from '../types';
 import siteConfigJson from './config/site.config.json';
+import friendsJson from './pages/friends.json';
+import recordsJson from './records/records.json';
+import contentIndex from './generated/content-index.json';
+import { postLoaders, diaryLoaders } from './generated/content-loaders';
 
-export const siteConfig: SiteConfig = new Proxy(siteConfigJson as SiteConfig, {
-  get(target, prop: keyof SiteConfig) {
-    const dynamicConfig = AdminStore.getSiteConfig();
-    return (dynamicConfig as any)[prop] ?? (target as any)[prop];
-  },
-});
+export const siteConfig: SiteConfig = siteConfigJson as SiteConfig;
 
 export function getAllPosts(includeDrafts = false): Post[] {
-  return AdminStore.getPosts(includeDrafts);
+  const posts = (contentIndex.posts as Post[]) || [];
+  return includeDrafts ? posts : posts.filter((p) => !p.draft);
 }
 
 export function getFeaturedPosts(limit = 4): Post[] {
-  return AdminStore.getPosts(false)
+  return getAllPosts(false)
     .slice()
-    .sort((a: Post, b: Post) => {
+    .sort((a, b) => {
       const recA = a.recommend || 0;
       const recB = b.recommend || 0;
       if (recB !== recA) return recB - recA;
@@ -27,43 +26,75 @@ export function getFeaturedPosts(limit = 4): Post[] {
 }
 
 export function getPostBySlug(slug: string): Post | null {
-  return AdminStore.getPostBySlug(slug);
+  const post = (contentIndex.posts as Post[]).find((p) => p.slug === slug);
+  return post || null;
 }
 
-export function loadPostContent(slug: string): Promise<Post | null> {
-  return AdminStore.loadPostContent(slug);
+export async function loadPostContent(slug: string): Promise<Post | null> {
+  const post = getPostBySlug(slug);
+  if (!post) return null;
+  const loader = postLoaders[slug];
+  if (!loader) return post;
+  try {
+    const raw = await loader();
+    return { ...post, content: raw };
+  } catch (err) {
+    console.error(`[loadPostContent] Failed to load markdown for ${slug}:`, err);
+    return post;
+  }
 }
 
 export function getAllDiaries(): Diary[] {
-  return AdminStore.getDiaries();
+  return (contentIndex.diaries as Diary[]) || [];
 }
 
 export function getDiaryBySlug(slug: string): Diary | null {
-  return AdminStore.getDiaryBySlug(slug);
+  const diary = (contentIndex.diaries as Diary[]).find((d) => d.slug === slug);
+  return diary || null;
 }
 
-export function loadDiaryContent(slug: string): Promise<Diary | null> {
-  return AdminStore.loadDiaryContent(slug);
+export async function loadDiaryContent(slug: string): Promise<Diary | null> {
+  const diary = getDiaryBySlug(slug);
+  if (!diary) return null;
+  const loader = diaryLoaders[slug];
+  if (!loader) return diary;
+  try {
+    const raw = await loader();
+    return { ...diary, content: raw };
+  } catch (err) {
+    console.error(`[loadDiaryContent] Failed to load markdown for ${slug}:`, err);
+    return diary;
+  }
 }
 
 export function getAllFriends(): FriendItem[] {
-  return AdminStore.getFriends();
+  return (friendsJson as FriendItem[]) || [];
 }
 
 export function getAllRecords(): RecordItem[] {
-  return AdminStore.getRecords();
+  return (recordsJson as RecordItem[]) || [];
 }
 
 export function getAllTags(): { name: string; count: number }[] {
-  return AdminStore.getTags();
+  const tagsMap: Record<string, number> = {};
+  getAllDiaries().forEach((d) => {
+    (d.tags || []).forEach((t) => {
+      tagsMap[t] = (tagsMap[t] || 0) + 1;
+    });
+  });
+  return Object.entries(tagsMap)
+    .map(([name, count]) => ({ name, count }))
+    .sort((a, b) => b.count - a.count);
 }
 
 export function getAllCategories(): { name: string; count: number }[] {
-  return AdminStore.getCategories();
+  return [
+    { name: '手记随笔', count: getAllDiaries().length },
+  ];
 }
 
 export function getSearchIndex(): SearchItem[] {
-  const diaries = AdminStore.getDiaries().map((d: Diary) => ({
+  return getAllDiaries().map((d: Diary) => ({
     id: `diary-${d.slug}`,
     title: d.title,
     summary: d.summary,
@@ -73,6 +104,4 @@ export function getSearchIndex(): SearchItem[] {
     type: 'diary' as const,
     date: d.date,
   }));
-
-  return diaries;
 }

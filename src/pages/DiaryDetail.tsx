@@ -3,7 +3,7 @@ import { useRoute, Link, useLocation } from 'wouter';
 import { PageShell } from '../components/layout/PageShell';
 import { Container } from '../components/layout/Container';
 import { MarkdownRenderer } from '../components/markdown/MarkdownRenderer';
-import { ReadingProgressBar } from '../components/post/ReadingProgressBar';
+import { ReadingProgressBar } from '../components/ui/ReadingProgressBar';
 import { getDiaryBySlug, getAllDiaries, loadDiaryContent, siteConfig } from '../content';
 import { formatDate } from '../lib/date';
 import { stripDuplicateHeading } from '../lib/markdown';

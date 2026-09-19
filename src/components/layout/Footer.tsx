@@ -157,13 +157,13 @@ export const Footer: React.FC = () => {
 
             {/* 主题切换器 */}
             {showThemeToggle && (
-              <div className="inline-flex items-center space-x-1.5">
+              <div className="inline-flex items-center space-x-1 p-0.5 rounded-md bg-white/50 dark:bg-white/5 border border-white/60 dark:border-white/5 backdrop-blur-md shadow-2xs">
                 <button
                   type="button"
                   onClick={() => setTheme('light')}
-                  className={`hover:text-slate-900 dark:hover:text-slate-100 transition-colors cursor-pointer py-1.5 sm:py-0.5 px-1 ${
+                  className={`hover:text-slate-900 dark:hover:text-slate-100 transition-colors cursor-pointer py-1 px-1.5 rounded-xs ${
                     theme === 'light'
-                      ? 'font-semibold text-slate-800 dark:text-slate-200 underline underline-offset-4 decoration-sky-500'
+                      ? 'font-semibold text-slate-900 dark:text-slate-100 bg-white/80 dark:bg-white/10 shadow-2xs'
                       : 'text-slate-400 dark:text-slate-500'
                   }`}
                 >
@@ -173,9 +173,9 @@ export const Footer: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setTheme('system')}
-                  className={`hover:text-slate-900 dark:hover:text-slate-100 transition-colors cursor-pointer py-1.5 sm:py-0.5 px-1 ${
+                  className={`hover:text-slate-900 dark:hover:text-slate-100 transition-colors cursor-pointer py-1 px-1.5 rounded-xs ${
                     theme === 'system'
-                      ? 'font-semibold text-slate-800 dark:text-slate-200 underline underline-offset-4 decoration-sky-500'
+                      ? 'font-semibold text-slate-900 dark:text-slate-100 bg-white/80 dark:bg-white/10 shadow-2xs'
                       : 'text-slate-400 dark:text-slate-500'
                   }`}
                 >
@@ -185,9 +185,9 @@ export const Footer: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setTheme('dark')}
-                  className={`hover:text-slate-900 dark:hover:text-slate-100 transition-colors cursor-pointer py-1.5 sm:py-0.5 px-1 ${
+                  className={`hover:text-slate-900 dark:hover:text-slate-100 transition-colors cursor-pointer py-1 px-1.5 rounded-xs ${
                     theme === 'dark'
-                      ? 'font-semibold text-slate-800 dark:text-slate-200 underline underline-offset-4 decoration-sky-500'
+                      ? 'font-semibold text-slate-900 dark:text-slate-100 bg-white/80 dark:bg-white/10 shadow-2xs'
                       : 'text-slate-400 dark:text-slate-500'
                   }`}
                 >

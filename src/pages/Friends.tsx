@@ -71,18 +71,18 @@ export const Friends: React.FC = () => {
 
           {/* 实时搜索过滤 (居中摆放) */}
           <div className="mt-3.5 sm:mt-4 max-w-md mx-auto relative">
-            <Search className="w-3.5 h-3.5 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+            <Search className="w-3.5 h-3.5 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
             <input
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="搜索友链名称、技术栈或简介..."
-              className="w-full pl-9 pr-8 py-2 rounded-md text-xs bg-slate-100/80 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/80 text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:border-sky-400/80 dark:focus:border-sky-400/80 focus:bg-white dark:focus:bg-slate-900 focus:shadow-[0_0_0_1px_rgba(56,189,248,0.3)] transition-all outline-none"
+              className="w-full pl-9 pr-8 py-2 rounded-md text-xs bg-white/70 dark:bg-slate-900/65 backdrop-blur-md border border-white/80 dark:border-white/10 text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:border-sky-400/80 dark:focus:border-sky-400/80 focus:bg-white/90 dark:focus:bg-slate-900/90 focus:shadow-[0_0_0_1px_rgba(56,189,248,0.3)] transition-all outline-none shadow-2xs"
             />
             {query && (
               <button
                 onClick={() => setQuery('')}
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-0.5"
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-0.5 rounded-xs"
                 title="清除搜索"
               >
                 <X className="w-3 h-3" />
@@ -104,7 +104,7 @@ export const Friends: React.FC = () => {
         </div>
 
         {/* 申请友链指南 */}
-        <div className="p-4 sm:p-5 rounded-md border border-slate-200/70 dark:border-slate-800/70 space-y-3 bg-white/60 dark:bg-slate-900/50 shadow-2xs">
+        <div className="p-4 sm:p-5 rounded-md border border-white/80 dark:border-white/10 space-y-3 bg-white/70 dark:bg-slate-900/65 backdrop-blur-xl shadow-[0_8px_24px_-4px_rgba(15,23,42,0.05),inset_0_1px_0_0_rgba(255,255,255,0.9)] dark:shadow-[0_8px_24px_-4px_rgba(0,0,0,0.35),inset_0_1px_0_0_rgba(255,255,255,0.08)]">
           <div className="flex items-center space-x-2 font-sans font-semibold text-slate-900 dark:text-slate-100 text-sm">
             <Sparkles className="w-4 h-4 text-sky-600 dark:text-sky-400" />
             <h2>{guideTitle}</h2>
@@ -138,7 +138,7 @@ export const Friends: React.FC = () => {
             联系交换。
           </p>
 
-          <div className="relative p-3.5 rounded-md bg-slate-50/80 dark:bg-slate-900/75 border border-slate-200/60 dark:border-slate-800/60 text-xs font-mono text-slate-600 dark:text-slate-400 space-y-1 group">
+          <div className="relative p-3.5 rounded-md bg-white/60 dark:bg-black/30 backdrop-blur-md border border-white/70 dark:border-white/5 text-xs font-mono text-slate-600 dark:text-slate-400 space-y-1 group shadow-2xs">
             <button
               type="button"
               onClick={handleCopyTemplate}
@@ -178,7 +178,7 @@ const FriendCard: React.FC<{ friend: FriendItem }> = ({ friend }) => {
       target="_blank"
       rel="noreferrer"
       data-external-bypass="true"
-      className="p-3 sm:p-3.5 rounded-md paper-card flex items-start space-x-3 group transition-all duration-300 hover:!border-sky-300/80 dark:hover:!border-sky-500/50 hover:shadow-[0_4px_16px_-2px_rgba(56,189,248,0.12),0_2px_6px_-1px_rgba(15,23,42,0.04)]"
+      className="p-3 sm:p-3.5 rounded-md paper-card flex items-start space-x-3 group transition-all duration-300 hover:-translate-y-1 hover:!border-sky-300/80 dark:hover:!border-sky-500/50 hover:shadow-[0_8px_24px_-4px_rgba(56,189,248,0.15),inset_0_1px_0_0_rgba(255,255,255,0.95)] dark:hover:shadow-[0_10px_28px_-4px_rgba(0,0,0,0.5),inset_0_1px_0_0_rgba(255,255,255,0.12)]"
     >
       {/* 左侧头像 */}
       <div className="w-10 h-10 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100 flex items-center justify-center font-sans text-xs font-bold shrink-0 overflow-hidden border border-slate-200/60 dark:border-slate-700/60 mt-0.5">
@@ -204,7 +204,7 @@ const FriendCard: React.FC<{ friend: FriendItem }> = ({ friend }) => {
 
           {/* 右侧技术栈与部署方式图标 */}
           <div
-            className="flex items-center space-x-1 shrink-0 px-1 py-0.5 rounded bg-slate-100/60 dark:bg-slate-800/60"
+            className="flex items-center space-x-1 shrink-0 px-1 py-0.5 rounded bg-white/60 dark:bg-white/5 border border-white/60 dark:border-white/5"
             onClick={(e) => e.stopPropagation()}
           >
             <TechBadge type="framework" name={friend.framework} />

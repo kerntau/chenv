@@ -1,24 +1,17 @@
-import { useCallback, useEffect, useState } from 'react';
-import { AdminStore } from '../lib/admin-store';
+import { useState } from 'react';
+import { getAllRecords } from '../content';
 import type { RecordItem } from '../types';
 
 export function useStaticRecords() {
-  const [records, setRecords] = useState<RecordItem[]>(() => AdminStore.getRecords());
+  const [records, setRecords] = useState<RecordItem[]>(() => getAllRecords());
 
-  useEffect(() => {
-    const unsubscribe = AdminStore.subscribe(() => {
-      setRecords(AdminStore.getRecords());
-    });
-    return unsubscribe;
-  }, []);
+  const saveRecord = (record: RecordItem) => {
+    setRecords((prev) => [record, ...prev]);
+  };
 
-  const saveRecord = useCallback((record: RecordItem) => {
-    AdminStore.saveRecord(record);
-  }, []);
-
-  const removeRecord = useCallback((id: string | number) => {
-    AdminStore.deleteRecord(id);
-  }, []);
+  const removeRecord = (id: string | number) => {
+    setRecords((prev) => prev.filter((r) => r.id !== id));
+  };
 
   return { records, saveRecord, removeRecord };
 }
