@@ -6,6 +6,7 @@ import { Megaphone, ChevronRight } from 'lucide-react';
 import type { SocialLink } from '../../types';
 import { GithubIcon, XTwitterIcon, MailIcon, BilibiliIcon, TelegramIcon } from '../ui/Icons';
 import { siteConfig, getAllDiaries } from '../../content';
+import { SplitText } from '../ui/SplitText';
 
 const SOCIAL_ICONS: Record<SocialLink['icon'], React.FC<React.SVGProps<SVGSVGElement>>> = {
   github: GithubIcon,
@@ -23,10 +24,10 @@ export const HomeHero: React.FC = () => {
     
     // 强制初始状态为不可见以避免闪烁，然后依次按延迟执行动画
     tl.fromTo('.gsap-hero-avatar', { opacity: 0, y: 12 }, { opacity: 1, y: 0 })
-      .fromTo('.gsap-hero-title', { opacity: 0, y: 10 }, { opacity: 1, y: 0 }, 0.1)
-      .fromTo('.gsap-hero-metrics', { opacity: 0, y: 10 }, { opacity: 1, y: 0 }, 0.3)
-      .fromTo('.gsap-hero-socials', { opacity: 0, y: 10 }, { opacity: 1, y: 0 }, 0.4)
-      .fromTo('.gsap-hero-announcement', { opacity: 0, y: 8 }, { opacity: 1, y: 0 }, 0.45);
+      .fromTo('.gsap-hero-skills', { opacity: 0, y: 10 }, { opacity: 1, y: 0 }, 0.25)
+      .fromTo('.gsap-hero-metrics', { opacity: 0, y: 10 }, { opacity: 1, y: 0 }, 0.35)
+      .fromTo('.gsap-hero-socials', { opacity: 0, y: 10 }, { opacity: 1, y: 0 }, 0.45)
+      .fromTo('.gsap-hero-announcement', { opacity: 0, y: 8 }, { opacity: 1, y: 0 }, 0.5);
   }, { scope: containerRef });
   const diaries = getAllDiaries();
   const totalDiaries = diaries.length;
@@ -94,23 +95,55 @@ export const HomeHero: React.FC = () => {
       </div>
 
       {/* 主标题排版 */}
-      <h1 className="gsap-hero-title opacity-0 font-sans text-xl sm:text-3xl lg:text-[2.2rem] font-normal leading-tight text-slate-900 dark:text-slate-100 tracking-tight">
-        <div className="font-light opacity-85">
-          {greeting}{' '}
-          <span className="font-bold text-sky-700 dark:text-sky-400 tracking-tight">
-            {siteConfig.author.name}
-          </span>
+      <h1 className="font-sans text-xl sm:text-3xl lg:text-[2.2rem] font-normal leading-tight text-slate-900 dark:text-slate-100 tracking-tight">
+        <div className="flex items-center justify-center gap-2 flex-wrap">
+          <SplitText
+            text={greeting}
+            className="font-light opacity-85 text-slate-900 dark:text-slate-100"
+            tag="span"
+            delay={30}
+            duration={0.8}
+            ease="power3.out"
+            threshold={0}
+            rootMargin="0px"
+          />
+          <SplitText
+            text={siteConfig.author.name}
+            className="font-bold text-sky-700 dark:text-sky-400 tracking-tight"
+            tag="span"
+            delay={30}
+            duration={0.8}
+            ease="power3.out"
+            threshold={0}
+            rootMargin="0px"
+          />
         </div>
         
-        <div className="mt-1 sm:mt-1 font-light opacity-80">
-          <span>I build </span>
-          <span className="font-semibold text-sky-700 dark:text-sky-400">
-            {highlightRole}
-          </span>
+        <div className="mt-1 sm:mt-1 flex items-center justify-center gap-2 flex-wrap">
+          <SplitText
+            text="I build"
+            className="font-light opacity-80 text-slate-900 dark:text-slate-100"
+            tag="span"
+            delay={30}
+            duration={0.8}
+            ease="power3.out"
+            threshold={0}
+            rootMargin="0px"
+          />
+          <SplitText
+            text={highlightRole}
+            className="font-semibold text-sky-700 dark:text-sky-400 tracking-tight"
+            tag="span"
+            delay={30}
+            duration={0.8}
+            ease="power3.out"
+            threshold={0}
+            rootMargin="0px"
+          />
         </div>
 
         {skillsPills && (
-          <div className="mt-2 sm:mt-2.5 flex items-center justify-center gap-1.5 flex-wrap">
+          <div className="gsap-hero-skills opacity-0 mt-2 sm:mt-2.5 flex items-center justify-center gap-1.5 flex-wrap">
             <span className="font-light opacity-75 text-xs sm:text-sm">with</span>
             <code className="inline-flex items-center font-sans text-xs sm:text-[12.5px] font-medium px-2.5 py-0.5 rounded-md text-slate-700 dark:text-slate-200 border border-white/80 dark:border-white/10 bg-white/60 dark:bg-white/5 backdrop-blur-md shadow-2xs">
               {skillsPills}
