@@ -1,7 +1,7 @@
 {
-  "title": "chenv",
+  "title": "序栈",
   "subtitle": "",
-  "description": "Chenv 的个人网站，记录随笔、日记、项目与生活，分享个人的思考、经历与正在做的事情，也保存那些值得留下来的时刻。",
+  "description": "用理性梳理日常，用技术温柔时光",
   "url": "https://chenv.cn",
   "favicon": "/favicon.ico",
   "keywords": [
@@ -20,7 +20,7 @@
   },
   "author": {
     "name": "kerntau",
-    "avatar": "/avatar.jpg",
+    "avatar": "https://q1.qlogo.cn/g?b=qq&nk=1722288011&s=640",
     "description": "全栈工程师与开源爱好者",
     "email": "hi@chenv.cn",
     "github": "https://github.com/kerntau",
@@ -46,6 +46,11 @@
         "name": "Email",
         "icon": "email",
         "url": "mailto:hi@chenv.cn"
+      },
+      {
+        "name": "Telegram",
+        "icon": "telegram",
+        "url": "https://t.me/Kerntau"
       }
     ]
   },
@@ -147,10 +152,10 @@
     "guideTitle": "交换友链",
     "guideText": "如果您也拥有自己的个人独立博客，欢迎在您的站点添加本站后通过邮件（hi@chenv.cn）联系交换。",
     "template": {
-      "name": "chenv",
-      "desc": "Chenv 的个人网站，记录随笔、日记、项目与生活，分享个人的思考、经历与正在做的事情，也保存那些值得留下来的时刻。",
+      "name": "序栈",
+      "desc": "用理性梳理日常，用技术温柔时光",
       "url": "https://chenv.cn",
-      "avatar": "/avatar.jpg"
+      "avatar": "https://chenv.cn/avatar.jpg"
     }
   },
   "header": {
@@ -193,6 +198,7 @@
         "title": "联系",
         "links": [
           { "label": "发邮件", "href": "mailto:hi@chenv.cn", "isExternal": true },
+          { "label": "Telegram", "href": "https://t.me/Kerntau", "isExternal": true },
           { "label": "GitHub", "href": "https://github.com/kerntau", "isExternal": true },
           { "label": "日常说说", "href": "/says" }
         ]

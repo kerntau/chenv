@@ -8,9 +8,8 @@ const PUBLIC_DIR = path.resolve('public');
 const DIST_DIR = path.resolve('dist');
 
 function getSiteInfo() {
-  let title = 'chenv';
-  let description =
-    'Chenv 的个人网站，记录随笔、日记、项目与生活，分享个人的思考、经历与正在做的事情，也保存那些值得留下来的时刻。';
+  let title = '序栈';
+  let description = '用理性梳理日常，用技术温柔时光';
   let baseUrl = 'https://chenv.cn';
   let authorName = 'chenv';
 

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>chenv</title>
+    <title>序栈</title>
     <link>https://chenv.cn/</link>
-    <description>Chenv 的个人网站，记录随笔、日记、项目与生活，分享个人的思考、经历与正在做的事情，也保存那些值得留下来的时刻。</description>
+    <description>用理性梳理日常，用技术温柔时光</description>
     <language>zh-CN</language>
-    <lastBuildDate>Sat, 19 Sep 2026 04:28:48 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 19 Sep 2026 13:36:49 GMT</lastBuildDate>
     <atom:link href="https://chenv.cn/feed.xml" rel="self" type="application/rss+xml" />
     <managingEditor>kerntau</managingEditor>
     <webMaster>kerntau</webMaster>
