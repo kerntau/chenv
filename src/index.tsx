@@ -4,6 +4,10 @@ import { App } from './App';
 import './styles/index.css';
 import './styles/admin.css';
 
+if (typeof document !== 'undefined') {
+  document.documentElement.lang = 'zh-CN';
+}
+
 const rootEl = document.getElementById('root');
 if (rootEl) {
   const root = ReactDOM.createRoot(rootEl);
