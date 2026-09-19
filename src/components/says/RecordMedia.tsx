@@ -3,6 +3,29 @@ import { BookOpen, ExternalLink, Film, Music2, Play } from 'lucide-react';
 import type { RecordContentBlock } from '../../types';
 import { MediaLightbox } from './MediaLightbox';
 
+const RecordVideo: React.FC<{ src: string; poster?: string }> = ({ src, poster }) => {
+  return (
+    <video
+      ref={(el) => {
+        if (el) {
+          el.muted = true;
+          el.defaultMuted = true;
+          el.play().catch(() => {});
+        }
+      }}
+      controls
+      autoPlay
+      muted
+      loop
+      playsInline
+      preload="metadata"
+      poster={poster}
+      src={src}
+      className="max-h-[360px] w-full max-w-[480px] rounded-md bg-slate-950 object-contain"
+    />
+  );
+};
+
 export const RecordMedia: React.FC<{ media?: RecordContentBlock[] }> = ({ media = [] }) => {
   const [lightbox, setLightbox] = useState<number | null>(null);
   const images = media.filter((item): item is Extract<RecordContentBlock, { type: 'image' }> => item.type === 'image');
@@ -51,7 +74,7 @@ export const RecordMedia: React.FC<{ media?: RecordContentBlock[] }> = ({ media 
         </div>
       )}
     {media.filter((item) => item.type !== 'image').map((item, index) => {
-      if (item.type === 'video') return <video key={'video' + index} controls muted preload="metadata" poster={item.thumbnail} src={item.url} className="max-h-[360px] w-full max-w-[480px] rounded-md bg-slate-950" />;
+      if (item.type === 'video') return <RecordVideo key={'video' + index} src={item.url} poster={item.thumbnail} />;
       if (item.type === 'link') return <a key={'link' + index} href={item.url} target="_blank" rel="noreferrer" className="flex max-w-[460px] overflow-hidden rounded-md border border-slate-200/80 bg-slate-50 transition-colors hover:border-sky-300 dark:border-slate-700 dark:bg-slate-900/60 dark:hover:border-sky-600">{item.image && <img src={item.image} alt="" className="h-20 w-20 shrink-0 object-cover sm:h-24 sm:w-24" />}<span className="min-w-0 p-2.5 sm:p-3"><span className="flex items-center gap-1 text-xs text-sky-600"><ExternalLink className="h-3 w-3" /> 外部链接</span><strong className="mt-0.5 block truncate text-sm text-slate-800 dark:text-slate-100">{item.title || item.url}</strong>{item.description && <span className="mt-0.5 block line-clamp-2 text-xs text-slate-500">{item.description}</span>}</span></a>;
       if (item.type === 'music') return <a key={'music' + index} href={item.url} target="_blank" rel="noreferrer" className="flex max-w-[460px] items-center gap-2.5 rounded-md border border-slate-200/80 p-2.5 transition-colors hover:border-sky-300 dark:border-slate-700 dark:hover:border-sky-600"><div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-md bg-sky-100 dark:bg-sky-950/50">{item.cover ? <img src={item.cover} alt="" className="h-full w-full object-cover" /> : <Music2 className="h-4 w-4 text-sky-600" />}</div><span className="min-w-0"><strong className="block truncate text-sm dark:text-slate-100">{item.title}</strong><span className="text-xs text-slate-500">{item.artist || '音乐'}</span></span><Play className="ml-auto h-4 w-4 text-sky-600" /></a>;
       const Icon = item.type === 'douban-book' ? BookOpen : Film;
