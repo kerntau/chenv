@@ -1,6 +1,7 @@
 import '../lib/buffer-polyfill';
-import type { Diary, FriendItem, Post, RecordItem, SearchItem, SiteConfig } from '../types';
+import type { Diary, FriendItem, Post, RecordItem, SearchItem, SiteConfig, GalleryConfig } from '../types';
 import siteConfigJson from './config/site.config.json';
+import galleryConfigJson from './config/gallery.config.json';
 import friendsJson from './pages/friends.json';
 import recordsJson from './records/records.json';
 import contentIndex from './generated/content-index.json';
@@ -8,6 +9,11 @@ import { postLoaders, diaryLoaders } from './generated/content-loaders';
 import { stripFrontmatter } from '../lib/markdown';
 
 export const siteConfig: SiteConfig = siteConfigJson as SiteConfig;
+export const galleryConfig: GalleryConfig = galleryConfigJson as GalleryConfig;
+
+export function getGalleryConfig(): GalleryConfig {
+  return galleryConfig;
+}
 
 export function getAllPosts(includeDrafts = false): Post[] {
   const posts = (contentIndex.posts as Post[]) || [];

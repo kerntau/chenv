@@ -247,3 +247,17 @@ export interface SearchItem {
 
 export type ThemeMode = 'light' | 'dark' | 'system';
 
+export interface DriftWallItem {
+  image: string;
+  title?: string;
+  href?: string;
+  subtitle?: string;
+}
+
+export interface GalleryConfig {
+  title?: string;
+  subtitle?: string;
+  description?: string;
+  items: DriftWallItem[];
+}
+
