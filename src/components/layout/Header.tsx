@@ -12,6 +12,7 @@ import {
   Link2,
   Globe,
   ArrowUpRight,
+  Images,
 } from 'lucide-react';
 import { SearchModal } from '../search/SearchModal';
 import { NavHoverPopover } from './NavHoverPopover';
@@ -29,6 +30,7 @@ const ICON_MAP: Record<string, React.FC<{ className?: string }>> = {
   Sparkles,
   Link2,
   Globe,
+  Images,
 };
 
 const DEFAULT_NAV_LINKS: NavLinkItem[] = [
@@ -36,6 +38,7 @@ const DEFAULT_NAV_LINKS: NavLinkItem[] = [
   { id: 'nav-archives', href: '/archives', label: '归档', icon: 'History', enabled: true },
   { id: 'nav-diaries', href: '/diaries', label: '手记', icon: 'Feather', enabled: true },
   { id: 'nav-says', href: '/says', label: '动态', icon: 'MessageSquareQuote', enabled: true },
+  { id: 'nav-gallery', href: '/gallery', label: '画廊', icon: 'Images', enabled: true },
   { id: 'nav-friends', href: '/friends', label: '朋友', icon: 'Users', enabled: true },
 ];
 
@@ -46,6 +49,11 @@ export const Header: React.FC = () => {
   // 判断当前页面是否属于手记详情页
   const isDetailPage = useMemo(() => {
     return /^\/(diaries|journal|shouji)\/[^/]+$/.test(location);
+  }, [location]);
+
+  // 判断当前页面是否属于画廊沉浸式全屏路由
+  const isGalleryPage = useMemo(() => {
+    return /^\/(gallery|photos|wall)(\/.*)?$/.test(location);
   }, [location]);
 
   // 控制详情页向下滚动时导航栏收起，向上滚动时呼出
@@ -172,7 +180,9 @@ export const Header: React.FC = () => {
   return (
     <>
       <header
-        className={`sticky top-0 z-40 w-full px-4 sm:px-6 pt-2 pb-1 sm:pt-3 sm:pb-1.5 lg:pt-2.5 lg:pb-1 pointer-events-none font-sans transition-all duration-300 ease-in-out ${
+        className={`${
+          isGalleryPage ? 'absolute top-0 inset-x-0' : 'sticky top-0'
+        } z-40 w-full px-4 sm:px-6 pt-2 pb-1 sm:pt-3 sm:pb-1.5 lg:pt-2.5 lg:pb-1 pointer-events-none font-sans transition-all duration-300 ease-in-out ${
           !isNavVisible && isDetailPage
             ? '-translate-y-full opacity-0'
             : 'translate-y-0 opacity-100'
@@ -202,7 +212,7 @@ export const Header: React.FC = () => {
                         rel="noreferrer"
                         className="relative px-2.5 py-1 rounded-sm transition-all duration-150 select-none flex items-center justify-center gap-1.5 shrink-0 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-white/60 dark:hover:bg-white/[0.08]"
                       >
-                        <span className="leading-none translate-y-[0.5px]">{link.label}</span>
+                        <span className="leading-none">{link.label}</span>
                         <ArrowUpRight className="w-3 h-3 opacity-60 ml-[-2px]" />
                       </a>
                     );
@@ -230,7 +240,7 @@ export const Header: React.FC = () => {
                       {active && (
                         <IconComponent className="w-3.5 h-3.5 opacity-90 text-slate-800 dark:text-white flex-shrink-0" />
                       )}
-                      <span className="leading-none translate-y-[0.5px]">{link.label}</span>
+                      <span className="leading-none">{link.label}</span>
                     </Link>
                   );
                 })}

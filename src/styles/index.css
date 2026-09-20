@@ -361,3 +361,11 @@ pre code span {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+/* 骨架屏通用流光微动动画 */
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+

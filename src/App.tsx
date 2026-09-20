@@ -5,7 +5,6 @@ import { Footer } from './components/layout/Footer';
 import { AmbientBackground } from './components/layout/AmbientBackground';
 import { siteConfig } from './content';
 import { Home } from './pages/Home';
-import { ExternalLinkModal } from './components/ui/ExternalLinkModal';
 import { ClickSpark } from './components/ui/ClickSpark';
 
 // 路由级代码分割：非首屏页面不进入主包
@@ -14,6 +13,7 @@ const Diaries = lazy(() => import('./pages/Diaries').then((m) => ({ default: m.D
 const DiaryDetail = lazy(() => import('./pages/DiaryDetail').then((m) => ({ default: m.DiaryDetail })));
 const Says = lazy(() => import('./pages/Says').then((m) => ({ default: m.Says })));
 const Friends = lazy(() => import('./pages/Friends').then((m) => ({ default: m.Friends })));
+const Gallery = lazy(() => import('./pages/Gallery').then((m) => ({ default: m.Gallery })));
 const Sitemap = lazy(() => import('./pages/Sitemap').then((m) => ({ default: m.Sitemap })));
 const About = lazy(() => import('./pages/About').then((m) => ({ default: m.About })));
 const NotFound = lazy(() => import('./pages/NotFound').then((m) => ({ default: m.NotFound })));
@@ -30,6 +30,7 @@ const SECTIONS: Section[] = [
   { label: '归档', paths: ['/archives', '/timeline', '/archive'], list: Archives },
   { label: '手记', paths: ['/diaries', '/journal', '/shouji'], list: Diaries, detail: DiaryDetail },
   { label: '说说', paths: ['/says', '/record'], list: Says },
+  { label: '画廊', paths: ['/gallery', '/photos', '/wall'], list: Gallery },
   { label: '友链', paths: ['/friends', '/friend'], list: Friends },
   { label: '关于', paths: ['/about', '/me'], list: About },
   { label: '站点地图', paths: ['/sitemap'], list: Sitemap },
@@ -49,8 +50,9 @@ const RouteFallback: React.FC = () => (
 
 export const App: React.FC = () => {
   const [location] = useLocation();
-  const [externalUrl, setExternalUrl] = React.useState<string | null>(null);
-  const [isExternalModalOpen, setIsExternalModalOpen] = React.useState(false);
+
+  // 判断是否为沉浸式全屏画廊页面
+  const isGallery = location === '/gallery' || location.startsWith('/gallery/') || location === '/photos' || location === '/wall';
 
   // 路由跳转时平滑回滚至顶部并动态更新浏览器标签标题
   useEffect(() => {
@@ -65,6 +67,7 @@ export const App: React.FC = () => {
           '归档': siteConfig.archivesPage?.subtitle || `${siteConfig.title} 全站随笔与手记的时间脉络与足迹索引。`,
           '手记': siteConfig.diariesPage?.subtitle || siteConfig.description,
           '说说': siteConfig.saysPage?.subtitle || '把灵感、日常与正在发生的事情，留在时间线上。',
+          '画廊': '凝固光影与瞬息，漫游数字视觉画廊。',
           '友链': siteConfig.friendsPage?.subtitle || '山海相逢，灵感共振。',
           '关于': '关于作者 kerntau、全栈工程技术栈、本站设计哲学与数字花园。',
           '站点地图': '聚合全站核心频道结构、生活随笔手记与全局标签图谱。',
@@ -80,78 +83,17 @@ export const App: React.FC = () => {
     }
   }, [location]);
 
-  // 全局外链拦截代理
-  const handleGlobalClick = (e: React.MouseEvent) => {
-
-    // 寻找冒泡路径中最近的 a 标签
-    const target = (e.target as Element).closest('a');
-    if (!target) return;
-
-    // 检查是否有直接放行标记 (如志同道合友链、受信生态链接)
-    if (target.closest('[data-external-bypass="true"]')) {
-      return;
-    }
-
-    const href = target.getAttribute('href');
-    if (!href) return;
-
-    // 检查是否为外部链接
-    if (href.startsWith('http://') || href.startsWith('https://')) {
-      try {
-        const urlObj = new URL(href);
-        const hostname = urlObj.hostname.toLowerCase();
-
-        // 1. 本地调试与当前同源主机直接放行
-        if (
-          (typeof window !== 'undefined' && hostname === window.location.hostname) ||
-          hostname === 'localhost' ||
-          hostname === '127.0.0.1' ||
-          hostname === '0.0.0.0'
-        ) {
-          return;
-        }
-
-        // 2. 站长自身生态域名及所有子域放行 (*.chenv.cn, chenv.cn)
-        if (hostname === 'chenv.cn' || hostname.endsWith('.chenv.cn')) {
-          return;
-        }
-
-        // 3. 站长自身 GitHub 主页与名下项目仓库放行 (github.com/kerntau/*)
-        if (
-          (hostname === 'github.com' || hostname === 'www.github.com') &&
-          urlObj.pathname.toLowerCase().startsWith('/kerntau')
-        ) {
-          return;
-        }
-
-        // 4. 站长自身配置的官方社交媒体主页放行
-        const trustedSocialUrls = (siteConfig.author?.socials || []).map((s) => s.url);
-        if (trustedSocialUrls.some((tUrl) => tUrl && href.startsWith(tUrl))) {
-          return;
-        }
-
-        // 非授信外部链接：拦截并弹窗
-        e.preventDefault();
-        setExternalUrl(href);
-        setIsExternalModalOpen(true);
-      } catch (err) {
-        // 解析失败则忽略
-      }
-    }
-  };
-
   // 前台博客浏览体系
   return (
     <ClickSpark>
       <div
         className={`min-h-screen flex flex-col relative selection:bg-sky-200 selection:text-sky-900 dark:selection:bg-sky-900/60 dark:selection:text-sky-100 transition-colors duration-300 ${
-          location === '/' ? 'lg:h-screen lg:overflow-hidden' : ''
+          location === '/' || isGallery ? 'h-screen overflow-hidden' : ''
         }`}
-        onClick={handleGlobalClick}
       >
-        <AmbientBackground />
+        {!isGallery && <AmbientBackground />}
         <Header />
-        <div className={`flex-1 flex flex-col min-h-0 ${location === '/' ? 'justify-center overflow-hidden' : ''}`}>
+        <div className={`flex-1 flex flex-col min-h-0 ${location === '/' || isGallery ? 'justify-center overflow-hidden h-full' : ''}`}>
           <Suspense fallback={<RouteFallback />}>
             <Switch>
               <Route path="/" component={Home} />
@@ -171,20 +113,7 @@ export const App: React.FC = () => {
             </Switch>
           </Suspense>
         </div>
-        <Footer />
-
-        {/* 外部链接二次确认弹窗 */}
-        <ExternalLinkModal
-          isOpen={isExternalModalOpen}
-          url={externalUrl}
-          onClose={() => setIsExternalModalOpen(false)}
-          onConfirm={() => {
-            if (externalUrl) {
-              window.open(externalUrl, '_blank', 'noopener,noreferrer');
-            }
-            setIsExternalModalOpen(false);
-          }}
-        />
+        {!isGallery && <Footer />}
       </div>
     </ClickSpark>
   );
