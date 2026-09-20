@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import { Link } from 'wouter';
 import { Container } from '../components/layout/Container';
 import { PageShell } from '../components/layout/PageShell';
+import { PageEpigraph } from '../components/layout/PageEpigraph';
 import { getAllDiaries, siteConfig } from '../content';
 import { formatDateShort, getYear } from '../lib/date';
 
@@ -57,32 +58,34 @@ export const Archives: React.FC = () => {
   return (
     <PageShell>
       <Container size="narrow">
-        {/* 精简居中顶栏 */}
-        <div className="mb-4 pb-3 sm:mb-6 sm:pb-4 border-b border-slate-200/70 dark:border-slate-800/70 font-sans text-center">
+        {/* 顶部标题区（去除割裂死板横线，以轻盈留白建立层次） */}
+        <div className="mb-5 sm:mb-7 font-sans text-center space-y-1 sm:space-y-1.5">
           <h1 className="font-sans text-xl sm:text-2xl font-semibold text-slate-900 dark:text-slate-100 tracking-tight">
             {pageTitle}
           </h1>
 
           {pageSubtitle && (
-            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 sm:mt-1.5 font-sans max-w-md mx-auto">
+            <p className="text-xs text-slate-500 dark:text-slate-400 max-w-md mx-auto leading-relaxed">
               {pageSubtitle}
             </p>
           )}
         </div>
 
         {/* 垂直时间轴内容流（紧凑年谱排版） */}
-        <div className="space-y-8 pb-16 font-sans">
+        <div className="space-y-6 pb-2 font-sans">
           {years.map((year) => (
             <div key={year} className="relative">
-              {/* 年份标题与数量统计 */}
-              <div className="flex items-center space-x-3 mb-3.5">
-                <span className="font-serif text-2xl sm:text-3xl font-bold text-slate-800 dark:text-slate-200 tracking-tight">
-                  {year}
-                </span>
-                <div className="flex-1 h-px bg-slate-200/70 dark:bg-slate-800/70" />
-                <span className="text-xs font-mono text-slate-400 dark:text-slate-500">
-                  {itemsByYear[year].length} 篇
-                </span>
+              {/* 年份时间锚点（精练等宽数字 + 篇数胶囊 + 向右羽化渐隐光线） */}
+              <div className="flex items-center gap-2.5 mb-2.5">
+                <div className="flex items-center gap-2">
+                  <span className="font-mono text-base sm:text-[17px] font-bold text-slate-900 dark:text-slate-100 tracking-tight">
+                    {year}
+                  </span>
+                  <span className="px-1.5 py-0.5 rounded-xs text-[10.5px] font-mono text-slate-500 dark:text-slate-400 bg-slate-100/90 dark:bg-white/[0.06] border border-slate-200/60 dark:border-white/5 leading-none">
+                    {itemsByYear[year].length} 篇
+                  </span>
+                </div>
+                <div className="flex-1 h-px bg-gradient-to-r from-slate-200/90 via-slate-200/20 to-transparent dark:from-slate-700/60 dark:via-slate-800/10 dark:to-transparent" />
               </div>
 
               {/* 时间轴树状条目 (精确轴线与单行流线排版) */}
@@ -99,7 +102,7 @@ export const Archives: React.FC = () => {
                     >
                       <div className="flex items-center space-x-2 sm:space-x-2.5 min-w-0 pr-1 sm:pr-2">
                         {/* 发布日期 (MM-DD) */}
-                        <span className="font-mono text-xs text-slate-400 dark:text-slate-500 shrink-0 select-none">
+                        <span className="font-sans text-xs text-slate-400 dark:text-slate-500 shrink-0 select-none">
                           {formatDateShort(item.date)}
                         </span>
 
@@ -137,6 +140,9 @@ export const Archives: React.FC = () => {
             </div>
           )}
         </div>
+
+        {/* 底部卷尾题跋 */}
+        <PageEpigraph quote="用理性梳理日常，用技术温柔时光。" />
       </Container>
     </PageShell>
   );

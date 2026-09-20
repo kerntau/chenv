@@ -22,9 +22,9 @@
     "name": "kerntau",
     "avatar": "https://q1.qlogo.cn/g?b=qq&nk=1722288011&s=640",
     "description": "全栈工程师与开源爱好者",
-    "email": "hi@chenv.cn",
+    "email": "i@chenv.cn",
     "github": "https://github.com/kerntau",
-    "location": "浙江 · 宁波",
+    "location": "湖北 · 武汉",
     "statusBadge": "专注全栈系统架构中",
     "socials": [
       {
@@ -45,7 +45,7 @@
       {
         "name": "Email",
         "icon": "email",
-        "url": "mailto:hi@chenv.cn"
+        "url": "mailto:i@chenv.cn"
       },
       {
         "name": "Telegram",
@@ -127,7 +127,20 @@
       }
     ],
     "designTitle": "关于本站与设计理念",
-    "designPhilosophy": "本博客旨在打造具有纸质温度与现代极速性能的个人数字空间，摒弃过度装饰，让每一行技术文字如同落于宣纸之上自然呼吸。"
+    "certificates": [
+      {
+        "name": "深信服安全技术认证助理工程师 (Pre-A)",
+        "code": "PREA260518095828011"
+      },
+      {
+        "name": "深信服安全技术认证助理工程师 (Pre-A)",
+        "code": "PREA260518095768011"
+      },
+      {
+        "name": "深信服人工智能安全认证 (SCMC-AI Security)",
+        "code": "SCMCW260713152548011"
+      }
+    ]
   },
   "postsPage": {
     "title": "深度文稿",
@@ -150,7 +163,7 @@
     "title": "志同道合的朋友",
     "subtitle": "山海相逢，灵感共振。",
     "guideTitle": "交换友链",
-    "guideText": "如果您也拥有自己的个人独立博客，欢迎在您的站点添加本站后通过邮件（hi@chenv.cn）联系交换。",
+    "guideText": "如果您也拥有自己的个人独立博客，欢迎在您的站点添加本站后通过邮件（i@chenv.cn）联系交换。",
     "template": {
       "name": "序栈",
       "desc": "用理性梳理日常，用技术温柔时光",
@@ -164,7 +177,8 @@
       { "id": "nav-archives", "label": "归档", "href": "/archives", "icon": "History", "enabled": true },
       { "id": "nav-diaries", "label": "手记", "href": "/diaries", "icon": "Feather", "enabled": true },
       { "id": "nav-says", "label": "动态", "href": "/says", "icon": "MessageSquareQuote", "enabled": true },
-      { "id": "nav-friends", "label": "朋友", "href": "/friends", "icon": "Users", "enabled": true }
+      { "id": "nav-friends", "label": "朋友", "href": "/friends", "icon": "Users", "enabled": true },
+      { "id": "nav-about", "label": "关于", "href": "/about", "icon": "User", "enabled": true }
     ],
     "enableMegaMenu": true,
     "enableSearch": true
@@ -197,7 +211,7 @@
       {
         "title": "联系",
         "links": [
-          { "label": "发邮件", "href": "mailto:hi@chenv.cn", "isExternal": true },
+          { "label": "发邮件", "href": "mailto:i@chenv.cn", "isExternal": true },
           { "label": "GitHub", "href": "https://github.com/kerntau", "isExternal": true },
           { "label": "日常说说", "href": "/says" }
         ]

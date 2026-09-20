@@ -106,6 +106,27 @@ export default defineConfig({
           href: '/feed.xml',
         },
       },
+      {
+        tag: 'link',
+        attrs: {
+          rel: 'stylesheet',
+          href: 'https://cn-font.claude-code-best.win/packages/hlxsjt/dist/%E9%B8%BF%E9%9B%B7%E8%A1%8C%E4%B9%A6%E7%AE%80%E4%BD%93/result.css',
+        },
+      },
+      {
+        tag: 'link',
+        attrs: {
+          rel: 'stylesheet',
+          href: 'https://cn-font.claude-code-best.win/packages/ysyrxk/dist/slideyouran-Regular2_0/result.css',
+        },
+      },
+      {
+        tag: 'link',
+        attrs: {
+          rel: 'stylesheet',
+          href: 'https://cn-font.claude-code-best.win/packages/maple-mono-cn/dist/MapleMono-CN-Bold/result.css',
+        },
+      },
     ],
   },
   resolve: {

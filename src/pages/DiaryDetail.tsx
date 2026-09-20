@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import { useRoute, Link, useLocation } from 'wouter';
 import { PageShell } from '../components/layout/PageShell';
 import { Container } from '../components/layout/Container';
+import { PageEpigraph } from '../components/layout/PageEpigraph';
 import { MarkdownRenderer } from '../components/markdown/MarkdownRenderer';
 import { ReadingProgressBar } from '../components/ui/ReadingProgressBar';
 import { getDiaryBySlug, getAllDiaries, loadDiaryContent, siteConfig } from '../content';
@@ -13,7 +14,6 @@ import {
   ChevronLeft,
   ChevronRight,
   Feather,
-  Sparkles,
 } from 'lucide-react';
 
 export const DiaryDetail: React.FC = () => {
@@ -67,6 +67,16 @@ export const DiaryDetail: React.FC = () => {
     }
   }, [diary?.title]);
 
+  React.useEffect(() => {
+    const fontHref = 'https://cn-font.claude-code-best.win/packages/maple-mono-cn/dist/MapleMono-CN-Bold/result.css';
+    if (!document.querySelector(`link[href="${fontHref}"]`)) {
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = fontHref;
+      document.head.appendChild(link);
+    }
+  }, []);
+
   // 上一篇与下一篇手记导航
   const { prevDiary, nextDiary } = useMemo(() => {
     if (!slug) return { prevDiary: null, nextDiary: null };
@@ -115,17 +125,17 @@ export const DiaryDetail: React.FC = () => {
 
       <PageShell>
         <Container size="diary">
-          <div className="pt-2 sm:pt-4 pb-16">
+          <div className="pt-2 sm:pt-4 pb-4 sm:pb-6">
             {/* 手记纸张大卡片（单栏居中，温润自然） */}
             <article className="p-4 sm:p-7 md:p-8 paper-sheet-realistic space-y-5 text-slate-800 dark:text-slate-200">
               {/* 头部元数据栏 */}
               <header className="pb-4 border-b border-slate-200/70 dark:border-white/5 space-y-3.5">
-                <div className="flex flex-wrap items-center justify-between gap-1.5 text-xs font-mono text-slate-500 dark:text-slate-400">
+                <div className="flex flex-wrap items-center justify-between gap-1.5 text-xs font-sans text-slate-500 dark:text-slate-400">
                   <div className="flex flex-wrap items-center gap-1.5">
-                    <span className="flex items-center space-x-1 font-semibold text-slate-800 dark:text-slate-200 font-serif">
+                    <span className="flex items-center space-x-1 font-medium text-slate-800 dark:text-slate-200 font-sans">
                       <Calendar className="w-3.5 h-3.5 text-sky-600 dark:text-sky-400" />
                       <time dateTime={diary.date}>{formatDate(diary.date)}</time>
-                      {diary.time && <span className="font-mono text-xs opacity-75">{diary.time}</span>}
+                      {diary.time && <span className="text-xs opacity-75 font-sans">· {diary.time}</span>}
                     </span>
 
                     {diary.weather && (
@@ -163,14 +173,14 @@ export const DiaryDetail: React.FC = () => {
 
                 {/* 摘要与心境引言 */}
                 {diary.summary && (
-                  <div className="p-3.5 rounded-r-md rounded-l-none bg-slate-100/60 dark:bg-white/[0.04] border-l-2 border-slate-300 dark:border-sky-400/50 text-slate-600 dark:text-slate-300 text-xs sm:text-sm leading-relaxed font-sans">
+                  <div className="p-3.5 rounded-r-md rounded-l-none bg-slate-100/60 dark:bg-white/[0.04] border-l-2 border-slate-300 dark:border-sky-400/50 text-slate-600 dark:text-slate-300 text-xs sm:text-sm leading-relaxed font-maple">
                     {diary.summary}
                   </div>
                 )}
               </header>
 
               {/* 手记正文渲染 */}
-              <div className="min-h-[260px] leading-relaxed font-sans text-sm sm:text-base">
+              <div className="leading-relaxed font-maple text-sm sm:text-base">
                 {contentLoading && !cleanContent ? (
                   <div className="space-y-3 animate-pulse" aria-busy="true" aria-label="正文加载中">
                     <div className="h-3 bg-slate-200 dark:bg-slate-800 rounded w-11/12" />
@@ -182,18 +192,9 @@ export const DiaryDetail: React.FC = () => {
                 )}
               </div>
 
-              {/* 底部作者寄语 */}
-              <footer className="mt-6 pt-5 border-t border-slate-200/70 dark:border-white/5 space-y-4">
-                <div className="p-3.5 rounded-md bg-slate-50/80 dark:bg-[#101622] border border-slate-200/60 dark:border-white/5 flex items-start space-x-2.5 text-xs text-slate-600 dark:text-slate-400">
-                  <Sparkles className="w-3.5 h-3.5 text-slate-400 dark:text-slate-400 shrink-0 mt-0.5" />
-                  <div className="leading-relaxed font-sans">
-                    <strong>落纸为念：</strong>
-                    生活由散落的切片构成。撰于 <strong>{siteConfig.author.name}</strong> 的生活手记簿，记录当下真实的心境与思考。
-                  </div>
-                </div>
-
-                {/* 上一篇 / 下一篇手记极简轻量导航（无框纯净排版） */}
-                <nav aria-label="手记上下篇导航" className="pt-4 sm:pt-5 mt-2 sm:mt-3 border-t border-slate-200/70 dark:border-white/5 grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-6">
+              {/* 上一篇 / 下一篇手记极简轻量导航（无框纯净排版） */}
+              <footer className="mt-3 pt-3 sm:mt-4 sm:pt-4 border-t border-slate-200/70 dark:border-white/5">
+                <nav aria-label="手记上下篇导航" className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-6">
                   {prevDiary ? (
                     <Link
                       href={`/diaries/${prevDiary.slug}`}
@@ -204,7 +205,7 @@ export const DiaryDetail: React.FC = () => {
                         <div className="text-xs sm:text-sm font-semibold text-slate-800 dark:text-slate-200 line-clamp-1">
                           {prevDiary.title}
                         </div>
-                        <div className="text-[11px] font-mono text-slate-400 dark:text-slate-500 mt-0.5">
+                        <div className="text-[11px] font-sans text-slate-400 dark:text-slate-500 mt-0.5">
                           {formatDate(prevDiary.date).replace(/^20(\d{2}年)/, '$1')}
                         </div>
                       </div>
@@ -222,7 +223,7 @@ export const DiaryDetail: React.FC = () => {
                         <div className="text-xs sm:text-sm font-semibold text-slate-800 dark:text-slate-200 line-clamp-1">
                           {nextDiary.title}
                         </div>
-                        <div className="text-[11px] font-mono text-slate-400 dark:text-slate-500 mt-0.5">
+                        <div className="text-[11px] font-sans text-slate-400 dark:text-slate-500 mt-0.5">
                           {formatDate(nextDiary.date).replace(/^20(\d{2}年)/, '$1')}
                         </div>
                       </div>
@@ -234,6 +235,9 @@ export const DiaryDetail: React.FC = () => {
                 </nav>
               </footer>
             </article>
+
+            {/* 底部卷尾题跋 */}
+            <PageEpigraph quote="日记是自己写给自己最好的情书，也是时间长河里唯一的停靠桩。" />
           </div>
         </Container>
       </PageShell>

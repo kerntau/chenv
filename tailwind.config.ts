@@ -65,6 +65,26 @@ const config: Config = {
           '"Microsoft YaHei"',
           'sans-serif',
         ],
+        xingshu: [
+          '"hongleixingshu"',
+          '"Source Han Serif SC"',
+          '"Noto Serif SC"',
+          'serif',
+        ],
+        youran: [
+          '"slideyouran"',
+          'MiSans',
+          'cursive',
+          'sans-serif',
+        ],
+        maple: [
+          '"Maple Mono CN"',
+          '"JetBrains Mono"',
+          'ui-monospace',
+          'SFMono-Regular',
+          'monospace',
+          'sans-serif',
+        ],
       },
       typography: () => ({
         paper: {

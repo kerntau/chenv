@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import { Link } from 'wouter';
 import { PageShell } from '../components/layout/PageShell';
 import { Container } from '../components/layout/Container';
+import { PageEpigraph } from '../components/layout/PageEpigraph';
 import { getAllDiaries, getAllFriends, getAllRecords } from '../content';
 import { formatDateShort } from '../lib/date';
 import {
@@ -114,7 +115,7 @@ export const Sitemap: React.FC = () => {
                     <span className="font-serif text-xs sm:text-[13px] text-slate-800 dark:text-slate-200 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors truncate pr-3 group-hover:underline underline-offset-2">
                       {diary.title}
                     </span>
-                    <span className="font-mono text-[10.5px] text-slate-400 dark:text-slate-500 shrink-0">
+                    <span className="font-sans text-[10.5px] text-slate-400 dark:text-slate-500 shrink-0">
                       {formatDateShort(diary.date)}
                     </span>
                   </Link>
@@ -161,6 +162,9 @@ export const Sitemap: React.FC = () => {
           </footer>
 
         </article>
+
+        {/* 底部卷尾题跋 */}
+        <PageEpigraph quote="心中有景，花香满径。" />
       </Container>
     </PageShell>
   );

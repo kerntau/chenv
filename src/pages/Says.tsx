@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { RefreshCw } from 'lucide-react';
 import { Container } from '../components/layout/Container';
 import { PageShell } from '../components/layout/PageShell';
+import { PageEpigraph } from '../components/layout/PageEpigraph';
 import { RecordCard } from '../components/says/RecordCard';
 import { useStaticRecords } from '../hooks/useStaticRecords';
 import { siteConfig } from '../content';
@@ -49,6 +50,9 @@ export const Says: React.FC = () => {
             <RefreshCw className="h-3.5 w-3.5" /> 加载更多动态
           </button>
         )}
+
+        {/* 底部卷尾题跋 */}
+        <PageEpigraph quote="捕捉灵光闪烁，记录当下的真实呼吸。" />
       </Container>
     </PageShell>
   );

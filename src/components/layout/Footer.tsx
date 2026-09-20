@@ -3,6 +3,7 @@ import { Link } from 'wouter';
 import { ArrowUpRight } from 'lucide-react';
 import { useTheme } from '../../hooks/useTheme';
 import { siteConfig } from '../../content';
+import { TechIcon } from '../ui/TechIcon';
 
 const DEFAULT_NAV_COLUMNS = [
   {
@@ -24,7 +25,7 @@ const DEFAULT_NAV_COLUMNS = [
   {
     title: '联系',
     links: [
-      { label: '发邮件', href: 'mailto:hi@chenv.cn', isExternal: true },
+      { label: '发邮件', href: 'mailto:i@chenv.cn', isExternal: true },
       { label: 'GitHub', href: 'https://github.com/kerntau', isExternal: true },
       { label: '日常说说', href: '/says' },
     ],
@@ -62,26 +63,29 @@ export const Footer: React.FC = () => {
                 {motto}
               </p>
             )}
-            <div className="text-[11px] text-slate-400 dark:text-slate-500 font-mono leading-relaxed pt-0.5">
-              <span>&copy; {sinceYear}-{currentYear} Powered by </span>
+            <div className="flex flex-wrap items-center gap-1.5 text-[11px] text-slate-400 dark:text-slate-500 font-mono leading-relaxed pt-1">
+              <span>&copy; {sinceYear}-{currentYear}</span>
+              <span className="opacity-40">•</span>
+              <span>Powered by</span>
               <a
                 href="https://rsbuild.dev"
                 target="_blank"
                 rel="noreferrer"
-                className="hover:text-slate-700 dark:hover:text-slate-300 underline decoration-slate-300 dark:decoration-slate-700 underline-offset-2 transition-colors"
+                className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-slate-100/80 dark:bg-white/[0.05] hover:bg-slate-200/70 dark:hover:bg-white/[0.1] text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-100 transition-colors shadow-2xs"
               >
-                Rsbuild
+                <TechIcon name="rsbuild" className="w-3 h-3 shrink-0" />
+                <span>Rsbuild</span>
               </a>
-              <span> &amp; </span>
+              <span className="opacity-40">&amp;</span>
               <a
                 href="https://react.dev"
                 target="_blank"
                 rel="noreferrer"
-                className="hover:text-slate-700 dark:hover:text-slate-300 underline decoration-slate-300 dark:decoration-slate-700 underline-offset-2 transition-colors"
+                className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-slate-100/80 dark:bg-white/[0.05] hover:bg-slate-200/70 dark:hover:bg-white/[0.1] text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-100 transition-colors shadow-2xs"
               >
-                React 19
+                <TechIcon name="react" className="w-3 h-3 shrink-0" />
+                <span>React 19</span>
               </a>
-              <span>.</span>
             </div>
           </div>
 
@@ -157,42 +161,29 @@ export const Footer: React.FC = () => {
 
             {/* 主题切换器 */}
             {showThemeToggle && (
-              <div className="inline-flex items-center space-x-1 p-0.5 rounded-md bg-white/50 dark:bg-white/5 border border-white/60 dark:border-white/5 backdrop-blur-md shadow-2xs">
-                <button
-                  type="button"
-                  onClick={() => setTheme('light')}
-                  className={`hover:text-slate-900 dark:hover:text-slate-100 transition-colors cursor-pointer py-1 px-1.5 rounded-xs ${
-                    theme === 'light'
-                      ? 'font-semibold text-slate-900 dark:text-slate-100 bg-white/80 dark:bg-white/10 shadow-2xs'
-                      : 'text-slate-400 dark:text-slate-500'
-                  }`}
-                >
-                  Light
-                </button>
-                <span className="text-slate-300 dark:text-slate-700 text-[9px]">&bull;</span>
-                <button
-                  type="button"
-                  onClick={() => setTheme('system')}
-                  className={`hover:text-slate-900 dark:hover:text-slate-100 transition-colors cursor-pointer py-1 px-1.5 rounded-xs ${
-                    theme === 'system'
-                      ? 'font-semibold text-slate-900 dark:text-slate-100 bg-white/80 dark:bg-white/10 shadow-2xs'
-                      : 'text-slate-400 dark:text-slate-500'
-                  }`}
-                >
-                  System
-                </button>
-                <span className="text-slate-300 dark:text-slate-700 text-[9px]">&bull;</span>
-                <button
-                  type="button"
-                  onClick={() => setTheme('dark')}
-                  className={`hover:text-slate-900 dark:hover:text-slate-100 transition-colors cursor-pointer py-1 px-1.5 rounded-xs ${
-                    theme === 'dark'
-                      ? 'font-semibold text-slate-900 dark:text-slate-100 bg-white/80 dark:bg-white/10 shadow-2xs'
-                      : 'text-slate-400 dark:text-slate-500'
-                  }`}
-                >
-                  Dark
-                </button>
+              <div className="inline-flex items-center gap-0.5 p-[2px] rounded-md bg-white/50 dark:bg-white/5 border border-white/60 dark:border-white/5 backdrop-blur-md shadow-2xs text-[11px] leading-none">
+                {(['light', 'system', 'dark'] as const).map((t, idx) => {
+                  const label = t === 'light' ? 'Light' : t === 'system' ? 'System' : 'Dark';
+                  const isActive = theme === t;
+                  return (
+                    <React.Fragment key={t}>
+                      {idx > 0 && (
+                        <span className="text-slate-300 dark:text-slate-700 text-[8px] leading-none select-none px-0.5">&bull;</span>
+                      )}
+                      <button
+                        type="button"
+                        onClick={() => setTheme(t)}
+                        className={`transition-colors cursor-pointer py-0.5 px-1.5 rounded-xs leading-none ${
+                          isActive
+                            ? 'font-medium text-slate-900 dark:text-slate-100 bg-white/80 dark:bg-white/10 shadow-2xs'
+                            : 'text-slate-400 dark:text-slate-500 hover:text-slate-900 dark:hover:text-slate-100'
+                        }`}
+                      >
+                        {label}
+                      </button>
+                    </React.Fragment>
+                  );
+                })}
               </div>
             )}
           </div>

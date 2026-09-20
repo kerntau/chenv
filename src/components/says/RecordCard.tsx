@@ -18,7 +18,7 @@ export const RecordCard: React.FC<{
           className="mt-0.5 h-9 w-9 shrink-0 rounded-md border border-slate-200/70 object-cover dark:border-white/10 sm:h-10 sm:w-10"
         />
         <div className="min-w-0 flex-1">
-          <div className="flex items-center justify-between gap-4 text-xs font-mono text-slate-400 dark:text-slate-400">
+          <div className="flex items-center justify-between gap-4 text-xs font-sans text-slate-400 dark:text-slate-400">
             <div className="flex items-center gap-2">
               <span className="font-medium text-slate-700 dark:text-slate-200">{record.author || siteConfig.author.name}</span>
             </div>

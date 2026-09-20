@@ -6,6 +6,7 @@ import { AmbientBackground } from './components/layout/AmbientBackground';
 import { siteConfig } from './content';
 import { Home } from './pages/Home';
 import { ExternalLinkModal } from './components/ui/ExternalLinkModal';
+import { ClickSpark } from './components/ui/ClickSpark';
 
 // 路由级代码分割：非首屏页面不进入主包
 const Archives = lazy(() => import('./pages/Archives').then((m) => ({ default: m.Archives })));
@@ -14,6 +15,7 @@ const DiaryDetail = lazy(() => import('./pages/DiaryDetail').then((m) => ({ defa
 const Says = lazy(() => import('./pages/Says').then((m) => ({ default: m.Says })));
 const Friends = lazy(() => import('./pages/Friends').then((m) => ({ default: m.Friends })));
 const Sitemap = lazy(() => import('./pages/Sitemap').then((m) => ({ default: m.Sitemap })));
+const About = lazy(() => import('./pages/About').then((m) => ({ default: m.About })));
 const NotFound = lazy(() => import('./pages/NotFound').then((m) => ({ default: m.NotFound })));
 
 // 栏目路由定义（含旧路径别名），同时驱动 <Switch> 与浏览器标签标题
@@ -29,6 +31,7 @@ const SECTIONS: Section[] = [
   { label: '手记', paths: ['/diaries', '/journal', '/shouji'], list: Diaries, detail: DiaryDetail },
   { label: '说说', paths: ['/says', '/record'], list: Says },
   { label: '友链', paths: ['/friends', '/friend'], list: Friends },
+  { label: '关于', paths: ['/about', '/me'], list: About },
   { label: '站点地图', paths: ['/sitemap'], list: Sitemap },
 ];
 
@@ -63,6 +66,7 @@ export const App: React.FC = () => {
           '手记': siteConfig.diariesPage?.subtitle || siteConfig.description,
           '说说': siteConfig.saysPage?.subtitle || '把灵感、日常与正在发生的事情，留在时间线上。',
           '友链': siteConfig.friendsPage?.subtitle || '山海相逢，灵感共振。',
+          '关于': '关于作者 kerntau、全栈工程技术栈、本站设计哲学与数字花园。',
           '站点地图': '聚合全站核心频道结构、生活随笔手记与全局标签图谱。',
         };
         metaDesc.setAttribute('content', sectionDescMap[section.label] || siteConfig.description);
@@ -138,48 +142,50 @@ export const App: React.FC = () => {
 
   // 前台博客浏览体系
   return (
-    <div
-      className={`min-h-screen flex flex-col relative selection:bg-sky-200 selection:text-sky-900 dark:selection:bg-sky-900/60 dark:selection:text-sky-100 transition-colors duration-300 ${
-        location === '/' ? 'lg:h-screen lg:overflow-hidden' : ''
-      }`}
-      onClick={handleGlobalClick}
-    >
-      <AmbientBackground />
-      <Header />
-      <div className={`flex-1 flex flex-col min-h-0 ${location === '/' ? 'justify-center overflow-hidden' : ''}`}>
-        <Suspense fallback={<RouteFallback />}>
-          <Switch>
-            <Route path="/" component={Home} />
-            {SECTIONS.map((section) => (
-              <React.Fragment key={section.label}>
-                {section.paths.map((path) => (
-                  <React.Fragment key={path}>
-                    <Route path={path} component={section.list} />
-                    {section.detail && (
-                      <Route path={`${path}/:slug`} component={section.detail} />
-                    )}
-                  </React.Fragment>
-                ))}
-              </React.Fragment>
-            ))}
-            <Route component={NotFound} />
-          </Switch>
-        </Suspense>
-      </div>
-      <Footer />
+    <ClickSpark>
+      <div
+        className={`min-h-screen flex flex-col relative selection:bg-sky-200 selection:text-sky-900 dark:selection:bg-sky-900/60 dark:selection:text-sky-100 transition-colors duration-300 ${
+          location === '/' ? 'lg:h-screen lg:overflow-hidden' : ''
+        }`}
+        onClick={handleGlobalClick}
+      >
+        <AmbientBackground />
+        <Header />
+        <div className={`flex-1 flex flex-col min-h-0 ${location === '/' ? 'justify-center overflow-hidden' : ''}`}>
+          <Suspense fallback={<RouteFallback />}>
+            <Switch>
+              <Route path="/" component={Home} />
+              {SECTIONS.map((section) => (
+                <React.Fragment key={section.label}>
+                  {section.paths.map((path) => (
+                    <React.Fragment key={path}>
+                      <Route path={path} component={section.list} />
+                      {section.detail && (
+                        <Route path={`${path}/:slug`} component={section.detail} />
+                      )}
+                    </React.Fragment>
+                  ))}
+                </React.Fragment>
+              ))}
+              <Route component={NotFound} />
+            </Switch>
+          </Suspense>
+        </div>
+        <Footer />
 
-      {/* 外部链接二次确认弹窗 */}
-      <ExternalLinkModal
-        isOpen={isExternalModalOpen}
-        url={externalUrl}
-        onClose={() => setIsExternalModalOpen(false)}
-        onConfirm={() => {
-          if (externalUrl) {
-            window.open(externalUrl, '_blank', 'noopener,noreferrer');
-          }
-          setIsExternalModalOpen(false);
-        }}
-      />
-    </div>
+        {/* 外部链接二次确认弹窗 */}
+        <ExternalLinkModal
+          isOpen={isExternalModalOpen}
+          url={externalUrl}
+          onClose={() => setIsExternalModalOpen(false)}
+          onConfirm={() => {
+            if (externalUrl) {
+              window.open(externalUrl, '_blank', 'noopener,noreferrer');
+            }
+            setIsExternalModalOpen(false);
+          }}
+        />
+      </div>
+    </ClickSpark>
   );
 };

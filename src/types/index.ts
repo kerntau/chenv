@@ -78,6 +78,11 @@ export interface TechStackCategory {
   items: TechStackItem[];
 }
 
+export interface CertificateItem {
+  name: string;
+  code: string;
+}
+
 export interface SiteConfig {
   title: string;
   subtitle: string;
@@ -127,6 +132,7 @@ export interface SiteConfig {
     techCategories?: TechStackCategory[];
     designTitle?: string;
     designPhilosophy?: string;
+    certificates?: CertificateItem[];
   };
   announcement?: {
     enabled?: boolean;

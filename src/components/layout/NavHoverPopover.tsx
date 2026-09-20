@@ -164,7 +164,7 @@ export const NavHoverPopover: React.FC<NavHoverPopoverProps> = ({
                         className="group flex items-center justify-between p-2.5 rounded-md border border-white/60 dark:border-white/[0.06] hover:border-sky-300/80 dark:hover:border-white/20 hover:bg-white/70 dark:hover:bg-white/[0.06] shadow-2xs transition-all"
                       >
                         <div className="flex items-center space-x-2.5 min-w-0 pr-2">
-                          <span className="text-[10px] font-mono text-slate-400 shrink-0">
+                          <span className="text-[10px] font-sans text-slate-400 shrink-0">
                             {formatDateShort(diary.date)}
                           </span>
                           <span className="text-xs font-medium text-slate-800 dark:text-slate-200 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors truncate">
@@ -211,7 +211,7 @@ export const NavHoverPopover: React.FC<NavHoverPopoverProps> = ({
                         onClick={onItemClick}
                         className="block p-3 rounded-md border border-white/60 dark:border-white/[0.06] hover:border-sky-300/80 dark:hover:border-white/20 hover:bg-white/70 dark:hover:bg-white/[0.06] shadow-2xs transition-all group"
                       >
-                        <div className="flex items-center justify-between text-[10px] font-mono text-slate-400 mb-1">
+                        <div className="flex items-center justify-between text-[10px] font-sans text-slate-400 mb-1">
                           <span>{formatDateShort(diary.date)}</span>
                           {diary.weather && (
                             <span className="px-1.5 py-0.5 rounded-xs bg-sky-50 dark:bg-sky-950/40 text-sky-600 dark:text-sky-400 text-[9px] border border-sky-200/40 dark:border-sky-800/40">
