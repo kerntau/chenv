@@ -9,6 +9,7 @@ import { ClickSpark } from './components/ui/ClickSpark';
 import { PageLoader } from './components/ui/PageLoader';
 import { getPageLoaderConfig } from './lib/pageLoaderConfig';
 import { FluidGlassDefs } from './components/ui/glass/FluidGlassDefs';
+import { useTheme } from './hooks/useTheme';
 
 // 路由级代码分割：非首屏页面不进入主包
 const Archives = lazy(() => import('./pages/Archives').then((m) => ({ default: m.Archives })));
@@ -50,6 +51,7 @@ const RouteFallback: React.FC = () => (
 );
 
 export const App: React.FC = () => {
+  useTheme();
   const [location] = useLocation();
 
   // 判断是否为沉浸式全屏画廊页面
@@ -69,6 +71,17 @@ export const App: React.FC = () => {
       setIsPageLoading(true);
     }
   }, [location]);
+
+  // 全局确保抖音美好体 CDN 样式表挂载
+  useEffect(() => {
+    const fontUrl = 'https://cn-font.claude-code-best.win/packages/dymh/dist/DouyinSansBold/result.css';
+    if (!document.querySelector(`link[href="${fontUrl}"]`)) {
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = fontUrl;
+      document.head.appendChild(link);
+    }
+  }, []);
 
   // 路由跳转时平滑回滚至顶部并动态更新浏览器标签标题
   useEffect(() => {

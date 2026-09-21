@@ -15,7 +15,11 @@ export function useTheme() {
   const [isDark, setIsDark] = useState<boolean>(() => {
     if (typeof window !== 'undefined') {
       const root = document.documentElement;
-      return root.classList.contains('dark');
+      if (root.classList.contains('dark')) return true;
+      const stored = localStorage.getItem('perimsx-theme') as ThemeMode;
+      if (stored === 'dark') return true;
+      if (stored === 'light') return false;
+      return window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)').matches : false;
     }
     return false;
   });

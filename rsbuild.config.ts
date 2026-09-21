@@ -17,6 +17,10 @@ export default defineConfig({
     tags: [
       {
         tag: 'script',
+        children: `(function(){try{var s=localStorage.getItem('perimsx-theme');var d=s==='dark'||(!s&&window.matchMedia('(prefers-color-scheme: dark)').matches)||(s==='system'&&window.matchMedia('(prefers-color-scheme: dark)').matches);if(d){document.documentElement.classList.add('dark');}else{document.documentElement.classList.remove('dark');}}catch(e){}})();`,
+      },
+      {
+        tag: 'script',
         children: `(function(){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}window.gtag=gtag;var loaded=false;function loadAnalytics(){if(loaded)return;loaded=true;try{(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-TL7V3JC5');var ga=document.createElement('script');ga.async=true;ga.src='https://www.googletagmanager.com/gtag/js?id=G-73FXC49GB4';document.head.appendChild(ga);gtag('js',new Date());gtag('config','G-73FXC49GB4');(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","ybjuygdar5");}catch(e){console.warn('analytics init error',e);}}if('requestIdleCallback' in window){window.addEventListener('load',function(){requestIdleCallback(function(){setTimeout(loadAnalytics,1500);},{timeout:3000});});}else{window.addEventListener('load',function(){setTimeout(loadAnalytics,2000);});}['touchstart','scroll','pointerdown'].forEach(function(evt){window.addEventListener(evt,loadAnalytics,{once:true,passive:true});});})();`,
       },
       {
@@ -125,6 +129,13 @@ export default defineConfig({
         attrs: {
           rel: 'stylesheet',
           href: 'https://cn-font.claude-code-best.win/packages/maple-mono-cn/dist/MapleMono-CN-Bold/result.css',
+        },
+      },
+      {
+        tag: 'link',
+        attrs: {
+          rel: 'stylesheet',
+          href: 'https://cn-font.claude-code-best.win/packages/dymh/dist/DouyinSansBold/result.css',
         },
       },
     ],

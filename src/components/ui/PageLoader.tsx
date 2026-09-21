@@ -156,7 +156,7 @@ export const PageLoader: React.FC<PageLoaderProps> = ({
 
   return (
     <div
-      className={`fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#F8FAFC]/80 dark:bg-[#080D1A]/82 backdrop-blur-3xl backdrop-saturate-150 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] select-none ${
+      className={`fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#F8FAFC]/96 dark:bg-[#080D1A]/96 backdrop-blur-3xl backdrop-saturate-150 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] select-none ${
         isExiting
           ? 'opacity-0 scale-[1.03] blur-sm pointer-events-none'
           : 'opacity-100 scale-100'
@@ -167,7 +167,7 @@ export const PageLoader: React.FC<PageLoaderProps> = ({
       {/* 居中彗星流光加载仪表盘与中心头像 */}
       <div className="relative flex flex-col items-center justify-center">
         {/* 背景柔和引力微光晕 */}
-        <div className="absolute -inset-10 rounded-full bg-sky-400/15 dark:bg-sky-500/20 blur-3xl pointer-events-none animate-pulse" />
+        <div className="absolute -inset-14 rounded-full bg-sky-400/20 dark:bg-sky-500/35 blur-3xl pointer-events-none animate-pulse" />
 
         <CometDial
           value={progress}
@@ -181,7 +181,7 @@ export const PageLoader: React.FC<PageLoaderProps> = ({
           tapBounce={0.25}
           flickBounce={0.15}
           accent={isDark ? '#38bdf8' : '#0284c7'}
-          ink={isDark ? '#475569' : '#cbd5e1'}
+          ink={isDark ? '#1e293b' : '#cbd5e1'}
           unit="%"
           disabled={true}
           statusText={statusNote ? (statusNote.includes('·') ? statusNote.split('·')[0].trim() : statusNote) : undefined}
@@ -189,7 +189,7 @@ export const PageLoader: React.FC<PageLoaderProps> = ({
           avatarAlt={siteConfig.author?.name || '站长头像'}
           avatarFallback="/avatar.jpg"
           showFigure={true}
-          className="filter drop-shadow-[0_4px_24px_rgba(56,189,248,0.22)]"
+          className="filter drop-shadow-[0_4px_24px_rgba(56,189,248,0.25)] dark:drop-shadow-[0_4px_30px_rgba(56,189,248,0.35)]"
         />
       </div>
     </div>

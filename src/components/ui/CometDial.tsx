@@ -456,7 +456,7 @@ export const CometDial: React.FC<CometDialProps> = ({
           <>
             {/* 中心精修圆形头像 */}
             <div
-              className="relative rounded-full p-[2.5px] shadow-[0_8px_24px_rgba(0,0,0,0.1)] dark:shadow-[0_8px_28px_rgba(0,0,0,0.45)] bg-gradient-to-b from-white/90 via-white/50 to-white/20 dark:from-slate-600/80 dark:via-slate-700/50 dark:to-slate-800/30"
+              className="relative rounded-full p-[2.5px] shadow-[0_8px_24px_rgba(0,0,0,0.1)] dark:shadow-[0_8px_28px_rgba(0,0,0,0.6)] bg-gradient-to-b from-white/90 via-white/50 to-white/20 dark:from-sky-400/30 dark:via-slate-700/50 dark:to-slate-900/60"
               style={{
                 width: `${Math.round(size * 0.44)}px`,
                 height: `${Math.round(size * 0.44)}px`,
@@ -476,15 +476,15 @@ export const CometDial: React.FC<CometDialProps> = ({
 
             {/* 位于表盘缺口处的单行超紧凑水润微晶胶囊 */}
             {showFigure && (
-              <div className="absolute -bottom-2.5 flex items-center justify-center gap-1.5 px-3 py-0.5 rounded-full bg-gradient-to-b from-white/95 via-white/85 to-white/70 dark:from-white/15 dark:via-white/08 dark:to-white/04 backdrop-blur-xl border border-white/90 dark:border-white/20 shadow-[inset_0_1px_0_0_rgba(255,255,255,1),inset_0_0_0_1px_rgba(255,255,255,0.4),0_4px_14px_-2px_rgba(15,23,42,0.08)] dark:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.25),0_6px_18px_rgba(0,0,0,0.45)] text-[11px] text-slate-700 dark:text-slate-200 transition-all duration-300 max-w-[260px]">
-                <div className="flex items-center gap-0.5 font-mono font-semibold tracking-tight shrink-0">
+              <div className="absolute -bottom-2.5 flex items-center justify-center gap-1.5 px-3 py-0.5 rounded-full bg-gradient-to-b from-white/95 via-white/85 to-white/70 dark:from-slate-900/90 dark:via-slate-800/80 dark:to-slate-900/90 backdrop-blur-xl border border-white/90 dark:border-sky-500/20 shadow-[inset_0_1px_0_0_rgba(255,255,255,1),inset_0_0_0_1px_rgba(255,255,255,0.4),0_4px_14px_-2px_rgba(15,23,42,0.08)] dark:shadow-[inset_0_1px_0_0_rgba(56,189,248,0.2),0_6px_20px_rgba(0,0,0,0.6)] text-[11px] text-slate-700 dark:text-slate-200 transition-all duration-300 max-w-[260px]">
+                <div className="flex items-center gap-0.5 font-mono font-semibold tracking-tight shrink-0 text-slate-800 dark:text-sky-300">
                   <span ref={figure} className="comet-dial__figure tabular-nums" />
                   {unit ? <span className="opacity-60 text-[9.5px] font-normal">{unit}</span> : null}
                 </div>
                 {statusText && (
                   <>
-                    <span className="opacity-30 select-none text-[9px] shrink-0">&bull;</span>
-                    <span className="font-sans font-medium text-[11px] text-slate-600 dark:text-slate-300 truncate tracking-tight">
+                    <span className="opacity-30 select-none text-[9px] shrink-0 text-slate-400 dark:text-slate-500">&bull;</span>
+                    <span className="font-sans font-medium text-[11px] text-slate-600 dark:text-slate-200 truncate tracking-tight">
                       {statusText}
                     </span>
                   </>
