@@ -1,4 +1,4 @@
-import React, { Suspense, lazy, useEffect } from 'react';
+import React, { Suspense, lazy, useEffect, useState, useRef, useMemo } from 'react';
 import { Route, Switch, useLocation } from 'wouter';
 import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
@@ -6,6 +6,9 @@ import { AmbientBackground } from './components/layout/AmbientBackground';
 import { siteConfig } from './content';
 import { Home } from './pages/Home';
 import { ClickSpark } from './components/ui/ClickSpark';
+import { PageLoader } from './components/ui/PageLoader';
+import { getPageLoaderConfig } from './lib/pageLoaderConfig';
+import { FluidGlassDefs } from './components/ui/glass/FluidGlassDefs';
 
 // 路由级代码分割：非首屏页面不进入主包
 const Archives = lazy(() => import('./pages/Archives').then((m) => ({ default: m.Archives })));
@@ -43,9 +46,7 @@ function findSection(pathname: string) {
 }
 
 const RouteFallback: React.FC = () => (
-  <div className="flex-1 flex items-center justify-center min-h-[40vh]">
-    <div className="text-sm text-slate-500 dark:text-slate-400 animate-pulse font-mono">加载中…</div>
-  </div>
+  <div className="flex-1 flex items-center justify-center min-h-[40vh]" />
 );
 
 export const App: React.FC = () => {
@@ -53,6 +54,21 @@ export const App: React.FC = () => {
 
   // 判断是否为沉浸式全屏画廊页面
   const isGallery = location === '/gallery' || location.startsWith('/gallery/') || location === '/photos' || location === '/wall';
+
+  // 全站页面流光加载与路由过渡状态
+  const [isPageLoading, setIsPageLoading] = useState(true);
+  const prevLocationRef = useRef(location);
+  const pageMeta = useMemo(() => getPageLoaderConfig(location), [location]);
+  const handleLoaded = React.useCallback(() => {
+    setIsPageLoading(false);
+  }, []);
+
+  useEffect(() => {
+    if (prevLocationRef.current !== location) {
+      prevLocationRef.current = location;
+      setIsPageLoading(true);
+    }
+  }, [location]);
 
   // 路由跳转时平滑回滚至顶部并动态更新浏览器标签标题
   useEffect(() => {
@@ -86,11 +102,25 @@ export const App: React.FC = () => {
   // 前台博客浏览体系
   return (
     <ClickSpark>
+      <FluidGlassDefs />
       <div
         className={`min-h-screen flex flex-col relative selection:bg-sky-200 selection:text-sky-900 dark:selection:bg-sky-900/60 dark:selection:text-sky-100 transition-colors duration-300 ${
           location === '/' || isGallery ? 'h-screen overflow-hidden' : ''
         }`}
       >
+        {isPageLoading && (
+          <PageLoader
+            key={location}
+            title={pageMeta.title}
+            startMsg={pageMeta.startMsg}
+            middleMsg={pageMeta.middleMsg}
+            readyMsg={pageMeta.readyMsg}
+            minDuration={pageMeta.minDuration}
+            maxWait={pageMeta.maxWait}
+            previewImages={pageMeta.previewImages}
+            onLoaded={handleLoaded}
+          />
+        )}
         {!isGallery && <AmbientBackground />}
         <Header />
         <div className={`flex-1 flex flex-col min-h-0 ${location === '/' || isGallery ? 'justify-center overflow-hidden h-full' : ''}`}>

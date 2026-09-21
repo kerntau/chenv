@@ -65,7 +65,7 @@ export const HomeHero: React.FC = () => {
     <section ref={containerRef} className="relative flex flex-col items-center justify-center py-2 sm:py-3 lg:py-0 text-center overflow-hidden w-full">
       {/* 头像区域 */}
       <div className="gsap-hero-avatar opacity-0 mb-3 sm:mb-4 lg:mb-3 relative group">
-        <div className="relative w-16 h-16 sm:w-20 sm:h-20 lg:w-[4.85rem] lg:h-[4.85rem] rounded-full p-0.5 sm:p-1 bg-gradient-to-tr from-sky-200 to-blue-300/40 dark:from-slate-800 dark:to-sky-900/60 shadow-md">
+        <div className="relative w-16 h-16 sm:w-20 sm:h-20 lg:w-[4.85rem] lg:h-[4.85rem] rounded-full p-0.5 sm:p-1 bg-gradient-to-tr from-sky-200/90 via-white/90 to-blue-300/50 dark:from-slate-800/90 dark:via-white/[0.12] dark:to-sky-900/70 shadow-[0_8px_24px_-4px_rgba(15,23,42,0.12),inset_0_1px_1px_0_rgba(255,255,255,0.95)] dark:shadow-[0_12px_28px_-4px_rgba(0,0,0,0.55),inset_0_1px_1px_0_rgba(255,255,255,0.22)]">
           <img
             src={siteConfig.author.avatar || 'https://q1.qlogo.cn/g?b=qq&nk=1722288011&s=640'}
             alt={siteConfig.author.name}
@@ -86,9 +86,9 @@ export const HomeHero: React.FC = () => {
               className={`block w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-full ${statusColorClass} border-2 border-white dark:border-slate-900 shadow-sm`}
             />
             {/* Tooltip */}
-            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 rounded text-[10px] font-mono whitespace-nowrap bg-slate-900/90 text-white dark:bg-slate-100/95 dark:text-slate-900 shadow-md backdrop-blur-sm pointer-events-none opacity-0 invisible group-hover/status:opacity-100 group-hover/status:visible transition-all z-20">
+            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 rounded text-[10px] font-mono whitespace-nowrap bg-white/90 text-slate-800 dark:bg-slate-900/90 dark:text-slate-100 shadow-md backdrop-blur-md border border-white/80 dark:border-white/10 pointer-events-none opacity-0 invisible group-hover/status:opacity-100 group-hover/status:visible transition-all z-20">
               状态: {onlineStatus}
-              <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-0.5 border-4 border-transparent border-t-slate-900/90 dark:border-t-slate-100/95" />
+              <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-0.5 border-4 border-transparent border-t-white/90 dark:border-t-slate-900/90" />
             </div>
           </div>
         </div>
@@ -145,7 +145,7 @@ export const HomeHero: React.FC = () => {
         {skillsPills && (
           <div className="gsap-hero-skills opacity-0 mt-2 sm:mt-2.5 flex items-center justify-center gap-1.5 flex-wrap">
             <span className="font-light opacity-75 text-xs sm:text-sm">with</span>
-            <code className="inline-flex items-center font-sans text-xs sm:text-[12.5px] font-medium px-2.5 py-0.5 rounded-md text-slate-700 dark:text-slate-200 border border-white/80 dark:border-white/10 bg-white/60 dark:bg-white/5 backdrop-blur-md shadow-2xs">
+            <code className="inline-flex items-center font-sans text-xs sm:text-[12.5px] font-medium px-2.5 py-0.5 rounded-md text-slate-700 dark:text-slate-200 border border-white/85 dark:border-white/[0.12] bg-white/65 dark:bg-white/[0.06] backdrop-blur-md shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.92),0_2px_6px_rgba(0,0,0,0.03)] dark:shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.18),0_2px_8px_rgba(0,0,0,0.25)]">
               {skillsPills}
             </code>
             <span className="inline-block w-[2px] h-3 bg-sky-500/80 dark:bg-sky-400/80 rounded-full animate-[blink_1.2s_linear_infinite]" />
@@ -169,7 +169,7 @@ export const HomeHero: React.FC = () => {
         )}
       </div>
 
-      {/* 社交链接图标胶囊 */}
+      {/* 社交链接图标胶囊 - GlassIcons 材质风格 */}
       {showSocials && siteConfig.author.socials && siteConfig.author.socials.length > 0 && (
         <div className="gsap-hero-socials opacity-0 mt-3 sm:mt-3.5 lg:mt-3 flex flex-wrap justify-center items-center gap-1.5 sm:gap-2">
           {siteConfig.author.socials.map((social) => {
@@ -181,13 +181,13 @@ export const HomeHero: React.FC = () => {
                 target={social.url.startsWith('http') ? '_blank' : '_self'}
                 rel="noreferrer"
                 aria-label={social.name}
-                className="group/social relative flex items-center justify-center w-8 h-8 sm:w-8.5 sm:h-8.5 rounded-full text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-white/80 dark:hover:bg-white/10 hover:shadow-2xs transition-all duration-200 focus-visible:outline-none"
+                className="group/social relative flex items-center justify-center w-8 h-8 sm:w-8.5 sm:h-8.5 rounded-full glass-icon-btn text-slate-600 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-300 focus-visible:outline-none"
               >
                 <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                 {/* 悬浮 Tooltip */}
-                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 rounded text-[10px] font-mono whitespace-nowrap bg-slate-900/90 text-white dark:bg-slate-100/95 dark:text-slate-900 shadow-md backdrop-blur-sm pointer-events-none opacity-0 invisible group-hover/social:opacity-100 group-hover/social:visible transition-all z-20">
+                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 rounded text-[10px] font-mono whitespace-nowrap bg-white/90 text-slate-800 dark:bg-slate-900/90 dark:text-slate-100 shadow-md backdrop-blur-md border border-white/80 dark:border-white/10 pointer-events-none opacity-0 invisible group-hover/social:opacity-100 group-hover/social:visible transition-all z-20">
                   {social.name}
-                  <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-0.5 border-4 border-transparent border-t-slate-900/90 dark:border-t-slate-100/95" />
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-0.5 border-4 border-transparent border-t-white/90 dark:border-t-slate-900/90" />
                 </div>
               </a>
             );
@@ -198,9 +198,9 @@ export const HomeHero: React.FC = () => {
       {/* 建站初期演示公告条 */}
       {siteConfig.announcement?.enabled && (
         <div className="gsap-hero-announcement opacity-0 mt-3 sm:mt-4 lg:mt-3 max-w-lg mx-auto w-full px-2">
-          <div className="flex items-center justify-between gap-3 px-3.5 py-1.5 rounded-lg bg-white/70 dark:bg-slate-900/65 backdrop-blur-xl border border-white/80 dark:border-white/10 text-xs font-sans text-slate-700 dark:text-slate-200 shadow-[0_4px_16px_-2px_rgba(15,23,42,0.05),inset_0_1px_0_0_rgba(255,255,255,0.9)] dark:shadow-[0_4px_16px_-2px_rgba(0,0,0,0.35),inset_0_1px_0_0_rgba(255,255,255,0.08)]">
+          <div className="flex items-center justify-between gap-3 px-3.5 py-1.5 rounded-lg bg-white/72 dark:bg-slate-900/70 backdrop-blur-xl saturate-[180%] border border-white/85 dark:border-white/[0.12] text-xs font-sans text-slate-700 dark:text-slate-200 shadow-[0_8px_24px_-4px_rgba(15,23,42,0.06),inset_0_1.5px_1px_0_rgba(255,255,255,0.95),inset_0_-1px_0_0_rgba(0,0,0,0.02)] dark:shadow-[0_12px_28px_-4px_rgba(0,0,0,0.45),inset_0_1px_1px_0_rgba(255,255,255,0.16),inset_0_-1px_0_0_rgba(0,0,0,0.4)]">
             <div className="flex items-center gap-2 min-w-0 text-left">
-              <span className="shrink-0 inline-flex items-center gap-1 px-1.5 py-0.5 rounded-xs text-[10.5px] font-mono font-medium bg-sky-50 dark:bg-sky-950/40 text-sky-700 dark:text-sky-300 border border-sky-200/50 dark:border-sky-800/40">
+              <span className="shrink-0 inline-flex items-center gap-1 px-1.5 py-0.5 rounded-xs text-[10.5px] font-mono font-medium bg-sky-50/80 dark:bg-sky-950/50 text-sky-700 dark:text-sky-300 border border-sky-200/60 dark:border-sky-800/50 backdrop-blur-xs shadow-2xs">
                 <Megaphone className="w-3 h-3 text-sky-600 dark:text-sky-400" />
                 <span>{siteConfig.announcement.badge || '公告'}</span>
               </span>

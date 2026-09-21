@@ -71,7 +71,7 @@ export const Footer: React.FC = () => {
                 href="https://rsbuild.dev"
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-slate-100/80 dark:bg-white/[0.05] hover:bg-slate-200/70 dark:hover:bg-white/[0.1] text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-100 transition-colors shadow-2xs"
+                className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-white/65 dark:bg-white/[0.06] border border-white/80 dark:border-white/[0.08] hover:bg-white/90 dark:hover:bg-white/[0.12] text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-100 transition-all shadow-[inset_0_1px_0_0_rgba(255,255,255,0.8)] dark:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)]"
               >
                 <TechIcon name="rsbuild" className="w-3 h-3 shrink-0" />
                 <span>Rsbuild</span>
@@ -81,7 +81,7 @@ export const Footer: React.FC = () => {
                 href="https://react.dev"
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-slate-100/80 dark:bg-white/[0.05] hover:bg-slate-200/70 dark:hover:bg-white/[0.1] text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-100 transition-colors shadow-2xs"
+                className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-white/65 dark:bg-white/[0.06] border border-white/80 dark:border-white/[0.08] hover:bg-white/90 dark:hover:bg-white/[0.12] text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-100 transition-all shadow-[inset_0_1px_0_0_rgba(255,255,255,0.8)] dark:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)]"
               >
                 <TechIcon name="react" className="w-3 h-3 shrink-0" />
                 <span>React 19</span>
@@ -161,7 +161,7 @@ export const Footer: React.FC = () => {
 
             {/* 主题切换器 */}
             {showThemeToggle && (
-              <div className="inline-flex items-center gap-0.5 p-[2px] rounded-md bg-white/50 dark:bg-white/5 border border-white/60 dark:border-white/5 backdrop-blur-md shadow-2xs text-[11px] leading-none">
+              <div className="inline-flex items-center gap-0.5 p-[2px] rounded-md bg-white/60 dark:bg-white/[0.06] border border-white/80 dark:border-white/[0.10] backdrop-blur-md shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.9),0_2px_6px_rgba(0,0,0,0.03)] dark:shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.15),0_2px_8px_rgba(0,0,0,0.3)] text-[11px] leading-none">
                 {(['light', 'system', 'dark'] as const).map((t, idx) => {
                   const label = t === 'light' ? 'Light' : t === 'system' ? 'System' : 'Dark';
                   const isActive = theme === t;
@@ -173,10 +173,10 @@ export const Footer: React.FC = () => {
                       <button
                         type="button"
                         onClick={() => setTheme(t)}
-                        className={`transition-colors cursor-pointer py-0.5 px-1.5 rounded-xs leading-none ${
+                        className={`transition-all cursor-pointer py-0.5 px-1.5 rounded-xs leading-none ${
                           isActive
-                            ? 'font-medium text-slate-900 dark:text-slate-100 bg-white/80 dark:bg-white/10 shadow-2xs'
-                            : 'text-slate-400 dark:text-slate-500 hover:text-slate-900 dark:hover:text-slate-100'
+                            ? 'font-medium text-slate-900 dark:text-slate-100 bg-white/90 dark:bg-white/[0.14] border border-white dark:border-white/20 shadow-[0_1px_3px_rgba(0,0,0,0.06),inset_0_1px_0_0_rgba(255,255,255,1)] dark:shadow-[0_2px_6px_rgba(0,0,0,0.4),inset_0_1px_0_0_rgba(255,255,255,0.25)]'
+                            : 'text-slate-400 dark:text-slate-500 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-white/40 dark:hover:bg-white/[0.05]'
                         }`}
                       >
                         {label}

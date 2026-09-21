@@ -66,7 +66,7 @@ export const Sitemap: React.FC = () => {
                 <Link
                   key={sec.path}
                   href={sec.path}
-                  className="group block p-4 rounded-md bg-white/60 dark:bg-black/25 backdrop-blur-md border border-white/80 dark:border-white/10 hover:border-sky-300/80 dark:hover:border-sky-600/50 hover:bg-white/80 dark:hover:bg-black/40 transition-all shadow-2xs hover:shadow-sm"
+                  className="group block p-4 rounded-xl bg-white/65 dark:bg-white/[0.03] backdrop-blur-md border border-slate-200/80 dark:border-white/[0.08] shadow-[inset_0_1px_1px_rgba(255,255,255,0.7),0_2px_8px_rgba(0,0,0,0.02)] dark:shadow-[inset_0_1px_1px_rgba(255,255,255,0.04),0_2px_8px_rgba(0,0,0,0.2)] hover:border-sky-400/50 dark:hover:border-sky-500/40 hover:bg-white/85 dark:hover:bg-white/[0.06] hover:-translate-y-0.5 hover:shadow-[inset_0_1px_2px_rgba(255,255,255,0.9),0_6px_20px_rgba(0,0,0,0.05)] dark:hover:shadow-[inset_0_1px_1px_rgba(255,255,255,0.08),0_6px_20px_rgba(0,0,0,0.3)] transition-all duration-300"
                 >
                   <div className="flex items-baseline justify-between">
                     <div className="flex items-baseline space-x-2">
@@ -77,7 +77,7 @@ export const Sitemap: React.FC = () => {
                         {sec.nameEn}
                       </span>
                     </div>
-                    <span className="font-mono text-[11px] px-1.5 py-0.5 rounded-xs bg-white/80 dark:bg-slate-800 text-slate-500 dark:text-slate-400 border border-slate-200/50 dark:border-slate-700/50">
+                    <span className="font-mono text-[11px] px-1.5 py-0.5 rounded-md bg-white/70 dark:bg-slate-800/70 text-slate-500 dark:text-slate-400 border border-slate-200/60 dark:border-white/[0.06] shadow-[inset_0_1px_0_rgba(255,255,255,0.5)]">
                       {sec.count}
                     </span>
                   </div>
@@ -110,7 +110,7 @@ export const Sitemap: React.FC = () => {
                   <Link
                     key={diary.slug}
                     href={`/diaries/${diary.slug}`}
-                    className="group flex items-baseline justify-between py-1.5 px-2 -mx-2 rounded-xs hover:bg-slate-100/60 dark:hover:bg-slate-800/40 transition-colors"
+                    className="group flex items-baseline justify-between py-1.5 px-2 -mx-2 rounded-md hover:bg-slate-100/60 dark:hover:bg-slate-800/40 transition-colors"
                   >
                     <span className="font-serif text-xs sm:text-[13px] text-slate-800 dark:text-slate-200 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors truncate pr-3 group-hover:underline underline-offset-2">
                       {diary.title}
@@ -126,7 +126,7 @@ export const Sitemap: React.FC = () => {
 
           {/* 卷末附录：机器索引与订阅声明 (Colophon & Feeds) */}
           <footer className="pt-6 border-t border-slate-200/70 dark:border-slate-800/70 space-y-3">
-            <div className="p-4 rounded-md bg-white/60 dark:bg-black/25 backdrop-blur-md border border-white/80 dark:border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs shadow-2xs">
+            <div className="p-4 rounded-xl bg-white/60 dark:bg-white/[0.03] backdrop-blur-md border border-slate-200/80 dark:border-white/[0.08] shadow-[inset_0_1px_1px_rgba(255,255,255,0.6)] dark:shadow-[inset_0_1px_1px_rgba(255,255,255,0.04)] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
               <div className="space-y-0.5">
                 <div className="font-semibold text-slate-900 dark:text-slate-100 flex items-center gap-1.5">
                   <Sparkles className="w-3.5 h-3.5 text-sky-600 dark:text-sky-400" />
@@ -142,7 +142,7 @@ export const Sitemap: React.FC = () => {
                   href="/sitemap.xml"
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded-xs border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition-colors"
+                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg border border-slate-200/80 dark:border-white/[0.08] bg-white/60 dark:bg-white/[0.04] hover:bg-white/90 dark:hover:bg-white/[0.1] text-slate-700 dark:text-slate-300 shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] transition-all"
                 >
                   <span>sitemap.xml</span>
                   <ExternalLink className="w-3 h-3 opacity-60" />
@@ -152,7 +152,7 @@ export const Sitemap: React.FC = () => {
                   href="/feed.xml"
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded-xs bg-sky-50 dark:bg-sky-950/50 border border-sky-200/60 dark:border-sky-800/60 text-sky-700 dark:text-sky-300 hover:bg-sky-100 dark:hover:bg-sky-900/50 transition-colors"
+                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-sky-50/80 dark:bg-sky-950/50 border border-sky-200/60 dark:border-sky-800/60 text-sky-700 dark:text-sky-300 hover:bg-sky-100/80 dark:hover:bg-sky-900/60 shadow-[inset_0_1px_0_rgba(255,255,255,0.6)] transition-all"
                 >
                   <span>feed.xml</span>
                   <ExternalLink className="w-3 h-3 opacity-60" />

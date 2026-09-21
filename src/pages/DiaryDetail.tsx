@@ -139,13 +139,13 @@ export const DiaryDetail: React.FC = () => {
                     </span>
 
                     {diary.weather && (
-                      <span className="px-1.5 py-0.5 rounded-xs bg-slate-100 dark:bg-slate-800/80 text-[10.5px] font-sans">
+                      <span className="px-1.5 py-0.5 rounded-xs bg-white/70 dark:bg-white/[0.08] text-slate-600 dark:text-slate-300 border border-white/80 dark:border-white/[0.08] shadow-2xs text-[10.5px] font-sans">
                         {diary.weather}
                       </span>
                     )}
 
                     {diary.mood && (
-                      <span className="px-1.5 py-0.5 rounded-xs bg-sky-50 dark:bg-sky-950/30 text-sky-800 dark:text-sky-300 text-[10.5px] font-sans border border-sky-200/40 dark:border-sky-800/30">
+                      <span className="px-1.5 py-0.5 rounded-xs bg-sky-50/80 dark:bg-sky-950/50 text-sky-700 dark:text-sky-300 text-[10.5px] font-sans border border-sky-200/60 dark:border-sky-800/50 shadow-2xs">
                         {diary.mood}
                       </span>
                     )}
@@ -173,7 +173,7 @@ export const DiaryDetail: React.FC = () => {
 
                 {/* 摘要与心境引言 */}
                 {diary.summary && (
-                  <div className="p-3.5 rounded-r-md rounded-l-none bg-slate-100/60 dark:bg-white/[0.04] border-l-2 border-slate-300 dark:border-sky-400/50 text-slate-600 dark:text-slate-300 text-xs sm:text-sm leading-relaxed font-maple">
+                  <div className="p-3.5 rounded-r-md rounded-l-none bg-white/50 dark:bg-white/[0.04] border-l-2 border-sky-500/70 dark:border-sky-400/60 text-slate-600 dark:text-slate-300 text-xs sm:text-sm leading-relaxed font-maple shadow-[inset_0_1px_0_0_rgba(255,255,255,0.7)] dark:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)]">
                     {diary.summary}
                   </div>
                 )}

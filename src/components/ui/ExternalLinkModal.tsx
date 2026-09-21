@@ -70,12 +70,12 @@ export const ExternalLinkModal: React.FC<ExternalLinkModalProps> = ({
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 bg-slate-900/40 dark:bg-black/60 backdrop-blur-md z-[100] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" />
         
-        <Dialog.Content className="fixed left-[50%] top-[50%] z-[100] w-[90%] max-w-[400px] translate-x-[-50%] translate-y-[-50%] rounded-md bg-white/80 dark:bg-[#0E1624]/85 backdrop-blur-2xl border border-white/80 dark:border-white/10 shadow-[0_20px_50px_-10px_rgba(15,23,42,0.2),inset_0_1px_0_0_rgba(255,255,255,0.9)] dark:shadow-[0_20px_50px_-10px_rgba(0,0,0,0.65),inset_0_1px_0_0_rgba(255,255,255,0.1)] overflow-hidden font-sans outline-none duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]">
+        <Dialog.Content className="fixed left-[50%] top-[50%] z-[100] w-[90%] max-w-[400px] translate-x-[-50%] translate-y-[-50%] rounded-md bg-white/84 dark:bg-[#0E1624]/88 backdrop-blur-2xl saturate-[190%] border border-white/85 dark:border-white/[0.12] shadow-[0_24px_60px_-10px_rgba(15,23,42,0.22),0_8px_24px_-4px_rgba(15,23,42,0.06),inset_0_1.5px_1px_0_rgba(255,255,255,0.98),inset_0_-1px_0_0_rgba(0,0,0,0.02)] dark:shadow-[0_26px_60px_-10px_rgba(0,0,0,0.75),inset_0_1px_1px_0_rgba(255,255,255,0.20),inset_0_-1px_0_0_rgba(0,0,0,0.4)] overflow-hidden font-sans outline-none duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]">
           
           <div className="p-5 space-y-4">
             {/* 头部：精致盾牌与标题 */}
             <div className="flex items-start gap-3">
-              <div className="shrink-0 w-8 h-8 rounded-sm bg-slate-100 dark:bg-slate-800 border border-slate-200/60 dark:border-slate-700/60 flex items-center justify-center text-amber-500 dark:text-amber-400">
+              <div className="shrink-0 w-8 h-8 rounded-sm bg-white/70 dark:bg-slate-800/80 border border-white/80 dark:border-white/10 flex items-center justify-center text-amber-500 dark:text-amber-400 shadow-2xs">
                 <ShieldAlert className="w-4 h-4" />
               </div>
 
@@ -91,7 +91,7 @@ export const ExternalLinkModal: React.FC<ExternalLinkModalProps> = ({
             </div>
 
             {/* 目标链接干净展示框 */}
-            <div className="rounded-md bg-white/50 dark:bg-black/30 backdrop-blur-md border border-white/70 dark:border-white/5 p-3 space-y-1 shadow-2xs">
+            <div className="rounded-md bg-white/55 dark:bg-black/35 backdrop-blur-md border border-white/80 dark:border-white/[0.08] p-3 space-y-1 shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.8),0_2px_6px_rgba(0,0,0,0.02)] dark:shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.08),0_2px_8px_rgba(0,0,0,0.2)]">
               <div className="flex items-center justify-between gap-2 text-[10.5px] font-mono text-slate-400 dark:text-slate-500">
                 <span>目标域名</span>
                 {parsedUrl && (
@@ -133,7 +133,7 @@ export const ExternalLinkModal: React.FC<ExternalLinkModalProps> = ({
                   <button
                     type="button"
                     onClick={handleCancel}
-                    className="inline-flex justify-center items-center rounded-sm px-3 py-1.5 text-xs font-medium text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800/80 transition-colors focus:outline-none"
+                    className="inline-flex justify-center items-center rounded-sm px-3 py-1.5 text-xs font-medium text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-100 hover:bg-white/60 dark:hover:bg-white/[0.08] border border-transparent hover:border-white/80 dark:hover:border-white/10 transition-all focus:outline-none"
                   >
                     取消
                   </button>
@@ -142,7 +142,7 @@ export const ExternalLinkModal: React.FC<ExternalLinkModalProps> = ({
                 <button
                   type="button"
                   onClick={handleConfirm}
-                  className="inline-flex justify-center items-center gap-1.5 rounded-sm px-3.5 py-1.5 text-xs font-medium transition-colors bg-sky-600 hover:bg-sky-500 active:bg-sky-700 dark:bg-sky-500 dark:hover:bg-sky-400 text-white dark:text-slate-950 shadow-2xs focus:outline-none cursor-pointer"
+                  className="inline-flex justify-center items-center gap-1.5 rounded-sm px-3.5 py-1.5 text-xs font-medium transition-all bg-sky-600 hover:bg-sky-500 active:bg-sky-700 dark:bg-sky-500 dark:hover:bg-sky-400 text-white dark:text-slate-950 border border-white/20 shadow-[0_4px_14px_-2px_rgba(2,132,199,0.4),inset_0_1px_0_0_rgba(255,255,255,0.4)] focus:outline-none cursor-pointer"
                 >
                   <span>继续访问 ({countdown}s)</span>
                   <ExternalLink className="w-3 h-3 opacity-85" />

@@ -54,7 +54,7 @@ export const Diaries: React.FC = () => {
             <Link
               key={diary.slug}
               href={`/diaries/${diary.slug}`}
-              className="p-3.5 sm:p-4 rounded-md paper-card hover:-translate-y-0.5 hover:bg-white/90 dark:hover:bg-white/[0.06] hover:border-slate-300/80 dark:hover:border-white/15 transition-all duration-250 ease-out group flex flex-col justify-between block"
+              className="p-3.5 sm:p-4 rounded-md paper-card hover:-translate-y-1 hover:border-sky-400/50 dark:hover:border-white/20 transition-all duration-250 ease-out group flex flex-col justify-between block"
             >
               <div>
                 {/* 顶部元数据头：天气、心情、时间与地点 */}
@@ -67,12 +67,12 @@ export const Diaries: React.FC = () => {
 
                   <div className="flex items-center space-x-1.5 text-[10.5px] shrink-0">
                     {diary.weather && (
-                      <span className="px-1.5 py-0.5 rounded-xs bg-slate-100 dark:bg-slate-800/80 text-slate-600 dark:text-slate-400">
+                      <span className="px-1.5 py-0.5 rounded-xs bg-white/70 dark:bg-white/[0.08] text-slate-600 dark:text-slate-300 border border-white/80 dark:border-white/[0.08] shadow-2xs">
                         {diary.weather}
                       </span>
                     )}
                     {diary.mood && (
-                      <span className="px-1.5 py-0.5 rounded-xs bg-sky-50 dark:bg-sky-950/40 text-sky-700 dark:text-sky-300 border border-sky-200/50 dark:border-sky-800/40">
+                      <span className="px-1.5 py-0.5 rounded-xs bg-sky-50/80 dark:bg-sky-950/50 text-sky-700 dark:text-sky-300 border border-sky-200/60 dark:border-sky-800/50 shadow-2xs">
                         {diary.mood}
                       </span>
                     )}

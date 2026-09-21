@@ -1,13 +1,11 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { DriftWall } from '../components/ui/DriftWall';
-import { GalleryLoader } from '../components/gallery/GalleryLoader';
 import { getGalleryConfig } from '../content';
 import { useTheme } from '../hooks/useTheme';
 
 export const Gallery: React.FC = () => {
   const config = useMemo(() => getGalleryConfig(), []);
   const { isDark } = useTheme();
-  const [isReady, setIsReady] = useState(false);
 
   // 视口尺寸响应式监听，动态优化 DriftWall 参数
   const [windowWidth, setWindowWidth] = useState<number>(() =>
@@ -63,12 +61,6 @@ export const Gallery: React.FC = () => {
 
   return (
     <div className="w-full h-full flex-1 flex flex-col items-center justify-center relative overflow-hidden bg-transparent select-none">
-      {!isReady && (
-        <GalleryLoader
-          onLoaded={() => setIsReady(true)}
-          previewImages={config.items.slice(0, 6).map((item) => item.image)}
-        />
-      )}
       <DriftWall
         items={config.items}
         columns={layoutProps.columns}

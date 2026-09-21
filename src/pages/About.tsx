@@ -54,17 +54,17 @@ export const About: React.FC = () => {
           </span>
         </div>
 
-        {/* 核心卡片容器：纸墨温润、极简大气、纯净无噪点 */}
-        <div className="paper-card p-6 sm:p-8 rounded-2xl border border-slate-200/80 dark:border-white/[0.08] bg-white/90 dark:bg-[#0c121e]/95 shadow-[0_4px_24px_-4px_rgba(15,23,42,0.04),0_1px_2px_0_rgba(15,23,42,0.02)] dark:shadow-[0_8px_32px_-4px_rgba(0,0,0,0.3)] space-y-6 font-sans backdrop-blur-sm">
+        {/* 核心卡片容器：纸墨温润、极简大气、流体玻璃 */}
+        <div className="paper-card p-6 sm:p-8 rounded-2xl border border-slate-200/80 dark:border-white/[0.08] bg-white/75 dark:bg-[#0c121e]/75 shadow-fluid-glass dark:shadow-fluid-glass-dark space-y-6 font-sans backdrop-blur-xl relative overflow-hidden">
           
           {/* 1. 个人履历抬头 Header */}
-          <section className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-5 pb-5 border-b border-slate-100 dark:border-white/[0.06]">
+          <section className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-5 pb-5 border-b border-slate-100/80 dark:border-white/[0.06]">
             {/* 头像 */}
             <div className="relative shrink-0">
               <img
                 src={author.avatar}
                 alt={author.name}
-                className="w-16 h-16 sm:w-[4.5rem] sm:h-[4.5rem] rounded-full object-cover ring-2 ring-slate-100 dark:ring-white/10 shadow-xs"
+                className="w-16 h-16 sm:w-[4.5rem] sm:h-[4.5rem] rounded-full object-cover ring-2 ring-slate-100/80 dark:ring-white/10 shadow-xs"
               />
               <span
                 title={author.statusBadge || '在席中'}
@@ -80,7 +80,7 @@ export const About: React.FC = () => {
                     {author.name}
                   </h1>
                   {author.statusBadge && (
-                    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-sky-50 dark:bg-sky-950/50 border border-sky-200/60 dark:border-sky-800/50 text-[11px] font-medium text-sky-700 dark:text-sky-300">
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-sky-50/80 dark:bg-sky-950/50 border border-sky-200/60 dark:border-sky-800/50 text-[11px] font-medium text-sky-700 dark:text-sky-300 shadow-[inset_0_1px_0_rgba(255,255,255,0.6)]">
                       <span className="w-1.5 h-1.5 rounded-full bg-sky-500 animate-pulse" />
                       <span>{author.statusBadge}</span>
                     </span>
@@ -126,7 +126,7 @@ export const About: React.FC = () => {
                         target="_blank"
                         rel="noreferrer"
                         data-external-bypass="true"
-                        className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-slate-100/80 dark:bg-white/[0.05] hover:bg-slate-200/70 dark:hover:bg-white/[0.1] text-slate-600 dark:text-slate-300 text-[11px] font-sans transition-all hover:-translate-y-0.5 shadow-2xs"
+                        className="glass-icon-btn inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-slate-700 dark:text-slate-300 text-[11px] font-sans transition-all hover:-translate-y-0.5"
                       >
                         <IconComponent className="w-3.5 h-3.5 shrink-0" />
                         <span>{social.name}</span>
@@ -142,7 +142,7 @@ export const About: React.FC = () => {
           {/* 2. 工程与全栈技术栈（平铺精致徽标墙，去厚重灰底框） */}
           {techCategories.length > 0 && (
             <section className="space-y-3.5">
-              <div className="flex items-center justify-between pb-1.5 border-b border-slate-100 dark:border-white/[0.06]">
+              <div className="flex items-center justify-between pb-1.5 border-b border-slate-100/80 dark:border-white/[0.06]">
                 <h2 className="text-sm sm:text-base font-bold text-slate-900 dark:text-slate-100 tracking-tight font-sans">
                   {about?.techStackTitle || '工程与全栈技术栈'}
                 </h2>
@@ -164,7 +164,7 @@ export const About: React.FC = () => {
                         <div
                           key={item.name}
                           title={item.desc}
-                          className="group inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white dark:bg-slate-900/80 border border-slate-200/70 dark:border-white/[0.08] hover:border-sky-300 dark:hover:border-sky-500/40 hover:bg-sky-50/20 dark:hover:bg-sky-950/20 text-xs font-mono text-slate-700 dark:text-slate-200 transition-all cursor-default shadow-2xs hover:-translate-y-0.5"
+                          className="group inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white/60 dark:bg-white/[0.04] backdrop-blur-md border border-slate-200/70 dark:border-white/[0.08] shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] hover:border-sky-400/60 dark:hover:border-sky-400/50 hover:bg-white/80 dark:hover:bg-white/[0.08] text-xs font-mono text-slate-700 dark:text-slate-200 transition-all cursor-default hover:-translate-y-0.5"
                         >
                           <TechIcon name={item.name} className="w-3.5 h-3.5 shrink-0" />
                           <span className="font-medium text-[11.5px]">{item.name}</span>

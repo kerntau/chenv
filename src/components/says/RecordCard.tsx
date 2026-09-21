@@ -10,12 +10,12 @@ export const RecordCard: React.FC<{
   record: RecordItem;
 }> = ({ record }) => {
   return (
-    <article className="rounded-md paper-card hover:-translate-y-0.5 hover:bg-white/90 dark:hover:bg-white/[0.06] hover:border-slate-300/80 dark:hover:border-white/15 transition-all duration-250 p-3.5 sm:p-4">
+    <article className="rounded-md paper-card hover:-translate-y-1 hover:border-sky-400/50 dark:hover:border-white/20 transition-all duration-250 p-3.5 sm:p-4">
       <div className="flex gap-3">
         <img
           src={siteConfig.author.avatar}
           alt={`${siteConfig.author.name} 的头像`}
-          className="mt-0.5 h-9 w-9 shrink-0 rounded-md border border-slate-200/70 object-cover dark:border-white/10 sm:h-10 sm:w-10"
+          className="mt-0.5 h-9 w-9 shrink-0 rounded-md border border-white/80 object-cover dark:border-white/15 shadow-[0_2px_8px_rgba(0,0,0,0.06),inset_0_1px_1px_0_rgba(255,255,255,0.8)] sm:h-10 sm:w-10"
         />
         <div className="min-w-0 flex-1">
           <div className="flex items-center justify-between gap-4 text-xs font-sans text-slate-400 dark:text-slate-400">

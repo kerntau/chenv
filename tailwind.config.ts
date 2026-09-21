@@ -21,6 +21,12 @@ const config: Config = {
         'glass-hover': '0 8px 30px -4px rgba(15, 23, 42, 0.08), 0 4px 12px -2px rgba(15, 23, 42, 0.04), inset 0 1px 0 0 rgba(255, 255, 255, 0.95)',
         'glass-dark': '0 8px 32px -4px rgba(0, 0, 0, 0.40), 0 2px 8px -2px rgba(0, 0, 0, 0.20), inset 0 1px 0 0 rgba(255, 255, 255, 0.12)',
         'glass-dark-hover': '0 14px 38px -4px rgba(0, 0, 0, 0.50), 0 4px 12px -2px rgba(0, 0, 0, 0.25), inset 0 1px 0 0 rgba(255, 255, 255, 0.22)',
+        'fluid-glass': '0 8px 32px -4px rgba(15, 23, 42, 0.06), 0 2px 8px -1px rgba(15, 23, 42, 0.03), inset 0 1px 1px 0 rgba(255, 255, 255, 0.92), inset 0 -1px 0 0 rgba(0, 0, 0, 0.03)',
+        'fluid-glass-hover': '0 14px 38px -4px rgba(15, 23, 42, 0.10), 0 4px 12px -2px rgba(15, 23, 42, 0.05), inset 0 1px 1px 0 rgba(255, 255, 255, 0.98), inset 0 -1px 0 0 rgba(0, 0, 0, 0.04)',
+        'fluid-glass-dark': '0 12px 36px -4px rgba(0, 0, 0, 0.48), 0 3px 10px -2px rgba(0, 0, 0, 0.26), inset 0 1px 1px 0 rgba(255, 255, 255, 0.22), inset 0 -1px 0 0 rgba(0, 0, 0, 0.35)',
+        'fluid-glass-dark-hover': '0 18px 46px -4px rgba(0, 0, 0, 0.60), 0 6px 16px -2px rgba(0, 0, 0, 0.32), inset 0 1px 1px 0 rgba(255, 255, 255, 0.32), inset 0 -1px 0 0 rgba(0, 0, 0, 0.45)',
+        'fluid-inset': 'inset 0 1px 1px 0 rgba(255, 255, 255, 0.9), inset 0 -1px 1px 0 rgba(0, 0, 0, 0.03)',
+        'fluid-inset-dark': 'inset 0 1px 1px 0 rgba(255, 255, 255, 0.18), inset 0 -1px 1px 0 rgba(0, 0, 0, 0.3)',
       },
       borderRadius: {
         none: '0',
