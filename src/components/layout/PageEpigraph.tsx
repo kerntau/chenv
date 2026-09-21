@@ -36,13 +36,13 @@ export const PageEpigraph: React.FC<PageEpigraphProps> = ({
 
   return (
     <footer
-      className={`mt-5 sm:mt-8 mb-4 sm:mb-6 flex flex-col items-center select-none overflow-x-auto max-w-full ${className}`}
+      className={`mt-5 sm:mt-8 mb-4 sm:mb-6 flex flex-col items-center select-none w-full max-w-full ${className}`}
       aria-label="卷尾题跋"
     >
-      <div className="max-w-fit mx-auto px-4 space-y-2 sm:space-y-2.5">
-        {/* 核心金句：鸿雷行书简体，单行贯通舒展 */}
+      <div className="w-full max-w-lg sm:max-w-fit mx-auto px-4 space-y-2 sm:space-y-2.5">
+        {/* 核心金句：鸿雷行书简体，移动端自然换行居中，桌面端单行贯通舒展 */}
         <p
-          className="text-base sm:text-xl md:text-2xl lg:text-[25px] text-slate-800 dark:text-slate-100 leading-normal tracking-wide font-normal whitespace-nowrap font-xingshu"
+          className="text-base sm:text-xl md:text-2xl lg:text-[25px] text-slate-800 dark:text-slate-100 leading-relaxed sm:leading-normal tracking-wide font-normal whitespace-normal sm:whitespace-nowrap break-words text-center sm:text-left font-xingshu"
           style={{ fontFamily: '"hongleixingshu", cursive, serif' }}
         >
           &ldquo;{quote}&rdquo;
