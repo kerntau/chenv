@@ -9,6 +9,7 @@ import {
   Calendar,
   MapPin,
 } from 'lucide-react';
+import { BlurText, FadeContent } from '../components/reactbits';
 
 export const Diaries: React.FC = () => {
   const allDiaries = useMemo(() => getAllDiaries(), []);
@@ -38,9 +39,13 @@ export const Diaries: React.FC = () => {
       <Container size="wide">
         {/* 精简居中顶栏 */}
         <div className="mb-4 pb-3 sm:mb-6 sm:pb-4 border-b border-slate-200/70 dark:border-white/5 text-center">
-          <h1 className="font-sans text-xl sm:text-2xl font-semibold text-slate-900 dark:text-slate-200 tracking-tight">
-            {pageTitle}
-          </h1>
+          <BlurText
+            text={pageTitle}
+            className="font-sans text-xl sm:text-2xl font-semibold text-slate-900 dark:text-slate-200 tracking-tight justify-center"
+            delay={40}
+            animateBy="words"
+            direction="top"
+          />
           {pageSubtitle && (
             <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 sm:mt-1.5 font-sans max-w-md mx-auto">
               {pageSubtitle}
@@ -50,54 +55,61 @@ export const Diaries: React.FC = () => {
 
         {/* 手记多列卡片网格布局 (2列/3列响应式纯净卡片) */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {allDiaries.map((diary) => (
-            <Link
+          {allDiaries.map((diary, index) => (
+            <FadeContent
               key={diary.slug}
-              href={`/diaries/${diary.slug}`}
-              className="glass-card glass-card-interactive p-3.5 sm:p-4 group flex flex-col justify-between block"
+              delay={Math.min(index * 0.05, 0.4)}
+              direction="up"
+              distance={20}
+              duration={0.45}
             >
-              <div>
-                {/* 顶部元数据头：天气、心情、时间与地点 */}
-                <div className="flex items-center justify-between gap-2 text-xs font-sans text-slate-500 dark:text-slate-400 pb-2.5 border-b border-slate-200/50 dark:border-white/5 mb-2.5">
-                  <div className="flex items-center space-x-1.5 font-medium text-slate-800 dark:text-slate-200">
-                    <Calendar className="w-3.5 h-3.5 text-sky-600 dark:text-sky-400 shrink-0" />
-                    <time dateTime={diary.date}>{formatDate(diary.date)}</time>
-                    {diary.time && <span className="text-[11px] opacity-75 font-sans">· {diary.time}</span>}
+              <Link
+                href={`/diaries/${diary.slug}`}
+                className="glass-card glass-card-interactive p-3.5 sm:p-4 group flex flex-col justify-between block h-full"
+              >
+                <div>
+                  {/* 顶部元数据头：天气、心情、时间与地点 */}
+                  <div className="flex items-center justify-between gap-2 text-xs font-sans text-slate-500 dark:text-slate-400 pb-2.5 border-b border-slate-200/50 dark:border-white/5 mb-2.5">
+                    <div className="flex items-center space-x-1.5 font-medium text-slate-800 dark:text-slate-200">
+                      <Calendar className="w-3.5 h-3.5 text-sky-600 dark:text-sky-400 shrink-0" />
+                      <time dateTime={diary.date}>{formatDate(diary.date)}</time>
+                      {diary.time && <span className="text-[11px] opacity-75 font-sans">· {diary.time}</span>}
+                    </div>
+
+                    <div className="flex items-center space-x-1.5 text-[10.5px] shrink-0">
+                      {diary.weather && (
+                        <span className="glass-tag px-1.5 py-0.5 rounded-xs text-slate-600 dark:text-slate-300 text-[10px]">
+                          {diary.weather}
+                        </span>
+                      )}
+                      {diary.mood && (
+                        <span className="px-1.5 py-0.5 rounded-xs bg-sky-50/80 dark:bg-sky-950/50 text-sky-700 dark:text-sky-300 border border-sky-200/60 dark:border-sky-800/50 shadow-2xs">
+                          {diary.mood}
+                        </span>
+                      )}
+                      {diary.location && (
+                        <span className="hidden sm:inline-flex items-center space-x-0.5 text-slate-400">
+                          <MapPin className="w-3 h-3 text-slate-400" />
+                          <span>{diary.location}</span>
+                        </span>
+                      )}
+                    </div>
                   </div>
 
-                  <div className="flex items-center space-x-1.5 text-[10.5px] shrink-0">
-                    {diary.weather && (
-                      <span className="glass-tag px-1.5 py-0.5 rounded-xs text-slate-600 dark:text-slate-300 text-[10px]">
-                        {diary.weather}
-                      </span>
-                    )}
-                    {diary.mood && (
-                      <span className="px-1.5 py-0.5 rounded-xs bg-sky-50/80 dark:bg-sky-950/50 text-sky-700 dark:text-sky-300 border border-sky-200/60 dark:border-sky-800/50 shadow-2xs">
-                        {diary.mood}
-                      </span>
-                    )}
-                    {diary.location && (
-                      <span className="hidden sm:inline-flex items-center space-x-0.5 text-slate-400">
-                        <MapPin className="w-3 h-3 text-slate-400" />
-                        <span>{diary.location}</span>
-                      </span>
+                  {/* 标题与摘要导言 */}
+                  <div className="space-y-1.5">
+                    <h2 className="font-serif text-base sm:text-[17px] font-semibold text-slate-900 dark:text-slate-200 group-hover:text-slate-950 dark:group-hover:text-sky-200 transition-colors leading-snug line-clamp-2">
+                      {diary.title}
+                    </h2>
+                    {diary.summary && (
+                      <p className="text-xs sm:text-[13px] text-slate-500 dark:text-slate-400 leading-relaxed font-sans line-clamp-3">
+                        {diary.summary}
+                      </p>
                     )}
                   </div>
                 </div>
-
-                {/* 标题与摘要导言 */}
-                <div className="space-y-1.5">
-                  <h2 className="font-serif text-base sm:text-[17px] font-semibold text-slate-900 dark:text-slate-200 group-hover:text-slate-950 dark:group-hover:text-sky-200 transition-colors leading-snug line-clamp-2">
-                    {diary.title}
-                  </h2>
-                  {diary.summary && (
-                    <p className="text-xs sm:text-[13px] text-slate-500 dark:text-slate-400 leading-relaxed font-sans line-clamp-3">
-                      {diary.summary}
-                    </p>
-                  )}
-                </div>
-              </div>
-            </Link>
+              </Link>
+            </FadeContent>
           ))}
         </div>
 
@@ -108,7 +120,9 @@ export const Diaries: React.FC = () => {
         )}
 
         {/* 底部手札卷尾 */}
-        <PageEpigraph />
+        <FadeContent delay={0.2} direction="up" distance={15}>
+          <PageEpigraph />
+        </FadeContent>
       </Container>
     </PageShell>
   );

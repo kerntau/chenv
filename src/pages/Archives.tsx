@@ -5,6 +5,7 @@ import { PageShell } from '../components/layout/PageShell';
 import { PageEpigraph } from '../components/layout/PageEpigraph';
 import { getAllDiaries, siteConfig } from '../content';
 import { formatDateShort, getYear } from '../lib/date';
+import { BlurText, FadeContent, CountUp } from '../components/reactbits';
 
 interface TimelineItem {
   id: string;
@@ -53,28 +54,40 @@ export const Archives: React.FC = () => {
 
   const archivesPage = siteConfig.archivesPage;
   const pageTitle = archivesPage?.title || '时光归档';
-  const pageSubtitle = archivesPage?.subtitle || `共收录 ${timelineItems.length} 篇随笔与手记。`;
 
   return (
     <PageShell>
       <Container size="narrow">
-        {/* 顶部标题区（去除割裂死板横线，以轻盈留白建立层次） */}
+        {/* 顶部标题区 */}
         <div className="mb-5 sm:mb-7 font-sans text-center space-y-1 sm:space-y-1.5">
-          <h1 className="font-sans text-xl sm:text-2xl font-semibold text-slate-900 dark:text-slate-100 tracking-tight">
-            {pageTitle}
-          </h1>
+          <BlurText
+            text={pageTitle}
+            className="font-sans text-xl sm:text-2xl font-semibold text-slate-900 dark:text-slate-100 tracking-tight justify-center"
+            delay={40}
+            animateBy="words"
+            direction="top"
+          />
 
-          {pageSubtitle && (
-            <p className="text-xs text-slate-500 dark:text-slate-400 max-w-md mx-auto leading-relaxed">
-              {pageSubtitle}
-            </p>
-          )}
+          <p className="text-xs text-slate-500 dark:text-slate-400 max-w-md mx-auto leading-relaxed">
+            {archivesPage?.subtitle || (
+              <>
+                共收录 <CountUp to={timelineItems.length} duration={1.2} className="font-mono text-sky-600 dark:text-sky-400 font-semibold" /> 篇随笔与手记。
+              </>
+            )}
+          </p>
         </div>
 
         {/* 垂直时间轴内容流（紧凑年谱排版） */}
         <div className="space-y-6 pb-2 font-sans">
-          {years.map((year) => (
-            <div key={year} className="relative">
+          {years.map((year, yIdx) => (
+            <FadeContent
+              key={year}
+              delay={yIdx * 0.08}
+              direction="up"
+              distance={20}
+              duration={0.4}
+              className="relative"
+            >
               {/* 年份时间锚点（精练等宽数字 + 篇数胶囊 + 向右羽化渐隐光线） */}
               <div className="flex items-center gap-2.5 mb-2.5">
                 <div className="flex items-center gap-2">
@@ -131,7 +144,7 @@ export const Archives: React.FC = () => {
                   </div>
                 ))}
               </div>
-            </div>
+            </FadeContent>
           ))}
 
           {years.length === 0 && (
@@ -142,7 +155,9 @@ export const Archives: React.FC = () => {
         </div>
 
         {/* 底部卷尾题跋 */}
-        <PageEpigraph quote="用理性梳理日常，用技术温柔时光。" />
+        <FadeContent delay={0.2} direction="up" distance={15}>
+          <PageEpigraph quote="用理性梳理日常，用技术温柔时光。" />
+        </FadeContent>
       </Container>
     </PageShell>
   );

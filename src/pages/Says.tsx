@@ -6,6 +6,7 @@ import { PageEpigraph } from '../components/layout/PageEpigraph';
 import { RecordCard } from '../components/says/RecordCard';
 import { useStaticRecords } from '../hooks/useStaticRecords';
 import { siteConfig } from '../content';
+import { BlurText, FadeContent } from '../components/reactbits';
 
 export const Says: React.FC = () => {
   const { records } = useStaticRecords();
@@ -22,9 +23,13 @@ export const Says: React.FC = () => {
       <Container size="narrow">
         {/* 精简居中顶栏 */}
         <div className="mb-4 pb-3 sm:mb-6 sm:pb-4 border-b border-slate-200/70 dark:border-white/5 text-center">
-          <h1 className="font-sans text-xl sm:text-2xl font-semibold text-slate-900 dark:text-slate-200 tracking-tight">
-            {title}
-          </h1>
+          <BlurText
+            text={title}
+            className="font-sans text-xl sm:text-2xl font-semibold text-slate-900 dark:text-slate-200 tracking-tight justify-center"
+            delay={40}
+            animateBy="words"
+            direction="top"
+          />
           {subtitle && (
             <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 sm:mt-1.5 font-sans max-w-md mx-auto">
               {subtitle}
@@ -32,8 +37,16 @@ export const Says: React.FC = () => {
           )}
         </div>
         <div className="space-y-3.5">
-          {visibleRecords.map((record) => (
-            <RecordCard key={record.id} record={record} />
+          {visibleRecords.map((record, index) => (
+            <FadeContent
+              key={record.id}
+              delay={Math.min(index * 0.05, 0.35)}
+              direction="up"
+              distance={20}
+              duration={0.4}
+            >
+              <RecordCard record={record} />
+            </FadeContent>
           ))}
         </div>
         {visibleRecords.length === 0 && (
@@ -52,7 +65,9 @@ export const Says: React.FC = () => {
         )}
 
         {/* 底部卷尾题跋 */}
-        <PageEpigraph quote="捕捉灵光闪烁，记录当下的真实呼吸。" />
+        <FadeContent delay={0.2} direction="up" distance={15}>
+          <PageEpigraph quote="捕捉灵光闪烁，记录当下的真实呼吸。" />
+        </FadeContent>
       </Container>
     </PageShell>
   );
