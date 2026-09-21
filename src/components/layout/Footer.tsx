@@ -47,7 +47,7 @@ export const Footer: React.FC = () => {
   return (
     <footer
       data-external-bypass="true"
-      className="glass-footer relative z-10 mt-auto pt-3 pb-3 sm:pt-4 sm:pb-4 lg:pt-3.5 lg:pb-3.5 text-xs font-sans text-slate-600 dark:text-slate-400 select-none shrink-0"
+      className="relative z-10 mt-auto pt-4 pb-4 sm:pt-6 sm:pb-6 text-xs font-sans text-slate-600 dark:text-slate-400 select-none shrink-0 bg-transparent border-t border-slate-200/50 dark:border-white/5"
     >
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 space-y-3 sm:space-y-3.5">
         
@@ -55,7 +55,10 @@ export const Footer: React.FC = () => {
         <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 sm:gap-6 md:gap-8">
           {/* 左侧区域 */}
           <div className="space-y-1 max-w-sm">
-            <div className="font-sans font-bold text-base sm:text-lg text-slate-900 dark:text-slate-100 tracking-tight">
+            <div
+              className="font-douyin font-bold text-base sm:text-lg text-sky-600 dark:text-sky-400 tracking-tight"
+              style={{ fontFamily: '"Douyin Sans", "抖音美好体", sans-serif' }}
+            >
               {siteConfig.author.name || siteConfig.title}
             </div>
             {motto && (

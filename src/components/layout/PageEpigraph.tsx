@@ -15,6 +15,7 @@ const DEFAULT_QUOTE = '日记是自己写给自己最好的情书，也是时间
 const FONT_URLS = [
   'https://cn-font.claude-code-best.win/packages/hlxsjt/dist/%E9%B8%BF%E9%9B%B7%E8%A1%8C%E4%B9%A6%E7%AE%80%E4%BD%93/result.css',
   'https://cn-font.claude-code-best.win/packages/ysyrxk/dist/slideyouran-Regular2_0/result.css',
+  'https://cn-font.claude-code-best.win/packages/dymh/dist/DouyinSansBold/result.css',
 ];
 
 export const PageEpigraph: React.FC<PageEpigraphProps> = ({
@@ -48,11 +49,11 @@ export const PageEpigraph: React.FC<PageEpigraphProps> = ({
           &ldquo;{quote}&rdquo;
         </p>
 
-        {/* 极简直接署名：悠然体，自然题跋落款 */}
+        {/* 极简直接署名：抖音美好体 / 悠然体自然题跋落款 */}
         {author && (
           <div
-            className="text-right text-sm sm:text-base md:text-lg text-slate-500 dark:text-slate-400 tracking-wider pr-1 sm:pr-2 font-youran"
-            style={{ fontFamily: '"slideyouran", cursive, sans-serif' }}
+            className="text-right text-sm sm:text-base md:text-lg text-sky-600/85 dark:text-sky-400/85 tracking-wider pr-1 sm:pr-2 font-douyin"
+            style={{ fontFamily: '"Douyin Sans", "slideyouran", cursive, sans-serif' }}
           >
             &mdash; {author}
           </div>

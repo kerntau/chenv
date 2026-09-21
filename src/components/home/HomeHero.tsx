@@ -6,7 +6,7 @@ import { Megaphone, ChevronRight } from 'lucide-react';
 import type { SocialLink } from '../../types';
 import { GithubIcon, XTwitterIcon, MailIcon, BilibiliIcon, TelegramIcon } from '../ui/Icons';
 import { siteConfig, getAllDiaries } from '../../content';
-import { SplitText } from '../ui/SplitText';
+import { CountUp } from '../reactbits';
 
 const SOCIAL_ICONS: Record<SocialLink['icon'], React.FC<React.SVGProps<SVGSVGElement>>> = {
   github: GithubIcon,
@@ -24,10 +24,11 @@ export const HomeHero: React.FC = () => {
     
     // 强制初始状态为不可见以避免闪烁，然后依次按延迟执行动画
     tl.fromTo('.gsap-hero-avatar', { opacity: 0, y: 12 }, { opacity: 1, y: 0 })
-      .fromTo('.gsap-hero-skills', { opacity: 0, y: 10 }, { opacity: 1, y: 0 }, 0.25)
-      .fromTo('.gsap-hero-metrics', { opacity: 0, y: 10 }, { opacity: 1, y: 0 }, 0.35)
-      .fromTo('.gsap-hero-socials', { opacity: 0, y: 10 }, { opacity: 1, y: 0 }, 0.45)
-      .fromTo('.gsap-hero-announcement', { opacity: 0, y: 8 }, { opacity: 1, y: 0 }, 0.5);
+      .fromTo('.gsap-hero-title', { opacity: 0, y: 10 }, { opacity: 1, y: 0 }, 0.15)
+      .fromTo('.gsap-hero-skills', { opacity: 0, y: 8 }, { opacity: 1, y: 0 }, 0.28)
+      .fromTo('.gsap-hero-metrics', { opacity: 0, y: 8 }, { opacity: 1, y: 0 }, 0.38)
+      .fromTo('.gsap-hero-socials', { opacity: 0, y: 8 }, { opacity: 1, y: 0 }, 0.48)
+      .fromTo('.gsap-hero-announcement', { opacity: 0, y: 8 }, { opacity: 1, y: 0 }, 0.55);
   }, { scope: containerRef });
   const diaries = getAllDiaries();
   const totalDiaries = diaries.length;
@@ -94,64 +95,32 @@ export const HomeHero: React.FC = () => {
         </div>
       </div>
 
-      {/* 主标题排版 */}
-      <h1 className="font-sans text-xl sm:text-3xl lg:text-[2.2rem] font-normal leading-tight text-slate-900 dark:text-slate-100 tracking-tight">
-        <div className="flex items-center justify-center gap-2 flex-wrap">
-          <SplitText
-            text={greeting}
-            className="font-light opacity-85 text-slate-900 dark:text-slate-100"
-            tag="span"
-            delay={30}
-            duration={0.8}
-            ease="power3.out"
-            threshold={0}
-            rootMargin="0px"
-          />
-          <SplitText
-            text={siteConfig.author.name}
-            className="font-bold text-sky-700 dark:text-sky-400 tracking-tight"
-            tag="span"
-            delay={30}
-            duration={0.8}
-            ease="power3.out"
-            threshold={0}
-            rootMargin="0px"
-          />
-        </div>
+      {/* 主标题排版 - 典雅大气、浑然一体的现代大标题 */}
+      <div className="gsap-hero-title opacity-0 space-y-1 sm:space-y-2 mt-1">
+        <h1 className="font-sans text-2xl sm:text-4xl lg:text-[2.6rem] font-medium tracking-tight text-slate-800 dark:text-slate-100 leading-tight">
+          <span className="font-light text-slate-400 dark:text-slate-400">{greeting} </span>
+          <span
+            className="font-bold text-sky-600 dark:text-sky-400 font-douyin"
+            style={{ fontFamily: '"Douyin Sans", "抖音美好体", sans-serif' }}
+          >
+            {siteConfig.author.name}
+          </span>
+        </h1>
         
-        <div className="mt-1 sm:mt-1 flex items-center justify-center gap-2 flex-wrap">
-          <SplitText
-            text="I build"
-            className="font-light opacity-80 text-slate-900 dark:text-slate-100"
-            tag="span"
-            delay={30}
-            duration={0.8}
-            ease="power3.out"
-            threshold={0}
-            rootMargin="0px"
-          />
-          <SplitText
-            text={highlightRole}
-            className="font-semibold text-sky-700 dark:text-sky-400 tracking-tight"
-            tag="span"
-            delay={30}
-            duration={0.8}
-            ease="power3.out"
-            threshold={0}
-            rootMargin="0px"
-          />
+        <div className="font-sans text-xl sm:text-3xl lg:text-[2rem] font-normal tracking-tight leading-snug">
+          <span className="font-light text-slate-400 dark:text-slate-400">I build </span>
+          <span className="font-semibold text-sky-600 dark:text-sky-400">
+            {highlightRole}
+          </span>
         </div>
 
+        {/* 技能栈 - 纯净流线排版，去除突兀白方盒与刺眼光标 */}
         {skillsPills && (
-          <div className="gsap-hero-skills opacity-0 mt-2 sm:mt-2.5 flex items-center justify-center gap-1.5 flex-wrap">
-            <span className="font-light opacity-75 text-xs sm:text-sm">with</span>
-            <code className="glass-pill inline-flex items-center font-sans text-xs sm:text-[12.5px] font-medium px-2.5 py-0.5 rounded-md text-slate-700 dark:text-slate-200">
-              {skillsPills}
-            </code>
-            <span className="inline-block w-[2px] h-3 bg-sky-500/80 dark:bg-sky-400/80 rounded-full animate-[blink_1.2s_linear_infinite]" />
+          <div className="gsap-hero-skills opacity-0 pt-2 sm:pt-2.5 flex items-center justify-center gap-2 text-xs sm:text-[13px] font-mono text-slate-400 dark:text-slate-500">
+            <span>{skillsPills.split('•').map((s) => s.trim()).join('  ·  ')}</span>
           </div>
         )}
-      </h1>
+      </div>
 
       {/* 格言与数据指标 */}
       <div className="gsap-hero-metrics opacity-0 mt-3 sm:mt-4 lg:mt-3 text-center">
@@ -162,16 +131,20 @@ export const HomeHero: React.FC = () => {
         )}
         {showMetrics && (
           <div className="mt-1.5 sm:mt-2 flex items-center justify-center gap-3 text-[11px] font-mono text-slate-400 dark:text-slate-500">
-            <span>{totalDiaries} 篇手记</span>
+            <span>
+              <CountUp to={totalDiaries} duration={1.2} /> 篇手记
+            </span>
             <span>&bull;</span>
-            <span>运行 {runningDays} 天</span>
+            <span>
+              运行 <CountUp to={runningDays} duration={1.8} /> 天
+            </span>
           </div>
         )}
       </div>
 
-      {/* 社交链接图标胶囊 - GlassIcons 材质风格 */}
+      {/* 社交链接流 - 极简纯图标形式，去除厚重按钮容器 */}
       {showSocials && siteConfig.author.socials && siteConfig.author.socials.length > 0 && (
-        <div className="gsap-hero-socials opacity-0 mt-3 sm:mt-3.5 lg:mt-3 flex flex-wrap justify-center items-center gap-1.5 sm:gap-2">
+        <div className="gsap-hero-socials opacity-0 mt-3 sm:mt-3.5 lg:mt-3 flex flex-wrap justify-center items-center gap-3 sm:gap-4">
           {siteConfig.author.socials.map((social) => {
             const Icon = (SOCIAL_ICONS as any)[social.icon] || GithubIcon;
             return (
@@ -181,11 +154,11 @@ export const HomeHero: React.FC = () => {
                 target={social.url.startsWith('http') ? '_blank' : '_self'}
                 rel="noreferrer"
                 aria-label={social.name}
-                className="group/social relative flex items-center justify-center w-8 h-8 sm:w-8.5 sm:h-8.5 rounded-sm glass-icon-btn text-slate-600 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-300 focus-visible:outline-none"
+                className="group/social relative p-1.5 text-slate-400 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition-all duration-200 hover:-translate-y-0.5 focus-visible:outline-none"
               >
-                <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                <Icon className="w-4 h-4 sm:w-[17px] sm:h-[17px] transition-transform duration-200 group-hover/social:scale-110" />
                 {/* 悬浮 Tooltip */}
-                <div className="glass-tooltip absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 rounded text-[10px] font-mono whitespace-nowrap text-slate-800 dark:text-slate-100 pointer-events-none opacity-0 invisible group-hover/social:opacity-100 group-hover/social:visible transition-all z-20">
+                <div className="glass-tooltip absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-0.5 rounded text-[10px] font-mono whitespace-nowrap text-slate-800 dark:text-slate-100 pointer-events-none opacity-0 invisible group-hover/social:opacity-100 group-hover/social:visible transition-all z-20">
                   {social.name}
                   <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-0.5 border-4 border-transparent border-t-white/90 dark:border-t-slate-900/90" />
                 </div>

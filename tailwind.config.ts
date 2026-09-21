@@ -91,6 +91,11 @@ const config: Config = {
           'monospace',
           'sans-serif',
         ],
+        douyin: [
+          '"Douyin Sans"',
+          '"抖音美好体"',
+          'sans-serif',
+        ],
       },
       typography: () => ({
         paper: {

@@ -20,7 +20,12 @@ export const RecordCard: React.FC<{
         <div className="min-w-0 flex-1">
           <div className="flex items-center justify-between gap-4 text-xs font-sans text-slate-400 dark:text-slate-400">
             <div className="flex items-center gap-2">
-              <span className="font-medium text-slate-700 dark:text-slate-200">{record.author || siteConfig.author.name}</span>
+              <span
+                className="font-medium text-sky-600 dark:text-sky-400 font-douyin"
+                style={{ fontFamily: '"Douyin Sans", "抖音美好体", sans-serif' }}
+              >
+                {record.author || siteConfig.author.name}
+              </span>
             </div>
             <div className="flex items-center gap-2">
               <time dateTime={String(record.createTime)}>{formatDateTime(record.createTime)}</time>

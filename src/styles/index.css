@@ -1,10 +1,16 @@
 @import url('https://cn-font.claude-code-best.win/packages/hlxsjt/dist/%E9%B8%BF%E9%9B%B7%E8%A1%8C%E4%B9%A6%E7%AE%80%E4%BD%93/result.css');
 @import url('https://cn-font.claude-code-best.win/packages/ysyrxk/dist/slideyouran-Regular2_0/result.css');
 @import url('https://cn-font.claude-code-best.win/packages/maple-mono-cn/dist/MapleMono-CN-Bold/result.css');
+@import './douyin-sans.css';
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.font-douyin {
+  font-family: 'Douyin Sans', '抖音美好体', sans-serif !important;
+  font-weight: 700;
+}
 
 @layer base {
   :root {
@@ -394,26 +400,21 @@
       0 10px 28px -3px rgba(0, 0, 0, 0.55);
   }
 
-  /* 底部流体玻璃底栏 (Fluid Glass Footer - Tier 2，与顶部导航呼应) */
+  /* 底部底栏无单独背景，直接融合页面全局背景 */
   .glass-footer {
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.72) 0%, rgba(248, 250, 252, 0.56) 100%);
-    backdrop-filter: blur(18px) saturate(180%) brightness(102%);
-    -webkit-backdrop-filter: blur(18px) saturate(180%) brightness(102%);
-    border-top: 1px solid rgba(255, 255, 255, 0.82);
-    box-shadow: 
-      inset 0 1px 0 0 rgba(255, 255, 255, 0.95),
-      0 -4px 16px -2px rgba(15, 23, 42, 0.03);
-    transition: background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    background: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border-top: 1px solid rgba(226, 232, 240, 0.5);
+    box-shadow: none;
   }
 
   .dark .glass-footer {
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, rgba(15, 23, 42, 0.60) 100%), rgba(11, 16, 27, 0.75);
-    backdrop-filter: blur(20px) saturate(180%) brightness(98%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%) brightness(98%);
-    border-top: 1px solid rgba(255, 255, 255, 0.12);
-    box-shadow: 
-      inset 0 1px 0 0 rgba(255, 255, 255, 0.16),
-      0 -4px 20px -2px rgba(0, 0, 0, 0.40);
+    background: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: none;
   }
 
   /* 导航选中态滑块薄片 (Fluid Glass Nav Active Pill - 标杆圆角 0.25rem) */
@@ -667,7 +668,6 @@
     .glass-panel,
     .fluid-glass-surface,
     .glass-nav,
-    .glass-footer,
     .glass-modal,
     .glass-popover,
     .paper-sheet-realistic {
@@ -678,7 +678,6 @@
     .dark .glass-panel,
     .dark .fluid-glass-surface,
     .dark .glass-nav,
-    .dark .glass-footer,
     .dark .glass-modal,
     .dark .glass-popover,
     .dark .paper-sheet-realistic {
@@ -863,6 +862,18 @@ pre code span {
 .pause-marquee:hover,
 .pause-marquee:active {
   animation-play-state: paused;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }
 
 
