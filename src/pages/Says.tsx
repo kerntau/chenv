@@ -45,7 +45,7 @@ export const Says: React.FC = () => {
           <button
             type="button"
             onClick={() => setPage((value) => value + 1)}
-            className="mx-auto mt-7 flex min-h-9 items-center gap-2 rounded-md bg-white/75 dark:bg-white/[0.08] backdrop-blur-xl saturate-[180%] border border-white/85 dark:border-white/[0.12] px-4 py-2 text-xs font-mono text-slate-700 hover:text-sky-600 dark:text-slate-200 dark:hover:text-white hover:bg-white/90 dark:hover:bg-white/[0.14] shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.95),0_4px_16px_-2px_rgba(15,23,42,0.06)] dark:shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.18),0_4px_16px_-2px_rgba(0,0,0,0.4)] transition-all cursor-pointer hover:-translate-y-0.5 active:translate-y-0"
+            className="glass-pill mx-auto mt-7 flex min-h-9 items-center gap-2 rounded-sm px-4 py-2 text-xs font-mono text-slate-700 hover:text-sky-600 dark:text-slate-200 dark:hover:text-white cursor-pointer hover:-translate-y-0.5 active:translate-y-0"
           >
             <RefreshCw className="h-3.5 w-3.5" /> 加载更多动态
           </button>

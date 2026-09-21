@@ -80,7 +80,7 @@ export const Gallery: React.FC = () => {
         fade={0.25}
         dim={isDark ? 0.78 : 0.9}
         overlayColor={isDark ? '#000000' : '#ffffff'}
-        radius={14}
+        radius={6}
         roll={0}
         pauseOnHover={false}
         grayscale={false}

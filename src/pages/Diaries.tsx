@@ -54,7 +54,7 @@ export const Diaries: React.FC = () => {
             <Link
               key={diary.slug}
               href={`/diaries/${diary.slug}`}
-              className="p-3.5 sm:p-4 rounded-md paper-card hover:-translate-y-1 hover:border-sky-400/50 dark:hover:border-white/20 transition-all duration-250 ease-out group flex flex-col justify-between block"
+              className="glass-card glass-card-interactive p-3.5 sm:p-4 group flex flex-col justify-between block"
             >
               <div>
                 {/* 顶部元数据头：天气、心情、时间与地点 */}
@@ -67,7 +67,7 @@ export const Diaries: React.FC = () => {
 
                   <div className="flex items-center space-x-1.5 text-[10.5px] shrink-0">
                     {diary.weather && (
-                      <span className="px-1.5 py-0.5 rounded-xs bg-white/70 dark:bg-white/[0.08] text-slate-600 dark:text-slate-300 border border-white/80 dark:border-white/[0.08] shadow-2xs">
+                      <span className="glass-tag px-1.5 py-0.5 rounded-xs text-slate-600 dark:text-slate-300 text-[10px]">
                         {diary.weather}
                       </span>
                     )}

@@ -339,14 +339,14 @@ export const AmbientBackground: React.FC = () => {
       className="fixed inset-0 pointer-events-none -z-20 overflow-hidden select-none transition-colors duration-500"
     >
       {/* 柔和淡天蓝与深海微蓝纯净基底渐变 */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#EDF5FD] via-[#F4F8FC] to-[#F7F9FC] dark:from-[#0E1420] dark:via-[#0C121D] dark:to-[#0A0E18]" />
+      <div className="absolute inset-0 bg-gradient-to-b from-[#EDF5FD] via-[#F1F6FB] to-[#F5F8FC] dark:from-[#0E1420] dark:via-[#0C121D] dark:to-[#0A0E18]" />
 
-      {/* 亮色专属顶部微蓝柔光穹顶 */}
+      {/* 亮色专属顶部微蓝柔光穹顶（广域漫射覆盖全屏，消除小屏中途断层） */}
       <div
-        className="dark:hidden absolute -top-[12%] left-1/2 w-[460px] sm:w-[840px] lg:w-[1040px] h-[380px] sm:h-[540px] lg:h-[660px] rounded-[100%] opacity-80 blur-[110px] sm:blur-[150px] transition-all duration-1000"
+        className="dark:hidden absolute -top-[8%] sm:-top-[12%] left-1/2 w-[560px] sm:w-[860px] lg:w-[1060px] h-[560px] sm:h-[640px] lg:h-[720px] rounded-[100%] opacity-85 blur-[130px] sm:blur-[160px] transition-all duration-1000"
         style={{
           background:
-            'radial-gradient(ellipse at center, rgba(160, 218, 255, 0.42) 0%, rgba(186, 230, 253, 0.2) 45%, rgba(224, 242, 254, 0.08) 70%, transparent 80%)',
+            'radial-gradient(ellipse at center, rgba(160, 218, 255, 0.44) 0%, rgba(186, 230, 253, 0.22) 45%, rgba(224, 242, 254, 0.10) 70%, transparent 85%)',
           animation: 'ambientBreathGlow 22s ease-in-out infinite',
           willChange: 'transform, opacity',
         }}
@@ -354,10 +354,10 @@ export const AmbientBackground: React.FC = () => {
 
       {/* 暗色模式极度柔和广域天际微晖（超大直径漫射，彻底消除局部硬光斑，温润如夜空薄雾） */}
       <div
-        className="hidden dark:block absolute -top-[14%] left-1/2 w-[900px] lg:w-[1280px] h-[640px] rounded-[100%] opacity-20 blur-[180px] sm:blur-[220px]"
+        className="hidden dark:block absolute -top-[10%] sm:-top-[14%] left-1/2 w-[680px] sm:w-[960px] lg:w-[1280px] h-[560px] sm:h-[680px] rounded-[100%] opacity-25 blur-[160px] sm:blur-[220px]"
         style={{
           background:
-            'radial-gradient(ellipse at center, rgba(56, 130, 210, 0.16) 0%, rgba(24, 52, 96, 0.08) 50%, transparent 75%)',
+            'radial-gradient(ellipse at center, rgba(56, 130, 210, 0.18) 0%, rgba(24, 52, 96, 0.09) 50%, transparent 80%)',
           animation: 'ambientBreathGlow 28s ease-in-out infinite',
           willChange: 'transform',
         }}

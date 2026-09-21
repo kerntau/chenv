@@ -10,7 +10,7 @@ export const RecordCard: React.FC<{
   record: RecordItem;
 }> = ({ record }) => {
   return (
-    <article className="rounded-md paper-card hover:-translate-y-1 hover:border-sky-400/50 dark:hover:border-white/20 transition-all duration-250 p-3.5 sm:p-4">
+    <article className="glass-card glass-card-interactive rounded-md p-3.5 sm:p-4">
       <div className="flex gap-3">
         <img
           src={siteConfig.author.avatar}

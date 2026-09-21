@@ -88,7 +88,7 @@ export const Friends: React.FC = () => {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="搜索友链..."
-              className="w-full pl-9 pr-8 py-2 rounded-xl text-sm bg-white/70 dark:bg-white/[0.05] backdrop-blur-md border border-slate-200/80 dark:border-white/[0.1] shadow-[inset_0_1px_1px_rgba(255,255,255,0.6),0_2px_8px_rgba(0,0,0,0.03)] dark:shadow-[inset_0_1px_1px_rgba(255,255,255,0.06),0_2px_8px_rgba(0,0,0,0.2)] text-slate-800 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 focus:border-sky-400/80 dark:focus:border-sky-400/60 focus:ring-2 focus:ring-sky-400/20 transition-all outline-none"
+              className="glass-input w-full pl-9 pr-8 py-2 rounded-md text-sm text-slate-800 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 outline-none"
             />
             {query && (
               <button
@@ -111,7 +111,7 @@ export const Friends: React.FC = () => {
               target="_blank"
               rel="noreferrer"
               data-external-bypass="true"
-              className="group relative p-4 rounded-xl border border-sky-400/40 dark:border-sky-400/30 bg-white/70 dark:bg-sky-950/20 backdrop-blur-md shadow-[inset_0_1px_1px_rgba(255,255,255,0.8),0_4px_16px_rgba(56,189,248,0.08)] dark:shadow-[inset_0_1px_1px_rgba(56,189,248,0.15),0_4px_16px_rgba(0,0,0,0.3)] hover:border-sky-400/70 dark:hover:border-sky-400/60 hover:bg-white/85 dark:hover:bg-sky-950/35 hover:-translate-y-0.5 hover:shadow-[inset_0_1px_2px_rgba(255,255,255,0.9),0_8px_24px_rgba(56,189,248,0.14)] transition-all duration-300"
+              className="glass-card glass-card-interactive group relative p-4 block !border-sky-400/50 dark:!border-sky-400/40"
             >
               <div className="flex items-center gap-3">
                 {/* 圆形头像 */}
@@ -157,7 +157,7 @@ export const Friends: React.FC = () => {
         </div>
 
         {/* 申请友链与本站信息 */}
-        <section className="mb-6 rounded-2xl border border-slate-200/80 dark:border-white/[0.08] bg-white/65 dark:bg-[#0d121c]/60 backdrop-blur-xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.8),inset_0_-1px_0_rgba(0,0,0,0.02),0_4px_24px_rgba(0,0,0,0.03)] dark:shadow-[inset_0_1px_1px_rgba(255,255,255,0.06),0_8px_32px_rgba(0,0,0,0.35)] p-4 sm:p-5 text-xs relative overflow-hidden">
+        <section className="glass-panel mb-6 p-4 sm:p-5 text-xs relative overflow-hidden">
           {/* 顶栏：标题 + 邮箱快捷触发 */}
           <div className="flex items-center justify-between gap-3 pb-3 mb-3 border-b border-slate-100/80 dark:border-white/[0.05]">
             <div className="flex items-center gap-2">
@@ -173,7 +173,7 @@ export const Friends: React.FC = () => {
             <button
               type="button"
               onClick={handleCopyEmail}
-              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-mono text-slate-600 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 bg-white/50 dark:bg-white/[0.05] hover:bg-white/90 dark:hover:bg-white/[0.1] border border-slate-200/80 dark:border-white/[0.08] shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] transition-all cursor-pointer active:scale-[0.98]"
+              className="glass-tag inline-flex items-center gap-1.5 px-2.5 py-1 rounded-sm text-[11px] font-mono text-slate-600 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 cursor-pointer active:scale-[0.98]"
               title="点击复制站长邮箱"
             >
               {copiedEmail ? (
@@ -275,7 +275,7 @@ const FriendCard: React.FC<{ friend: FriendItem }> = ({ friend }) => {
       target="_blank"
       rel="noreferrer"
       data-external-bypass="true"
-      className="group relative p-4 rounded-xl border border-slate-200/80 dark:border-white/[0.08] bg-white/65 dark:bg-white/[0.03] backdrop-blur-md shadow-[inset_0_1px_1px_rgba(255,255,255,0.7),0_2px_10px_rgba(0,0,0,0.02)] dark:shadow-[inset_0_1px_1px_rgba(255,255,255,0.04),0_2px_10px_rgba(0,0,0,0.2)] hover:border-slate-300 dark:hover:border-white/[0.18] hover:bg-white/85 dark:hover:bg-white/[0.06] hover:-translate-y-0.5 hover:shadow-[inset_0_1px_2px_rgba(255,255,255,0.9),0_6px_20px_rgba(0,0,0,0.05)] dark:hover:shadow-[inset_0_1px_1px_rgba(255,255,255,0.08),0_6px_20px_rgba(0,0,0,0.3)] transition-all duration-300"
+      className="glass-card glass-card-interactive group relative p-4 block"
     >
       <div className="flex items-center gap-3">
         {/* 圆形头像 */}

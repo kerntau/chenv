@@ -36,8 +36,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
       <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 bg-slate-900/40 dark:bg-black/60 backdrop-blur-md z-50 transition-opacity animate-in fade-in duration-150" />
-        <Dialog.Content className="fixed top-[18%] left-1/2 -translate-x-1/2 w-full max-w-xl bg-white/84 dark:bg-[#0c1524]/88 backdrop-blur-2xl saturate-[190%] rounded-md border border-white/85 dark:border-white/[0.12] shadow-[0_28px_65px_-12px_rgba(15,23,42,0.25),0_8px_24px_-4px_rgba(15,23,42,0.08),inset_0_1.5px_1px_0_rgba(255,255,255,0.98),inset_0_-1px_0_0_rgba(0,0,0,0.02)] dark:shadow-[0_32px_70px_-12px_rgba(0,0,0,0.8),inset_0_1px_1px_0_rgba(255,255,255,0.20),inset_0_-1px_0_0_rgba(0,0,0,0.4)] z-50 p-0 overflow-hidden outline-none animate-in fade-in zoom-in-95 duration-150">
+        <Dialog.Content className="glass-modal fixed top-[18%] left-1/2 -translate-x-1/2 w-full max-w-xl rounded-md z-50 p-0 overflow-hidden outline-none animate-in fade-in zoom-in-95 duration-150">
           <Dialog.Title className="sr-only">搜索博客文稿与笔记</Dialog.Title>
           <Dialog.Description className="sr-only">
             通过标题、标签或摘要快速检索全站文章与安全笔记

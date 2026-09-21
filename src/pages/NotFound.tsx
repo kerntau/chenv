@@ -12,7 +12,7 @@ export const NotFound: React.FC = () => {
     <PageShell>
       <Container size="narrow">
         <div className="py-12 sm:py-20 text-center max-w-lg mx-auto font-sans">
-          <div className="w-12 h-12 rounded-xl bg-white/75 dark:bg-white/[0.05] backdrop-blur-md text-slate-700 dark:text-slate-300 flex items-center justify-center mx-auto mb-4 border border-slate-200/80 dark:border-white/[0.1] shadow-[inset_0_1px_1px_rgba(255,255,255,0.8),0_4px_16px_rgba(0,0,0,0.04)] dark:shadow-[inset_0_1px_1px_rgba(255,255,255,0.06),0_4px_16px_rgba(0,0,0,0.3)]">
+          <div className="glass-pill w-12 h-12 rounded-md flex items-center justify-center mx-auto mb-4">
             <Compass className="w-6 h-6 text-sky-600 dark:text-sky-400" />
           </div>
 
@@ -31,21 +31,21 @@ export const NotFound: React.FC = () => {
           <div className="flex flex-wrap items-center justify-center gap-2.5 mb-8">
             <Link
               href="/"
-              className="inline-flex items-center space-x-1.5 px-3.5 py-1.5 rounded-lg bg-slate-900/90 dark:bg-white/[0.12] backdrop-blur-md text-slate-100 dark:text-slate-100 text-xs font-medium hover:bg-slate-800 dark:hover:bg-white/[0.2] border border-transparent dark:border-white/[0.15] shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)] transition-all"
+              className="inline-flex items-center space-x-1.5 px-3.5 py-1.5 rounded-sm bg-slate-900/90 dark:bg-white/[0.12] backdrop-blur-md text-slate-100 dark:text-slate-100 text-xs font-medium hover:bg-slate-800 dark:hover:bg-white/[0.2] border border-transparent dark:border-white/[0.15] shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)] transition-all"
             >
               <Home className="w-3.5 h-3.5" />
               <span>返回首页</span>
             </Link>
             <Link
               href="/diaries"
-              className="inline-flex items-center space-x-1.5 px-3.5 py-1.5 rounded-lg border border-slate-200/80 dark:border-white/[0.08] bg-white/70 dark:bg-white/[0.04] backdrop-blur-md text-slate-700 dark:text-slate-300 text-xs font-medium hover:bg-white/90 dark:hover:bg-white/[0.08] shadow-[inset_0_1px_1px_rgba(255,255,255,0.7)] dark:shadow-[inset_0_1px_1px_rgba(255,255,255,0.06)] transition-all"
+              className="glass-tag inline-flex items-center space-x-1.5 px-3.5 py-1.5 rounded-sm text-slate-700 dark:text-slate-300 text-xs font-medium"
             >
               <Feather className="w-3.5 h-3.5 text-sky-500" />
               <span>手记随笔</span>
             </Link>
             <Link
               href="/sitemap"
-              className="inline-flex items-center space-x-1.5 px-3.5 py-1.5 rounded-lg border border-slate-200/80 dark:border-white/[0.08] bg-white/70 dark:bg-white/[0.04] backdrop-blur-md text-slate-700 dark:text-slate-300 text-xs font-medium hover:bg-white/90 dark:hover:bg-white/[0.08] shadow-[inset_0_1px_1px_rgba(255,255,255,0.7)] dark:shadow-[inset_0_1px_1px_rgba(255,255,255,0.06)] transition-all"
+              className="glass-tag inline-flex items-center space-x-1.5 px-3.5 py-1.5 rounded-sm text-slate-700 dark:text-slate-300 text-xs font-medium"
             >
               <Map className="w-3.5 h-3.5 text-sky-500" />
               <span>站点地图</span>
@@ -63,7 +63,7 @@ export const NotFound: React.FC = () => {
                   <Link
                     key={d.slug}
                     href={`/diaries/${d.slug}`}
-                    className="flex items-center justify-between p-2.5 rounded-xl border border-slate-200/80 dark:border-white/[0.08] bg-white/65 dark:bg-white/[0.03] backdrop-blur-md hover:border-sky-400/60 dark:hover:border-sky-500/50 hover:bg-white/85 dark:hover:bg-white/[0.06] shadow-[inset_0_1px_1px_rgba(255,255,255,0.7),0_2px_8px_rgba(0,0,0,0.02)] dark:shadow-[inset_0_1px_1px_rgba(255,255,255,0.04),0_2px_8px_rgba(0,0,0,0.2)] transition-all group hover:-translate-y-0.5"
+                    className="glass-card glass-card-interactive flex items-center justify-between p-2.5 group"
                   >
                     <span className="font-serif text-xs text-slate-800 dark:text-slate-200 group-hover:text-sky-600 dark:group-hover:text-sky-400 truncate pr-2">
                       {d.title}

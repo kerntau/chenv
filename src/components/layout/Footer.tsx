@@ -47,7 +47,7 @@ export const Footer: React.FC = () => {
   return (
     <footer
       data-external-bypass="true"
-      className="relative z-10 mt-auto border-t border-slate-200/60 dark:border-slate-800/60 pt-3 pb-3 sm:pt-4 sm:pb-4 lg:pt-3.5 lg:pb-3.5 text-xs font-sans text-slate-600 dark:text-slate-400 select-none shrink-0"
+      className="glass-footer relative z-10 mt-auto pt-3 pb-3 sm:pt-4 sm:pb-4 lg:pt-3.5 lg:pb-3.5 text-xs font-sans text-slate-600 dark:text-slate-400 select-none shrink-0"
     >
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 space-y-3 sm:space-y-3.5">
         
@@ -71,7 +71,7 @@ export const Footer: React.FC = () => {
                 href="https://rsbuild.dev"
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-white/65 dark:bg-white/[0.06] border border-white/80 dark:border-white/[0.08] hover:bg-white/90 dark:hover:bg-white/[0.12] text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-100 transition-all shadow-[inset_0_1px_0_0_rgba(255,255,255,0.8)] dark:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)]"
+                className="glass-tag inline-flex items-center gap-1 px-1.5 py-0.5 rounded-sm text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-100"
               >
                 <TechIcon name="rsbuild" className="w-3 h-3 shrink-0" />
                 <span>Rsbuild</span>
@@ -81,7 +81,7 @@ export const Footer: React.FC = () => {
                 href="https://react.dev"
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-white/65 dark:bg-white/[0.06] border border-white/80 dark:border-white/[0.08] hover:bg-white/90 dark:hover:bg-white/[0.12] text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-100 transition-all shadow-[inset_0_1px_0_0_rgba(255,255,255,0.8)] dark:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)]"
+                className="glass-tag inline-flex items-center gap-1 px-1.5 py-0.5 rounded-sm text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-100"
               >
                 <TechIcon name="react" className="w-3 h-3 shrink-0" />
                 <span>React 19</span>
@@ -161,7 +161,7 @@ export const Footer: React.FC = () => {
 
             {/* 主题切换器 */}
             {showThemeToggle && (
-              <div className="inline-flex items-center gap-0.5 p-[2px] rounded-md bg-white/60 dark:bg-white/[0.06] border border-white/80 dark:border-white/[0.10] backdrop-blur-md shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.9),0_2px_6px_rgba(0,0,0,0.03)] dark:shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.15),0_2px_8px_rgba(0,0,0,0.3)] text-[11px] leading-none">
+              <div className="glass-switcher inline-flex items-center gap-0.5 p-[2px] rounded-md text-[11px] leading-none">
                 {(['light', 'system', 'dark'] as const).map((t, idx) => {
                   const label = t === 'light' ? 'Light' : t === 'system' ? 'System' : 'Dark';
                   const isActive = theme === t;
@@ -175,7 +175,7 @@ export const Footer: React.FC = () => {
                         onClick={() => setTheme(t)}
                         className={`transition-all cursor-pointer py-0.5 px-1.5 rounded-xs leading-none ${
                           isActive
-                            ? 'font-medium text-slate-900 dark:text-slate-100 bg-white/90 dark:bg-white/[0.14] border border-white dark:border-white/20 shadow-[0_1px_3px_rgba(0,0,0,0.06),inset_0_1px_0_0_rgba(255,255,255,1)] dark:shadow-[0_2px_6px_rgba(0,0,0,0.4),inset_0_1px_0_0_rgba(255,255,255,0.25)]'
+                            ? 'glass-nav-pill font-medium text-slate-900 dark:text-slate-100'
                             : 'text-slate-400 dark:text-slate-500 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-white/40 dark:hover:bg-white/[0.05]'
                         }`}
                       >

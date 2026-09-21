@@ -81,7 +81,7 @@ export const Archives: React.FC = () => {
                   <span className="font-mono text-base sm:text-[17px] font-bold text-slate-900 dark:text-slate-100 tracking-tight">
                     {year}
                   </span>
-                  <span className="px-1.5 py-0.5 rounded-xs text-[10.5px] font-mono text-slate-500 dark:text-slate-400 bg-white/70 dark:bg-white/[0.06] border border-white/80 dark:border-white/[0.08] backdrop-blur-xs shadow-2xs leading-none">
+                  <span className="glass-tag px-1.5 py-0.5 rounded-xs text-[10.5px] font-mono text-slate-500 dark:text-slate-400 leading-none">
                     {itemsByYear[year].length} 篇
                   </span>
                 </div>
@@ -98,7 +98,7 @@ export const Archives: React.FC = () => {
                     {/* 归档行卡片 (单行双端通栏对齐，消除移动端非必要折行与空白) */}
                     <Link
                       href={item.slug}
-                      className="flex items-center justify-between py-2 sm:py-1.5 px-2.5 -mx-1.5 rounded-md border border-transparent hover:border-white/80 dark:hover:border-white/[0.08] hover:bg-white/60 dark:hover:bg-white/[0.05] hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.8),0_2px_8px_-2px_rgba(15,23,42,0.04)] dark:hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.08)] backdrop-blur-xs transition-all group gap-2.5"
+                      className="flex items-center justify-between py-2 sm:py-1.5 px-2.5 -mx-1.5 rounded-md border border-transparent hover:border-sky-400/40 dark:hover:border-sky-400/30 hover:bg-white/60 dark:hover:bg-white/[0.05] hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.8),0_2px_8px_-2px_rgba(56,189,248,0.06)] dark:hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.08)] backdrop-blur-xs transition-all group gap-2.5"
                     >
                       <div className="flex items-center space-x-2 sm:space-x-2.5 min-w-0 pr-1 sm:pr-2">
                         {/* 发布日期 (MM-DD) */}
@@ -113,7 +113,7 @@ export const Archives: React.FC = () => {
 
                         {/* 分类微标签 (桌面端展示) */}
                         {item.category && (
-                          <span className="hidden sm:inline-block text-[10px] font-sans px-1.5 py-0.5 rounded-xs bg-white/60 dark:bg-white/[0.06] border border-white/70 dark:border-white/[0.08] text-slate-500 dark:text-slate-400 shrink-0">
+                          <span className="glass-tag hidden sm:inline-block text-[10px] font-sans px-1.5 py-0.5 rounded-xs text-slate-500 dark:text-slate-400 shrink-0">
                             {item.category}
                           </span>
                         )}

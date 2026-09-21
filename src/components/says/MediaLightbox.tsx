@@ -197,22 +197,22 @@ export const MediaLightbox: React.FC<MediaLightboxProps> = ({
       >
         {/* 左侧页码与缩放比 */}
         <div className="flex items-center gap-2">
-          <span className="text-xs font-mono text-slate-300 bg-white/10 dark:bg-white/5 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/10">
+          <span className="text-xs font-mono text-slate-300 bg-white/10 dark:bg-white/5 backdrop-blur-md px-2.5 py-1 rounded-sm border border-white/10">
             {index + 1} / {images.length}
           </span>
           {scale !== 1 && (
-            <span className="text-xs font-mono text-sky-400 bg-sky-500/10 px-2 py-0.5 rounded-full border border-sky-400/20">
+            <span className="text-xs font-mono text-sky-400 bg-sky-500/10 px-2 py-0.5 rounded-sm border border-sky-400/20">
               {Math.round(scale * 100)}%
             </span>
           )}
         </div>
 
         {/* 右侧操作按钮 */}
-        <div className="flex items-center gap-1.5 sm:gap-2 bg-white/10 dark:bg-white/5 backdrop-blur-md p-1 rounded-full border border-white/10 text-white/80">
+        <div className="flex items-center gap-1.5 sm:gap-2 bg-white/10 dark:bg-white/5 backdrop-blur-md p-1 rounded-md border border-white/10 text-white/80">
           <button
             type="button"
             onClick={handleZoomIn}
-            className="p-1.5 sm:p-2 rounded-full hover:bg-white/15 hover:text-white transition-colors"
+            className="p-1.5 sm:p-2 rounded-sm hover:bg-white/15 hover:text-white transition-colors"
             title="放大 (+)"
             aria-label="放大"
           >
@@ -221,7 +221,7 @@ export const MediaLightbox: React.FC<MediaLightboxProps> = ({
           <button
             type="button"
             onClick={handleZoomOut}
-            className="p-1.5 sm:p-2 rounded-full hover:bg-white/15 hover:text-white transition-colors"
+            className="p-1.5 sm:p-2 rounded-sm hover:bg-white/15 hover:text-white transition-colors"
             title="缩小 (-)"
             aria-label="缩小"
           >
@@ -230,7 +230,7 @@ export const MediaLightbox: React.FC<MediaLightboxProps> = ({
           <button
             type="button"
             onClick={handleRotate}
-            className="p-1.5 sm:p-2 rounded-full hover:bg-white/15 hover:text-white transition-colors"
+            className="p-1.5 sm:p-2 rounded-sm hover:bg-white/15 hover:text-white transition-colors"
             title="旋转"
             aria-label="旋转"
           >
@@ -240,7 +240,7 @@ export const MediaLightbox: React.FC<MediaLightboxProps> = ({
             <button
               type="button"
               onClick={handleReset}
-              className="p-1.5 sm:p-2 rounded-full hover:bg-white/15 hover:text-white transition-colors text-sky-400"
+              className="p-1.5 sm:p-2 rounded-sm hover:bg-white/15 hover:text-white transition-colors text-sky-400"
               title="复位 (0)"
               aria-label="复位"
             >
@@ -251,7 +251,7 @@ export const MediaLightbox: React.FC<MediaLightboxProps> = ({
             href={currentImage.url}
             target="_blank"
             rel="noreferrer"
-            className="p-1.5 sm:p-2 rounded-full hover:bg-white/15 hover:text-white transition-colors"
+            className="p-1.5 sm:p-2 rounded-sm hover:bg-white/15 hover:text-white transition-colors"
             title="新窗口查看原图"
             aria-label="查看原图"
           >
@@ -261,7 +261,7 @@ export const MediaLightbox: React.FC<MediaLightboxProps> = ({
           <button
             type="button"
             onClick={onClose}
-            className="p-1.5 sm:p-2 rounded-full hover:bg-rose-500/80 hover:text-white transition-colors"
+            className="p-1.5 sm:p-2 rounded-sm hover:bg-rose-500/80 hover:text-white transition-colors"
             title="关闭 (Esc)"
             aria-label="关闭预览"
           >
@@ -287,7 +287,7 @@ export const MediaLightbox: React.FC<MediaLightboxProps> = ({
         {images.length > 1 && (
           <button
             type="button"
-            className="absolute left-3 sm:left-6 z-20 p-2.5 sm:p-3 rounded-full bg-white/10 hover:bg-white/20 text-white/80 hover:text-white backdrop-blur-md border border-white/10 transition-all active:scale-95 shadow-lg"
+            className="absolute left-3 sm:left-6 z-20 p-2.5 sm:p-3 rounded-md bg-white/10 hover:bg-white/20 text-white/80 hover:text-white backdrop-blur-md border border-white/10 transition-all active:scale-95 shadow-lg"
             onClick={handlePrev}
             aria-label="上一张"
           >
@@ -304,7 +304,7 @@ export const MediaLightbox: React.FC<MediaLightboxProps> = ({
 
         {/* 错误提示 */}
         {imgError && (
-          <div className="flex flex-col items-center justify-center text-slate-300 p-6 bg-white/5 backdrop-blur-md rounded-xl border border-white/10 space-y-3 z-10">
+          <div className="flex flex-col items-center justify-center text-slate-300 p-6 bg-white/5 backdrop-blur-md rounded-md border border-white/10 space-y-3 z-10">
             <p className="text-sm font-sans">图片加载失败或文件不存在</p>
             <a
               href={currentImage.url}
@@ -348,7 +348,7 @@ export const MediaLightbox: React.FC<MediaLightboxProps> = ({
         {images.length > 1 && (
           <button
             type="button"
-            className="absolute right-3 sm:right-6 z-20 p-2.5 sm:p-3 rounded-full bg-white/10 hover:bg-white/20 text-white/80 hover:text-white backdrop-blur-md border border-white/10 transition-all active:scale-95 shadow-lg"
+            className="absolute right-3 sm:right-6 z-20 p-2.5 sm:p-3 rounded-md bg-white/10 hover:bg-white/20 text-white/80 hover:text-white backdrop-blur-md border border-white/10 transition-all active:scale-95 shadow-lg"
             onClick={handleNext}
             aria-label="下一张"
           >
@@ -359,7 +359,7 @@ export const MediaLightbox: React.FC<MediaLightboxProps> = ({
 
       {/* 底部操作提示 */}
       <div className="w-full flex items-center justify-center pb-4 z-20 pointer-events-none">
-        <span className="text-[11px] text-white/60 bg-black/40 backdrop-blur-md px-3 py-1 rounded-full border border-white/10 font-mono">
+        <span className="text-[11px] text-white/60 bg-black/40 backdrop-blur-md px-3 py-1 rounded-sm border border-white/10 font-mono">
           滚轮 / 双击缩放 · 拖拽平移 · ESC 关闭
         </span>
       </div>

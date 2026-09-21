@@ -139,7 +139,7 @@ export const DiaryDetail: React.FC = () => {
                     </span>
 
                     {diary.weather && (
-                      <span className="px-1.5 py-0.5 rounded-xs bg-white/70 dark:bg-white/[0.08] text-slate-600 dark:text-slate-300 border border-white/80 dark:border-white/[0.08] shadow-2xs text-[10.5px] font-sans">
+                      <span className="glass-tag px-1.5 py-0.5 rounded-xs text-slate-600 dark:text-slate-300 text-[10.5px] font-sans">
                         {diary.weather}
                       </span>
                     )}

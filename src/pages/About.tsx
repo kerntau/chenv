@@ -54,8 +54,8 @@ export const About: React.FC = () => {
           </span>
         </div>
 
-        {/* 核心卡片容器：纸墨温润、极简大气、流体玻璃 */}
-        <div className="paper-card p-6 sm:p-8 rounded-2xl border border-slate-200/80 dark:border-white/[0.08] bg-white/75 dark:bg-[#0c121e]/75 shadow-fluid-glass dark:shadow-fluid-glass-dark space-y-6 font-sans backdrop-blur-xl relative overflow-hidden">
+        {/* 核心卡片容器：流体玻璃宏观大面板 (Tier 1 glass-panel) */}
+        <div className="glass-panel p-6 sm:p-8 space-y-6 font-sans relative overflow-hidden">
           
           {/* 1. 个人履历抬头 Header */}
           <section className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-5 pb-5 border-b border-slate-100/80 dark:border-white/[0.06]">
@@ -80,7 +80,7 @@ export const About: React.FC = () => {
                     {author.name}
                   </h1>
                   {author.statusBadge && (
-                    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-sky-50/80 dark:bg-sky-950/50 border border-sky-200/60 dark:border-sky-800/50 text-[11px] font-medium text-sky-700 dark:text-sky-300 shadow-[inset_0_1px_0_rgba(255,255,255,0.6)]">
+                    <span className="glass-pill inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-sm text-[11px] font-medium text-sky-700 dark:text-sky-300">
                       <span className="w-1.5 h-1.5 rounded-full bg-sky-500 animate-pulse" />
                       <span>{author.statusBadge}</span>
                     </span>
@@ -126,7 +126,7 @@ export const About: React.FC = () => {
                         target="_blank"
                         rel="noreferrer"
                         data-external-bypass="true"
-                        className="glass-icon-btn inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-slate-700 dark:text-slate-300 text-[11px] font-sans transition-all hover:-translate-y-0.5"
+                        className="glass-icon-btn inline-flex items-center gap-1.5 px-2.5 py-1 rounded-sm text-slate-700 dark:text-slate-300 text-[11px] font-sans transition-all hover:-translate-y-0.5"
                       >
                         <IconComponent className="w-3.5 h-3.5 shrink-0" />
                         <span>{social.name}</span>
@@ -164,7 +164,7 @@ export const About: React.FC = () => {
                         <div
                           key={item.name}
                           title={item.desc}
-                          className="group inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white/60 dark:bg-white/[0.04] backdrop-blur-md border border-slate-200/70 dark:border-white/[0.08] shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] hover:border-sky-400/60 dark:hover:border-sky-400/50 hover:bg-white/80 dark:hover:bg-white/[0.08] text-xs font-mono text-slate-700 dark:text-slate-200 transition-all cursor-default hover:-translate-y-0.5"
+                          className="glass-pill group inline-flex items-center gap-1.5 px-2.5 py-1 rounded-sm text-xs font-mono text-slate-700 dark:text-slate-200 cursor-default hover:border-sky-400/60 dark:hover:border-sky-400/50 hover:-translate-y-0.5"
                         >
                           <TechIcon name={item.name} className="w-3.5 h-3.5 shrink-0" />
                           <span className="font-medium text-[11.5px]">{item.name}</span>
