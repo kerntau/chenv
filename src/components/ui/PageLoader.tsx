@@ -162,7 +162,7 @@ export const PageLoader: React.FC<PageLoaderProps> = ({
           : 'opacity-100 scale-100'
       } ${className}`}
       aria-busy={!isExiting}
-      aria-label="页面加载中"
+      aria-label={displayTitle}
     >
       {/* 居中彗星流光加载仪表盘与中心头像 */}
       <div className="relative flex flex-col items-center justify-center">
@@ -184,22 +184,13 @@ export const PageLoader: React.FC<PageLoaderProps> = ({
           ink={isDark ? '#475569' : '#cbd5e1'}
           unit="%"
           disabled={true}
+          statusText={statusNote ? (statusNote.includes('·') ? statusNote.split('·')[0].trim() : statusNote) : undefined}
           avatar={authorAvatar}
           avatarAlt={siteConfig.author?.name || '站长头像'}
           avatarFallback="/avatar.jpg"
           showFigure={true}
           className="filter drop-shadow-[0_4px_24px_rgba(56,189,248,0.22)]"
         />
-
-        {/* 仪式感标题与动态状态文案微晶岛 */}
-        <div className="text-center mt-7 max-w-sm px-6 py-2.5 rounded-2xl bg-white/45 dark:bg-white/[0.04] backdrop-blur-md border border-white/80 dark:border-white/[0.08] shadow-[inset_0_1px_1px_rgba(255,255,255,0.8),0_4px_16px_rgba(0,0,0,0.03)] dark:shadow-[inset_0_1px_1px_rgba(255,255,255,0.06),0_4px_16px_rgba(0,0,0,0.3)]">
-          <h3 className="text-xs sm:text-sm font-semibold tracking-[0.25em] uppercase text-slate-800 dark:text-slate-100">
-            {displayTitle}
-          </h3>
-          <p className="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 mt-1.5 tracking-widest font-mono opacity-85 transition-all duration-300">
-            {statusNote}
-          </p>
-        </div>
       </div>
     </div>
   );

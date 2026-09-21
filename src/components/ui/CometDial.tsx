@@ -25,6 +25,7 @@ export interface CometDialProps {
   step?: number;
   unit?: string;
   label?: string;
+  statusText?: string;
   accent?: string;
   ink?: string;
   size?: number;
@@ -102,6 +103,7 @@ export const CometDial: React.FC<CometDialProps> = ({
   step = 1,
   unit = '%',
   label = 'Level',
+  statusText,
   accent = '#f5f5f5',
   ink = '#fdfdfd',
   size = 250,
@@ -472,11 +474,21 @@ export const CometDial: React.FC<CometDialProps> = ({
               />
             </div>
 
-            {/* 位于表盘缺口处的轻量毛玻璃百分比胶囊 */}
+            {/* 位于表盘缺口处的单行超紧凑水润微晶胶囊 */}
             {showFigure && (
-              <div className="absolute -bottom-2 flex items-center justify-center gap-0.5 px-2.5 py-0.5 rounded-full bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border border-slate-200/80 dark:border-slate-800/80 shadow-[0_2px_8px_rgba(0,0,0,0.06)] text-[11px] font-mono font-medium tracking-tight text-slate-700 dark:text-slate-200">
-                <span ref={figure} className="comet-dial__figure tabular-nums" />
-                {unit ? <span className="opacity-60 text-[9px]">{unit}</span> : null}
+              <div className="absolute -bottom-2.5 flex items-center justify-center gap-1.5 px-3 py-0.5 rounded-full bg-gradient-to-b from-white/95 via-white/85 to-white/70 dark:from-white/15 dark:via-white/08 dark:to-white/04 backdrop-blur-xl border border-white/90 dark:border-white/20 shadow-[inset_0_1px_0_0_rgba(255,255,255,1),inset_0_0_0_1px_rgba(255,255,255,0.4),0_4px_14px_-2px_rgba(15,23,42,0.08)] dark:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.25),0_6px_18px_rgba(0,0,0,0.45)] text-[11px] text-slate-700 dark:text-slate-200 transition-all duration-300 max-w-[260px]">
+                <div className="flex items-center gap-0.5 font-mono font-semibold tracking-tight shrink-0">
+                  <span ref={figure} className="comet-dial__figure tabular-nums" />
+                  {unit ? <span className="opacity-60 text-[9.5px] font-normal">{unit}</span> : null}
+                </div>
+                {statusText && (
+                  <>
+                    <span className="opacity-30 select-none text-[9px] shrink-0">&bull;</span>
+                    <span className="font-sans font-medium text-[11px] text-slate-600 dark:text-slate-300 truncate tracking-tight">
+                      {statusText}
+                    </span>
+                  </>
+                )}
               </div>
             )}
           </>
