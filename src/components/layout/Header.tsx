@@ -13,6 +13,7 @@ import {
   Globe,
   ArrowUpRight,
   Images,
+  MoreHorizontal,
 } from 'lucide-react';
 import { SearchModal } from '../search/SearchModal';
 import { NavHoverPopover } from './NavHoverPopover';
@@ -40,6 +41,7 @@ const DEFAULT_NAV_LINKS: NavLinkItem[] = [
   { id: 'nav-says', href: '/says', label: '动态', icon: 'MessageSquareQuote', enabled: true },
   { id: 'nav-gallery', href: '/gallery', label: '画廊', icon: 'Images', enabled: true },
   { id: 'nav-friends', href: '/friends', label: '朋友', icon: 'Users', enabled: true },
+  { id: 'nav-about', href: '/about', label: '关于', icon: 'User', enabled: true },
 ];
 
 export const Header: React.FC = () => {
@@ -177,6 +179,25 @@ export const Header: React.FC = () => {
     setHoveredNav(null);
   };
 
+  // 移动端“更多”菜单收缩与展开状态
+  const [mobileMoreOpen, setMobileMoreOpen] = useState(false);
+
+  useEffect(() => {
+    setMobileMoreOpen(false);
+  }, [location]);
+
+  // 移动端收缩项：归档 与 关于
+  const COLLAPSED_IN_MOBILE_HREFS = ['/archives', '/about'];
+  const isCollapsedInMobile = (href: string) => COLLAPSED_IN_MOBILE_HREFS.includes(href);
+  const collapsedMobileLinks = useMemo(
+    () => navLinks.filter((l) => isCollapsedInMobile(l.href)),
+    [navLinks]
+  );
+  const isMoreActive = useMemo(
+    () => collapsedMobileLinks.some((l) => isActive(l.href)),
+    [collapsedMobileLinks, location]
+  );
+
   return (
     <>
       <header
@@ -196,12 +217,14 @@ export const Header: React.FC = () => {
           >
               <nav
                 ref={navRef}
-                className="flex items-center p-1 rounded-md bg-white/72 dark:bg-[#0B101B]/65 backdrop-blur-2xl saturate-[190%] border border-white/85 dark:border-white/[0.12] shadow-[0_8px_32px_-4px_rgba(15,23,42,0.08),inset_0_1px_1px_0_rgba(255,255,255,0.95),inset_0_-1px_0_0_rgba(0,0,0,0.02)] dark:shadow-[0_12px_36px_-4px_rgba(0,0,0,0.55),inset_0_1px_1px_0_rgba(255,255,255,0.20),inset_0_-1px_0_0_rgba(0,0,0,0.4)] gap-0.5 text-xs max-w-full overflow-x-auto transition-all"
+                className="glass-nav flex items-center p-1 rounded-md gap-0.5 text-xs max-w-full overflow-visible sm:overflow-x-auto transition-all"
               >
                 {navLinks.map((link) => {
                   const isExt = link.isExternal || link.href.startsWith('http');
                   const active = !isExt && isActive(link.href);
                   const IconComponent = ICON_MAP[link.icon] || FileText;
+                  const isCollapsed = isCollapsedInMobile(link.href);
+                  const displayClass = isCollapsed ? 'hidden sm:flex' : 'flex';
 
                   if (isExt) {
                     return (
@@ -210,7 +233,7 @@ export const Header: React.FC = () => {
                         href={link.href}
                         target="_blank"
                         rel="noreferrer"
-                        className="relative px-2.5 py-1 rounded-sm transition-all duration-150 select-none flex items-center justify-center gap-1.5 shrink-0 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-white/70 dark:hover:bg-white/[0.09] hover:shadow-2xs"
+                        className={`relative px-2.5 py-1 rounded-sm transition-all duration-150 select-none items-center justify-center gap-1.5 shrink-0 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-white/70 dark:hover:bg-white/[0.09] hover:shadow-2xs ${displayClass}`}
                       >
                         <span className="leading-none">{link.label}</span>
                         <ArrowUpRight className="w-3 h-3 opacity-60 ml-[-2px]" />
@@ -224,7 +247,7 @@ export const Header: React.FC = () => {
                       href={link.href}
                       onMouseEnter={(e) => handleNavMouseEnter(link.href, e)}
                       onClick={handleItemClick}
-                      className={`relative px-2.5 py-1 rounded-sm transition-all duration-150 select-none flex items-center justify-center gap-1.5 shrink-0 ${
+                      className={`relative px-2.5 py-1 rounded-sm transition-all duration-150 select-none items-center justify-center gap-1.5 shrink-0 ${displayClass} ${
                         active
                           ? 'text-slate-950 dark:text-white font-medium'
                           : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-white/70 dark:hover:bg-white/[0.09]'
@@ -233,7 +256,7 @@ export const Header: React.FC = () => {
                       {/* 静态的选中项水晶胶囊薄片 */}
                       {active && (
                         <span
-                          className="absolute inset-0 rounded-sm bg-white/88 dark:bg-white/[0.12] backdrop-blur-xl saturate-[180%] border border-white dark:border-white/25 shadow-[0_2px_8px_rgba(15,23,42,0.06),inset_0_1px_1px_0_rgba(255,255,255,0.98),inset_0_-1px_0_0_rgba(0,0,0,0.02)] dark:shadow-[0_3px_12px_rgba(0,0,0,0.4),inset_0_1px_1px_0_rgba(255,255,255,0.30)] pointer-events-none -z-10 transition-all duration-300"
+                          className="glass-nav-pill absolute inset-0 rounded-sm pointer-events-none -z-10 transition-all duration-300"
                         />
                       )}
                       {/* 选中项专属图标 */}
@@ -244,6 +267,67 @@ export const Header: React.FC = () => {
                     </Link>
                   );
                 })}
+
+                {/* 移动端收缩项：更多 */}
+                {collapsedMobileLinks.length > 0 && (
+                  <div className="relative sm:hidden flex items-center shrink-0">
+                    <button
+                      type="button"
+                      onClick={() => setMobileMoreOpen((prev) => !prev)}
+                      className={`relative px-2 py-1 rounded-sm transition-all duration-150 select-none flex items-center justify-center gap-1 shrink-0 ${
+                        isMoreActive
+                          ? 'text-slate-950 dark:text-white font-medium'
+                          : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-white/70 dark:hover:bg-white/[0.09]'
+                      }`}
+                      aria-expanded={mobileMoreOpen}
+                      aria-label="更多导航项"
+                    >
+                      {isMoreActive && (
+                        <span className="glass-nav-pill absolute inset-0 rounded-sm pointer-events-none -z-10 transition-all duration-300" />
+                      )}
+                      <MoreHorizontal className="w-3.5 h-3.5 opacity-80" />
+                      <span className="leading-none">更多</span>
+                    </button>
+
+                    {mobileMoreOpen && (
+                      <>
+                        <div
+                          className="fixed inset-0 z-40 bg-transparent"
+                          onClick={() => setMobileMoreOpen(false)}
+                          aria-hidden="true"
+                        />
+                        <div
+                          className="glass-popover absolute top-full right-0 mt-2 p-1.5 rounded-md min-w-[125px] shadow-xl z-50 flex flex-col gap-1 text-xs animate-in fade-in zoom-in-95 duration-150"
+                          role="menu"
+                        >
+                          {collapsedMobileLinks.map((link) => {
+                            const active = isActive(link.href);
+                            const IconComponent = ICON_MAP[link.icon] || FileText;
+                            return (
+                              <Link
+                                key={link.id || link.href}
+                                href={link.href}
+                                onClick={() => {
+                                  setMobileMoreOpen(false);
+                                  handleItemClick();
+                                }}
+                                className={`glass-popover-item relative flex items-center gap-2 px-2.5 py-1.5 rounded-sm transition-all duration-150 ${
+                                  active
+                                    ? 'text-sky-600 dark:text-sky-400 font-medium bg-white/90 dark:bg-white/10 shadow-2xs'
+                                    : 'text-slate-700 dark:text-slate-300'
+                                }`}
+                                role="menuitem"
+                              >
+                                <IconComponent className="w-3.5 h-3.5 opacity-85 shrink-0" />
+                                <span className="flex-1 text-left">{link.label}</span>
+                              </Link>
+                            );
+                          })}
+                        </div>
+                      </>
+                    )}
+                  </div>
+                )}
               </nav>
 
             {/* 导航悬浮预览卡片 MegaMenu Popover */}
