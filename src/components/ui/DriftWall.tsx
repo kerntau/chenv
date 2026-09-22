@@ -36,6 +36,7 @@ export interface DriftWallProps {
   scale?: number;
   className?: string;
   style?: CSSProperties;
+  onItemClick?: (item: DriftWallItem, e: React.MouseEvent) => void;
 }
 
 interface ColumnMeta {
@@ -73,6 +74,7 @@ interface DriftTileProps {
   overlayClass: string;
   titleBadgeClass: string;
   tileClass: string;
+  onItemClick?: (item: DriftWallItem, e: React.MouseEvent) => void;
 }
 
 const DriftTile: React.FC<DriftTileProps> = React.memo(({
@@ -87,68 +89,53 @@ const DriftTile: React.FC<DriftTileProps> = React.memo(({
   overlayClass,
   titleBadgeClass,
   tileClass,
+  onItemClick,
 }) => {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [isInView, setIsInView] = useState(false);
   const domRef = useRef<HTMLElement | null>(null);
 
-  useEffect(() => {
-    const el = domRef.current;
-    if (!el || typeof IntersectionObserver === 'undefined') {
-      setIsInView(true);
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsInView(true);
-          observer.disconnect();
-        }
-      },
-      { rootMargin: '350px 0px' }
-    );
-
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
+  // 可靠国漫兜底封面
+  const fallbackImage = 'https://lain.bgm.tv/pic/cover/l/4c/12/345802_d9vBf.jpg';
 
   const inner = (
     <span className={innerClass}>
-      {/* 渐进式骨架微光层（未完成加载或未入视口时展示） */}
+      {/* 渐进式骨架微光层（未完成完全加载时平滑过渡） */}
       {!isLoaded && (
         <span className="absolute inset-0 bg-slate-200/50 dark:bg-slate-800/60 animate-pulse overflow-hidden">
           <span className="absolute inset-0 -translate-x-full animate-[shimmer_1.8s_infinite] bg-gradient-to-r from-transparent via-white/20 dark:via-white/5 to-transparent" />
         </span>
       )}
 
-      {isInView && (
-        <img
-          src={item.image}
-          alt={item.title ?? ''}
-          loading="lazy"
-          decoding="async"
-          draggable={false}
-          onLoad={() => setIsLoaded(true)}
-          onError={(e) => {
-            const fallback = 'https://cn.bing.com/th?id=OHR.WinnatsPassPeak_ZH-CN4443458412_1920x1080.jpg&rf=LaDigue_1920x1080.jpg';
-            if (e.currentTarget.src !== fallback) {
-              e.currentTarget.src = fallback;
-            }
-            setIsLoaded(true);
-          }}
-          className={cx(
-            imgClass,
-            'transition-[opacity,transform,filter] duration-700 ease-out',
-            isLoaded ? 'opacity-100 scale-100' : 'opacity-0 scale-[1.02]'
-          )}
-        />
-      )}
+      <img
+        src={item.image || fallbackImage}
+        alt={item.title ?? ''}
+        loading="lazy"
+        decoding="async"
+        draggable={false}
+        onLoad={() => setIsLoaded(true)}
+        onError={(e) => {
+          if (e.currentTarget.src !== fallbackImage) {
+            e.currentTarget.src = fallbackImage;
+          }
+          setIsLoaded(true);
+        }}
+        className={cx(
+          imgClass,
+          'transition-[filter,transform] duration-500 ease-out'
+        )}
+      />
 
       <span className={overlayClass} aria-hidden="true" />
       {item.title && <span className={titleBadgeClass}>{item.title}</span>}
     </span>
   );
+
+  const handleClick = (e: React.MouseEvent) => {
+    if (onItemClick) {
+      e.preventDefault();
+      onItemClick(item, e);
+    }
+  };
 
   const commonProps = {
     className: cx(tileClass, isActive && 'is-active'),
@@ -156,6 +143,7 @@ const DriftTile: React.FC<DriftTileProps> = React.memo(({
     'data-col': colIndex,
     onFocus,
     onBlur,
+    onClick: handleClick,
   };
 
   if (item.href) {
@@ -212,6 +200,7 @@ export const DriftWall: React.FC<DriftWallProps> = ({
   scale = 1,
   className = '',
   style,
+  onItemClick,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const planeRef = useRef<HTMLDivElement>(null);
@@ -250,7 +239,8 @@ export const DriftWall: React.FC<DriftWallProps> = ({
     const unit = tileHeight + gap;
     return columnItems.map((col) => {
       const copyHeight = Math.max(unit, col.length * unit);
-      const copies = Math.max(2, Math.ceil((containerHeight * 1.6) / copyHeight) + 1);
+      const targetCoverage = Math.max(containerHeight * 3.2, 2800);
+      const copies = Math.max(3, Math.ceil(targetCoverage / copyHeight) + 2);
       return { copyHeight, copies };
     });
   }, [columnItems, tileHeight, gap, containerHeight]);
@@ -457,6 +447,7 @@ export const DriftWall: React.FC<DriftWallProps> = ({
         overlayClass={overlayClass}
         titleBadgeClass={titleBadgeClass}
         tileClass={tileClass}
+        onItemClick={onItemClick}
       />
     );
   };
