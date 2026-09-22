@@ -425,7 +425,7 @@ export const DriftWall: React.FC<DriftWallProps> = ({
   );
 
   const titleBadgeClass = cx(
-    'pointer-events-none absolute bottom-2 left-2 right-2 px-2 py-1 rounded text-xs text-white/90',
+    'pointer-events-none absolute bottom-2 left-2 right-2 px-2 py-1 rounded text-xs text-white/90 text-center',
     'bg-black/60 backdrop-blur-md opacity-0 transition-opacity duration-300 truncate',
     'group-[.is-active]/tile:opacity-100 group-focus-visible/tile:opacity-100 font-sans'
   );

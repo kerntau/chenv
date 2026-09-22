@@ -194,7 +194,7 @@ export const HomeHero: React.FC = () => {
       {/* 建站初期演示公告条 */}
       {siteConfig.announcement?.enabled && (
         <div className="gsap-hero-announcement opacity-0 mt-3 sm:mt-4 lg:mt-3 max-w-lg mx-auto w-full px-2">
-          <div className="glass-card flex items-center justify-between gap-2.5 px-3 py-1.5 rounded-md text-xs font-sans text-slate-700 dark:text-slate-200 overflow-hidden">
+          <div className="glass-card !shadow-[inset_0_1px_0_0_rgba(255,255,255,0.7),0_2px_6px_-1px_rgba(15,23,42,0.04)] dark:!shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1),0_2px_8px_-2px_rgba(0,0,0,0.35)] flex items-center justify-between gap-2.5 px-3 py-1.5 rounded-md text-xs font-sans text-slate-700 dark:text-slate-200 overflow-hidden">
             {/* 左侧固定徽标 */}
             <span className="shrink-0 inline-flex items-center gap-1 px-1.5 py-0.5 rounded-xs text-[10.5px] font-mono font-medium bg-sky-50/80 dark:bg-sky-950/50 text-sky-700 dark:text-sky-300 border border-sky-200/60 dark:border-sky-800/50 backdrop-blur-xs shadow-2xs z-10 select-none">
               <Megaphone className="w-3 h-3 text-sky-600 dark:text-sky-400 shrink-0" />
