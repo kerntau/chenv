@@ -30,14 +30,14 @@ export const PageLoader: React.FC<PageLoaderProps> = ({
   middleMsg = '汇聚灵感思绪 · 即将为您揭幕',
   readyMsg = '界面已就绪 · 即刻呈现',
   onLoaded,
-  minDuration = 420,
+  minDuration = 480,
   maxWait = 1400,
   previewImages = [],
   className = '',
 }) => {
   const { isDark } = useTheme();
   const [isExiting, setIsExiting] = useState(false);
-  const [progress, setProgress] = useState(16);
+  const [progress, setProgress] = useState(12);
 
   // 使用 Ref 固化回调与数组引用，严防因父级 re-render 产生的引用变动导致 effect 被异常取消
   const onLoadedRef = useRef(onLoaded);
@@ -53,7 +53,7 @@ export const PageLoader: React.FC<PageLoaderProps> = ({
   maxWaitRef.current = maxWait;
 
   const authorAvatar =
-    siteConfig.author?.avatar || 'https://q1.qlogo.cn/g?b=qq&nk=1722288011&s=640';
+    siteConfig.author?.avatar || '/avatar.png';
 
   const displayTitle = useMemo(() => {
     if (title) return title;
@@ -61,26 +61,59 @@ export const PageLoader: React.FC<PageLoaderProps> = ({
   }, [title]);
 
   useEffect(() => {
-    let timer: NodeJS.Timeout;
-    let exitTimer: NodeJS.Timeout;
-    let forceDoneTimer: NodeJS.Timeout;
     let isDisposed = false;
+    let rafId: number;
+    let readyToComplete = false;
+    let exitTimer: NodeJS.Timeout;
+    let finishTimer: NodeJS.Timeout;
 
-    // 1. 起步迅捷推进到 28%
-    const startTimer = setTimeout(() => {
-      if (!isDisposed) setProgress(28);
-    }, 30);
+    const startTime = performance.now();
+    let currentVal = 12;
 
-    // 2. 持续步进冲刺至 88%
-    const progressInterval = setInterval(() => {
-      setProgress((prev) => {
-        if (prev >= 88) return prev;
-        const jump = Math.floor(Math.random() * 14 + 10);
-        return Math.min(88, prev + jump);
-      });
-    }, 80);
+    // 高帧率连续有机插值动力学循环，彻底告别 setInterval 离散跳步与残影
+    const tick = (now: number) => {
+      if (isDisposed) return;
+      const elapsed = now - startTime;
 
-    // 3. 预加载图片增加单图超时兜底（画廊 1200ms，普通页面 400ms，绝不挂起）
+      if (!readyToComplete) {
+        // 巡航期：平滑流体三次幂阻尼曲线推进至 86%，随时间自然减速
+        const normalized = Math.min(1, elapsed / (minDurationRef.current * 1.35));
+        const targetCruise = 12 + 74 * (1 - Math.pow(1 - normalized, 2.2));
+
+        // 丝滑微插值，高刷屏下每帧平滑位移
+        currentVal += (targetCruise - currentVal) * 0.12;
+        setProgress(Math.round(currentVal));
+
+        rafId = requestAnimationFrame(tick);
+      } else {
+        // 冲刺与收束期：收到就绪信号后，从当前点平滑冲向 100%，绝不突变跳满
+        const remaining = 100 - currentVal;
+        if (remaining > 0.4) {
+          const step = Math.max(1.2, remaining * 0.18);
+          currentVal = Math.min(100, currentVal + step);
+          setProgress(Math.round(currentVal));
+          rafId = requestAnimationFrame(tick);
+        } else {
+          currentVal = 100;
+          setProgress(100);
+
+          // 100% 满月微闭环驻留 140ms，随之优雅揭幕
+          finishTimer = setTimeout(() => {
+            if (isDisposed) return;
+            setIsExiting(true);
+            exitTimer = setTimeout(() => {
+              if (!isDisposed) {
+                onLoadedRef.current?.();
+              }
+            }, 450);
+          }, 140);
+        }
+      }
+    };
+
+    rafId = requestAnimationFrame(tick);
+
+    // 预加载首屏静态图片与最低时长竞态
     const isGalleryPreview = (previewImagesRef.current || []).length > 0;
     const perImageTimeout = isGalleryPreview ? 1200 : 400;
 
@@ -108,43 +141,30 @@ export const PageLoader: React.FC<PageLoaderProps> = ({
       setTimeout(resolve, maxWaitRef.current);
     });
 
-    const completeAndReveal = () => {
-      if (isDisposed) return;
-      clearInterval(progressInterval);
-      setProgress(100);
-
-      // 展示 100% 闭环流光，随后优雅淡出揭幕
-      timer = setTimeout(() => {
-        if (isDisposed) return;
-        setIsExiting(true);
-        exitTimer = setTimeout(() => {
-          if (!isDisposed) {
-            onLoadedRef.current?.();
-          }
-        }, 500);
-      }, 180);
+    const markReady = () => {
+      if (!isDisposed) {
+        readyToComplete = true;
+      }
     };
 
-    // 资源就绪与最短延时竞态
     Promise.race([
       Promise.all([...imagePromises, minDelayPromise]),
       maxTimeoutPromise,
     ])
-      .then(completeAndReveal)
-      .catch(completeAndReveal);
+      .then(markReady)
+      .catch(markReady);
 
-    // 极端异常硬保底：超过最大时间强制完成
-    forceDoneTimer = setTimeout(completeAndReveal, maxWaitRef.current + 250);
+    // 硬超时强制收束
+    const forceTimer = setTimeout(markReady, maxWaitRef.current);
 
     return () => {
       isDisposed = true;
-      clearTimeout(startTimer);
-      clearInterval(progressInterval);
-      clearTimeout(timer);
+      cancelAnimationFrame(rafId);
       clearTimeout(exitTimer);
-      clearTimeout(forceDoneTimer);
+      clearTimeout(finishTimer);
+      clearTimeout(forceTimer);
     };
-  }, []); // 仅在挂载时启动一次确定的加载流，绝不受外部 props 重新生成的引用打扰
+  }, []);
 
   // 动态阶段文案
   const statusNote =
@@ -156,9 +176,9 @@ export const PageLoader: React.FC<PageLoaderProps> = ({
 
   return (
     <div
-      className={`fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#F8FAFC]/96 dark:bg-[#080D1A]/96 backdrop-blur-3xl backdrop-saturate-150 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] select-none ${
+      className={`fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#F8FAFC]/96 dark:bg-[#080D1A]/96 backdrop-blur-3xl backdrop-saturate-125 transition-all duration-450 ease-[cubic-bezier(0.16,1,0.3,1)] select-none ${
         isExiting
-          ? 'opacity-0 scale-[1.03] blur-sm pointer-events-none'
+          ? 'opacity-0 scale-[1.025] blur-xs pointer-events-none'
           : 'opacity-100 scale-100'
       } ${className}`}
       aria-busy={!isExiting}
@@ -166,30 +186,30 @@ export const PageLoader: React.FC<PageLoaderProps> = ({
     >
       {/* 居中彗星流光加载仪表盘与中心头像 */}
       <div className="relative flex flex-col items-center justify-center">
-        {/* 背景柔和引力微光晕 */}
-        <div className="absolute -inset-14 rounded-full bg-sky-400/20 dark:bg-sky-500/35 blur-3xl pointer-events-none animate-pulse" />
+        {/* 背景柔和引力微光晕 - 统一对齐 #00BFFF 品牌高亮色 */}
+        <div className="absolute -inset-14 rounded-full bg-[#00BFFF]/20 dark:bg-[#00BFFF]/30 blur-3xl pointer-events-none animate-pulse" />
 
         <CometDial
           value={progress}
           size={208}
           sweep={310}
           thickness={5}
-          speed={52}
-          momentum={1.1}
-          cometReach={185}
-          cometWidth={13}
-          tapBounce={0.25}
-          flickBounce={0.15}
-          accent={isDark ? '#38bdf8' : '#0284c7'}
+          speed={55}
+          momentum={0.8}
+          cometReach={170}
+          cometWidth={11}
+          tapBounce={0.04}
+          flickBounce={0.05}
+          accent={isDark ? '#00BFFF' : '#009FD6'}
           ink={isDark ? '#1e293b' : '#cbd5e1'}
           unit="%"
           disabled={true}
           statusText={statusNote ? (statusNote.includes('·') ? statusNote.split('·')[0].trim() : statusNote) : undefined}
           avatar={authorAvatar}
           avatarAlt={siteConfig.author?.name || '站长头像'}
-          avatarFallback="/avatar.jpg"
+          avatarFallback="/avatar.png"
           showFigure={true}
-          className="filter drop-shadow-[0_4px_24px_rgba(56,189,248,0.25)] dark:drop-shadow-[0_4px_30px_rgba(56,189,248,0.35)]"
+          className="filter drop-shadow-[0_4px_24px_rgba(0,191,255,0.28)] dark:drop-shadow-[0_4px_30px_rgba(0,191,255,0.40)]"
         />
       </div>
     </div>

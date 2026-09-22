@@ -25,7 +25,7 @@ export function getPageLoaderConfig(pathname: string): PageLoaderMeta {
       startMsg: '连接赛博时空 · 正在加载全景与核心图谱',
       middleMsg: '节点就绪 · 灵感与思考即将展开',
       readyMsg: `链路已通 · 欢迎访问 ${siteTitle}`,
-      minDuration: 420,
+      minDuration: 500,
       maxWait: 1200,
     };
   }
@@ -42,7 +42,7 @@ export function getPageLoaderConfig(pathname: string): PageLoaderMeta {
       startMsg: '回溯时光河流 · 正在织造年轮索引',
       middleMsg: '整理岁月印记 · 即将呈现光阴篇章',
       readyMsg: '卷轴已展 · 慢溯时光轨迹',
-      minDuration: 420,
+      minDuration: 500,
       maxWait: 1200,
     };
   }
@@ -59,7 +59,7 @@ export function getPageLoaderConfig(pathname: string): PageLoaderMeta {
       startMsg: '舒展排版纸墨 · 正在装订文字篇章',
       middleMsg: '凝练思考脉络 · 即将呈献正文',
       readyMsg: '篇章就绪 · 开启沉浸阅读',
-      minDuration: 460,
+      minDuration: 520,
       maxWait: 1300,
     };
   }
@@ -75,7 +75,7 @@ export function getPageLoaderConfig(pathname: string): PageLoaderMeta {
       startMsg: '拾取吉光片羽 · 正在载入思考手稿',
       middleMsg: '墨韵流动漫延 · 即将揭示心绪切片',
       readyMsg: '手稿已就绪 · 静心阅读',
-      minDuration: 420,
+      minDuration: 500,
       maxWait: 1200,
     };
   }
@@ -92,7 +92,7 @@ export function getPageLoaderConfig(pathname: string): PageLoaderMeta {
       startMsg: '漫游思绪碎片 · 正在捕获瞬息灵感',
       middleMsg: '灵光闪现共鸣 · 即将连接当下记录',
       readyMsg: '思绪已锚定 · 欢迎浏览',
-      minDuration: 420,
+      minDuration: 500,
       maxWait: 1200,
     };
   }
@@ -140,7 +140,7 @@ export function getPageLoaderConfig(pathname: string): PageLoaderMeta {
       startMsg: '穿梭数字星海 · 正在寻觅知己航标',
       middleMsg: '山海相逢互鸣 · 即将开启灵感共振',
       readyMsg: '星标已连接 · 欢迎造访朋友们',
-      minDuration: 420,
+      minDuration: 500,
       maxWait: 1200,
     };
   }
@@ -157,7 +157,7 @@ export function getPageLoaderConfig(pathname: string): PageLoaderMeta {
       startMsg: '调取档案数据 · 正在解析技术栈与筑基哲学',
       middleMsg: '梳理工程师图谱 · 即将展示完整画卷',
       readyMsg: '档案已解锁 · 很高兴认识你',
-      minDuration: 420,
+      minDuration: 500,
       maxWait: 1200,
     };
   }
