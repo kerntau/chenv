@@ -37,25 +37,25 @@ export const PageEpigraph: React.FC<PageEpigraphProps> = ({
 
   return (
     <footer
-      className={`mt-5 sm:mt-8 mb-4 sm:mb-6 flex flex-col items-center select-none w-full max-w-full ${className}`}
+      className={`mt-auto pt-8 pb-3 sm:pt-10 sm:pb-4 w-full flex flex-col items-center justify-center select-none ${className}`}
       aria-label="卷尾题跋"
     >
-      <div className="w-full max-w-lg sm:max-w-fit mx-auto px-4 space-y-2 sm:space-y-2.5">
-        {/* 核心金句：鸿雷行书简体，移动端自然换行居中，桌面端单行贯通舒展 */}
+      <div className="inline-flex flex-col items-end max-w-full px-4 space-y-2 sm:space-y-2.5">
+        {/* 核心金句：桌面端单行通贯不折行，移动端自然换行 */}
         <p
-          className="text-base sm:text-xl md:text-2xl lg:text-[25px] text-slate-800 dark:text-slate-100 leading-relaxed sm:leading-normal tracking-wide font-normal whitespace-normal sm:whitespace-nowrap break-words text-center sm:text-left font-xingshu"
+          className="text-base sm:text-lg md:text-xl lg:text-[21px] text-slate-800 dark:text-slate-100 leading-relaxed sm:leading-normal tracking-wide font-normal whitespace-normal sm:whitespace-nowrap break-words text-center sm:text-left font-xingshu"
           style={{ fontFamily: '"hongleixingshu", cursive, serif' }}
         >
           &ldquo;{quote}&rdquo;
         </p>
 
-        {/* 极简直接署名：抖音美好体 / 悠然体自然题跋落款 */}
+        {/* 极简署名：严格对齐于金句整行的右下角，无生硬短横线 */}
         {author && (
           <div
-            className="text-right text-sm sm:text-base md:text-lg text-sky-600/85 dark:text-sky-400/85 tracking-wider pr-1 sm:pr-2 font-douyin"
-            style={{ fontFamily: '"Douyin Sans", "slideyouran", cursive, sans-serif' }}
+            className="text-right text-base sm:text-lg md:text-xl text-sky-500 dark:text-sky-400 tracking-wider font-xingshu pr-1 sm:pr-1.5"
+            style={{ fontFamily: '"hongleixingshu", cursive, serif' }}
           >
-            &mdash; {author}
+            {author}
           </div>
         )}
       </div>

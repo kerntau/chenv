@@ -47,9 +47,11 @@ export const Footer: React.FC = () => {
   return (
     <footer
       data-external-bypass="true"
-      className="relative z-10 mt-auto pt-4 pb-4 sm:pt-6 sm:pb-6 text-xs font-sans text-slate-600 dark:text-slate-400 select-none shrink-0 bg-transparent border-t border-slate-200/50 dark:border-white/5"
+      className="relative z-10 mt-auto pt-4 pb-5 sm:pt-6 sm:pb-6 text-xs font-sans text-slate-600 dark:text-slate-400 select-none shrink-0 bg-transparent"
     >
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 space-y-3 sm:space-y-3.5">
+        {/* 顶部柔和羽化渐变细线，消除全屏硬切割感 */}
+        <div className="h-px w-full bg-gradient-to-r from-transparent via-slate-200/60 dark:via-white/[0.08] to-transparent mb-3 sm:mb-4" />
         
         {/* 上层: 左侧站名标语与版权，右侧多列导航 */}
         <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 sm:gap-6 md:gap-8">
@@ -74,20 +76,20 @@ export const Footer: React.FC = () => {
                 href="https://rsbuild.dev"
                 target="_blank"
                 rel="noreferrer"
-                className="glass-tag inline-flex items-center gap-1 px-1.5 py-0.5 rounded-sm text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-100"
+                className="inline-flex items-center gap-1 text-slate-600 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 transition-colors group"
               >
-                <TechIcon name="rsbuild" className="w-3 h-3 shrink-0" />
-                <span>Rsbuild</span>
+                <TechIcon name="rsbuild" className="w-3 h-3 shrink-0 group-hover:scale-110 transition-transform" />
+                <span className="group-hover:underline underline-offset-2">Rsbuild</span>
               </a>
               <span className="opacity-40">&amp;</span>
               <a
                 href="https://react.dev"
                 target="_blank"
                 rel="noreferrer"
-                className="glass-tag inline-flex items-center gap-1 px-1.5 py-0.5 rounded-sm text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-100"
+                className="inline-flex items-center gap-1 text-slate-600 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 transition-colors group"
               >
-                <TechIcon name="react" className="w-3 h-3 shrink-0" />
-                <span>React 19</span>
+                <TechIcon name="react" className="w-3 h-3 shrink-0 group-hover:scale-110 transition-transform" />
+                <span className="group-hover:underline underline-offset-2">React 19</span>
               </a>
             </div>
           </div>

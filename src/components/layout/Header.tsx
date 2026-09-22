@@ -14,6 +14,10 @@ import {
   ArrowUpRight,
   Images,
   Tv,
+  Film,
+  Clapperboard,
+  MonitorPlay,
+  CirclePlay,
   MoreHorizontal,
 } from 'lucide-react';
 import { SearchModal } from '../search/SearchModal';
@@ -34,6 +38,10 @@ const ICON_MAP: Record<string, React.FC<{ className?: string }>> = {
   Globe,
   Images,
   Tv,
+  Film,
+  Clapperboard,
+  MonitorPlay,
+  CirclePlay,
 };
 
 const DEFAULT_NAV_LINKS: NavLinkItem[] = [
@@ -41,7 +49,7 @@ const DEFAULT_NAV_LINKS: NavLinkItem[] = [
   { id: 'nav-archives', href: '/archives', label: '归档', icon: 'History', enabled: true },
   { id: 'nav-diaries', href: '/diaries', label: '手记', icon: 'Feather', enabled: true },
   { id: 'nav-says', href: '/says', label: '动态', icon: 'MessageSquareQuote', enabled: true },
-  { id: 'nav-gallery', href: '/gallery', label: '追漫', icon: 'Tv', enabled: true },
+  { id: 'nav-gallery', href: '/gallery', label: '追漫', icon: 'Film', enabled: true },
   { id: 'nav-friends', href: '/friends', label: '朋友', icon: 'Users', enabled: true },
   { id: 'nav-about', href: '/about', label: '关于', icon: 'User', enabled: true },
 ];
@@ -251,7 +259,7 @@ export const Header: React.FC = () => {
                       onClick={handleItemClick}
                       className={`relative px-2.5 py-1 rounded-sm transition-all duration-150 select-none items-center justify-center gap-1.5 shrink-0 ${displayClass} ${
                         active
-                          ? 'text-slate-950 dark:text-white font-medium'
+                          ? 'text-slate-950 dark:text-slate-100 font-medium'
                           : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-white/70 dark:hover:bg-white/[0.09]'
                       }`}
                     >
@@ -263,7 +271,7 @@ export const Header: React.FC = () => {
                       )}
                       {/* 选中项专属图标 */}
                       {active && (
-                        <IconComponent className="w-3.5 h-3.5 opacity-90 text-slate-800 dark:text-white flex-shrink-0" />
+                        <IconComponent className="w-3.5 h-3.5 opacity-90 text-slate-800 dark:text-slate-100 flex-shrink-0" />
                       )}
                       <span className="leading-none">{link.label}</span>
                     </Link>
@@ -278,7 +286,7 @@ export const Header: React.FC = () => {
                       onClick={() => setMobileMoreOpen((prev) => !prev)}
                       className={`relative px-2 py-1 rounded-sm transition-all duration-150 select-none flex items-center justify-center gap-1 shrink-0 ${
                         isMoreActive
-                          ? 'text-slate-950 dark:text-white font-medium'
+                          ? 'text-slate-950 dark:text-slate-100 font-medium'
                           : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-white/70 dark:hover:bg-white/[0.09]'
                       }`}
                       aria-expanded={mobileMoreOpen}

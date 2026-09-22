@@ -20,7 +20,7 @@ export const PageShell: React.FC<PageShellProps> = ({ children, className }) => 
   return (
     <main
       ref={shellRef}
-      className={`min-h-[calc(100vh-14rem)] pt-1 pb-1 sm:pt-5 sm:pb-2 ${className || ''}`}
+      className={`flex-1 flex flex-col min-h-[calc(100vh-14rem)] pt-1 pb-1 sm:pt-5 sm:pb-2 ${className || ''}`}
     >
       {children}
     </main>

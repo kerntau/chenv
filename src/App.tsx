@@ -126,7 +126,7 @@ export const App: React.FC = () => {
       <FluidGlassDefs />
       <div
         className={`min-h-screen flex flex-col relative selection:bg-sky-200 selection:text-sky-900 dark:selection:bg-sky-900/60 dark:selection:text-sky-100 transition-colors duration-300 ${
-          location === '/' || isGallery ? 'h-screen overflow-hidden' : ''
+          isGallery ? 'h-screen overflow-hidden' : ''
         }`}
       >
         {isPageLoading && (
@@ -144,7 +144,7 @@ export const App: React.FC = () => {
         )}
         {!isGallery && <AmbientBackground />}
         <Header />
-        <div className={`flex-1 flex flex-col min-h-0 ${location === '/' || isGallery ? 'justify-center overflow-hidden h-full' : ''}`}>
+        <div className={`flex-1 flex flex-col min-h-0 ${isGallery ? 'justify-center overflow-hidden h-full' : ''}`}>
           <Suspense fallback={<RouteFallback />}>
             <Switch>
               <Route path="/" component={Home} />

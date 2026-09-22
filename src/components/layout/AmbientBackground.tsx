@@ -254,11 +254,11 @@ export const AmbientBackground: React.FC = () => {
 
           if (isDark) {
             ctx.strokeStyle = `rgba(147, 197, 253, ${r.alpha * 0.65})`;
-            ctx.fillStyle = `rgba(56, 189, 248, ${r.alpha * 0.035})`;
+            ctx.fillStyle = `rgba(0, 191, 255, ${r.alpha * 0.035})`;
           } else {
             // 亮色模式使用深蓝并加重 alpha
-            ctx.strokeStyle = `rgba(2, 132, 199, ${r.alpha * 1.5})`;
-            ctx.fillStyle = `rgba(2, 132, 199, ${r.alpha * 0.08})`;
+            ctx.strokeStyle = `rgba(0, 159, 214, ${r.alpha * 1.5})`;
+            ctx.fillStyle = `rgba(0, 191, 255, ${r.alpha * 0.08})`;
           }
 
           ctx.lineWidth = Math.max(0.4, (r.isClick ? 1.2 : 0.75) * (1 - r.radius / r.maxRadius));
