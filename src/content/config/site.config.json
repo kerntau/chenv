@@ -20,7 +20,7 @@
   },
   "author": {
     "name": "kerntau",
-    "avatar": "https://q1.qlogo.cn/g?b=qq&nk=1722288011&s=640",
+    "avatar": "/avatar.png",
     "description": "全栈工程师与开源爱好者",
     "email": "i@chenv.cn",
     "github": "https://github.com/kerntau",
@@ -168,7 +168,7 @@
       "name": "序栈",
       "desc": "用理性梳理日常，用技术温柔时光",
       "url": "https://chenv.cn",
-      "avatar": "https://chenv.cn/avatar.jpg"
+      "avatar": "https://chenv.cn/avatar.png"
     }
   },
   "header": {
@@ -177,7 +177,7 @@
       { "id": "nav-archives", "label": "归档", "href": "/archives", "icon": "History", "enabled": true },
       { "id": "nav-diaries", "label": "手记", "href": "/diaries", "icon": "Feather", "enabled": true },
       { "id": "nav-says", "label": "动态", "href": "/says", "icon": "MessageSquareQuote", "enabled": true },
-      { "id": "nav-gallery", "label": "追漫", "href": "/gallery", "icon": "Tv", "enabled": true },
+      { "id": "nav-gallery", "label": "追漫", "href": "/gallery", "icon": "Film", "enabled": true },
       { "id": "nav-friends", "label": "朋友", "href": "/friends", "icon": "Users", "enabled": true },
       { "id": "nav-about", "label": "关于", "href": "/about", "icon": "User", "enabled": true }
     ],
