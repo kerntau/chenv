@@ -15,6 +15,7 @@ import {
   ChevronRight,
   Feather,
 } from 'lucide-react';
+import { FadeContent } from '../components/reactbits';
 
 export const DiaryDetail: React.FC = () => {
   const [, params] = useRoute('/diaries/:slug');
@@ -125,11 +126,11 @@ export const DiaryDetail: React.FC = () => {
 
       <PageShell>
         <Container size="diary">
-          <div className="pt-2 sm:pt-4 pb-4 sm:pb-6">
-            {/* 手记纸张大卡片（单栏居中，温润自然） */}
-            <article className="p-4 sm:p-7 md:p-8 paper-sheet-realistic space-y-5 text-slate-800 dark:text-slate-200">
+          <div className="pt-2 sm:pt-4 pb-4 sm:pb-6 flex-1 flex flex-col">
+            {/* 手记纸张大卡片（单栏居中，温润自然，加大出版级呼吸留白） */}
+            <article className="p-5 sm:p-8 md:p-10 paper-sheet-realistic space-y-6 text-slate-800 dark:text-slate-200">
               {/* 头部元数据栏 */}
-              <header className="pb-4 border-b border-slate-200/70 dark:border-white/5 space-y-3.5">
+              <header className="pb-5 border-b border-slate-200/70 dark:border-white/5 space-y-4">
                 <div className="flex flex-wrap items-center justify-between gap-1.5 text-xs font-sans text-slate-500 dark:text-slate-400">
                   <div className="flex flex-wrap items-center gap-1.5">
                     <span className="flex items-center space-x-1 font-medium text-slate-800 dark:text-slate-200 font-sans">
@@ -139,14 +140,14 @@ export const DiaryDetail: React.FC = () => {
                     </span>
 
                     {diary.weather && (
-                      <span className="glass-tag px-1.5 py-0.5 rounded-xs text-slate-600 dark:text-slate-300 text-[10.5px] font-sans">
-                        {diary.weather}
+                      <span className="text-slate-400 dark:text-slate-500 font-sans text-xs">
+                        · {diary.weather}
                       </span>
                     )}
 
                     {diary.mood && (
-                      <span className="px-1.5 py-0.5 rounded-xs bg-sky-50/80 dark:bg-sky-950/50 text-sky-700 dark:text-sky-300 text-[10.5px] font-sans border border-sky-200/60 dark:border-sky-800/50 shadow-2xs">
-                        {diary.mood}
+                      <span className="text-sky-600/90 dark:text-sky-400/90 font-sans text-xs">
+                        · {diary.mood}
                       </span>
                     )}
                   </div>
@@ -167,20 +168,20 @@ export const DiaryDetail: React.FC = () => {
                   </div>
                 </div>
 
-                <h1 className="font-serif text-2xl sm:text-3xl font-bold text-slate-950 dark:text-slate-200 tracking-tight leading-snug">
+                <h1 className="font-serif text-2xl sm:text-3xl lg:text-[2rem] font-bold text-slate-900 dark:text-slate-100 tracking-tight leading-snug">
                   {diary.title}
                 </h1>
 
                 {/* 摘要与心境引言 */}
                 {diary.summary && (
-                  <div className="p-3.5 rounded-r-md rounded-l-none bg-white/50 dark:bg-white/[0.04] border-l-2 border-sky-500/70 dark:border-sky-400/60 text-slate-600 dark:text-slate-300 text-xs sm:text-sm leading-relaxed font-maple shadow-[inset_0_1px_0_0_rgba(255,255,255,0.7)] dark:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)]">
+                  <div className="p-4 sm:p-5 rounded-r-md rounded-l-none bg-white/50 dark:bg-white/[0.04] border-l-2 border-sky-500/70 dark:border-sky-400/60 text-slate-600 dark:text-slate-300 text-xs sm:text-sm leading-relaxed font-humanist tracking-wide shadow-[inset_0_1px_0_0_rgba(255,255,255,0.7)] dark:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)]">
                     {diary.summary}
                   </div>
                 )}
               </header>
 
               {/* 手记正文渲染 */}
-              <div className="leading-relaxed font-maple text-sm sm:text-base">
+              <div className="leading-relaxed font-humanist text-sm sm:text-base tracking-wide">
                 {contentLoading && !cleanContent ? (
                   <div className="space-y-3 animate-pulse" aria-busy="true" aria-label="正文加载中">
                     <div className="h-3 bg-slate-200 dark:bg-slate-800 rounded w-11/12" />
@@ -237,7 +238,9 @@ export const DiaryDetail: React.FC = () => {
             </article>
 
             {/* 底部卷尾题跋 */}
-            <PageEpigraph quote="日记是自己写给自己最好的情书，也是时间长河里唯一的停靠桩。" />
+            <FadeContent delay={0.2} direction="up" distance={15} className="mt-auto w-full">
+              <PageEpigraph quote="日记是自己写给自己最好的情书，也是时间长河里唯一的停靠桩。" />
+            </FadeContent>
           </div>
         </Container>
       </PageShell>

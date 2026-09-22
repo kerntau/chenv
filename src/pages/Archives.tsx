@@ -5,7 +5,7 @@ import { PageShell } from '../components/layout/PageShell';
 import { PageEpigraph } from '../components/layout/PageEpigraph';
 import { getAllDiaries, siteConfig } from '../content';
 import { formatDateShort, getYear } from '../lib/date';
-import { BlurText, FadeContent, CountUp } from '../components/reactbits';
+import { FadeContent, CountUp, SplitText } from '../components/reactbits';
 
 interface TimelineItem {
   id: string;
@@ -60,12 +60,15 @@ export const Archives: React.FC = () => {
       <Container size="narrow">
         {/* 顶部标题区 */}
         <div className="mb-5 sm:mb-7 font-sans text-center space-y-1 sm:space-y-1.5">
-          <BlurText
+          <SplitText
             text={pageTitle}
+            tag="h1"
             className="font-sans text-xl sm:text-2xl font-semibold text-slate-900 dark:text-slate-100 tracking-tight justify-center"
-            delay={40}
-            animateBy="words"
-            direction="top"
+            splitType="chars"
+            delay={35}
+            duration={0.65}
+            from={{ opacity: 0, y: 14 }}
+            to={{ opacity: 1, y: 0 }}
           />
 
           <p className="text-xs text-slate-500 dark:text-slate-400 max-w-md mx-auto leading-relaxed">
@@ -94,8 +97,8 @@ export const Archives: React.FC = () => {
                   <span className="font-mono text-base sm:text-[17px] font-bold text-slate-900 dark:text-slate-100 tracking-tight">
                     {year}
                   </span>
-                  <span className="glass-tag px-1.5 py-0.5 rounded-xs text-[10.5px] font-mono text-slate-500 dark:text-slate-400 leading-none">
-                    {itemsByYear[year].length} 篇
+                  <span className="text-xs font-mono text-slate-400 dark:text-slate-500 font-normal">
+                    / {itemsByYear[year].length} 篇
                   </span>
                 </div>
                 <div className="flex-1 h-px bg-gradient-to-r from-slate-200/90 via-slate-200/20 to-transparent dark:from-slate-700/60 dark:via-slate-800/10 dark:to-transparent" />
@@ -124,18 +127,18 @@ export const Archives: React.FC = () => {
                           {item.title}
                         </span>
 
-                        {/* 分类微标签 (桌面端展示) */}
+                        {/* 分类元数据 (桌面端展示) */}
                         {item.category && (
-                          <span className="glass-tag hidden sm:inline-block text-[10px] font-sans px-1.5 py-0.5 rounded-xs text-slate-500 dark:text-slate-400 shrink-0">
-                            {item.category}
+                          <span className="hidden sm:inline-block text-[11px] font-sans text-slate-400 dark:text-slate-500 shrink-0">
+                            · {item.category}
                           </span>
                         )}
                       </div>
 
-                      {/* 类型标 (手记标签 - 靠右对齐) */}
+                      {/* 类型标 (靠右对齐) */}
                       {item.type === 'diary' && (
                         <div className="flex items-center shrink-0">
-                          <span className="px-1.5 py-0.5 rounded-xs bg-sky-50/80 dark:bg-sky-950/40 text-sky-600 dark:text-sky-400 text-[10.5px] font-sans font-medium leading-none border border-sky-200/60 dark:border-sky-800/50 shadow-2xs">
+                          <span className="text-[11px] font-sans text-slate-400 dark:text-slate-500 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors">
                             手记
                           </span>
                         </div>
@@ -155,7 +158,7 @@ export const Archives: React.FC = () => {
         </div>
 
         {/* 底部卷尾题跋 */}
-        <FadeContent delay={0.2} direction="up" distance={15}>
+        <FadeContent delay={0.2} direction="up" distance={15} className="mt-auto w-full">
           <PageEpigraph quote="用理性梳理日常，用技术温柔时光。" />
         </FadeContent>
       </Container>

@@ -6,7 +6,7 @@ import { Search, X, Mail, Check, Copy, ExternalLink, Link2 } from 'lucide-react'
 import { getAllFriends, siteConfig } from '../content';
 import type { FriendItem } from '../types';
 import { TechBadge } from '../components/friends/TechBadge';
-import { BlurText, FadeContent } from '../components/reactbits';
+import { BlurText, FadeContent, SplitText } from '../components/reactbits';
 
 export const Friends: React.FC = () => {
   const [query, setQuery] = useState('');
@@ -33,7 +33,7 @@ export const Friends: React.FC = () => {
   const templateName = friendsPage?.template?.name || siteConfig.title;
   const templateDesc = friendsPage?.template?.desc || siteConfig.description;
   const templateUrl = friendsPage?.template?.url || siteConfig.url;
-  const rawAvatar = friendsPage?.template?.avatar || siteConfig.author?.avatar || '/avatar.jpg';
+  const rawAvatar = friendsPage?.template?.avatar || siteConfig.author?.avatar || '/avatar.png';
   const templateAvatar = rawAvatar.startsWith('http://') || rawAvatar.startsWith('https://')
     ? rawAvatar
     : `${siteConfig.url.replace(/\/+$/, '')}/${rawAvatar.replace(/^\/+/, '')}`;
@@ -71,18 +71,27 @@ export const Friends: React.FC = () => {
     <PageShell>
       <Container size="wide">
         {/* 页面标题 */}
-        <header className="pt-2 pb-6 sm:pb-8 text-center">
-          <BlurText
+        <header className="pt-2 pb-6 sm:pb-8 text-center space-y-1 sm:space-y-1.5">
+          <SplitText
             text={pageTitle}
+            tag="h1"
             className="font-sans text-xl sm:text-2xl font-semibold text-slate-800 dark:text-slate-100 tracking-tight justify-center"
-            delay={40}
-            animateBy="words"
-            direction="top"
+            splitType="chars"
+            delay={35}
+            duration={0.65}
+            from={{ opacity: 0, y: 14 }}
+            to={{ opacity: 1, y: 0 }}
           />
           {pageSubtitle && (
-            <p className="text-sm text-slate-400 dark:text-slate-500 mt-1.5 font-sans">
-              {pageSubtitle}
-            </p>
+            <div className="flex justify-center">
+              <BlurText
+                text={pageSubtitle}
+                className="text-sm text-slate-400 dark:text-slate-500 font-sans justify-center text-center"
+                delay={60}
+                animateBy="words"
+                direction="top"
+              />
+            </div>
           )}
 
           {/* 搜索 */}
@@ -275,7 +284,7 @@ export const Friends: React.FC = () => {
         </FadeContent>
 
         {/* 底部卷尾题跋 */}
-        <FadeContent delay={0.2} direction="up" distance={15}>
+        <FadeContent delay={0.2} direction="up" distance={15} className="mt-auto w-full">
           <PageEpigraph quote="山海相逢，灵感共振，行至深处皆是朋友。" />
         </FadeContent>
       </Container>

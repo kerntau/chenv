@@ -11,7 +11,7 @@ export const NotFound: React.FC = () => {
 
   return (
     <PageShell className="flex-1 flex flex-col justify-center">
-      <Container size="narrow">
+      <Container size="narrow" className="justify-center">
         <div className="py-14 sm:py-20 text-center max-w-lg mx-auto font-sans">
           
           {/* 大气半透明等宽巨幕数字 */}

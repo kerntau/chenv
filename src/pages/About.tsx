@@ -235,9 +235,9 @@ export const About: React.FC = () => {
         </div>
 
         {/* 底部题跋 */}
-        <div className="mt-8 sm:mt-10">
+        <FadeContent delay={0.2} direction="up" distance={15} className="mt-auto w-full">
           <PageEpigraph quote="行远自迩，笃行不怠。" />
-        </div>
+        </FadeContent>
       </Container>
     </PageShell>
   );

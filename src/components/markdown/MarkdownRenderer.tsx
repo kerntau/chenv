@@ -566,7 +566,7 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) =
             <h3
               id={id}
               key={`h3-${keyPrefix}-${idx}`}
-              className="scroll-mt-24 font-serif text-base sm:text-xl font-medium text-slate-800 dark:text-slate-200 mt-4 sm:mt-6 mb-1.5 sm:mb-2"
+              className="scroll-mt-24 font-serif text-base sm:text-xl font-medium text-slate-800 dark:text-slate-200 mt-4 sm:mt-6 mb-1.5 sm:mb-2 tracking-snug"
             >
               {renderInlineMarkdown(text)}
             </h3>
@@ -609,7 +609,7 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) =
       if (numListMatch) {
         flushList(`list-${keyPrefix}-${idx}`);
         elements.push(
-          <div key={`num-${keyPrefix}-${idx}`} className="my-1.5 sm:my-2 flex items-start space-x-2 text-slate-700 dark:text-slate-300 text-xs sm:text-sm">
+          <div key={`num-${keyPrefix}-${idx}`} className="my-1.5 sm:my-2 flex items-start space-x-2 text-slate-700 dark:text-slate-300 text-xs sm:text-sm font-humanist tracking-wide">
             <span className="font-mono text-xs font-semibold text-slate-500 mt-0.5 sm:mt-1 min-w-[1.25rem]">
               {numListMatch[1]}.
             </span>
@@ -623,11 +623,11 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) =
 
       flushList(`list-${keyPrefix}-${idx}`);
 
-      // 普通段落
+      // 普通段落 (引入人文温润书风与微正字距)
       elements.push(
         <p
           key={`p-${keyPrefix}-${idx}`}
-          className="my-2.5 sm:my-3.5 leading-[1.75] sm:leading-relaxed text-slate-700 dark:text-slate-300 text-[0.9375rem] sm:text-[1.02rem] tracking-normal sm:tracking-wide"
+          className="my-2.5 sm:my-3.5 leading-[1.8] sm:leading-[1.85] text-slate-700 dark:text-slate-300 text-[0.9375rem] sm:text-[1.02rem] tracking-wide font-humanist"
         >
           {renderInlineMarkdown(line)}
         </p>
@@ -640,7 +640,7 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) =
   };
 
   return (
-    <article className="prose prose-paper max-w-none text-slate-800 dark:text-slate-200">
+    <article className="prose prose-paper max-w-none text-slate-800 dark:text-slate-200 font-humanist">
       {blocks.map((block, idx) => {
         switch (block.type) {
           case 'code':

@@ -6,7 +6,7 @@ import { PageEpigraph } from '../components/layout/PageEpigraph';
 import { RecordCard } from '../components/says/RecordCard';
 import { useStaticRecords } from '../hooks/useStaticRecords';
 import { siteConfig } from '../content';
-import { BlurText, FadeContent } from '../components/reactbits';
+import { BlurText, FadeContent, SplitText } from '../components/reactbits';
 
 export const Says: React.FC = () => {
   const { records } = useStaticRecords();
@@ -22,28 +22,37 @@ export const Says: React.FC = () => {
     <PageShell>
       <Container size="narrow">
         {/* 精简居中顶栏 */}
-        <div className="mb-4 pb-3 sm:mb-6 sm:pb-4 border-b border-slate-200/70 dark:border-white/5 text-center">
-          <BlurText
+        <div className="mb-4 pb-3 sm:mb-6 sm:pb-4 border-b border-slate-200/70 dark:border-white/5 text-center space-y-1 sm:space-y-1.5">
+          <SplitText
             text={title}
-            className="font-sans text-xl sm:text-2xl font-semibold text-slate-900 dark:text-slate-200 tracking-tight justify-center"
-            delay={40}
-            animateBy="words"
-            direction="top"
+            tag="h1"
+            className="font-sans text-xl sm:text-2xl font-semibold text-slate-900 dark:text-slate-100 tracking-tight justify-center"
+            splitType="chars"
+            delay={35}
+            duration={0.65}
+            from={{ opacity: 0, y: 14 }}
+            to={{ opacity: 1, y: 0 }}
           />
           {subtitle && (
-            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 sm:mt-1.5 font-sans max-w-md mx-auto">
-              {subtitle}
-            </p>
+            <div className="flex justify-center">
+              <BlurText
+                text={subtitle}
+                className="text-xs text-slate-500 dark:text-slate-400 font-sans max-w-md mx-auto tracking-wide justify-center text-center"
+                delay={60}
+                animateBy="words"
+                direction="top"
+              />
+            </div>
           )}
         </div>
-        <div className="space-y-3.5">
+        <div className="space-y-4">
           {visibleRecords.map((record, index) => (
             <FadeContent
               key={record.id}
-              delay={Math.min(index * 0.05, 0.35)}
+              delay={Math.min(index * 0.06, 0.4)}
               direction="up"
-              distance={20}
-              duration={0.4}
+              distance={16}
+              duration={0.45}
             >
               <RecordCard record={record} />
             </FadeContent>
@@ -65,7 +74,7 @@ export const Says: React.FC = () => {
         )}
 
         {/* 底部卷尾题跋 */}
-        <FadeContent delay={0.2} direction="up" distance={15}>
+        <FadeContent delay={0.2} direction="up" distance={15} className="mt-auto w-full">
           <PageEpigraph quote="捕捉灵光闪烁，记录当下的真实呼吸。" />
         </FadeContent>
       </Container>

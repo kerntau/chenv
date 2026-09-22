@@ -83,7 +83,7 @@ export const Sitemap: React.FC = () => {
                           {sec.nameEn}
                         </span>
                       </div>
-                      <span className="glass-tag font-mono text-[11px] px-1.5 py-0.5 rounded-md text-slate-500 dark:text-slate-400">
+                      <span className="font-mono text-xs text-slate-400 dark:text-slate-500 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors">
                         {sec.count}
                       </span>
                     </div>
@@ -148,7 +148,7 @@ export const Sitemap: React.FC = () => {
                     href="/sitemap.xml"
                     target="_blank"
                     rel="noreferrer"
-                    className="glass-tag inline-flex items-center gap-1 px-2.5 py-1 rounded-sm text-slate-700 dark:text-slate-300"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-slate-600 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 hover:bg-slate-100/70 dark:hover:bg-slate-800/60 transition-all"
                   >
                     <span>sitemap.xml</span>
                     <ExternalLink className="w-3 h-3 opacity-60" />
@@ -158,7 +158,7 @@ export const Sitemap: React.FC = () => {
                     href="/feed.xml"
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center gap-1 px-2.5 py-1 rounded-sm bg-sky-50/80 dark:bg-sky-950/50 border border-sky-200/60 dark:border-sky-800/60 text-sky-700 dark:text-sky-300 hover:bg-sky-100/80 dark:hover:bg-sky-900/60 shadow-[inset_0_1px_0_rgba(255,255,255,0.6)] transition-all"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sky-600 dark:text-sky-400 hover:text-sky-700 dark:hover:text-sky-300 hover:bg-sky-50/70 dark:hover:bg-sky-950/40 transition-all font-medium"
                   >
                     <span>feed.xml</span>
                     <ExternalLink className="w-3 h-3 opacity-60" />
@@ -171,7 +171,7 @@ export const Sitemap: React.FC = () => {
         </article>
 
         {/* 底部卷尾题跋 */}
-        <FadeContent delay={0.2} direction="up" distance={15}>
+        <FadeContent delay={0.2} direction="up" distance={15} className="mt-auto w-full">
           <PageEpigraph quote="心中有景，花香满径。" />
         </FadeContent>
       </Container>

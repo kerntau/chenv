@@ -33,7 +33,7 @@ export const Callout: React.FC<CalloutProps> = ({
       case 'warning':
         return 'border-l-rose-500/80 bg-rose-50/50 dark:bg-rose-950/20';
       case 'quote':
-        return 'border-l-slate-400/80 bg-slate-100/40 dark:bg-slate-900/40';
+        return 'border-l-sky-500/60 dark:border-l-sky-400/50 bg-slate-100/40 dark:bg-slate-900/30';
       case 'note':
       default:
         return 'border-l-slate-400/70 bg-slate-50/60 dark:bg-[#18181B]/60';
@@ -48,11 +48,17 @@ export const Callout: React.FC<CalloutProps> = ({
         {getIcon()}
         <div className="flex-1 min-w-0">
           {title && (
-            <div className="font-sans text-xs sm:text-sm font-semibold text-slate-800 dark:text-slate-200 mb-1">
+            <div className="font-sans text-xs sm:text-sm font-semibold text-slate-800 dark:text-slate-100 mb-1 tracking-tight">
               {title}
             </div>
           )}
-          <div className="text-xs sm:text-sm font-sans leading-relaxed text-slate-600 dark:text-slate-300 font-normal">
+          <div
+            className={`text-xs sm:text-sm leading-relaxed text-slate-600 dark:text-slate-300 font-normal ${
+              type === 'quote'
+                ? 'font-humanist text-[0.9375rem] sm:text-[1.02rem] tracking-wide leading-relaxed'
+                : 'font-sans'
+            }`}
+          >
             {children}
           </div>
         </div>
