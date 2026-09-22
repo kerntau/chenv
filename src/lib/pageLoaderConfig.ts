@@ -97,10 +97,14 @@ export function getPageLoaderConfig(pathname: string): PageLoaderMeta {
     };
   }
 
-  // 6. 视觉画廊 (久一点 1000ms，保留完整展厅仪式感并预加载首屏大图)
+  // 6. 在追国漫 (仪式感 650ms，预加载国漫海报)
   if (
     pathname === '/gallery' ||
     pathname.startsWith('/gallery/') ||
+    pathname === '/bangumi' ||
+    pathname.startsWith('/bangumi/') ||
+    pathname === '/anime' ||
+    pathname.startsWith('/anime/') ||
     pathname === '/photos' ||
     pathname === '/wall'
   ) {
@@ -114,12 +118,12 @@ export function getPageLoaderConfig(pathname: string): PageLoaderMeta {
       previewImages = [];
     }
     return {
-      title: `${authorName} · 视觉画廊`,
-      startMsg: '凝固瞬息光影 · 正在展开画卷',
-      middleMsg: '采撷胜境色彩 · 即将揭幕',
-      readyMsg: '展厅已就绪 · 即刻呈现',
-      minDuration: 1000,
-      maxWait: 2600,
+      title: `${authorName} · 在追国漫`,
+      startMsg: '漫游修仙幻境 · 正在展开画卷',
+      middleMsg: '采撷热血国创 · 即将揭幕',
+      readyMsg: '漫界已就绪 · 即刻呈现',
+      minDuration: 650,
+      maxWait: 2000,
       previewImages,
     };
   }

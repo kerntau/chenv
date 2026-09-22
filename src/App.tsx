@@ -34,7 +34,7 @@ const SECTIONS: Section[] = [
   { label: '归档', paths: ['/archives', '/timeline', '/archive'], list: Archives },
   { label: '手记', paths: ['/diaries', '/journal', '/shouji'], list: Diaries, detail: DiaryDetail },
   { label: '说说', paths: ['/says', '/record'], list: Says },
-  { label: '画廊', paths: ['/gallery', '/photos', '/wall'], list: Gallery },
+  { label: '追漫', paths: ['/gallery', '/bangumi', '/anime', '/photos', '/wall'], list: Gallery },
   { label: '友链', paths: ['/friends', '/friend'], list: Friends },
   { label: '关于', paths: ['/about', '/me'], list: About },
   { label: '站点地图', paths: ['/sitemap'], list: Sitemap },
@@ -54,8 +54,16 @@ export const App: React.FC = () => {
   useTheme();
   const [location] = useLocation();
 
-  // 判断是否为沉浸式全屏画廊页面
-  const isGallery = location === '/gallery' || location.startsWith('/gallery/') || location === '/photos' || location === '/wall';
+  // 判断是否为沉浸式全屏追漫/画廊页面
+  const isGallery =
+    location === '/gallery' ||
+    location.startsWith('/gallery/') ||
+    location === '/bangumi' ||
+    location.startsWith('/bangumi/') ||
+    location === '/anime' ||
+    location.startsWith('/anime/') ||
+    location === '/photos' ||
+    location === '/wall';
 
   // 全站页面流光加载与路由过渡状态
   const [isPageLoading, setIsPageLoading] = useState(true);
@@ -96,7 +104,7 @@ export const App: React.FC = () => {
           '归档': siteConfig.archivesPage?.subtitle || `${siteConfig.title} 全站随笔与手记的时间脉络与足迹索引。`,
           '手记': siteConfig.diariesPage?.subtitle || siteConfig.description,
           '说说': siteConfig.saysPage?.subtitle || '把灵感、日常与正在发生的事情，留在时间线上。',
-          '画廊': '凝固光影与瞬息，漫游数字视觉画廊。',
+          '追番': '记录每一帧光影带来的悸动，用二次元的温度温暖日常。',
           '友链': siteConfig.friendsPage?.subtitle || '山海相逢，灵感共振。',
           '关于': '关于作者 kerntau、全栈工程技术栈、本站设计哲学与数字花园。',
           '站点地图': '聚合全站核心频道结构、生活随笔手记与全局标签图谱。',

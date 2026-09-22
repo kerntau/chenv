@@ -13,6 +13,7 @@ import {
   Globe,
   ArrowUpRight,
   Images,
+  Tv,
   MoreHorizontal,
 } from 'lucide-react';
 import { SearchModal } from '../search/SearchModal';
@@ -32,6 +33,7 @@ const ICON_MAP: Record<string, React.FC<{ className?: string }>> = {
   Link2,
   Globe,
   Images,
+  Tv,
 };
 
 const DEFAULT_NAV_LINKS: NavLinkItem[] = [
@@ -39,7 +41,7 @@ const DEFAULT_NAV_LINKS: NavLinkItem[] = [
   { id: 'nav-archives', href: '/archives', label: '归档', icon: 'History', enabled: true },
   { id: 'nav-diaries', href: '/diaries', label: '手记', icon: 'Feather', enabled: true },
   { id: 'nav-says', href: '/says', label: '动态', icon: 'MessageSquareQuote', enabled: true },
-  { id: 'nav-gallery', href: '/gallery', label: '画廊', icon: 'Images', enabled: true },
+  { id: 'nav-gallery', href: '/gallery', label: '追漫', icon: 'Tv', enabled: true },
   { id: 'nav-friends', href: '/friends', label: '朋友', icon: 'Users', enabled: true },
   { id: 'nav-about', href: '/about', label: '关于', icon: 'User', enabled: true },
 ];
@@ -53,9 +55,9 @@ export const Header: React.FC = () => {
     return /^\/(diaries|journal|shouji)\/[^/]+$/.test(location);
   }, [location]);
 
-  // 判断当前页面是否属于画廊沉浸式全屏路由
+  // 判断当前页面是否属于追漫沉浸式全屏路由
   const isGalleryPage = useMemo(() => {
-    return /^\/(gallery|photos|wall)(\/.*)?$/.test(location);
+    return /^\/(gallery|bangumi|anime|photos|wall)(\/.*)?$/.test(location);
   }, [location]);
 
   // 控制详情页向下滚动时导航栏收起，向上滚动时呼出
