@@ -8,9 +8,9 @@ export default defineConfig({
     meta: {
       description: '用理性梳理日常，用技术温柔时光',
       viewport: 'width=device-width, initial-scale=1.0',
-      'og:image': 'https://chenv.cn/avatar-full.jpg',
+      'og:image': 'https://chenv.cn/avatar.png',
       'og:type': 'website',
-      'twitter:image': 'https://chenv.cn/avatar-full.jpg',
+      'twitter:image': 'https://chenv.cn/avatar.png',
       'twitter:card': 'summary_large_image',
     },
     favicon: './public/favicon.ico',
@@ -136,6 +136,35 @@ export default defineConfig({
         attrs: {
           rel: 'stylesheet',
           href: 'https://cn-font.claude-code-best.win/packages/dymh/dist/DouyinSansBold/result.css',
+        },
+      },
+      {
+        tag: 'link',
+        attrs: {
+          rel: 'preconnect',
+          href: 'https://fonts.googleapis.com',
+        },
+      },
+      {
+        tag: 'link',
+        attrs: {
+          rel: 'preconnect',
+          href: 'https://fonts.gstatic.com',
+          crossorigin: true,
+        },
+      },
+      {
+        tag: 'link',
+        attrs: {
+          rel: 'stylesheet',
+          href: 'https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..600;1,400..600&family=Noto+Serif+SC:wght@300;400;500;600&display=swap',
+        },
+      },
+      {
+        tag: 'link',
+        attrs: {
+          rel: 'stylesheet',
+          href: 'https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/style.css',
         },
       },
     ],
