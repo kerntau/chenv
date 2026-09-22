@@ -1,11 +1,16 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { DriftWall } from '../components/ui/DriftWall';
+import { AnimeDetailModal } from '../components/gallery/AnimeDetailModal';
 import { getGalleryConfig } from '../content';
 import { useTheme } from '../hooks/useTheme';
+import type { DriftWallItem } from '../types';
 
 export const Gallery: React.FC = () => {
   const config = useMemo(() => getGalleryConfig(), []);
   const { isDark } = useTheme();
+
+  // 当前选中待展示详细信息的国漫条目
+  const [activeItem, setActiveItem] = useState<DriftWallItem | null>(null);
 
   // 视口尺寸响应式监听，动态优化 DriftWall 参数
   const [windowWidth, setWindowWidth] = useState<number>(() =>
@@ -19,33 +24,33 @@ export const Gallery: React.FC = () => {
   }, []);
 
   const layoutProps = useMemo(() => {
-    // 根据当前视口宽度动态计算最佳整列数与自适应列宽，确保左右无空洞且卡片 100% 完整显示（绝不切边）
+    // 根据当前视口宽度动态计算最佳整列数与自适应列宽，按国漫海报黄金竖版比例展示
     let sidePadding = 16;
     let gap = 16;
-    let targetColWidth = 220;
+    let targetColWidth = 200;
     let minCols = 3;
 
     if (windowWidth < 640) {
       sidePadding = 10;
       gap = 10;
-      targetColWidth = 115;
+      targetColWidth = 110;
       minCols = 3;
     } else if (windowWidth < 1024) {
       sidePadding = 14;
       gap = 12;
-      targetColWidth = 175;
+      targetColWidth = 160;
       minCols = 4;
     } else if (windowWidth >= 1600) {
       sidePadding = 20;
       gap = 18;
-      targetColWidth = 230;
+      targetColWidth = 210;
       minCols = 6;
     }
 
     const usableWidth = Math.max(280, windowWidth - sidePadding * 2);
     const columns = Math.max(minCols, Math.round((usableWidth + gap) / (targetColWidth + gap)));
     const tileWidth = Math.floor((usableWidth - (columns - 1) * gap) / columns);
-    const tileHeight = Math.round(tileWidth * 0.65); // 优雅的黄金构图画幅比
+    const tileHeight = Math.round(tileWidth * 1.38); // 国漫竖版海报黄金画幅比
 
     return {
       columns,
@@ -80,10 +85,17 @@ export const Gallery: React.FC = () => {
         fade={0.25}
         dim={isDark ? 0.78 : 0.9}
         overlayColor={isDark ? '#000000' : '#ffffff'}
-        radius={6}
+        radius={8}
         roll={0}
         pauseOnHover={false}
         grayscale={false}
+        onItemClick={(item) => setActiveItem(item)}
+      />
+
+      {/* 动漫详情与评分弹窗 */}
+      <AnimeDetailModal
+        item={activeItem}
+        onClose={() => setActiveItem(null)}
       />
     </div>
   );
