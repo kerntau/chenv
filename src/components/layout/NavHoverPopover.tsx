@@ -412,7 +412,7 @@ export const NavHoverPopover: React.FC<NavHoverPopoverProps> = ({
                         </div>
 
                         {/* 底部剧名 */}
-                        <span className="relative z-10 text-[10.5px] font-medium text-white/95 leading-tight line-clamp-1 drop-shadow-xs group-hover:text-sky-200 transition-colors">
+                        <span className="relative z-10 w-full text-center text-[10.5px] font-medium text-white/95 leading-tight line-clamp-1 drop-shadow-xs group-hover:text-sky-200 transition-colors">
                           {anime.title}
                         </span>
                       </Link>
