@@ -46,7 +46,6 @@ export const Footer: React.FC = () => {
 
   return (
     <footer
-      data-external-bypass="true"
       className="relative z-10 mt-auto pt-4 pb-5 sm:pt-6 sm:pb-6 text-xs font-sans text-slate-600 dark:text-slate-400 select-none shrink-0 bg-transparent"
     >
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 space-y-3 sm:space-y-3.5">

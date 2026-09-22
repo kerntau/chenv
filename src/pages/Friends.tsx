@@ -125,7 +125,6 @@ export const Friends: React.FC = () => {
                 href={templateUrl}
                 target="_blank"
                 rel="noreferrer"
-                data-external-bypass="true"
                 className="glass-card glass-card-interactive group relative p-4 block !border-sky-400/50 dark:!border-sky-400/40"
               >
                 <div className="flex items-center gap-3">
@@ -302,7 +301,6 @@ const FriendCard: React.FC<{ friend: FriendItem }> = ({ friend }) => {
       href={friend.link}
       target="_blank"
       rel="noreferrer"
-      data-external-bypass="true"
       className="glass-card glass-card-interactive group relative p-4 block"
     >
       <div className="flex items-center gap-3">

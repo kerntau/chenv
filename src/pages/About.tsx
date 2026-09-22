@@ -132,7 +132,6 @@ export const About: React.FC = () => {
                         href={social.url}
                         target="_blank"
                         rel="noreferrer"
-                        data-external-bypass="true"
                         className="glass-tag inline-flex items-center gap-1.5 px-2 py-0.5 rounded-xs text-slate-600 dark:text-slate-300 text-[11px] font-sans transition-all hover:text-sky-600 dark:hover:text-sky-400 hover:-translate-y-0.5"
                       >
                         <IconComponent className="w-3.5 h-3.5 shrink-0" />
