@@ -99,12 +99,15 @@ const DriftTile: React.FC<DriftTileProps> = React.memo(({
 
   const inner = (
     <span className={innerClass}>
-      {/* 渐进式骨架微光层（未完成完全加载时平滑过渡） */}
-      {!isLoaded && (
-        <span className="absolute inset-0 bg-slate-200/50 dark:bg-slate-800/60 animate-pulse overflow-hidden">
-          <span className="absolute inset-0 -translate-x-full animate-[shimmer_1.8s_infinite] bg-gradient-to-r from-transparent via-white/20 dark:via-white/5 to-transparent" />
-        </span>
-      )}
+      {/* 渐进式骨架微光层（加载完成时优雅淡出，不突兀闪现） */}
+      <span
+        className={cx(
+          'absolute inset-0 bg-slate-200/70 dark:bg-slate-800/80 overflow-hidden pointer-events-none z-10 transition-opacity duration-700 ease-out',
+          isLoaded ? 'opacity-0' : 'opacity-100'
+        )}
+      >
+        <span className="absolute inset-0 -translate-x-full animate-[shimmer_1.6s_infinite] bg-gradient-to-r from-transparent via-white/35 dark:via-white/10 to-transparent" />
+      </span>
 
       <img
         src={item.image || fallbackImage}
@@ -121,7 +124,10 @@ const DriftTile: React.FC<DriftTileProps> = React.memo(({
         }}
         className={cx(
           imgClass,
-          'transition-[filter,transform] duration-500 ease-out'
+          'transition-[opacity,filter,transform] duration-700 ease-out will-change-[transform,opacity,filter]',
+          isLoaded
+            ? 'opacity-100 blur-0 scale-100'
+            : 'opacity-0 blur-md scale-[1.04]'
         )}
       />
 

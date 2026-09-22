@@ -2,7 +2,6 @@ import React, { useMemo } from 'react';
 import { Link } from 'wouter';
 import { Container } from '../components/layout/Container';
 import { PageShell } from '../components/layout/PageShell';
-import { PageEpigraph } from '../components/layout/PageEpigraph';
 import { getAllDiaries, siteConfig } from '../content';
 import { formatDateShort, getYear } from '../lib/date';
 import { FadeContent, CountUp, SplitText } from '../components/reactbits';
@@ -157,10 +156,6 @@ export const Archives: React.FC = () => {
           )}
         </div>
 
-        {/* 底部卷尾题跋 */}
-        <FadeContent delay={0.2} direction="up" distance={15} className="mt-auto w-full">
-          <PageEpigraph quote="用理性梳理日常，用技术温柔时光。" />
-        </FadeContent>
       </Container>
     </PageShell>
   );

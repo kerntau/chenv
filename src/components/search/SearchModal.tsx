@@ -36,7 +36,8 @@ export const SearchModal: React.FC<SearchModalProps> = ({
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
       <Dialog.Portal>
-        <Dialog.Content className="glass-modal fixed top-[18%] left-1/2 -translate-x-1/2 w-full max-w-xl rounded-md z-50 p-0 overflow-hidden outline-none animate-in fade-in zoom-in-95 duration-150">
+        <Dialog.Overlay className="dialog-overlay fixed inset-0 bg-slate-900/40 dark:bg-black/60 backdrop-blur-xs z-50" />
+        <Dialog.Content className="dialog-content glass-modal fixed top-[18%] left-1/2 -translate-x-1/2 w-full max-w-xl rounded-md z-50 p-0 overflow-hidden outline-none">
           <Dialog.Title className="sr-only">搜索博客文稿与笔记</Dialog.Title>
           <Dialog.Description className="sr-only">
             通过标题、标签或摘要快速检索全站文章与安全笔记

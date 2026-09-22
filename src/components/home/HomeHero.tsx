@@ -22,15 +22,39 @@ export const HomeHero: React.FC = () => {
   const containerRef = useRef<HTMLElement>(null);
 
   useGSAP(() => {
-    const tl = gsap.timeline({ defaults: { duration: 0.5, ease: 'power3.out' } });
-    
-    // 强制初始状态为不可见以避免闪烁，然后依次按延迟执行动画
-    tl.fromTo('.gsap-hero-avatar', { opacity: 0, y: 12 }, { opacity: 1, y: 0 })
-      .fromTo('.gsap-hero-title', { opacity: 0 }, { opacity: 1 }, 0.1)
-      .fromTo('.gsap-hero-skills', { opacity: 0, y: 8 }, { opacity: 1, y: 0 }, 0.35)
-      .fromTo('.gsap-hero-metrics', { opacity: 0, y: 8 }, { opacity: 1, y: 0 }, 0.45)
-      .fromTo('.gsap-hero-socials', { opacity: 0, y: 8 }, { opacity: 1, y: 0 }, 0.55)
-      .fromTo('.gsap-hero-announcement', { opacity: 0, y: 8 }, { opacity: 1, y: 0 }, 0.62);
+    const playHeroAnimation = () => {
+      const tl = gsap.timeline({ defaults: { duration: 0.65, ease: 'power3.out' } });
+      
+      tl.fromTo('.gsap-hero-avatar', { opacity: 0, y: 16 }, { opacity: 1, y: 0 })
+        .fromTo('.gsap-hero-title-line-1', { opacity: 0, y: 22 }, { opacity: 1, y: 0 }, 0.08)
+        .fromTo('.gsap-hero-title-line-2', { opacity: 0, y: 22 }, { opacity: 1, y: 0 }, 0.22)
+        .fromTo('.gsap-hero-skills', { opacity: 0, y: 12 }, { opacity: 1, y: 0 }, 0.36)
+        .fromTo('.gsap-hero-metrics', { opacity: 0, y: 12 }, { opacity: 1, y: 0 }, 0.46)
+        .fromTo('.gsap-hero-socials', { opacity: 0, y: 12 }, { opacity: 1, y: 0 }, 0.56)
+        .fromTo('.gsap-hero-announcement', { opacity: 0, y: 12 }, { opacity: 1, y: 0 }, 0.64);
+    };
+
+    // 若页面已经就绪（例如站内导航返回），直接播放
+    if (typeof window !== 'undefined' && (window as any).__PAGE_LOADED__) {
+      playHeroAnimation();
+      return;
+    }
+
+    // 首屏存在 PageLoader 遮罩时，等待其揭幕完成后再平滑播放，避免在遮罩后提前偷跑看不见
+    let hasRun = false;
+    const trigger = () => {
+      if (hasRun) return;
+      hasRun = true;
+      playHeroAnimation();
+    };
+
+    window.addEventListener('page-ready', trigger, { once: true });
+    const timer = setTimeout(trigger, 650);
+
+    return () => {
+      window.removeEventListener('page-ready', trigger);
+      clearTimeout(timer);
+    };
   }, { scope: containerRef });
   const diaries = getAllDiaries();
   const totalDiaries = diaries.length;
@@ -69,7 +93,7 @@ export const HomeHero: React.FC = () => {
       {/* 头像区域 */}
       <div className="gsap-hero-avatar opacity-0 mb-3 sm:mb-4 lg:mb-3 relative group">
         <Magnetic strength={2.5}>
-          <div className="relative w-16 h-16 sm:w-20 sm:h-20 lg:w-[4.85rem] lg:h-[4.85rem] rounded-full p-0.5 sm:p-1 bg-gradient-to-tr from-sky-200/90 via-white/90 to-blue-300/50 dark:from-slate-800/90 dark:via-white/[0.12] dark:to-sky-900/70 shadow-[0_8px_24px_-4px_rgba(15,23,42,0.08),inset_0_1px_1px_0_rgba(255,255,255,0.7)] dark:shadow-[0_12px_28px_-4px_rgba(0,0,0,0.45),inset_0_1px_1px_0_rgba(255,255,255,0.15)]">
+          <div className="relative w-16 h-16 sm:w-20 sm:h-20 lg:w-[4.85rem] lg:h-[4.85rem] rounded-full p-[2px] bg-gradient-to-b from-sky-400/40 via-transparent to-sky-500/20 dark:from-white/20 dark:via-transparent dark:to-sky-400/20 shadow-[0_8px_24px_-4px_rgba(15,23,42,0.08)] dark:shadow-[0_12px_32px_-6px_rgba(0,0,0,0.6),0_0_24px_-4px_rgba(0,191,255,0.12)] transition-transform duration-300 group-hover:scale-[1.03]">
             <img
               src={siteConfig.author.avatar || '/avatar.png'}
               alt={siteConfig.author.name}
@@ -82,13 +106,18 @@ export const HomeHero: React.FC = () => {
                   e.currentTarget.src = '/avatar.png';
                 }
               }}
-              className="w-full h-full rounded-full object-cover shadow-[inset_0_0_0_1px_rgba(0,0,0,0.06)] dark:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08)]"
+              className="w-full h-full rounded-full object-cover shadow-[inset_0_0_0_1px_rgba(0,0,0,0.08)] dark:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.12)]"
             />
             {/* 在线状态点与 Tooltip */}
-            <div className="absolute bottom-0.5 right-0.5 sm:bottom-1 sm:right-1 group/status">
-              <span
-                className={`block w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-full ${statusColorClass} border-2 border-white dark:border-slate-900 shadow-sm`}
-              />
+            <div className="absolute bottom-0 right-0 sm:bottom-0.5 sm:right-0.5 group/status">
+              <span className="relative flex w-3 h-3 sm:w-3.5 sm:h-3.5">
+                {onlineStatus === 'online' && (
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-60" />
+                )}
+                <span
+                  className={`relative inline-flex w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-full ${statusColorClass} border-2 border-white dark:border-[#0B101B] shadow-sm`}
+                />
+              </span>
               {/* Tooltip */}
               <div className="glass-tooltip absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 rounded text-[10px] font-mono whitespace-nowrap text-slate-800 dark:text-slate-100 pointer-events-none opacity-0 invisible group-hover/status:opacity-100 group-hover/status:visible transition-all z-20">
                 状态: {onlineStatus}
@@ -99,9 +128,9 @@ export const HomeHero: React.FC = () => {
         </Magnetic>
       </div>
 
-      {/* 主标题排版 - 采用 SplitText 逐字物理级切分浮现 */}
-      <div className="gsap-hero-title opacity-0 space-y-1 sm:space-y-2 mt-1">
-        <h1 className="font-sans text-2xl sm:text-4xl lg:text-[2.6rem] font-medium tracking-tight text-slate-800 dark:text-slate-100 leading-tight flex items-center justify-center gap-2">
+      {/* 主标题排版 - 采用两行独立错落升起与 SplitText 逐字弹入 */}
+      <div className="space-y-1.5 sm:space-y-2 mt-1">
+        <h1 className="gsap-hero-title-line-1 opacity-0 font-sans text-2xl sm:text-4xl lg:text-[2.6rem] font-medium tracking-tight text-slate-800 dark:text-slate-100 leading-tight flex items-center justify-center gap-2">
           <span className="font-light text-slate-400 dark:text-slate-400">{greeting}</span>
           <SplitText
             text={siteConfig.author.name}
@@ -109,13 +138,13 @@ export const HomeHero: React.FC = () => {
             className="font-bold text-sky-600 dark:text-sky-400 font-douyin inline-block"
             splitType="chars"
             delay={45}
-            duration={0.75}
-            from={{ opacity: 0, y: 18 }}
+            duration={0.85}
+            from={{ opacity: 0, y: 28 }}
             to={{ opacity: 1, y: 0 }}
           />
         </h1>
         
-        <div className="font-sans text-xl sm:text-3xl lg:text-[2rem] font-normal tracking-tight leading-snug flex items-center justify-center gap-2">
+        <div className="gsap-hero-title-line-2 opacity-0 font-sans text-xl sm:text-3xl lg:text-[2rem] font-normal tracking-tight leading-snug flex items-center justify-center gap-2">
           <span className="font-light text-slate-400 dark:text-slate-400">I build</span>
           <SplitText
             text={highlightRole}
@@ -123,8 +152,8 @@ export const HomeHero: React.FC = () => {
             className="font-semibold text-sky-600 dark:text-sky-400 inline-block"
             splitType="chars"
             delay={25}
-            duration={0.7}
-            from={{ opacity: 0, y: 16 }}
+            duration={0.8}
+            from={{ opacity: 0, y: 24 }}
             to={{ opacity: 1, y: 0 }}
           />
         </div>

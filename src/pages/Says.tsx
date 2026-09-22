@@ -2,7 +2,6 @@ import React, { useMemo, useState } from 'react';
 import { RefreshCw } from 'lucide-react';
 import { Container } from '../components/layout/Container';
 import { PageShell } from '../components/layout/PageShell';
-import { PageEpigraph } from '../components/layout/PageEpigraph';
 import { RecordCard } from '../components/says/RecordCard';
 import { useStaticRecords } from '../hooks/useStaticRecords';
 import { siteConfig } from '../content';
@@ -73,10 +72,6 @@ export const Says: React.FC = () => {
           </button>
         )}
 
-        {/* 底部卷尾题跋 */}
-        <FadeContent delay={0.2} direction="up" distance={15} className="mt-auto w-full">
-          <PageEpigraph quote="捕捉灵光闪烁，记录当下的真实呼吸。" />
-        </FadeContent>
       </Container>
     </PageShell>
   );

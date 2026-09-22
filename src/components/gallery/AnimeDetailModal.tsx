@@ -1,11 +1,7 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
-import {
-  X,
-  Star,
-  ExternalLink,
-  RotateCw,
-} from 'lucide-react';
+import { X, Star, RotateCw, ExternalLink } from 'lucide-react';
+import { LazyImage } from '../ui/LazyImage';
 import type { DriftWallItem } from '../../types';
 import offlineAnimeDetails from '../../content/data/anime-details.json';
 
@@ -148,10 +144,10 @@ export const AnimeDetailModal: React.FC<AnimeDetailModalProps> = ({ item, onClos
     <Dialog.Root open={!!item} onOpenChange={(open) => !open && onClose()}>
       <Dialog.Portal>
         {/* 全站标准景深遮罩 */}
-        <Dialog.Overlay className="fixed inset-0 bg-slate-900/40 dark:bg-black/60 backdrop-blur-md z-[100] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 duration-200" />
+        <Dialog.Overlay className="dialog-overlay fixed inset-0 bg-slate-900/40 dark:bg-black/60 backdrop-blur-md z-[100]" />
 
-        {/* 模态窗容器：接入全站顶奢 fluid glass-modal，消除塑料质感与暗色白底，优雅圆角 */}
-        <Dialog.Content className="glass-modal fixed left-1/2 top-1/2 z-[100] w-[92vw] max-w-2xl -translate-x-1/2 -translate-y-1/2 rounded-md overflow-hidden font-sans outline-none duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] flex flex-col max-h-[88vh]">
+        {/* 模态窗容器：接入全站顶奢 fluid glass-modal 与硬件加速进出动画 */}
+        <Dialog.Content className="dialog-content glass-modal fixed left-1/2 top-1/2 z-[100] w-[92vw] max-w-2xl rounded-md overflow-hidden font-sans outline-none flex flex-col max-h-[88vh]">
           
           {/* 右上角极简关闭按钮 */}
           <Dialog.Close asChild>
@@ -179,13 +175,12 @@ export const AnimeDetailModal: React.FC<AnimeDetailModalProps> = ({ item, onClos
               
               {/* 左栏：封面海报（在左边垂直居中，比例协调） */}
               <div className="shrink-0 w-28 xs:w-32 sm:w-36 self-center">
-                <div className="relative aspect-[2/3] rounded-xs overflow-hidden ring-1 ring-black/10 dark:ring-white/15 shadow-md dark:shadow-2xl bg-slate-100 dark:bg-slate-800 transition-transform duration-300 hover:scale-[1.02]">
-                  <img
+                <div className="relative aspect-[2/3] rounded-xs overflow-hidden ring-1 ring-black/10 dark:ring-white/15 shadow-md dark:shadow-2xl transition-transform duration-300 hover:scale-[1.02]">
+                  <LazyImage
                     src={coverImage}
                     alt={displayName}
-                    className="w-full h-full object-cover select-none"
-                    loading="lazy"
-                    decoding="async"
+                    className="select-none"
+                    aspectRatio="2/3"
                   />
                 </div>
               </div>

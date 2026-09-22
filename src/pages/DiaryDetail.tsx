@@ -2,7 +2,6 @@ import React, { useMemo } from 'react';
 import { useRoute, Link, useLocation } from 'wouter';
 import { PageShell } from '../components/layout/PageShell';
 import { Container } from '../components/layout/Container';
-import { PageEpigraph } from '../components/layout/PageEpigraph';
 import { MarkdownRenderer } from '../components/markdown/MarkdownRenderer';
 import { ReadingProgressBar } from '../components/ui/ReadingProgressBar';
 import { getDiaryBySlug, getAllDiaries, loadDiaryContent, siteConfig } from '../content';
@@ -15,7 +14,6 @@ import {
   ChevronRight,
   Feather,
 } from 'lucide-react';
-import { FadeContent } from '../components/reactbits';
 
 export const DiaryDetail: React.FC = () => {
   const [, params] = useRoute('/diaries/:slug');
@@ -237,10 +235,6 @@ export const DiaryDetail: React.FC = () => {
               </footer>
             </article>
 
-            {/* 底部卷尾题跋 */}
-            <FadeContent delay={0.2} direction="up" distance={15} className="mt-auto w-full">
-              <PageEpigraph quote="日记是自己写给自己最好的情书，也是时间长河里唯一的停靠桩。" />
-            </FadeContent>
           </div>
         </Container>
       </PageShell>

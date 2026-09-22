@@ -1,7 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { Container } from '../components/layout/Container';
 import { PageShell } from '../components/layout/PageShell';
-import { PageEpigraph } from '../components/layout/PageEpigraph';
 import { Search, X, Mail, Check, Copy, ExternalLink, Link2 } from 'lucide-react';
 import { getAllFriends, siteConfig } from '../content';
 import type { FriendItem } from '../types';
@@ -282,10 +281,6 @@ export const Friends: React.FC = () => {
           </section>
         </FadeContent>
 
-        {/* 底部卷尾题跋 */}
-        <FadeContent delay={0.2} direction="up" distance={15} className="mt-auto w-full">
-          <PageEpigraph quote="山海相逢，灵感共振，行至深处皆是朋友。" />
-        </FadeContent>
       </Container>
     </PageShell>
   );

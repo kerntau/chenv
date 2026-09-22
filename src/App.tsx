@@ -71,12 +71,19 @@ export const App: React.FC = () => {
   const pageMeta = useMemo(() => getPageLoaderConfig(location), [location]);
   const handleLoaded = React.useCallback(() => {
     setIsPageLoading(false);
+    if (typeof window !== 'undefined') {
+      (window as any).__PAGE_LOADED__ = true;
+      window.dispatchEvent(new CustomEvent('page-ready'));
+    }
   }, []);
 
   useEffect(() => {
     if (prevLocationRef.current !== location) {
       prevLocationRef.current = location;
       setIsPageLoading(true);
+      if (typeof window !== 'undefined') {
+        (window as any).__PAGE_LOADED__ = false;
+      }
     }
   }, [location]);
 

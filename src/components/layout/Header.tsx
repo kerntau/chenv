@@ -356,9 +356,11 @@ export const Header: React.FC = () => {
         </div>
       </header>
 
-      {/* 搜索弹窗 */}
-      {enableSearch && (
-        <SearchModal open={searchOpen} onOpenChange={setSearchOpen} />
+      {/* 搜索弹窗：仅在用户触发搜索时按需拉取 */}
+      {enableSearch && searchOpen && (
+        <React.Suspense fallback={null}>
+          <SearchModal open={searchOpen} onOpenChange={setSearchOpen} />
+        </React.Suspense>
       )}
     </>
   );

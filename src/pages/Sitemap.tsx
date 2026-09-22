@@ -2,7 +2,6 @@ import React, { useMemo } from 'react';
 import { Link } from 'wouter';
 import { PageShell } from '../components/layout/PageShell';
 import { Container } from '../components/layout/Container';
-import { PageEpigraph } from '../components/layout/PageEpigraph';
 import { getAllDiaries, getAllFriends, getAllRecords } from '../content';
 import { formatDateShort } from '../lib/date';
 import {
@@ -170,10 +169,6 @@ export const Sitemap: React.FC = () => {
 
         </article>
 
-        {/* 底部卷尾题跋 */}
-        <FadeContent delay={0.2} direction="up" distance={15} className="mt-auto w-full">
-          <PageEpigraph quote="心中有景，花香满径。" />
-        </FadeContent>
       </Container>
     </PageShell>
   );

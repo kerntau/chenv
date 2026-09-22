@@ -2,7 +2,6 @@ import React, { useMemo, useEffect } from 'react';
 import { Link } from 'wouter';
 import { PageShell } from '../components/layout/PageShell';
 import { Container } from '../components/layout/Container';
-import { PageEpigraph } from '../components/layout/PageEpigraph';
 import { getAllDiaries, siteConfig } from '../content';
 import { formatDate } from '../lib/date';
 import {
@@ -128,10 +127,6 @@ export const Diaries: React.FC = () => {
           </div>
         )}
 
-        {/* 底部手札卷尾 */}
-        <FadeContent delay={0.2} direction="up" distance={15} className="mt-auto w-full">
-          <PageEpigraph />
-        </FadeContent>
       </Container>
     </PageShell>
   );

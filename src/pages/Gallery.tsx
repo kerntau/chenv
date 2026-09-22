@@ -1,9 +1,12 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, lazy, Suspense } from 'react';
 import { DriftWall } from '../components/ui/DriftWall';
-import { AnimeDetailModal } from '../components/gallery/AnimeDetailModal';
 import { getGalleryConfig } from '../content';
 import { useTheme } from '../hooks/useTheme';
 import type { DriftWallItem } from '../types';
+
+const AnimeDetailModal = lazy(() =>
+  import('../components/gallery/AnimeDetailModal').then((m) => ({ default: m.AnimeDetailModal }))
+);
 
 export const Gallery: React.FC = () => {
   const config = useMemo(() => getGalleryConfig(), []);
@@ -92,11 +95,15 @@ export const Gallery: React.FC = () => {
         onItemClick={(item) => setActiveItem(item)}
       />
 
-      {/* 动漫详情与评分弹窗 */}
-      <AnimeDetailModal
-        item={activeItem}
-        onClose={() => setActiveItem(null)}
-      />
+      {/* 动漫详情与评分弹窗：按需加载 */}
+      {activeItem && (
+        <Suspense fallback={null}>
+          <AnimeDetailModal
+            item={activeItem}
+            onClose={() => setActiveItem(null)}
+          />
+        </Suspense>
+      )}
     </div>
   );
 };

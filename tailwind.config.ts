@@ -42,9 +42,15 @@ const config: Config = {
         'glass-hover':
           '0 4px 8px rgba(15, 23, 42, 0.03), 0 12px 24px rgba(15, 23, 42, 0.04), 0 24px 48px rgba(0, 191, 255, 0.08), inset 0 1px 0 0 rgba(255, 255, 255, 0.75)',
         'glass-dark':
-          '0 2px 6px rgba(0, 0, 0, 0.18), 0 8px 18px rgba(0, 0, 0, 0.22), 0 20px 38px -4px rgba(0, 0, 0, 0.35), inset 0 1px 0 0 rgba(255, 255, 255, 0.08)',
+          'inset 0 1px 0 0 rgba(255, 255, 255, 0.16), inset 0 0 0 1px rgba(255, 255, 255, 0.03), inset 0 -1px 0 0 rgba(0, 0, 0, 0.65), 0 2px 6px -1px rgba(0, 0, 0, 0.40), 0 10px 24px -4px rgba(0, 0, 0, 0.50), 0 24px 52px -10px rgba(0, 191, 255, 0.06)',
         'glass-dark-hover':
-          '0 4px 10px rgba(0, 0, 0, 0.22), 0 12px 28px rgba(0, 0, 0, 0.32), 0 28px 52px -4px rgba(0, 0, 0, 0.48), inset 0 1px 0 0 rgba(255, 255, 255, 0.15)',
+          'inset 0 1px 0 0 rgba(255, 255, 255, 0.28), inset 0 0 0 1px rgba(255, 255, 255, 0.06), inset 0 -1px 0 0 rgba(0, 0, 0, 0.70), 0 4px 12px -2px rgba(0, 0, 0, 0.45), 0 16px 36px -6px rgba(0, 0, 0, 0.58), 0 32px 68px -12px rgba(0, 191, 255, 0.18)',
+        'obsidian-card':
+          'inset 0 1px 0 0 rgba(255, 255, 255, 0.16), inset 0 0 0 1px rgba(255, 255, 255, 0.03), inset 0 -1px 0 0 rgba(0, 0, 0, 0.65), 0 2px 6px -1px rgba(0, 0, 0, 0.40), 0 10px 24px -4px rgba(0, 0, 0, 0.50), 0 24px 52px -10px rgba(0, 191, 255, 0.06)',
+        'obsidian-hover':
+          'inset 0 1px 0 0 rgba(255, 255, 255, 0.28), inset 0 0 0 1px rgba(255, 255, 255, 0.06), inset 0 -1px 0 0 rgba(0, 0, 0, 0.70), 0 4px 12px -2px rgba(0, 0, 0, 0.45), 0 16px 36px -6px rgba(0, 0, 0, 0.58), 0 32px 68px -12px rgba(0, 191, 255, 0.18)',
+        'obsidian-panel':
+          'inset 0 1px 0 0 rgba(255, 255, 255, 0.20), inset 0 0 0 1px rgba(255, 255, 255, 0.04), inset 0 -1px 0 0 rgba(0, 0, 0, 0.75), 0 4px 10px -2px rgba(0, 0, 0, 0.42), 0 16px 36px -4px rgba(0, 0, 0, 0.55), 0 36px 80px -12px rgba(0, 0, 0, 0.65), 0 48px 100px -16px rgba(0, 191, 255, 0.07)',
         'fluid-glass':
           '0 2px 4px rgba(15, 23, 42, 0.02), 0 8px 16px rgba(15, 23, 42, 0.025), 0 16px 32px rgba(15, 23, 42, 0.03), 0 32px 64px rgba(15, 23, 42, 0.04), inset 0 1px 1px 0 rgba(255, 255, 255, 0.68), inset 0 -1px 0 0 rgba(0, 0, 0, 0.02)',
         'fluid-glass-hover':
