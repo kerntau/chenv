@@ -9,17 +9,18 @@ export function useTheme() {
         return stored;
       }
     }
-    return 'system';
+    return 'light';
   });
 
   const [isDark, setIsDark] = useState<boolean>(() => {
     if (typeof window !== 'undefined') {
-      const root = document.documentElement;
-      if (root.classList.contains('dark')) return true;
       const stored = localStorage.getItem('perimsx-theme') as ThemeMode;
       if (stored === 'dark') return true;
       if (stored === 'light') return false;
-      return window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)').matches : false;
+      if (stored === 'system') {
+        return window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)').matches : false;
+      }
+      return false;
     }
     return false;
   });

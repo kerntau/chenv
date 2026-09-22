@@ -14,6 +14,7 @@ import {
   siteConfig,
 } from '../../content';
 import { formatRelativeTime, formatDateShort } from '../../lib/date';
+import { LazyImage } from '../ui/LazyImage';
 
 export interface NavPositionData {
   centerX: number;
@@ -393,12 +394,13 @@ export const NavHoverPopover: React.FC<NavHoverPopoverProps> = ({
                         onClick={onItemClick}
                         className="group relative rounded-sm overflow-hidden bg-slate-100 dark:bg-slate-800/60 aspect-[1/1.38] border border-slate-200/50 dark:border-white/[0.08] hover:border-sky-400/50 dark:hover:border-sky-400/40 hover:shadow-[0_4px_12px_-2px_rgba(0,191,255,0.25)] transition-all duration-200 flex flex-col justify-end p-1.5"
                       >
-                        {/* 竖版海报原图 */}
-                        <img
-                          src={anime.image}
-                          alt={anime.title}
-                          loading="lazy"
-                          className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        {/* 竖版海报（带全站标准骨架屏与渐显动效） */}
+                        <LazyImage
+                          src={anime.image || ''}
+                          alt={anime.title || ''}
+                          aspectRatio="1/1.38"
+                          containerClassName="absolute inset-0 w-full h-full"
+                          className="group-hover:scale-105 transition-transform duration-500"
                         />
 
                         {/* 下层柔和暗部渐变与光晕，保证文字清晰可辨 */}

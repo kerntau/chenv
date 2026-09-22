@@ -20,6 +20,27 @@ export const Gallery: React.FC = () => {
     typeof window !== 'undefined' ? window.innerWidth : 1200
   );
 
+  // 页面揭幕联动入场动效：配合全局 PageLoader 揭幕后触发惊艳的流光展厅入场过渡
+  const [isRevealed, setIsRevealed] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return Boolean((window as any).__PAGE_LOADED__);
+    }
+    return false;
+  });
+
+  useEffect(() => {
+    if (isRevealed) return;
+    const handleReady = () => {
+      setTimeout(() => setIsRevealed(true), 80);
+    };
+    window.addEventListener('page-ready', handleReady, { once: true });
+    const timer = setTimeout(handleReady, 400);
+    return () => {
+      window.removeEventListener('page-ready', handleReady);
+      clearTimeout(timer);
+    };
+  }, [isRevealed]);
+
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
     window.addEventListener('resize', handleResize, { passive: true });
@@ -69,31 +90,39 @@ export const Gallery: React.FC = () => {
 
   return (
     <div className="w-full h-full flex-1 flex flex-col items-center justify-center relative overflow-hidden bg-transparent select-none">
-      <DriftWall
-        items={config.items}
-        columns={layoutProps.columns}
-        tileWidth={layoutProps.tileWidth}
-        tileHeight={layoutProps.tileHeight}
-        gap={layoutProps.gap}
-        tilt={layoutProps.tilt}
-        turn={layoutProps.turn}
-        depth={layoutProps.depth}
-        perspective={1200}
-        scale={layoutProps.scale}
-        speed={38}
-        direction="up"
-        variance={0.45}
-        parallax={0}
-        lift={0}
-        fade={0.25}
-        dim={isDark ? 0.78 : 0.9}
-        overlayColor={isDark ? '#000000' : '#ffffff'}
-        radius={8}
-        roll={0}
-        pauseOnHover={false}
-        grayscale={false}
-        onItemClick={(item) => setActiveItem(item)}
-      />
+      <div
+        className={`w-full h-full flex items-center justify-center transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+          isRevealed
+            ? 'opacity-100 scale-100 blur-0'
+            : 'opacity-0 scale-[0.96] blur-sm'
+        }`}
+      >
+        <DriftWall
+          items={config.items}
+          columns={layoutProps.columns}
+          tileWidth={layoutProps.tileWidth}
+          tileHeight={layoutProps.tileHeight}
+          gap={layoutProps.gap}
+          tilt={layoutProps.tilt}
+          turn={layoutProps.turn}
+          depth={layoutProps.depth}
+          perspective={1200}
+          scale={layoutProps.scale}
+          speed={38}
+          direction="up"
+          variance={0.45}
+          parallax={0}
+          lift={0}
+          fade={0.25}
+          dim={isDark ? 0.78 : 0.9}
+          overlayColor={isDark ? '#000000' : '#ffffff'}
+          radius={8}
+          roll={0}
+          pauseOnHover={false}
+          grayscale={false}
+          onItemClick={(item) => setActiveItem(item)}
+        />
+      </div>
 
       {/* 动漫详情与评分弹窗：按需加载 */}
       {activeItem && (

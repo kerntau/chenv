@@ -119,13 +119,13 @@ export const Footer: React.FC = () => {
           </div>
 
           {/* 右侧导航列：移动端 3 列自适应舒适间距 */}
-          <div className="grid grid-cols-3 gap-2 sm:gap-6 md:gap-10 pt-1">
+          <div className="grid grid-cols-3 gap-3 sm:gap-6 md:gap-10 pt-1">
             {navColumns.map((col, idx) => (
-              <div key={col.title || idx} className="space-y-1 sm:space-y-1.5">
-                <div className="font-mono text-[10px] sm:text-[11px] font-medium text-slate-400 dark:text-slate-500 uppercase tracking-widest">
+              <div key={col.title || idx} className="space-y-1.5 sm:space-y-2">
+                <div className="font-mono text-[11px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
                   {col.title}
                 </div>
-                <ul className="space-y-0.5 sm:space-y-1 text-xs">
+                <ul className="space-y-1 sm:space-y-1.5 text-xs">
                   {col.links.map((link, lIdx) => {
                     const isExt = link.isExternal || link.href.startsWith('http') || link.href.startsWith('mailto:');
                     return (
@@ -157,59 +157,162 @@ export const Footer: React.FC = () => {
           </div>
         </div>
 
-        {/* 下层: 底部信息与操作栏（移动端与大屏统一对齐基准线，消除孤立掉落行） */}
-        <div className="pt-3 sm:pt-3.5 border-t border-slate-200/50 dark:border-slate-800/50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5 sm:gap-4 text-[11px] font-mono text-slate-400 dark:text-slate-500">
-          {/* 左侧/上层: RSS · 站点地图 · 备案号 */}
-          <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1">
-            {showRss && (
-              <a
-                href="/feed.xml"
-                target="_blank"
-                rel="noreferrer"
-                className="hover:text-slate-700 dark:hover:text-slate-300 transition-colors py-0.5 inline-flex items-center no-underline"
-                title="RSS 2.0 订阅源"
-              >
-                RSS 订阅
-              </a>
-            )}
-            {showRss && showSitemap && (
-              <span className="text-slate-300 dark:text-slate-700 select-none">&bull;</span>
-            )}
-            {showSitemap && (
-              <Link
-                href="/sitemap"
-                className="hover:text-slate-700 dark:hover:text-slate-300 transition-colors py-0.5 inline-flex items-center no-underline"
-                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              >
-                站点地图
-              </Link>
-            )}
-            {(showRss || showSitemap) && footer?.icp && (
-              <span className="text-slate-300 dark:text-slate-700 select-none">&bull;</span>
-            )}
-            {footer?.icp && (
-              <a
-                href={icpUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="hover:text-slate-700 dark:hover:text-slate-300 transition-colors py-0.5 inline-flex items-center no-underline"
-              >
-                {footer.icp}
-              </a>
-            )}
-            {footer?.customText && !footer.customText.includes('心中有景') && (
-              <>
-                <span className="text-slate-300 dark:text-slate-700 select-none">&bull;</span>
-                <span>{footer.customText}</span>
-              </>
+        {/* 下层: 底部信息与操作栏 */}
+        <div className="pt-3.5 sm:pt-4 border-t border-slate-200/60 dark:border-slate-800/60 text-[11px] font-mono text-slate-400 dark:text-slate-500">
+          {/* 移动端专属响应式排版 (sm:hidden) */}
+          <div className="flex flex-col gap-2 sm:hidden">
+            {/* 上行: 左侧 RSS · 站点地图，右侧 主题切换器（两端饱满对齐，消除空白突兀感） */}
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-x-2.5">
+                {showRss && (
+                  <a
+                    href="/feed.xml"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="hover:text-slate-700 dark:hover:text-slate-300 transition-colors py-0.5 inline-flex items-center no-underline"
+                    title="RSS 2.0 订阅源"
+                  >
+                    RSS 订阅
+                  </a>
+                )}
+                {showRss && showSitemap && (
+                  <span className="text-slate-300 dark:text-slate-700 select-none">&bull;</span>
+                )}
+                {showSitemap && (
+                  <Link
+                    href="/sitemap"
+                    className="hover:text-slate-700 dark:hover:text-slate-300 transition-colors py-0.5 inline-flex items-center no-underline"
+                    onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                  >
+                    站点地图
+                  </Link>
+                )}
+              </div>
+
+              {/* 移动端主题切换器 */}
+              {showThemeToggle && (
+                <div ref={themeMenuRef} className="relative shrink-0">
+                  <button
+                    type="button"
+                    onClick={() => setIsThemeMenuOpen((prev) => !prev)}
+                    className="glass-switcher inline-flex items-center gap-1.5 py-1 px-2.5 rounded-md text-[11px] font-mono text-slate-700 dark:text-slate-200 cursor-pointer active:scale-95 transition-all select-none"
+                    aria-label="切换主题模式"
+                    aria-expanded={isThemeMenuOpen}
+                  >
+                    {currentThemeIcon}
+                    <span className="capitalize">{theme === 'system' ? 'System' : theme === 'dark' ? 'Dark' : 'Light'}</span>
+                    <ChevronUp
+                      className={`w-3 h-3 text-slate-400 transition-transform duration-200 ${
+                        isThemeMenuOpen ? 'rotate-180' : ''
+                      }`}
+                    />
+                  </button>
+
+                  {/* 移动端展开浮层选项：右贴齐向上弹出 */}
+                  {isThemeMenuOpen && (
+                    <div className="absolute bottom-full mb-2 right-0 z-30 glass-modal p-1 rounded-md shadow-xl flex items-center gap-1 text-[11px] border border-white/20 dark:border-white/10 backdrop-blur-xl whitespace-nowrap">
+                      {(['light', 'system', 'dark'] as const).map((t) => {
+                        const label = t === 'light' ? 'Light' : t === 'system' ? 'System' : 'Dark';
+                        const isActive = theme === t;
+                        const Icon = t === 'light' ? Sun : t === 'dark' ? Moon : Monitor;
+                        return (
+                          <button
+                            key={t}
+                            type="button"
+                            onClick={() => {
+                              setTheme(t);
+                              setIsThemeMenuOpen(false);
+                            }}
+                            className={`inline-flex items-center gap-1 py-1 px-2 rounded-xs text-[11px] font-mono transition-all cursor-pointer ${
+                              isActive
+                                ? 'glass-nav-pill font-medium text-slate-900 dark:text-slate-100'
+                                : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-white/40 dark:hover:bg-white/[0.05]'
+                            }`}
+                          >
+                            <Icon className="w-3 h-3 opacity-80" />
+                            <span>{label}</span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+
+            {/* 下行: 备案号与自定义文案（从容停靠于左下方） */}
+            {(footer?.icp || (footer?.customText && !footer.customText.includes('心中有景'))) && (
+              <div className="flex flex-wrap items-center gap-x-2 text-[10px] text-slate-400/90 dark:text-slate-500 pt-0.5">
+                {footer?.icp && (
+                  <a
+                    href={icpUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="hover:text-slate-700 dark:hover:text-slate-300 transition-colors py-0.5 inline-flex items-center no-underline"
+                  >
+                    {footer.icp}
+                  </a>
+                )}
+                {footer?.icp && footer?.customText && !footer.customText.includes('心中有景') && (
+                  <span className="text-slate-300 dark:text-slate-700 select-none">&bull;</span>
+                )}
+                {footer?.customText && !footer.customText.includes('心中有景') && (
+                  <span>{footer.customText}</span>
+                )}
+              </div>
             )}
           </div>
 
-          {/* 右侧/下层: 主题切换器 */}
-          {showThemeToggle && (
-            <div ref={themeMenuRef} className="relative shrink-0 self-start sm:self-auto">
-              {/* 大屏端：经典三选一并列药丸 */}
-              <div className="hidden sm:inline-flex glass-switcher items-center gap-0.5 p-[2px] rounded-md text-[11px] leading-none">
+          {/* 桌面端经典单行两端对齐 (hidden sm:flex) */}
+          <div className="hidden sm:flex sm:items-center sm:justify-between sm:gap-4">
+            <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1">
+              {showRss && (
+                <a
+                  href="/feed.xml"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="hover:text-slate-700 dark:hover:text-slate-300 transition-colors py-0.5 inline-flex items-center no-underline"
+                  title="RSS 2.0 订阅源"
+                >
+                  RSS 订阅
+                </a>
+              )}
+              {showRss && showSitemap && (
+                <span className="text-slate-300 dark:text-slate-700 select-none">&bull;</span>
+              )}
+              {showSitemap && (
+                <Link
+                  href="/sitemap"
+                  className="hover:text-slate-700 dark:hover:text-slate-300 transition-colors py-0.5 inline-flex items-center no-underline"
+                  onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                >
+                  站点地图
+                </Link>
+              )}
+              {(showRss || showSitemap) && footer?.icp && (
+                <span className="text-slate-300 dark:text-slate-700 select-none">&bull;</span>
+              )}
+              {footer?.icp && (
+                <a
+                  href={icpUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="hover:text-slate-700 dark:hover:text-slate-300 transition-colors py-0.5 inline-flex items-center no-underline"
+                >
+                  {footer.icp}
+                </a>
+              )}
+              {footer?.customText && !footer.customText.includes('心中有景') && (
+                <>
+                  <span className="text-slate-300 dark:text-slate-700 select-none">&bull;</span>
+                  <span>{footer.customText}</span>
+                </>
+              )}
+            </div>
+
+            {/* 大屏端：经典三选一并列药丸 */}
+            {showThemeToggle && (
+              <div className="glass-switcher inline-flex items-center gap-0.5 p-[2px] rounded-md text-[11px] leading-none shrink-0">
                 {(['light', 'system', 'dark'] as const).map((t, idx) => {
                   const label = t === 'light' ? 'Light' : t === 'system' ? 'System' : 'Dark';
                   const isActive = theme === t;
@@ -233,56 +336,8 @@ export const Footer: React.FC = () => {
                   );
                 })}
               </div>
-
-              {/* 移动端：紧凑单体按钮，点击展开三个切换选项 */}
-              <div className="sm:hidden relative">
-                <button
-                  type="button"
-                  onClick={() => setIsThemeMenuOpen((prev) => !prev)}
-                  className="glass-switcher inline-flex items-center gap-1.5 py-1 px-2.5 rounded-md text-[11px] font-mono text-slate-700 dark:text-slate-200 cursor-pointer active:scale-95 transition-all select-none"
-                  aria-label="切换主题模式"
-                  aria-expanded={isThemeMenuOpen}
-                >
-                  {currentThemeIcon}
-                  <span className="capitalize">{theme === 'system' ? 'System' : theme === 'dark' ? 'Dark' : 'Light'}</span>
-                  <ChevronUp
-                    className={`w-3 h-3 text-slate-400 transition-transform duration-200 ${
-                      isThemeMenuOpen ? 'rotate-180' : ''
-                    }`}
-                  />
-                </button>
-
-                {/* 移动端展开浮层选项 */}
-                {isThemeMenuOpen && (
-                  <div className="absolute bottom-full mb-2 left-0 z-30 glass-modal p-1 rounded-md shadow-xl flex items-center gap-1 text-[11px] border border-white/20 dark:border-white/10 backdrop-blur-xl">
-                    {(['light', 'system', 'dark'] as const).map((t) => {
-                      const label = t === 'light' ? 'Light' : t === 'system' ? 'System' : 'Dark';
-                      const isActive = theme === t;
-                      const Icon = t === 'light' ? Sun : t === 'dark' ? Moon : Monitor;
-                      return (
-                        <button
-                          key={t}
-                          type="button"
-                          onClick={() => {
-                            setTheme(t);
-                            setIsThemeMenuOpen(false);
-                          }}
-                          className={`inline-flex items-center gap-1 py-1 px-2 rounded-xs text-[11px] font-mono transition-all cursor-pointer ${
-                            isActive
-                              ? 'glass-nav-pill font-medium text-slate-900 dark:text-slate-100'
-                              : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-white/40 dark:hover:bg-white/[0.05]'
-                          }`}
-                        >
-                          <Icon className="w-3 h-3 opacity-80" />
-                          <span>{label}</span>
-                        </button>
-                      );
-                    })}
-                  </div>
-                )}
-              </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
 
       </div>

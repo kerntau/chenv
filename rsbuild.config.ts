@@ -17,7 +17,7 @@ export default defineConfig({
     tags: [
       {
         tag: 'script',
-        children: `(function(){try{var s=localStorage.getItem('perimsx-theme');var d=s==='dark'||(!s&&window.matchMedia('(prefers-color-scheme: dark)').matches)||(s==='system'&&window.matchMedia('(prefers-color-scheme: dark)').matches);if(d){document.documentElement.classList.add('dark');}else{document.documentElement.classList.remove('dark');}}catch(e){}})();`,
+        children: `(function(){try{var s=localStorage.getItem('perimsx-theme');var d=s==='dark'||(s==='system'&&window.matchMedia('(prefers-color-scheme: dark)').matches);if(d){document.documentElement.classList.add('dark');}else{document.documentElement.classList.remove('dark');}}catch(e){}})();`,
       },
       {
         tag: 'script',
