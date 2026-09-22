@@ -20,7 +20,9 @@ import {
   CirclePlay,
   MoreHorizontal,
 } from 'lucide-react';
-import { SearchModal } from '../search/SearchModal';
+const SearchModal = React.lazy(() =>
+  import('../search/SearchModal').then((m) => ({ default: m.SearchModal }))
+);
 import { NavHoverPopover } from './NavHoverPopover';
 import { siteConfig } from '../../content';
 import type { NavLinkItem } from '../../types';

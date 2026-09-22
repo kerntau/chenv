@@ -4,17 +4,10 @@ import {
   X,
   Star,
   ExternalLink,
-  Flame,
-  CheckCircle2,
   RotateCw,
-  Calendar,
-  Film,
-  User,
-  Building,
-  BookOpen,
-  Sparkles,
 } from 'lucide-react';
 import type { DriftWallItem } from '../../types';
+import offlineAnimeDetails from '../../content/data/anime-details.json';
 
 interface BangumiSubjectDetail {
   id: number;
@@ -28,11 +21,6 @@ interface BangumiSubjectDetail {
     rank?: number;
     total?: number;
     score?: number;
-  };
-  collection?: {
-    doing?: number;
-    collect?: number;
-    wish?: number;
   };
   tags?: { name: string; count: number }[];
   infobox?: { key: string; value: any }[];
@@ -52,9 +40,6 @@ const CACHE_PREFIX = 'bgm_detail_cache_';
 const CACHE_TTL = 1000 * 60 * 60 * 24; // 缓存 24 小时
 
 export const AnimeDetailModal: React.FC<AnimeDetailModalProps> = ({ item, onClose }) => {
-  const [detail, setDetail] = useState<BangumiSubjectDetail | null>(null);
-  const [loading, setLoading] = useState(false);
-
   // 从 URL 中解析 subject ID
   const subjectId = useMemo(() => {
     if (!item?.href) return null;
@@ -62,13 +47,29 @@ export const AnimeDetailModal: React.FC<AnimeDetailModalProps> = ({ item, onClos
     return m ? m[1] : null;
   }, [item?.href]);
 
-  // 异步获取 Bangumi 详细条目
+  // 本地预烘焙离线数据（毫秒级秒开）
+  const offlineDetail = useMemo(() => {
+    if (!subjectId) return null;
+    return ((offlineAnimeDetails as Record<string, any>)[subjectId] as BangumiSubjectDetail) || null;
+  }, [subjectId]);
+
+  const [detail, setDetail] = useState<BangumiSubjectDetail | null>(offlineDetail);
+  const [loading, setLoading] = useState(false);
+
+  // 当切换条目时，立即同步本地数据
   useEffect(() => {
+    if (offlineDetail) {
+      setDetail(offlineDetail);
+      setLoading(false);
+      return;
+    }
+
     if (!item || !subjectId) {
       setDetail(null);
       return;
     }
 
+    // 缓存回退
     const cacheKey = `${CACHE_PREFIX}${subjectId}`;
     try {
       const cached = localStorage.getItem(cacheKey);
@@ -79,9 +80,7 @@ export const AnimeDetailModal: React.FC<AnimeDetailModalProps> = ({ item, onClos
           return;
         }
       }
-    } catch {
-      // 忽略缓存读取错误
-    }
+    } catch {}
 
     let mounted = true;
     setLoading(true);
@@ -89,7 +88,7 @@ export const AnimeDetailModal: React.FC<AnimeDetailModalProps> = ({ item, onClos
     fetch(`https://api.bgm.tv/v0/subjects/${subjectId}`, {
       headers: {
         Accept: 'application/json',
-        'User-Agent': 'Chent/1.0',
+        'User-Agent': 'Chent/1.0 (https://chenv.cn)',
       },
     })
       .then(async (res) => {
@@ -101,9 +100,7 @@ export const AnimeDetailModal: React.FC<AnimeDetailModalProps> = ({ item, onClos
         setDetail(data);
         try {
           localStorage.setItem(cacheKey, JSON.stringify({ timestamp: Date.now(), data }));
-        } catch {
-          // 忽略存储超限错误
-        }
+        } catch {}
       })
       .catch((err) => {
         if (!mounted) return;
@@ -116,7 +113,7 @@ export const AnimeDetailModal: React.FC<AnimeDetailModalProps> = ({ item, onClos
     return () => {
       mounted = false;
     };
-  }, [item, subjectId]);
+  }, [item, subjectId, offlineDetail]);
 
   if (!item) return null;
 
@@ -136,43 +133,31 @@ export const AnimeDetailModal: React.FC<AnimeDetailModalProps> = ({ item, onClos
 
   const displayName = detail?.name_cn || item.title || detail?.name || '国漫条目';
   const originalName = detail?.name && detail.name !== displayName ? detail.name : null;
+
+  // 封面图优先读取本地持久化海报
   const coverImage =
+    item.image ||
     detail?.images?.large?.replace(/^http:\/\//, 'https://') ||
     detail?.images?.common?.replace(/^http:\/\//, 'https://') ||
-    item.image;
+    '';
 
   const score = detail?.rating?.score;
   const rank = detail?.rating?.rank;
-  const totalVotes = detail?.rating?.total;
-  const doingCount = detail?.collection?.doing;
-  const collectCount = detail?.collection?.collect;
 
   return (
     <Dialog.Root open={!!item} onOpenChange={(open) => !open && onClose()}>
       <Dialog.Portal>
-        {/* 全屏电影级沉浸景深遮罩 */}
-        <Dialog.Overlay className="fixed inset-0 bg-slate-950/60 dark:bg-black/80 backdrop-blur-xl z-[100] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 duration-300" />
+        {/* 全站标准景深遮罩 */}
+        <Dialog.Overlay className="fixed inset-0 bg-slate-900/40 dark:bg-black/60 backdrop-blur-md z-[100] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 duration-200" />
 
-        {/* 旗舰级流光暗曜水晶容器：精密内倒角高光、深邃通透的琉璃质感 */}
-        <Dialog.Content className="fixed left-1/2 top-1/2 z-[100] w-[92%] max-w-2xl -translate-x-1/2 -translate-y-1/2 rounded-2xl overflow-hidden font-sans outline-none bg-slate-900/90 dark:bg-[#0B101B]/90 backdrop-blur-3xl border border-white/[0.12] shadow-[0_32px_84px_-16px_rgba(0,0,0,0.85),inset_0_1px_1px_0_rgba(255,255,255,0.18)] duration-250 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] flex flex-col max-h-[88vh] text-slate-200">
+        {/* 模态窗容器：接入全站顶奢 fluid glass-modal，消除塑料质感与暗色白底，优雅圆角 */}
+        <Dialog.Content className="glass-modal fixed left-1/2 top-1/2 z-[100] w-[92vw] max-w-2xl -translate-x-1/2 -translate-y-1/2 rounded-md overflow-hidden font-sans outline-none duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] flex flex-col max-h-[88vh]">
           
-          {/* 电影幕布级全幅环境漫反射（源自海报的柔化氛围光晕） */}
-          <div className="absolute inset-0 pointer-events-none overflow-hidden select-none -z-10">
-            <img
-              src={coverImage}
-              alt=""
-              aria-hidden="true"
-              className="absolute -top-1/3 -left-1/4 w-[160%] h-[160%] object-cover blur-[80px] opacity-25 saturate-200 scale-110 transform-gpu"
-            />
-            {/* 顶层柔和暗场渐变，赋予层次纵深 */}
-            <div className="absolute inset-0 bg-gradient-to-b from-slate-950/40 via-slate-950/75 to-slate-950/95" />
-          </div>
-
-          {/* 右上角精致流光关闭按钮 */}
+          {/* 右上角极简关闭按钮 */}
           <Dialog.Close asChild>
             <button
               type="button"
-              className="absolute top-4 right-4 z-30 w-8 h-8 rounded-full flex items-center justify-center bg-white/[0.06] hover:bg-white/[0.14] text-slate-400 hover:text-white backdrop-blur-md transition-all active:scale-95 border border-white/[0.1] shadow-2xs"
+              className="absolute top-3.5 right-3.5 z-20 p-1.5 rounded-xs text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-black/5 dark:hover:bg-white/10 transition-colors cursor-pointer"
               aria-label="关闭详情"
             >
               <X className="w-4 h-4" />
@@ -183,181 +168,133 @@ export const AnimeDetailModal: React.FC<AnimeDetailModalProps> = ({ item, onClos
             {displayName}
           </Dialog.Title>
           <Dialog.Description className="sr-only">
-            {displayName} 的动漫评分与详细资料
+            {displayName} 的详细资料与简介
           </Dialog.Description>
 
-          {/* 滚动内容区 */}
-          <div className="relative z-10 overflow-y-auto px-6 pt-7 pb-5 sm:px-8 sm:pt-8 sm:pb-6 space-y-6">
-            {/* 头部核心展映区：悬浮立体海报 + 高级电影信息流 */}
-            <div className="flex flex-col sm:flex-row gap-6 sm:gap-7 items-start">
-              {/* 海报封面：双层光晕悬浮展位 */}
-              <div className="relative shrink-0 w-32 sm:w-44 aspect-[1/1.42] self-center sm:self-start group">
-                {/* 海报环境背光 */}
-                <div
-                  className="absolute -inset-1 rounded-xl opacity-40 blur-xl transition-opacity duration-300 group-hover:opacity-65"
-                  style={{ backgroundImage: `url(${coverImage})`, backgroundSize: 'cover' }}
-                  aria-hidden="true"
-                />
-                {/* 海报实体卡 */}
-                <div className="relative w-full h-full rounded-xl overflow-hidden shadow-2xl ring-1 ring-white/20 bg-slate-800">
+          {/* 内容主滚动区 */}
+          <div className="overflow-y-auto p-5 sm:p-7 space-y-5 scrollbar-thin">
+            
+            {/* 上半部分：左图右文基本信息（海报居中，与右侧信息自然呼应） */}
+            <div className="flex items-center gap-4 sm:gap-6">
+              
+              {/* 左栏：封面海报（在左边垂直居中，比例协调） */}
+              <div className="shrink-0 w-28 xs:w-32 sm:w-36 self-center">
+                <div className="relative aspect-[2/3] rounded-xs overflow-hidden ring-1 ring-black/10 dark:ring-white/15 shadow-md dark:shadow-2xl bg-slate-100 dark:bg-slate-800 transition-transform duration-300 hover:scale-[1.02]">
                   <img
                     src={coverImage}
                     alt={displayName}
-                    className="w-full h-full object-cover select-none transition-transform duration-500 ease-out group-hover:scale-105"
+                    className="w-full h-full object-cover select-none"
                     loading="lazy"
+                    decoding="async"
                   />
-                  {/* 精致水晶内高光 */}
-                  <div className="absolute inset-0 ring-1 ring-inset ring-white/20 rounded-xl pointer-events-none" />
                 </div>
               </div>
 
-              {/* 右侧流线信息架构 */}
-              <div className="flex-1 min-w-0 space-y-4 w-full text-left">
-                {/* 标题与原名 */}
-                <div className="space-y-1 pr-8">
+              {/* 右栏：基本信息（标题、评分、基础规格、词条外链） */}
+              <div className="flex-1 min-w-0 space-y-2.5 self-center">
+                {/* 标题 */}
+                <div className="space-y-0.5 pr-6 sm:pr-8">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <h2 className="text-2xl sm:text-3xl font-bold tracking-tight bg-gradient-to-r from-white via-white/95 to-slate-300 bg-clip-text text-transparent leading-tight font-douyin">
+                    <h2 className="text-lg sm:text-xl md:text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100 font-douyin leading-snug">
                       {displayName}
                     </h2>
-                    {loading && <RotateCw className="w-4 h-4 text-sky-400 animate-spin" />}
+                    {loading && <RotateCw className="w-3.5 h-3.5 text-sky-500 animate-spin shrink-0" />}
                   </div>
                   {originalName && (
-                    <div className="text-xs font-mono text-slate-400/90 truncate tracking-wide">
+                    <div className="text-[11px] sm:text-xs font-mono text-slate-400 dark:text-slate-500 truncate">
                       {originalName}
                     </div>
                   )}
                 </div>
 
-                {/* 评分与专业指标带（告别红绿灯杂色，统一为极度舒适的黑金流光质感） */}
-                <div className="flex flex-wrap items-center gap-3 pt-0.5">
-                  <div className="flex items-baseline gap-1.5 text-amber-400">
-                    <Star className="w-5 h-5 fill-amber-400 drop-shadow-[0_0_8px_rgba(251,191,36,0.5)] translate-y-0.5 self-center" />
-                    <span className="font-mono text-3xl font-black tracking-tight leading-none text-amber-400">
+                {/* 评分与排名 */}
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <div className="flex items-baseline gap-1 text-amber-500 dark:text-amber-400">
+                    <Star className="w-4 h-4 fill-current translate-y-0.5 self-center shrink-0" />
+                    <span className="font-mono text-xl sm:text-2xl font-bold tracking-tight leading-none text-slate-900 dark:text-slate-100">
                       {typeof score === 'number' && score > 0 ? score.toFixed(1) : '-.-'}
                     </span>
-                    <span className="text-xs font-mono text-slate-400 font-normal">
+                    <span className="text-[10px] sm:text-xs font-mono text-slate-400 dark:text-slate-500">
                       / 10
                     </span>
                   </div>
 
                   {typeof rank === 'number' && rank > 0 && (
-                    <span className="inline-flex items-center gap-1 font-mono text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-amber-400/10 text-amber-300 border border-amber-400/25 shadow-[0_0_12px_rgba(251,191,36,0.12)]">
-                      <Sparkles className="w-3 h-3 text-amber-300" />
+                    <span className="inline-flex items-center px-1.5 py-0.5 rounded-xs font-mono text-[10px] sm:text-xs font-semibold bg-sky-500/10 text-sky-600 dark:text-sky-400 border border-sky-500/20 shrink-0">
                       Rank #{rank}
-                    </span>
-                  )}
-
-                  {typeof totalVotes === 'number' && totalVotes > 0 && (
-                    <span className="text-xs font-mono text-slate-400">
-                      {totalVotes.toLocaleString()} 人评分
                     </span>
                   )}
                 </div>
 
-                {/* 追更热度（优雅的半透明磨砂徽标，克制高级） */}
-                {(doingCount !== undefined || collectCount !== undefined) && (
-                  <div className="flex flex-wrap items-center gap-2.5 pt-0.5 text-xs font-mono">
-                    {doingCount !== undefined && (
-                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-white/[0.05] hover:bg-white/[0.08] text-slate-300 border border-white/[0.08] backdrop-blur-md transition-colors">
-                        <Flame className="w-3.5 h-3.5 text-rose-400" />
-                        <span className="font-semibold text-white">{doingCount.toLocaleString()}</span>
-                        <span className="text-slate-400">人在追</span>
-                      </span>
-                    )}
-                    {collectCount !== undefined && (
-                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-white/[0.05] hover:bg-white/[0.08] text-slate-300 border border-white/[0.08] backdrop-blur-md transition-colors">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                        <span className="font-semibold text-white">{collectCount.toLocaleString()}</span>
-                        <span className="text-slate-400">人看过</span>
-                      </span>
-                    )}
-                  </div>
-                )}
-
-                {/* 极简电影元数据流（彻底移除生硬灰大方块，呼吸通透） */}
-                <div className="pt-2 border-t border-white/[0.08] grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 text-xs">
+                {/* 规格元数据列表：无廉价框线，极简清爽排版 */}
+                <div className="space-y-1 text-xs sm:text-[13px] text-slate-600 dark:text-slate-300">
                   {detail?.date && (
                     <div className="flex items-center gap-2">
-                      <span className="inline-flex items-center gap-1.5 text-slate-400 font-mono text-[11px] shrink-0">
-                        <Calendar className="w-3.5 h-3.5 text-slate-500" /> 首播
-                      </span>
-                      <span className="font-mono text-slate-200 font-medium truncate">{detail.date}</span>
+                      <span className="text-slate-400 dark:text-slate-500 font-mono text-[11px] sm:text-xs shrink-0">首播</span>
+                      <span className="font-mono text-slate-700 dark:text-slate-200">{detail.date}</span>
                     </div>
                   )}
                   {detail?.eps ? (
                     <div className="flex items-center gap-2">
-                      <span className="inline-flex items-center gap-1.5 text-slate-400 font-mono text-[11px] shrink-0">
-                        <Film className="w-3.5 h-3.5 text-slate-500" /> 规格
-                      </span>
-                      <span className="font-mono text-slate-200 font-medium">全 {detail.eps} 话</span>
+                      <span className="text-slate-400 dark:text-slate-500 font-mono text-[11px] sm:text-xs shrink-0">集数</span>
+                      <span className="font-mono text-slate-700 dark:text-slate-200">全 {detail.eps} 话</span>
                     </div>
                   ) : null}
                   {animeOriginal && (
-                    <div className="flex items-center gap-2 col-span-1 sm:col-span-2 truncate">
-                      <span className="inline-flex items-center gap-1.5 text-slate-400 font-mono text-[11px] shrink-0">
-                        <User className="w-3.5 h-3.5 text-slate-500" /> 原作
-                      </span>
-                      <span className="text-slate-200 font-medium truncate">{animeOriginal}</span>
+                    <div className="flex items-center gap-2 truncate">
+                      <span className="text-slate-400 dark:text-slate-500 font-mono text-[11px] sm:text-xs shrink-0">原作</span>
+                      <span className="truncate text-slate-700 dark:text-slate-200">{animeOriginal}</span>
                     </div>
                   )}
                   {animeStudio && (
-                    <div className="flex items-center gap-2 col-span-1 sm:col-span-2 truncate">
-                      <span className="inline-flex items-center gap-1.5 text-slate-400 font-mono text-[11px] shrink-0">
-                        <Building className="w-3.5 h-3.5 text-slate-500" /> 制作
-                      </span>
-                      <span className="text-slate-200 font-medium truncate">{animeStudio}</span>
+                    <div className="flex items-center gap-2 truncate">
+                      <span className="text-slate-400 dark:text-slate-500 font-mono text-[11px] sm:text-xs shrink-0">制作</span>
+                      <span className="truncate text-slate-700 dark:text-slate-200">{animeStudio}</span>
+                    </div>
+                  )}
+                  {/* 条目外链：无圆圈无胶囊，极简文本链接 */}
+                  {item.href && (
+                    <div className="flex items-center gap-2 pt-0.5">
+                      <span className="text-slate-400 dark:text-slate-500 font-mono text-[11px] sm:text-xs shrink-0">条目</span>
+                      <a
+                        href={item.href}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center gap-1 font-mono text-xs text-slate-400 dark:text-slate-400 hover:text-sky-500 dark:hover:text-sky-400 transition-colors"
+                      >
+                        <span>Bangumi 词条</span>
+                        <ExternalLink className="w-3 h-3 opacity-70" />
+                      </a>
                     </div>
                   )}
                 </div>
+
               </div>
             </div>
 
-            {/* 剧情概要（极简典雅出版级排版） */}
+            {/* 下半部分：剧情简介与纯净标签（通栏全景展开，阅读呼吸感充足） */}
             {detail?.summary && (
-              <div className="pt-3 border-t border-white/[0.08] space-y-2 text-left">
-                <div className="flex items-center gap-1.5 text-xs font-mono font-medium text-slate-400 tracking-wider">
-                  <BookOpen className="w-3.5 h-3.5 text-sky-400" />
-                  <span>剧情概要</span>
-                </div>
-                <p className="text-xs sm:text-[13px] leading-relaxed text-slate-300/90 font-sans whitespace-pre-line tracking-normal select-text pl-3 border-l-2 border-white/[0.12]">
+              <div className="border-t border-slate-200/60 dark:border-white/[0.08] pt-4 space-y-3">
+                <p className="text-xs sm:text-[13.5px] leading-relaxed text-slate-600 dark:text-slate-300 font-sans whitespace-pre-line select-text text-justify max-h-56 sm:max-h-64 overflow-y-auto pr-1 scrollbar-thin">
                   {detail.summary}
                 </p>
+
+                {/* 纯净标签流：彻底去除廉价圆圈泡泡背景与外边框 */}
+                {detail?.tags && detail.tags.length > 0 && (
+                  <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 pt-1 text-[11px] sm:text-xs font-mono text-slate-400 dark:text-slate-500 select-none">
+                    {detail.tags.slice(0, 8).map((t) => (
+                      <span
+                        key={t.name}
+                        className="hover:text-sky-500 dark:hover:text-sky-400 transition-colors cursor-default"
+                      >
+                        #{t.name}
+                      </span>
+                    ))}
+                  </div>
+                )}
               </div>
             )}
 
-            {/* 热门品类微标签（素雅黑晶微胶囊，彻底去除塑料感） */}
-            {detail?.tags && detail.tags.length > 0 && (
-              <div className="flex flex-wrap gap-1.5 pt-1">
-                {detail.tags.slice(0, 10).map((t) => (
-                  <span
-                    key={t.name}
-                    className="px-2.5 py-1 rounded-md bg-white/[0.04] hover:bg-white/[0.08] text-slate-300 hover:text-white border border-white/[0.06] hover:border-white/[0.14] text-[11px] font-mono backdrop-blur-sm transition-all cursor-default"
-                  >
-                    #{t.name}
-                  </span>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* 底部行动栏（深邃通透，精密微型 ESC 键与高质感冰蓝琉璃按钮） */}
-          <div className="relative z-10 px-6 py-3.5 sm:px-8 border-t border-white/[0.08] bg-slate-950/60 backdrop-blur-2xl flex items-center justify-between shrink-0">
-            <span className="text-[11px] font-mono text-slate-400 flex items-center gap-2">
-              <kbd className="px-1.5 py-0.5 rounded text-[10px] font-mono bg-white/[0.08] text-slate-300 border border-white/[0.12] shadow-2xs">ESC</kbd>
-              <span className="hidden sm:inline">或点击背景关闭</span>
-            </span>
-
-            {item.href && (
-              <a
-                href={item.href}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-medium bg-gradient-to-r from-sky-500 via-sky-600 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white shadow-[0_4px_16px_rgba(14,165,233,0.35),inset_0_1px_0_rgba(255,255,255,0.3)] border border-sky-400/40 active:scale-[0.98] transition-all"
-              >
-                <span>在 Bangumi 查看</span>
-                <ExternalLink className="w-3.5 h-3.5" />
-              </a>
-            )}
           </div>
         </Dialog.Content>
       </Dialog.Portal>

@@ -49,13 +49,18 @@ export const PageEpigraph: React.FC<PageEpigraphProps> = ({
           &ldquo;{quote}&rdquo;
         </p>
 
-        {/* 极简署名：严格对齐于金句整行的右下角，无生硬短横线 */}
+        {/* 典雅署名：优雅长破折引导线 + 古典人文衬线斜体签名（解决行书英文字体怪异问题） */}
         {author && (
-          <div
-            className="text-right text-base sm:text-lg md:text-xl text-sky-500 dark:text-sky-400 tracking-wider font-xingshu pr-1 sm:pr-1.5"
-            style={{ fontFamily: '"hongleixingshu", cursive, serif' }}
-          >
-            {author}
+          <div className="flex items-center justify-end gap-2 text-right pr-1 sm:pr-1.5">
+            <span className="text-slate-400/80 dark:text-slate-500/80 font-serif select-none tracking-tighter">
+              ——
+            </span>
+            <span
+              className="text-base sm:text-lg text-sky-500 dark:text-sky-400 tracking-wider font-serif italic font-medium"
+              style={{ fontFamily: 'Lora, "LXGW WenKai", "Newsreader", Georgia, serif' }}
+            >
+              {author}
+            </span>
           </div>
         )}
       </div>
