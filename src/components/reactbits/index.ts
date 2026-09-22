@@ -1,4 +1,5 @@
 export { default as BlurText } from './BlurText';
+export { default as SplitText } from './SplitText';
 export { default as DecryptedText } from './DecryptedText';
 export { default as FadeContent } from './FadeContent';
 export { default as GradientText } from './GradientText';
