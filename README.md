@@ -84,21 +84,6 @@ pnpm preview
 
 Vercel 使用 pnpm build 并输出 dist/；自建静态服务器需要将前端路由回退到 index.html。主站和 cv.chenv.cn 的域名绑定由部署平台配置。
 
-## 07. ENGINEERING CONTRACT // 工程协作契约
-
-- 内容修改后运行 pnpm generate:content-index。
-- 不手工编辑生成索引、feed、RSS 和 sitemap。
-- /admin 的 localStorage 数据不会自动写回仓库，发布前必须导出并提交源文件。
-- 友链探测只处理公开地址，禁止提交凭据和私有内网地址。
-
-## 08. ROADMAP // 系统演进路线
-
-- [x] 元数据索引、按需加载、RSS 和 sitemap。
-- [x] 本地管理后台与友链健康探测。
-- [x] 文章封面和多格式内容渲染。
-- [ ] 增加内容 schema 校验和链接报告。
-- [ ] 完善可复现部署与预览文档。
-
-## 09. LICENSE // 许可证
+## 07. LICENSE // 许可证
 
 项目基于 MIT License，许可证文本见 LICENSE。
