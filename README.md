@@ -21,7 +21,6 @@
 ## 关联生态
 
 - **主站（数字花园）**：[https://chenv.cn](https://chenv.cn)
-- **知识库**：[https://wiki.chenv.cn](https://wiki.chenv.cn)
 - **简历**：[https://cv.chenv.cn](https://cv.chenv.cn)
 - **开源仓库**：[https://github.com/kerntau/chenv](https://github.com/kerntau/chenv)
 - **联系邮箱**：[i@chenv.cn](mailto:i@chenv.cn)
