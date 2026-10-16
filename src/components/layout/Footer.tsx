@@ -18,7 +18,7 @@ const DEFAULT_NAV_COLUMNS = [
     title: '更多',
     links: [
       { label: '动态手记', href: '/diaries' },
-      { label: '全站归档', href: '/archives' },
+
       { label: '志同道合', href: '/friends' },
     ],
   },

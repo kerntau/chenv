@@ -30,22 +30,6 @@ export function getPageLoaderConfig(pathname: string): PageLoaderMeta {
     };
   }
 
-  // 2. 归档时间轴 (适中 420ms)
-  if (
-    pathname === '/archives' ||
-    pathname.startsWith('/archives/') ||
-    pathname === '/timeline' ||
-    pathname === '/archive'
-  ) {
-    return {
-      title: '时光归档 · 岁月脉络',
-      startMsg: '回溯时光河流 · 正在织造年轮索引',
-      middleMsg: '整理岁月印记 · 即将呈现光阴篇章',
-      readyMsg: '卷轴已展 · 慢溯时光轨迹',
-      minDuration: 500,
-      maxWait: 1200,
-    };
-  }
 
   // 3. 手记详情 (适中 460ms，兼顾排版文字渲染就绪)
   const isDiaryDetail =

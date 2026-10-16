@@ -154,10 +154,7 @@ export interface SiteConfig {
     subtitle?: string;
     pageSize?: number;
   };
-  archivesPage?: {
-    title?: string;
-    subtitle?: string;
-  };
+
   friendsPage?: {
     title?: string;
     subtitle?: string;

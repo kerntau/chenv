@@ -18,7 +18,7 @@ export const Sitemap: React.FC = () => {
   // 核心主册目次
   const sections = [
     { name: '首页', nameEn: 'Home', path: '/', desc: '序栈个人主页、简介与动态', count: '1 页面' },
-    { name: '时光归档', nameEn: 'Archives', path: '/archives', desc: '按年份逆序沉淀的全站时光时间轴脉络', count: `${allDiaries.length} 条` },
+
     { name: '动态手记', nameEn: 'Diaries', path: '/diaries', desc: '生活随笔、日暮微风与真实生活切片', count: `${allDiaries.length} 篇` },
     { name: '日常说说', nameEn: 'Says', path: '/says', desc: '碎片化的即时灵感、微型日志与正在发生的事情', count: `${allRecords.length} 则` },
     { name: '志同道合', nameEn: 'Friends', path: '/friends', desc: '优秀独立博客友人链接、技术专栏与灵感共振', count: `${allFriends.length} 位` },

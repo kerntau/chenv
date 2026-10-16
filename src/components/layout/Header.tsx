@@ -48,7 +48,7 @@ const ICON_MAP: Record<string, React.FC<{ className?: string }>> = {
 
 const DEFAULT_NAV_LINKS: NavLinkItem[] = [
   { id: 'nav-home', href: '/', label: '首页', icon: 'HomeIcon', enabled: true },
-  { id: 'nav-archives', href: '/archives', label: '归档', icon: 'History', enabled: true },
+
   { id: 'nav-diaries', href: '/diaries', label: '手记', icon: 'Feather', enabled: true },
   { id: 'nav-says', href: '/says', label: '动态', icon: 'MessageSquareQuote', enabled: true },
   { id: 'nav-gallery', href: '/gallery', label: '追漫', icon: 'Film', enabled: true },
@@ -199,7 +199,7 @@ export const Header: React.FC = () => {
   }, [location]);
 
   // 移动端收缩项：归档 与 关于
-  const COLLAPSED_IN_MOBILE_HREFS = ['/archives', '/about'];
+  const COLLAPSED_IN_MOBILE_HREFS = ['/about'];
   const isCollapsedInMobile = (href: string) => COLLAPSED_IN_MOBILE_HREFS.includes(href);
   const collapsedMobileLinks = useMemo(
     () => navLinks.filter((l) => isCollapsedInMobile(l.href)),

@@ -12,7 +12,7 @@ import { FluidGlassDefs } from './components/ui/glass/FluidGlassDefs';
 import { useTheme } from './hooks/useTheme';
 
 // 路由级代码分割：非首屏页面不进入主包
-const Archives = lazy(() => import('./pages/Archives').then((m) => ({ default: m.Archives })));
+
 const Diaries = lazy(() => import('./pages/Diaries').then((m) => ({ default: m.Diaries })));
 const DiaryDetail = lazy(() => import('./pages/DiaryDetail').then((m) => ({ default: m.DiaryDetail })));
 const Says = lazy(() => import('./pages/Says').then((m) => ({ default: m.Says })));
@@ -31,7 +31,7 @@ interface Section {
 }
 
 const SECTIONS: Section[] = [
-  { label: '归档', paths: ['/archives', '/timeline', '/archive'], list: Archives },
+
   { label: '手记', paths: ['/diaries', '/journal', '/shouji'], list: Diaries, detail: DiaryDetail },
   { label: '说说', paths: ['/says', '/record'], list: Says },
   { label: '追漫', paths: ['/gallery', '/bangumi', '/anime', '/photos', '/wall'], list: Gallery },
@@ -108,7 +108,7 @@ export const App: React.FC = () => {
       const metaDesc = document.querySelector('meta[name="description"]');
       if (metaDesc) {
         const sectionDescMap: Record<string, string> = {
-          '归档': siteConfig.archivesPage?.subtitle || `${siteConfig.title} 全站随笔与手记的时间脉络与足迹索引。`,
+
           '手记': siteConfig.diariesPage?.subtitle || siteConfig.description,
           '说说': siteConfig.saysPage?.subtitle || '把灵感、日常与正在发生的事情，留在时间线上。',
           '追番': '记录每一帧光影带来的悸动，用二次元的温度温暖日常。',

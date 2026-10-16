@@ -33,7 +33,7 @@ interface NavHoverPopoverProps {
 }
 
 const PANEL_WIDTHS: Record<string, number> = {
-  '/archives': 460,
+
   '/diaries': 490,
   '/says': 390,
   '/gallery': 480,
@@ -71,7 +71,7 @@ export const NavHoverPopover: React.FC<NavHoverPopoverProps> = ({
 
   const isValidTab = Boolean(
     activeKey &&
-      ['/archives', '/diaries', '/says', '/gallery', '/friends', '/about'].includes(
+      ['/diaries', '/says', '/gallery', '/friends', '/about'].includes(
         activeKey
       )
   );
@@ -167,55 +167,7 @@ export const NavHoverPopover: React.FC<NavHoverPopoverProps> = ({
           {/* 弹窗核心卡片容器 */}
           <div className="glass-popover w-full rounded-md overflow-hidden text-slate-800 dark:text-slate-200">
             
-            {/* 1. 归档 (Archives) 悬浮面板 */}
-            {activeKey === '/archives' && (
-              <div>
-                <div className="p-4 space-y-3">
-                  <div className="flex items-center justify-between text-[11px] font-mono font-medium text-slate-400 dark:text-slate-500 px-1">
-                    <span>手记时光 &bull; 聚合归档</span>
-                    <span>共 {allDiaries.length} 篇</span>
-                  </div>
 
-                  {/* 最近 3 篇手记时光速览 */}
-                  <div className="space-y-2">
-                    {allDiaries.slice(0, 3).map((diary) => (
-                      <Link
-                        key={diary.slug}
-                        href={`/diaries/${diary.slug}`}
-                        onClick={onItemClick}
-                        className="glass-popover-item group flex items-center justify-between p-3 rounded-sm"
-                      >
-                        <div className="flex items-center space-x-2.5 min-w-0 pr-2">
-                          <span className="text-[10px] font-sans text-slate-400 shrink-0">
-                            {formatDateShort(diary.date)}
-                          </span>
-                          <span className="text-xs font-medium text-slate-800 dark:text-slate-200 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors truncate">
-                            {diary.title}
-                          </span>
-                        </div>
-                        <span className="text-[11px] font-sans text-slate-400 shrink-0">
-                          手记
-                        </span>
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="px-4 py-2.5 bg-white/55 dark:bg-white/[0.04] backdrop-blur-md border-t border-slate-200/60 dark:border-white/[0.08] flex items-center justify-between text-xs">
-                  <Link
-                    href="/archives"
-                    onClick={onItemClick}
-                    className="group hover:text-slate-900 dark:hover:text-slate-100 transition-colors inline-flex items-center space-x-1 font-medium text-slate-700 dark:text-slate-200"
-                  >
-                    <span>进入完整时间轴年谱</span>
-                    <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
-                  </Link>
-                  <span className="text-slate-400 dark:text-slate-500 text-[11px] font-mono">
-                    随笔与手记年谱
-                  </span>
-                </div>
-              </div>
-            )}
 
             {/* 2. 手记 (Diaries) 悬浮面板 */}
             {activeKey === '/diaries' && (
