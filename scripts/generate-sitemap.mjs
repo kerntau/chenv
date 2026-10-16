@@ -36,18 +36,32 @@ function formatDate(dateStr, fallbackDate) {
   return (fallbackDate || new Date()).toISOString().split('T')[0];
 }
 
+const SECTIONS_CONFIG_PATH = path.resolve('src/content/config/sections.json');
+
+function getSectionUrls(baseUrl, today) {
+  if (fs.existsSync(SECTIONS_CONFIG_PATH)) {
+    try {
+      const sections = JSON.parse(fs.readFileSync(SECTIONS_CONFIG_PATH, 'utf-8'));
+      if (Array.isArray(sections)) {
+        return sections.map((s) => ({
+          loc: s.path === '/' ? `${baseUrl}/` : `${baseUrl}${s.path}`,
+          priority: s.priority || '0.8',
+          changefreq: s.changefreq || 'weekly',
+          lastmod: today,
+        }));
+      }
+    } catch {
+      // ignore
+    }
+  }
+  return [{ loc: `${baseUrl}/`, priority: '1.0', changefreq: 'daily', lastmod: today }];
+}
+
 function generateSitemap() {
   const baseUrl = getBaseUrl();
   const today = new Date().toISOString().split('T')[0];
 
-  const urls = [
-    { loc: `${baseUrl}/`, priority: '1.0', changefreq: 'daily', lastmod: today },
-    { loc: `${baseUrl}/archives`, priority: '0.8', changefreq: 'weekly', lastmod: today },
-    { loc: `${baseUrl}/diaries`, priority: '0.8', changefreq: 'daily', lastmod: today },
-    { loc: `${baseUrl}/says`, priority: '0.7', changefreq: 'daily', lastmod: today },
-    { loc: `${baseUrl}/friends`, priority: '0.7', changefreq: 'weekly', lastmod: today },
-    { loc: `${baseUrl}/sitemap`, priority: '0.8', changefreq: 'weekly', lastmod: today },
-  ];
+  const urls = getSectionUrls(baseUrl, today);
 
   // 1. 提取所有公开手记
   if (fs.existsSync(DIARIES_DIR)) {

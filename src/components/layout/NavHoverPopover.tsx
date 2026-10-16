@@ -32,14 +32,7 @@ interface NavHoverPopoverProps {
   onItemClick: () => void;
 }
 
-const PANEL_WIDTHS: Record<string, number> = {
-
-  '/diaries': 490,
-  '/says': 390,
-  '/gallery': 480,
-  '/friends': 450,
-  '/about': 380,
-};
+import { hasHoverPopover, getPopoverWidth } from '../../config/sections';
 
 export const NavHoverPopover: React.FC<NavHoverPopoverProps> = ({
   activeKey,
@@ -69,13 +62,8 @@ export const NavHoverPopover: React.FC<NavHoverPopoverProps> = ({
     return list.length >= 4 ? list : (galleryConfig.items || []).slice(0, 4);
   }, [galleryConfig.items]);
 
-  const isValidTab = Boolean(
-    activeKey &&
-      ['/diaries', '/says', '/gallery', '/friends', '/about'].includes(
-        activeKey
-      )
-  );
-  const panelWidth = (activeKey && PANEL_WIDTHS[activeKey]) || 480;
+  const isValidTab = Boolean(activeKey && hasHoverPopover(activeKey));
+  const panelWidth = (activeKey && getPopoverWidth(activeKey)) || 480;
 
   // 动态计算 Popover 相对于导航栏容器的 X 坐标偏移（带视口边界溢出防护）
   const targetLeft = useMemo(() => {

@@ -5,38 +5,13 @@ import { useTheme } from '../../hooks/useTheme';
 import { siteConfig } from '../../content';
 import { TechIcon } from '../ui/TechIcon';
 
-const DEFAULT_NAV_COLUMNS = [
-  {
-    title: '关于',
-    links: [
-      { label: '关于此项目', href: 'https://github.com/kerntau/chenv', isExternal: true },
-      { label: '知识库', href: 'https://wiki.chenv.cn', isExternal: true },
-      { label: '简历', href: 'https://cv.chenv.cn', isExternal: true },
-    ],
-  },
-  {
-    title: '更多',
-    links: [
-      { label: '动态手记', href: '/diaries' },
-
-      { label: '志同道合', href: '/friends' },
-    ],
-  },
-  {
-    title: '联系',
-    links: [
-      { label: '发邮件', href: 'mailto:i@chenv.cn', isExternal: true },
-      { label: 'GitHub', href: 'https://github.com/kerntau', isExternal: true },
-      { label: '日常说说', href: '/says' },
-    ],
-  },
-];
+import { getFooterNavColumns } from '../../config/sections';
 
 export const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
   const footer = siteConfig.footer;
   const sinceYear = footer?.sinceYear || 2024;
-  const navColumns = footer?.navColumns && footer.navColumns.length > 0 ? footer.navColumns : DEFAULT_NAV_COLUMNS;
+  const navColumns = footer?.navColumns && footer.navColumns.length > 0 ? footer.navColumns : getFooterNavColumns();
   const showThemeToggle = footer?.showThemeToggle ?? true;
   const showRss = footer?.showRss ?? true;
   const showSitemap = footer?.showSitemap ?? true;

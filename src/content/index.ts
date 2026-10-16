@@ -15,7 +15,7 @@ export function getGalleryConfig(): GalleryConfig {
 }
 
 export function getAllPosts(includeDrafts = false): Post[] {
-  const posts = (contentIndex.posts as Post[]) || [];
+  const posts = (contentIndex.posts as unknown as Post[]) || [];
   return includeDrafts ? posts : posts.filter((p) => !p.draft);
 }
 
@@ -32,7 +32,7 @@ export function getFeaturedPosts(limit = 4): Post[] {
 }
 
 export function getPostBySlug(slug: string): Post | null {
-  const post = (contentIndex.posts as Post[]).find((p) => p.slug === slug);
+  const post = (contentIndex.posts as unknown as Post[]).find((p) => p.slug === slug);
   return post || null;
 }
 

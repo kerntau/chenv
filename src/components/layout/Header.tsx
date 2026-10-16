@@ -25,7 +25,12 @@ const SearchModal = React.lazy(() =>
 );
 import { NavHoverPopover } from './NavHoverPopover';
 import { siteConfig } from '../../content';
-import type { NavLinkItem } from '../../types';
+
+import {
+  getHeaderNavLinks,
+  isSectionCollapsedInMobile,
+  isImmersiveRoute,
+} from '../../config/sections';
 
 const ICON_MAP: Record<string, React.FC<{ className?: string }>> = {
   HomeIcon,
@@ -46,16 +51,6 @@ const ICON_MAP: Record<string, React.FC<{ className?: string }>> = {
   CirclePlay,
 };
 
-const DEFAULT_NAV_LINKS: NavLinkItem[] = [
-  { id: 'nav-home', href: '/', label: '首页', icon: 'HomeIcon', enabled: true },
-
-  { id: 'nav-diaries', href: '/diaries', label: '手记', icon: 'Feather', enabled: true },
-  { id: 'nav-says', href: '/says', label: '动态', icon: 'MessageSquareQuote', enabled: true },
-  { id: 'nav-gallery', href: '/gallery', label: '追漫', icon: 'Film', enabled: true },
-  { id: 'nav-friends', href: '/friends', label: '朋友', icon: 'Users', enabled: true },
-  { id: 'nav-about', href: '/about', label: '关于', icon: 'User', enabled: true },
-];
-
 export const Header: React.FC = () => {
   const [location] = useLocation();
   const [searchOpen, setSearchOpen] = useState(false);
@@ -65,9 +60,9 @@ export const Header: React.FC = () => {
     return /^\/(diaries|journal|shouji)\/[^/]+$/.test(location);
   }, [location]);
 
-  // 判断当前页面是否属于追漫沉浸式全屏路由
+  // 判断当前页面是否属于沉浸式全屏路由（由统一注册表驱动）
   const isGalleryPage = useMemo(() => {
-    return /^\/(gallery|bangumi|anime|photos|wall)(\/.*)?$/.test(location);
+    return isImmersiveRoute(location);
   }, [location]);
 
   // 控制详情页向下滚动时导航栏收起，向上滚动时呼出
@@ -109,8 +104,11 @@ export const Header: React.FC = () => {
   const enableMegaMenu = headerConfig?.enableMegaMenu ?? true;
   const enableSearch = headerConfig?.enableSearch ?? true;
 
-  // 过滤出启用的导航项
-  const navLinks = (headerConfig?.navLinks || DEFAULT_NAV_LINKS).filter((l) => l.enabled !== false);
+  // 统一由注册表派生导航项（支持 siteConfig 外部自定义）
+  const navLinks = (headerConfig?.navLinks && headerConfig.navLinks.length > 0
+    ? headerConfig.navLinks
+    : getHeaderNavLinks()
+  ).filter((l) => l.enabled !== false);
 
   // 全局快捷键 ⌘K / Ctrl+K 唤起搜索
   useEffect(() => {
@@ -198,11 +196,9 @@ export const Header: React.FC = () => {
     setMobileMoreOpen(false);
   }, [location]);
 
-  // 移动端收缩项：归档 与 关于
-  const COLLAPSED_IN_MOBILE_HREFS = ['/about'];
-  const isCollapsedInMobile = (href: string) => COLLAPSED_IN_MOBILE_HREFS.includes(href);
+  // 移动端收缩项：直接由统一注册表 collapsedInMobile 属性派生
   const collapsedMobileLinks = useMemo(
-    () => navLinks.filter((l) => isCollapsedInMobile(l.href)),
+    () => navLinks.filter((l) => isSectionCollapsedInMobile(l.href)),
     [navLinks]
   );
   const isMoreActive = useMemo(
@@ -235,7 +231,7 @@ export const Header: React.FC = () => {
                   const isExt = link.isExternal || link.href.startsWith('http');
                   const active = !isExt && isActive(link.href);
                   const IconComponent = ICON_MAP[link.icon] || FileText;
-                  const isCollapsed = isCollapsedInMobile(link.href);
+                  const isCollapsed = isSectionCollapsedInMobile(link.href);
                   const displayClass = isCollapsed ? 'hidden sm:flex' : 'flex';
 
                   if (isExt) {

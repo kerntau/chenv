@@ -169,15 +169,6 @@
     }
   },
   "header": {
-    "navLinks": [
-      { "id": "nav-home", "label": "首页", "href": "/", "icon": "HomeIcon", "enabled": true },
-
-      { "id": "nav-diaries", "label": "手记", "href": "/diaries", "icon": "Feather", "enabled": true },
-      { "id": "nav-says", "label": "动态", "href": "/says", "icon": "MessageSquareQuote", "enabled": true },
-      { "id": "nav-gallery", "label": "追漫", "href": "/gallery", "icon": "Film", "enabled": true },
-      { "id": "nav-friends", "label": "朋友", "href": "/friends", "icon": "Users", "enabled": true },
-      { "id": "nav-about", "label": "关于", "href": "/about", "icon": "User", "enabled": true }
-    ],
     "enableMegaMenu": true,
     "enableSearch": true
   },
@@ -189,32 +180,6 @@
     "customText": "心中有景，花香满径",
     "icp": "萌ICP备20268811号",
     "icpUrl": "https://icp.gov.moe/?keyword=20268811",
-    "navColumns": [
-      {
-        "title": "关于",
-        "links": [
-          { "label": "关于此项目", "href": "https://github.com/kerntau/chenv", "isExternal": true },
-          { "label": "知识库", "href": "https://wiki.chenv.cn", "isExternal": true },
-          { "label": "简历", "href": "https://cv.chenv.cn", "isExternal": true }
-        ]
-      },
-      {
-        "title": "更多",
-        "links": [
-          { "label": "动态手记", "href": "/diaries" },
-
-          { "label": "志同道合", "href": "/friends" }
-        ]
-      },
-      {
-        "title": "联系",
-        "links": [
-          { "label": "发邮件", "href": "mailto:i@chenv.cn", "isExternal": true },
-          { "label": "GitHub", "href": "https://github.com/kerntau", "isExternal": true },
-          { "label": "日常说说", "href": "/says" }
-        ]
-      }
-    ],
     "showThemeToggle": true,
     "showRss": true,
     "showSitemap": true
